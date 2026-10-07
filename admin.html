@@ -4,153 +4,200 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-<title>Admin DA•OFFICIAL</title>
+<title>Admin APKZone</title>
 
 <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
 <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.css" rel="stylesheet">
 
 <style>
-body {
-    margin: 0;
-    background: #080b16;
-    color: white;
-    font-family: Arial, sans-serif;
+body{
+    margin:0;
+    background:#080b16;
+    color:white;
+    font-family:Arial,sans-serif;
 }
 
-.navbar {
-    background: #111525;
-    border-bottom: 1px solid #252a40;
+.navbar{
+    background:#111525;
+    border-bottom:1px solid #252a40;
 }
 
-.logo {
-    font-size: 21px;
-    font-weight: bold;
+.logo{
+    font-size:21px;
+    font-weight:bold;
 }
 
-.logo span {
-    color: #8175ff;
+.logo span{
+    color:#8175ff;
 }
 
-.admin-box {
-    max-width: 700px;
-    margin: 45px auto;
-    padding: 25px;
-    background: #111525;
-    border: 1px solid #252a40;
-    border-radius: 22px;
-    box-shadow: 0 20px 50px rgba(0,0,0,.3);
+.admin-box{
+    max-width:700px;
+    margin:40px auto;
+    padding:25px;
+    background:#111525;
+    border:1px solid #252a40;
+    border-radius:22px;
+    box-shadow:0 20px 50px rgba(0,0,0,.3);
 }
 
-.admin-title {
-    text-align: center;
-    margin-bottom: 30px;
+.login-box{
+    max-width:450px;
+    margin:80px auto;
+    padding:30px;
+    background:#111525;
+    border:1px solid #252a40;
+    border-radius:22px;
 }
 
-.admin-title i {
-    font-size: 45px;
-    color: #8175ff;
+.admin-title{
+    text-align:center;
+    margin-bottom:30px;
 }
 
-.form-label {
-    color: #c8ccda;
-    font-weight: 600;
+.admin-title i,
+.login-icon i{
+    font-size:50px;
+    color:#8175ff;
+}
+
+.login-icon{
+    text-align:center;
+    margin-bottom:25px;
+}
+
+.form-label{
+    color:#c8ccda;
+    font-weight:600;
 }
 
 .form-control,
-.form-select {
-    background: #080b16;
-    border: 1px solid #30354d;
-    color: white;
-    padding: 12px;
-    border-radius: 12px;
+.form-select{
+    background:#080b16;
+    border:1px solid #30354d;
+    color:white;
+    padding:12px;
+    border-radius:12px;
 }
 
 .form-control:focus,
-.form-select:focus {
-    background: #080b16;
-    color: white;
-    border-color: #8175ff;
-    box-shadow: 0 0 0 3px rgba(129,117,255,.15);
+.form-select:focus{
+    background:#080b16;
+    color:white;
+    border-color:#8175ff;
+    box-shadow:0 0 0 3px rgba(129,117,255,.15);
 }
 
-.form-control::placeholder {
-    color: #666d82;
+.form-control::placeholder{
+    color:#666d82;
 }
 
-.form-select option {
-    background: #111525;
+.form-select option{
+    background:#111525;
 }
 
-.btn-save,
-.btn-login {
-    width: 100%;
-    border: none;
-    padding: 13px;
-    border-radius: 13px;
-    background: linear-gradient(90deg,#635bff,#8b5cf6);
-    color: white;
-    font-weight: bold;
-    font-size: 16px;
+.btn-main{
+    width:100%;
+    border:0;
+    padding:13px;
+    border-radius:13px;
+    background:linear-gradient(90deg,#635bff,#8b5cf6);
+    color:white;
+    font-weight:bold;
+    font-size:16px;
 }
 
-.btn-save:hover,
-.btn-login:hover {
-    opacity: .9;
+.btn-main:disabled{
+    opacity:.6;
 }
 
-.btn-save:disabled,
-.btn-login:disabled {
-    opacity: .6;
+.back-btn{
+    color:#aaaec0;
+    text-decoration:none;
 }
 
-#status,
-#loginStatus {
-    margin-top: 18px;
+.back-btn:hover{
+    color:white;
 }
 
-.back-btn {
-    color: #aaaec0;
-    text-decoration: none;
+#adminPanel{
+    display:none;
 }
 
-.back-btn:hover {
-    color: white;
+#loginPanel{
+    display:block;
 }
 
-#adminPanel {
-    display: none;
+.logout-btn{
+    border:1px solid #383e58;
+    background:transparent;
+    color:#ff8b8b;
+    padding:7px 13px;
+    border-radius:10px;
 }
 
-.logout-btn {
-    border: 1px solid #383e58;
-    background: transparent;
-    color: #ff8b8b;
-    padding: 7px 13px;
-    border-radius: 10px;
+.app-list{
+    max-width:700px;
+    margin:25px auto 60px;
 }
 
-.logout-btn:hover {
-    background: rgba(255,80,80,.1);
+.app-item{
+    background:#111525;
+    border:1px solid #252a40;
+    border-radius:16px;
+    padding:15px;
+    margin-bottom:12px;
 }
 
-.login-box {
-    max-width: 450px;
-    margin: 80px auto;
-    padding: 30px;
-    background: #111525;
-    border: 1px solid #252a40;
-    border-radius: 22px;
-    box-shadow: 0 20px 50px rgba(0,0,0,.3);
+.app-icon{
+    width:60px;
+    height:60px;
+    object-fit:cover;
+    border-radius:14px;
+    background:#080b16;
 }
 
-.login-icon {
-    text-align: center;
-    margin-bottom: 25px;
+.app-name{
+    font-weight:bold;
+    font-size:17px;
 }
 
-.login-icon i {
-    font-size: 55px;
-    color: #8175ff;
+.app-info{
+    color:#9298aa;
+    font-size:13px;
+}
+
+.btn-edit{
+    background:#2d6cdf;
+    color:white;
+    border:0;
+    border-radius:9px;
+    padding:7px 11px;
+}
+
+.btn-delete{
+    background:#dc3545;
+    color:white;
+    border:0;
+    border-radius:9px;
+    padding:7px 11px;
+}
+
+.btn-cancel{
+    background:#343a40;
+    color:white;
+    border:0;
+    border-radius:9px;
+    padding:10px;
+    display:none;
+    width:100%;
+    margin-top:10px;
+}
+
+.empty{
+    text-align:center;
+    color:#777e91;
+    padding:25px;
 }
 </style>
 </head>
@@ -158,266 +205,268 @@ body {
 <body>
 
 <nav class="navbar">
-    <div class="container py-3 d-flex justify-content-between align-items-center">
+<div class="container py-3 d-flex justify-content-between align-items-center">
 
-        <div class="logo">
-            <i class="bi bi-box-seam-fill"></i>
-            APK<span>Zone</span>
-            <small class="text-secondary"> Admin</small>
-        </div>
+<div class="logo">
+<i class="bi bi-box-seam-fill"></i>
+APK<span>Zone</span>
+<small class="text-secondary"> Admin</small>
+</div>
 
-        <div id="navRight">
-            <a href="index.html" class="back-btn">
-                <i class="bi bi-house"></i>
-                Beranda
-            </a>
-        </div>
+<div id="navRight">
+<a href="index.html" class="back-btn">
+<i class="bi bi-house"></i> Beranda
+</a>
+</div>
 
-    </div>
+</div>
 </nav>
 
 
-<!-- ================= LOGIN ================= -->
+<!-- LOGIN -->
 
 <div id="loginPanel" class="container">
 
-    <div class="login-box">
+<div class="login-box">
 
-        <div class="login-icon">
-            <i class="bi bi-shield-lock-fill"></i>
+<div class="login-icon">
+<i class="bi bi-shield-lock-fill"></i>
 
-            <h2 class="mt-3">
-                Admin Login
-            </h2>
+<h2 class="mt-3">Admin Login</h2>
 
-            <p class="text-secondary">
-                Masuk untuk mengelola APKZone
-            </p>
-        </div>
+<p class="text-secondary">
+Masuk untuk mengelola APKZone
+</p>
+</div>
 
-        <form id="loginForm">
+<form id="loginForm">
 
-            <div class="mb-3">
+<div class="mb-3">
 
-                <label class="form-label">
-                    Email
-                </label>
+<label class="form-label">Email</label>
 
-                <input
-                    type="email"
-                    id="loginEmail"
-                    class="form-control"
-                    placeholder="Email admin"
-                    required
-                >
-
-            </div>
-
-            <div class="mb-4">
-
-                <label class="form-label">
-                    Password
-                </label>
-
-                <input
-                    type="password"
-                    id="loginPassword"
-                    class="form-control"
-                    placeholder="Password"
-                    required
-                >
-
-            </div>
-
-            <button
-                type="submit"
-                id="loginBtn"
-                class="btn-login"
-            >
-                <i class="bi bi-box-arrow-in-right"></i>
-                Login
-            </button>
-
-        </form>
-
-        <div id="loginStatus"></div>
-
-    </div>
+<input
+type="email"
+id="loginEmail"
+class="form-control"
+placeholder="Email admin"
+required>
 
 </div>
 
+<div class="mb-4">
 
-<!-- ================= ADMIN PANEL ================= -->
+<label class="form-label">Password</label>
+
+<input
+type="password"
+id="loginPassword"
+class="form-control"
+placeholder="Password"
+required>
+
+</div>
+
+<button
+type="submit"
+id="loginBtn"
+class="btn-main">
+
+<i class="bi bi-box-arrow-in-right"></i>
+Login
+
+</button>
+
+</form>
+
+<div id="loginStatus"></div>
+
+</div>
+</div>
+
+
+<!-- ADMIN -->
 
 <div id="adminPanel">
 
 <div class="container">
 
-    <div class="admin-box">
+<div class="admin-box">
 
-        <div class="admin-title">
+<div class="admin-title">
 
-            <i class="bi bi-cloud-arrow-up-fill"></i>
+<i class="bi bi-cloud-arrow-up-fill"></i>
 
-            <h2 class="mt-3">
-                Tambah APK
-            </h2>
+<h2 class="mt-3" id="formTitle">
+Tambah APK
+</h2>
 
-            <p class="text-secondary">
-                Masukkan informasi aplikasi
-            </p>
+<p class="text-secondary">
+Masukkan informasi aplikasi
+</p>
 
-        </div>
-
-
-        <form id="addAppForm">
-
-            <div class="mb-3">
-
-                <label class="form-label">
-                    Nama Aplikasi
-                </label>
-
-                <input
-                    type="text"
-                    id="name"
-                    class="form-control"
-                    placeholder="Contoh: TikTok"
-                    required
-                >
-
-            </div>
+</div>
 
 
-            <div class="mb-3">
+<form id="addAppForm">
 
-                <label class="form-label">
-                    Deskripsi
-                </label>
+<div class="mb-3">
 
-                <textarea
-                    id="description"
-                    class="form-control"
-                    rows="3"
-                    placeholder="Deskripsi aplikasi..."
-                ></textarea>
+<label class="form-label">
+Nama Aplikasi
+</label>
 
-            </div>
+<input
+type="text"
+id="name"
+class="form-control"
+placeholder="Contoh: TikTok"
+required>
 
-
-            <div class="row">
-
-                <div class="col-md-6 mb-3">
-
-                    <label class="form-label">
-                        Versi
-                    </label>
-
-                    <input
-                        type="text"
-                        id="version"
-                        class="form-control"
-                        placeholder="Contoh: 2.5.1"
-                    >
-
-                </div>
+</div>
 
 
-                <div class="col-md-6 mb-3">
+<div class="mb-3">
 
-                    <label class="form-label">
-                        Ukuran APK
-                    </label>
+<label class="form-label">
+Deskripsi
+</label>
 
-                    <input
-                        type="text"
-                        id="size"
-                        class="form-control"
-                        placeholder="Contoh: 120 MB"
-                    >
+<textarea
+id="description"
+class="form-control"
+rows="3"
+placeholder="Deskripsi aplikasi..."></textarea>
 
-                </div>
-
-            </div>
+</div>
 
 
-            <div class="mb-3">
+<div class="row">
 
-                <label class="form-label">
-                    Kategori
-                </label>
+<div class="col-md-6 mb-3">
 
-                <select id="category" class="form-select">
+<label class="form-label">
+Versi
+</label>
 
-                    <option value="Game">Game</option>
-                    <option value="Sosial">Sosial</option>
-                    <option value="Tools">Tools</option>
-                    <option value="Media">Media</option>
-                    <option value="Lainnya">Lainnya</option>
+<input
+type="text"
+id="version"
+class="form-control"
+placeholder="Contoh: 2.5.1">
 
-                </select>
+</div>
 
-            </div>
+<div class="col-md-6 mb-3">
 
+<label class="form-label">
+Ukuran APK
+</label>
 
-            <div class="mb-3">
+<input
+type="text"
+id="size"
+class="form-control"
+placeholder="Contoh: 120 MB">
 
-                <label class="form-label">
-                    URL Icon APK
-                </label>
+</div>
 
-                <input
-                    type="url"
-                    id="icon"
-                    class="form-control"
-                    placeholder="https://contoh.com/icon.png"
-                >
-
-                <small class="text-secondary">
-                    Masukkan link gambar icon.
-                </small>
-
-            </div>
+</div>
 
 
-            <div class="mb-4">
+<div class="mb-3">
 
-                <label class="form-label">
-                    URL Download APK
-                </label>
+<label class="form-label">
+Kategori
+</label>
 
-                <input
-                    type="url"
-                    id="download_url"
-                    class="form-control"
-                    placeholder="https://contoh.com/aplikasi.apk"
-                    required
-                >
+<select id="category" class="form-select">
 
-                <small class="text-secondary">
-                    Bisa menggunakan MediaFire, Google Drive,
-                    atau hosting APK lainnya.
-                </small>
+<option value="Game">Game</option>
+<option value="Sosial">Sosial</option>
+<option value="Tools">Tools</option>
+<option value="Media">Media</option>
+<option value="Lainnya">Lainnya</option>
 
-            </div>
+</select>
+
+</div>
 
 
-            <button
-                type="submit"
-                id="saveBtn"
-                class="btn-save"
-            >
+<div class="mb-3">
 
-                <i class="bi bi-plus-circle"></i>
-                Tambahkan APK
+<label class="form-label">
+URL Icon APK
+</label>
 
-            </button>
+<input
+type="url"
+id="icon"
+class="form-control"
+placeholder="https://contoh.com/icon.png">
 
-        </form>
+</div>
 
-        <div id="status"></div>
 
-    </div>
+<div class="mb-4">
+
+<label class="form-label">
+URL Download APK
+</label>
+
+<input
+type="url"
+id="download_url"
+class="form-control"
+placeholder="https://contoh.com/aplikasi.apk"
+required>
+
+</div>
+
+
+<button
+type="submit"
+id="saveBtn"
+class="btn-main">
+
+<i class="bi bi-plus-circle"></i>
+Tambahkan APK
+
+</button>
+
+<button
+type="button"
+id="cancelBtn"
+class="btn-cancel">
+
+<i class="bi bi-x-circle"></i>
+Batal Edit
+
+</button>
+
+</form>
+
+<div id="status"></div>
+
+</div>
+
+
+<!-- DAFTAR APK -->
+
+<div class="app-list">
+
+<h4 class="mb-3">
+<i class="bi bi-grid-fill"></i>
+Daftar APK
+</h4>
+
+<div id="appList">
+<div class="empty">
+Memuat APK...
+</div>
+</div>
+
+</div>
 
 </div>
 
@@ -432,254 +481,541 @@ body {
 
 <script>
 
-/* ================= LOGIN ================= */
-
-const loginForm = document.getElementById("loginForm");
-const loginBtn = document.getElementById("loginBtn");
-const loginStatus = document.getElementById("loginStatus");
-
-const loginPanel = document.getElementById("loginPanel");
-const adminPanel = document.getElementById("adminPanel");
-const navRight = document.getElementById("navRight");
+let editingId = null;
 
 
-loginForm.addEventListener("submit", async function(e) {
+/* ELEMENT */
 
-    e.preventDefault();
+const loginForm =
+document.getElementById("loginForm");
 
-    const email =
-        document.getElementById("loginEmail").value.trim();
+const loginPanel =
+document.getElementById("loginPanel");
 
-    const password =
-        document.getElementById("loginPassword").value;
+const adminPanel =
+document.getElementById("adminPanel");
 
-    loginBtn.disabled = true;
+const loginBtn =
+document.getElementById("loginBtn");
 
-    loginBtn.innerHTML = `
-        <span class="spinner-border spinner-border-sm"></span>
-        Login...
-    `;
+const loginStatus =
+document.getElementById("loginStatus");
 
-    loginStatus.innerHTML = "";
+const form =
+document.getElementById("addAppForm");
 
-    const { data, error } =
-        await supabaseClient.auth.signInWithPassword({
-            email: email,
-            password: password
-        });
+const saveBtn =
+document.getElementById("saveBtn");
 
-    if (error) {
+const cancelBtn =
+document.getElementById("cancelBtn");
 
-        console.error(error);
+const status =
+document.getElementById("status");
 
-        loginStatus.innerHTML = `
-            <div class="alert alert-danger">
-                <i class="bi bi-exclamation-circle"></i>
-                Login gagal.
-                <br>
-                <small>${error.message}</small>
-            </div>
-        `;
+const appList =
+document.getElementById("appList");
 
-        loginBtn.disabled = false;
+const formTitle =
+document.getElementById("formTitle");
 
-        loginBtn.innerHTML = `
-            <i class="bi bi-box-arrow-in-right"></i>
-            Login
-        `;
+const navRight =
+document.getElementById("navRight");
 
-        return;
-    }
 
-    showAdmin(data.session);
+/* LOGIN */
+
+loginForm.addEventListener("submit", async function(e){
+
+e.preventDefault();
+
+const email =
+document.getElementById("loginEmail").value.trim();
+
+const password =
+document.getElementById("loginPassword").value;
+
+loginBtn.disabled = true;
+
+loginBtn.innerHTML = `
+<span class="spinner-border spinner-border-sm"></span>
+Login...
+`;
+
+loginStatus.innerHTML = "";
+
+const {data,error} =
+await supabaseClient.auth.signInWithPassword({
+email,
+password
+});
+
+if(error){
+
+loginStatus.innerHTML = `
+<div class="alert alert-danger">
+Login gagal.<br>
+<small>${error.message}</small>
+</div>
+`;
+
+loginBtn.disabled = false;
+
+loginBtn.innerHTML = `
+<i class="bi bi-box-arrow-in-right"></i>
+Login
+`;
+
+return;
+}
+
+showAdmin();
 
 });
 
 
-/* ================= SHOW ADMIN ================= */
+/* SHOW ADMIN */
 
-function showAdmin(session) {
+function showAdmin(){
 
-    loginPanel.style.display = "none";
-    adminPanel.style.display = "block";
+loginPanel.style.display = "none";
 
-    navRight.innerHTML = `
-        <div class="d-flex align-items-center gap-2">
+adminPanel.style.display = "block";
 
-            <a href="index.html" class="back-btn">
-                <i class="bi bi-house"></i>
-                Beranda
-            </a>
+navRight.innerHTML = `
+<div class="d-flex align-items-center gap-2">
 
-            <button
-                onclick="logout()"
-                class="logout-btn"
-            >
-                <i class="bi bi-box-arrow-right"></i>
-                Keluar
-            </button>
+<a href="index.html" class="back-btn">
+<i class="bi bi-house"></i>
+Beranda
+</a>
 
-        </div>
-    `;
+<button
+onclick="logout()"
+class="logout-btn">
 
-}
+<i class="bi bi-box-arrow-right"></i>
+Keluar
 
+</button>
 
-/* ================= LOGOUT ================= */
+</div>
+`;
 
-async function logout() {
-
-    await supabaseClient.auth.signOut();
-
-    location.reload();
+loadApps();
 
 }
 
 
-/* ================= CEK SESSION ================= */
+/* CHECK SESSION */
 
-async function checkSession() {
+async function checkSession(){
 
-    const {
-        data: { session }
-    } = await supabaseClient.auth.getSession();
+const {
+data:{session}
+} =
+await supabaseClient.auth.getSession();
 
-    if (session) {
+if(session){
 
-        showAdmin(session);
+showAdmin();
 
-    }
+}
 
 }
 
 checkSession();
 
 
-/* ================= TAMBAH APK ================= */
+/* LOGOUT */
 
-const form =
-    document.getElementById("addAppForm");
+async function logout(){
 
-const saveBtn =
-    document.getElementById("saveBtn");
+await supabaseClient.auth.signOut();
 
-const status =
-    document.getElementById("status");
+location.reload();
 
-
-form.addEventListener("submit", async function(e) {
-
-    e.preventDefault();
-
-    /* CEK SESSION */
-
-    const {
-        data: { session }
-    } = await supabaseClient.auth.getSession();
-
-    if (!session) {
-
-        status.innerHTML = `
-            <div class="alert alert-danger">
-                Silakan login terlebih dahulu.
-            </div>
-        `;
-
-        return;
-    }
+}
 
 
-    const name =
-        document.getElementById("name").value.trim();
+/* TAMBAH / EDIT */
 
-    const description =
-        document.getElementById("description").value.trim();
+form.addEventListener("submit", async function(e){
 
-    const version =
-        document.getElementById("version").value.trim();
-
-    const size =
-        document.getElementById("size").value.trim();
-
-    const category =
-        document.getElementById("category").value;
-
-    const icon =
-        document.getElementById("icon").value.trim();
-
-    const download_url =
-        document.getElementById("download_url").value.trim();
+e.preventDefault();
 
 
-    saveBtn.disabled = true;
-
-    saveBtn.innerHTML = `
-        <span class="spinner-border spinner-border-sm"></span>
-        Menyimpan...
-    `;
-
-    status.innerHTML = "";
+const {
+data:{session}
+} =
+await supabaseClient.auth.getSession();
 
 
-    const { data, error } =
-        await supabaseClient
-        .from("apps")
-        .insert([
-            {
-                name: name,
-                description: description,
-                version: version,
-                size: size,
-                category: category,
-                icon: icon,
-                download_url: download_url
-            }
-        ])
-        .select();
+if(!session){
+
+status.innerHTML = `
+<div class="alert alert-danger">
+Session login tidak ditemukan.
+Silakan login kembali.
+</div>
+`;
+
+return;
+
+}
 
 
-    if (error) {
+const appData = {
 
-        console.error(error);
+name:
+document.getElementById("name").value.trim(),
 
-        status.innerHTML = `
-            <div class="alert alert-danger">
-                <i class="bi bi-exclamation-circle"></i>
-                Gagal menambahkan APK.
-                <br>
-                <small>${error.message}</small>
-            </div>
-        `;
+description:
+document.getElementById("description").value.trim(),
 
-        saveBtn.disabled = false;
+version:
+document.getElementById("version").value.trim(),
 
-        saveBtn.innerHTML = `
-            <i class="bi bi-plus-circle"></i>
-            Tambahkan APK
-        `;
+size:
+document.getElementById("size").value.trim(),
 
-        return;
-    }
+category:
+document.getElementById("category").value,
 
+icon:
+document.getElementById("icon").value.trim(),
 
-    status.innerHTML = `
-        <div class="alert alert-success">
-            <i class="bi bi-check-circle-fill"></i>
-            APK berhasil ditambahkan!
-        </div>
-    `;
+download_url:
+document.getElementById("download_url").value.trim()
+
+};
 
 
-    form.reset();
+saveBtn.disabled = true;
 
-    saveBtn.disabled = false;
+saveBtn.innerHTML = `
+<span class="spinner-border spinner-border-sm"></span>
+Menyimpan...
+`;
 
-    saveBtn.innerHTML = `
-        <i class="bi bi-plus-circle"></i>
-        Tambahkan APK
-    `;
+
+let result;
+
+
+if(editingId){
+
+result =
+await supabaseClient
+.from("apps")
+.update(appData)
+.eq("id",editingId);
+
+}else{
+
+result =
+await supabaseClient
+.from("apps")
+.insert([appData]);
+
+}
+
+
+if(result.error){
+
+console.error(result.error);
+
+status.innerHTML = `
+<div class="alert alert-danger">
+Gagal menyimpan APK.<br>
+<small>${result.error.message}</small>
+</div>
+`;
+
+saveBtn.disabled = false;
+
+updateButton();
+
+return;
+
+}
+
+
+status.innerHTML = `
+<div class="alert alert-success">
+<i class="bi bi-check-circle-fill"></i>
+${editingId ? "APK berhasil diperbarui!" : "APK berhasil ditambahkan!"}
+</div>
+`;
+
+resetForm();
+
+loadApps();
 
 });
+
+
+/* LOAD APPS */
+
+async function loadApps(){
+
+const {
+data,
+error
+} =
+await supabaseClient
+.from("apps")
+.select("*")
+.order("created_at",{ascending:false});
+
+
+if(error){
+
+appList.innerHTML = `
+<div class="alert alert-danger">
+Gagal memuat APK.<br>
+<small>${error.message}</small>
+</div>
+`;
+
+return;
+
+}
+
+
+if(!data || data.length === 0){
+
+appList.innerHTML = `
+<div class="empty">
+Belum ada APK.
+</div>
+`;
+
+return;
+
+}
+
+
+appList.innerHTML =
+data.map(app => `
+
+<div class="app-item">
+
+<div class="d-flex align-items-center gap-3">
+
+<img
+src="${app.icon || 'https://via.placeholder.com/60'}"
+class="app-icon"
+onerror="this.src='https://via.placeholder.com/60'"
+>
+
+<div class="flex-grow-1">
+
+<div class="app-name">
+${escapeHTML(app.name)}
+</div>
+
+<div class="app-info">
+${escapeHTML(app.category || 'Lainnya')}
+${app.version ? ' • Versi ' + escapeHTML(app.version) : ''}
+${app.size ? ' • ' + escapeHTML(app.size) : ''}
+</div>
+
+</div>
+
+</div>
+
+
+<div class="d-flex gap-2 mt-3">
+
+<button
+class="btn-edit"
+onclick="editApp(${app.id})">
+
+<i class="bi bi-pencil"></i>
+Edit
+
+</button>
+
+<button
+class="btn-delete"
+onclick="deleteApp(${app.id})">
+
+<i class="bi bi-trash"></i>
+Hapus
+
+</button>
+
+</div>
+
+</div>
+
+`).join("");
+
+}
+
+
+/* EDIT */
+
+async function editApp(id){
+
+const {
+data,
+error
+} =
+await supabaseClient
+.from("apps")
+.select("*")
+.eq("id",id)
+.single();
+
+
+if(error){
+
+alert(error.message);
+return;
+
+}
+
+
+editingId = id;
+
+document.getElementById("name").value =
+data.name || "";
+
+document.getElementById("description").value =
+data.description || "";
+
+document.getElementById("version").value =
+data.version || "";
+
+document.getElementById("size").value =
+data.size || "";
+
+document.getElementById("category").value =
+data.category || "Lainnya";
+
+document.getElementById("icon").value =
+data.icon || "";
+
+document.getElementById("download_url").value =
+data.download_url || "";
+
+
+formTitle.innerText = "Edit APK";
+
+updateButton();
+
+cancelBtn.style.display = "block";
+
+window.scrollTo({
+top:0,
+behavior:"smooth"
+});
+
+}
+
+
+/* DELETE */
+
+async function deleteApp(id){
+
+const yakin =
+confirm("Yakin ingin menghapus APK ini?");
+
+if(!yakin) return;
+
+
+const {
+error
+} =
+await supabaseClient
+.from("apps")
+.delete()
+.eq("id",id);
+
+
+if(error){
+
+alert(
+"Gagal menghapus APK:\n" +
+error.message
+);
+
+return;
+
+}
+
+
+alert("APK berhasil dihapus.");
+
+loadApps();
+
+}
+
+
+/* RESET */
+
+function resetForm(){
+
+editingId = null;
+
+form.reset();
+
+formTitle.innerText = "Tambah APK";
+
+cancelBtn.style.display = "none";
+
+updateButton();
+
+}
+
+
+cancelBtn.addEventListener("click",function(){
+
+resetForm();
+
+status.innerHTML = "";
+
+});
+
+
+/* BUTTON */
+
+function updateButton(){
+
+if(editingId){
+
+saveBtn.innerHTML = `
+<i class="bi bi-save"></i>
+Simpan Perubahan
+`;
+
+}else{
+
+saveBtn.innerHTML = `
+<i class="bi bi-plus-circle"></i>
+Tambahkan APK
+`;
+
+}
+
+saveBtn.disabled = false;
+
+}
+
+
+/* ESCAPE HTML */
+
+function escapeHTML(text){
+
+return String(text || "")
+.replace(/&/g,"&amp;")
+.replace(/</g,"&lt;")
+.replace(/>/g,"&gt;")
+.replace(/"/g,"&quot;")
+.replace(/'/g,"&#039;");
+
+}
 
 </script>
 
