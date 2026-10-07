@@ -1,0 +1,473 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+<title>Admin APKZone</title>
+
+<link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
+<link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.css" rel="stylesheet">
+
+<style>
+body {
+    margin: 0;
+    background: #080b16;
+    color: white;
+    font-family: Arial, sans-serif;
+}
+
+.navbar {
+    background: #111525;
+    border-bottom: 1px solid #252a40;
+}
+
+.logo {
+    font-size: 21px;
+    font-weight: bold;
+}
+
+.logo span {
+    color: #8175ff;
+}
+
+.admin-box {
+    max-width: 700px;
+    margin: 45px auto;
+    padding: 25px;
+    background: #111525;
+    border: 1px solid #252a40;
+    border-radius: 22px;
+    box-shadow: 0 20px 50px rgba(0,0,0,.3);
+}
+
+.admin-title {
+    text-align: center;
+    margin-bottom: 30px;
+}
+
+.admin-title i {
+    font-size: 45px;
+    color: #8175ff;
+}
+
+.form-label {
+    color: #c8ccda;
+    font-weight: 600;
+}
+
+.form-control,
+.form-select {
+    background: #080b16;
+    border: 1px solid #30354d;
+    color: white;
+    padding: 12px;
+    border-radius: 12px;
+}
+
+.form-control:focus,
+.form-select:focus {
+    background: #080b16;
+    color: white;
+    border-color: #8175ff;
+    box-shadow: 0 0 0 3px rgba(129,117,255,.15);
+}
+
+.form-control::placeholder {
+    color: #666d82;
+}
+
+.form-select option {
+    background: #111525;
+}
+
+.btn-save {
+    width: 100%;
+    border: none;
+    padding: 13px;
+    border-radius: 13px;
+    background: linear-gradient(90deg,#635bff,#8b5cf6);
+    color: white;
+    font-weight: bold;
+    font-size: 16px;
+}
+
+.btn-save:hover {
+    opacity: .9;
+}
+
+.btn-save:disabled {
+    opacity: .6;
+}
+
+#status {
+    margin-top: 18px;
+}
+
+.back-btn {
+    color: #aaaec0;
+    text-decoration: none;
+}
+
+.back-btn:hover {
+    color: white;
+}
+</style>
+</head>
+
+<body>
+
+<nav class="navbar">
+    <div class="container py-3 d-flex justify-content-between align-items-center">
+
+        <div class="logo">
+            <i class="bi bi-box-seam-fill"></i>
+            APK<span>Zone</span>
+            <small class="text-secondary"> Admin</small>
+        </div>
+
+        <a href="index.html" class="back-btn">
+            <i class="bi bi-house"></i>
+            Beranda
+        </a>
+
+    </div>
+</nav>
+
+
+<div class="container">
+
+    <div class="admin-box">
+
+        <div class="admin-title">
+
+            <i class="bi bi-cloud-arrow-up-fill"></i>
+
+            <h2 class="mt-3">
+                Tambah APK
+            </h2>
+
+            <p class="text-secondary">
+                Masukkan informasi aplikasi
+            </p>
+
+        </div>
+
+
+        <form id="addAppForm">
+
+            <!-- NAMA -->
+            <div class="mb-3">
+
+                <label class="form-label">
+                    Nama Aplikasi
+                </label>
+
+                <input
+                    type="text"
+                    id="name"
+                    class="form-control"
+                    placeholder="Contoh: TikTok"
+                    required
+                >
+
+            </div>
+
+
+            <!-- DESKRIPSI -->
+            <div class="mb-3">
+
+                <label class="form-label">
+                    Deskripsi
+                </label>
+
+                <textarea
+                    id="description"
+                    class="form-control"
+                    rows="3"
+                    placeholder="Deskripsi aplikasi..."
+                ></textarea>
+
+            </div>
+
+
+            <div class="row">
+
+                <!-- VERSI -->
+                <div class="col-md-6 mb-3">
+
+                    <label class="form-label">
+                        Versi
+                    </label>
+
+                    <input
+                        type="text"
+                        id="version"
+                        class="form-control"
+                        placeholder="Contoh: 2.5.1"
+                    >
+
+                </div>
+
+
+                <!-- UKURAN -->
+                <div class="col-md-6 mb-3">
+
+                    <label class="form-label">
+                        Ukuran APK
+                    </label>
+
+                    <input
+                        type="text"
+                        id="size"
+                        class="form-control"
+                        placeholder="Contoh: 120 MB"
+                    >
+
+                </div>
+
+            </div>
+
+
+            <!-- KATEGORI -->
+            <div class="mb-3">
+
+                <label class="form-label">
+                    Kategori
+                </label>
+
+                <select
+                    id="category"
+                    class="form-select"
+                >
+
+                    <option value="Game">
+                        Game
+                    </option>
+
+                    <option value="Sosial">
+                        Sosial
+                    </option>
+
+                    <option value="Tools">
+                        Tools
+                    </option>
+
+                    <option value="Media">
+                        Media
+                    </option>
+
+                    <option value="Lainnya">
+                        Lainnya
+                    </option>
+
+                </select>
+
+            </div>
+
+
+            <!-- ICON -->
+            <div class="mb-3">
+
+                <label class="form-label">
+                    URL Icon APK
+                </label>
+
+                <input
+                    type="url"
+                    id="icon"
+                    class="form-control"
+                    placeholder="https://contoh.com/icon.png"
+                >
+
+                <small class="text-secondary">
+                    Masukkan link gambar icon.
+                </small>
+
+            </div>
+
+
+            <!-- DOWNLOAD -->
+            <div class="mb-4">
+
+                <label class="form-label">
+                    URL Download APK
+                </label>
+
+                <input
+                    type="url"
+                    id="download_url"
+                    class="form-control"
+                    placeholder="https://contoh.com/aplikasi.apk"
+                    required
+                >
+
+                <small class="text-secondary">
+                    Bisa menggunakan link MediaFire, Google Drive,
+                    atau hosting APK lainnya.
+                </small>
+
+            </div>
+
+
+            <!-- BUTTON -->
+            <button
+                type="submit"
+                id="saveBtn"
+                class="btn-save"
+            >
+
+                <i class="bi bi-plus-circle"></i>
+                Tambahkan APK
+
+            </button>
+
+        </form>
+
+
+        <div id="status"></div>
+
+    </div>
+
+</div>
+
+
+<!-- SUPABASE -->
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+<script src="supabase.js"></script>
+
+
+<script>
+
+const form =
+    document.getElementById("addAppForm");
+
+const saveBtn =
+    document.getElementById("saveBtn");
+
+const status =
+    document.getElementById("status");
+
+
+form.addEventListener("submit", async function(e) {
+
+    e.preventDefault();
+
+
+    /* AMBIL DATA */
+
+    const name =
+        document.getElementById("name").value.trim();
+
+    const description =
+        document.getElementById("description").value.trim();
+
+    const version =
+        document.getElementById("version").value.trim();
+
+    const size =
+        document.getElementById("size").value.trim();
+
+    const category =
+        document.getElementById("category").value;
+
+    const icon =
+        document.getElementById("icon").value.trim();
+
+    const download_url =
+        document.getElementById("download_url").value.trim();
+
+
+    /* LOADING */
+
+    saveBtn.disabled = true;
+
+    saveBtn.innerHTML = `
+        <span
+            class="spinner-border spinner-border-sm">
+        </span>
+        Menyimpan...
+    `;
+
+    status.innerHTML = "";
+
+
+    /* INSERT SUPABASE */
+
+    const { data, error } =
+        await supabaseClient
+        .from("apps")
+        .insert([
+            {
+                name: name,
+                description: description,
+                version: version,
+                size: size,
+                category: category,
+                icon: icon,
+                download_url: download_url
+            }
+        ])
+        .select();
+
+
+    /* ERROR */
+
+    if (error) {
+
+        console.error(error);
+
+        status.innerHTML = `
+            <div class="alert alert-danger">
+                <i class="bi bi-exclamation-circle"></i>
+                Gagal menambahkan APK.
+                <br>
+                <small>
+                    ${error.message}
+                </small>
+            </div>
+        `;
+
+        saveBtn.disabled = false;
+
+        saveBtn.innerHTML = `
+            <i class="bi bi-plus-circle"></i>
+            Tambahkan APK
+        `;
+
+        return;
+    }
+
+
+    /* BERHASIL */
+
+    status.innerHTML = `
+        <div class="alert alert-success">
+            <i class="bi bi-check-circle-fill"></i>
+            APK berhasil ditambahkan!
+        </div>
+    `;
+
+
+    /* RESET FORM */
+
+    form.reset();
+
+
+    saveBtn.disabled = false;
+
+    saveBtn.innerHTML = `
+        <i class="bi bi-plus-circle"></i>
+        Tambahkan APK
+    `;
+
+});
+
+</script>
+
+  <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+<script src="supabase.js"></script>
+  
+
+</body>
+</html>
