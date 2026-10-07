@@ -81,7 +81,8 @@ body {
     background: #111525;
 }
 
-.btn-save {
+.btn-save,
+.btn-login {
     width: 100%;
     border: none;
     padding: 13px;
@@ -92,15 +93,18 @@ body {
     font-size: 16px;
 }
 
-.btn-save:hover {
+.btn-save:hover,
+.btn-login:hover {
     opacity: .9;
 }
 
-.btn-save:disabled {
+.btn-save:disabled,
+.btn-login:disabled {
     opacity: .6;
 }
 
-#status {
+#status,
+#loginStatus {
     margin-top: 18px;
 }
 
@@ -111,6 +115,42 @@ body {
 
 .back-btn:hover {
     color: white;
+}
+
+#adminPanel {
+    display: none;
+}
+
+.logout-btn {
+    border: 1px solid #383e58;
+    background: transparent;
+    color: #ff8b8b;
+    padding: 7px 13px;
+    border-radius: 10px;
+}
+
+.logout-btn:hover {
+    background: rgba(255,80,80,.1);
+}
+
+.login-box {
+    max-width: 450px;
+    margin: 80px auto;
+    padding: 30px;
+    background: #111525;
+    border: 1px solid #252a40;
+    border-radius: 22px;
+    box-shadow: 0 20px 50px rgba(0,0,0,.3);
+}
+
+.login-icon {
+    text-align: center;
+    margin-bottom: 25px;
+}
+
+.login-icon i {
+    font-size: 55px;
+    color: #8175ff;
 }
 </style>
 </head>
@@ -126,14 +166,90 @@ body {
             <small class="text-secondary"> Admin</small>
         </div>
 
-        <a href="index.html" class="back-btn">
-            <i class="bi bi-house"></i>
-            Beranda
-        </a>
+        <div id="navRight">
+            <a href="index.html" class="back-btn">
+                <i class="bi bi-house"></i>
+                Beranda
+            </a>
+        </div>
 
     </div>
 </nav>
 
+
+<!-- ================= LOGIN ================= -->
+
+<div id="loginPanel" class="container">
+
+    <div class="login-box">
+
+        <div class="login-icon">
+            <i class="bi bi-shield-lock-fill"></i>
+
+            <h2 class="mt-3">
+                Admin Login
+            </h2>
+
+            <p class="text-secondary">
+                Masuk untuk mengelola APKZone
+            </p>
+        </div>
+
+        <form id="loginForm">
+
+            <div class="mb-3">
+
+                <label class="form-label">
+                    Email
+                </label>
+
+                <input
+                    type="email"
+                    id="loginEmail"
+                    class="form-control"
+                    placeholder="Email admin"
+                    required
+                >
+
+            </div>
+
+            <div class="mb-4">
+
+                <label class="form-label">
+                    Password
+                </label>
+
+                <input
+                    type="password"
+                    id="loginPassword"
+                    class="form-control"
+                    placeholder="Password"
+                    required
+                >
+
+            </div>
+
+            <button
+                type="submit"
+                id="loginBtn"
+                class="btn-login"
+            >
+                <i class="bi bi-box-arrow-in-right"></i>
+                Login
+            </button>
+
+        </form>
+
+        <div id="loginStatus"></div>
+
+    </div>
+
+</div>
+
+
+<!-- ================= ADMIN PANEL ================= -->
+
+<div id="adminPanel">
 
 <div class="container">
 
@@ -156,7 +272,6 @@ body {
 
         <form id="addAppForm">
 
-            <!-- NAMA -->
             <div class="mb-3">
 
                 <label class="form-label">
@@ -174,7 +289,6 @@ body {
             </div>
 
 
-            <!-- DESKRIPSI -->
             <div class="mb-3">
 
                 <label class="form-label">
@@ -193,7 +307,6 @@ body {
 
             <div class="row">
 
-                <!-- VERSI -->
                 <div class="col-md-6 mb-3">
 
                     <label class="form-label">
@@ -210,7 +323,6 @@ body {
                 </div>
 
 
-                <!-- UKURAN -->
                 <div class="col-md-6 mb-3">
 
                     <label class="form-label">
@@ -229,44 +341,25 @@ body {
             </div>
 
 
-            <!-- KATEGORI -->
             <div class="mb-3">
 
                 <label class="form-label">
                     Kategori
                 </label>
 
-                <select
-                    id="category"
-                    class="form-select"
-                >
+                <select id="category" class="form-select">
 
-                    <option value="Game">
-                        Game
-                    </option>
-
-                    <option value="Sosial">
-                        Sosial
-                    </option>
-
-                    <option value="Tools">
-                        Tools
-                    </option>
-
-                    <option value="Media">
-                        Media
-                    </option>
-
-                    <option value="Lainnya">
-                        Lainnya
-                    </option>
+                    <option value="Game">Game</option>
+                    <option value="Sosial">Sosial</option>
+                    <option value="Tools">Tools</option>
+                    <option value="Media">Media</option>
+                    <option value="Lainnya">Lainnya</option>
 
                 </select>
 
             </div>
 
 
-            <!-- ICON -->
             <div class="mb-3">
 
                 <label class="form-label">
@@ -287,7 +380,6 @@ body {
             </div>
 
 
-            <!-- DOWNLOAD -->
             <div class="mb-4">
 
                 <label class="form-label">
@@ -303,14 +395,13 @@ body {
                 >
 
                 <small class="text-secondary">
-                    Bisa menggunakan link MediaFire, Google Drive,
+                    Bisa menggunakan MediaFire, Google Drive,
                     atau hosting APK lainnya.
                 </small>
 
             </div>
 
 
-            <!-- BUTTON -->
             <button
                 type="submit"
                 id="saveBtn"
@@ -324,20 +415,147 @@ body {
 
         </form>
 
-
         <div id="status"></div>
 
     </div>
 
 </div>
 
+</div>
+
 
 <!-- SUPABASE -->
+
 <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
 <script src="supabase.js"></script>
 
 
 <script>
+
+/* ================= LOGIN ================= */
+
+const loginForm = document.getElementById("loginForm");
+const loginBtn = document.getElementById("loginBtn");
+const loginStatus = document.getElementById("loginStatus");
+
+const loginPanel = document.getElementById("loginPanel");
+const adminPanel = document.getElementById("adminPanel");
+const navRight = document.getElementById("navRight");
+
+
+loginForm.addEventListener("submit", async function(e) {
+
+    e.preventDefault();
+
+    const email =
+        document.getElementById("loginEmail").value.trim();
+
+    const password =
+        document.getElementById("loginPassword").value;
+
+    loginBtn.disabled = true;
+
+    loginBtn.innerHTML = `
+        <span class="spinner-border spinner-border-sm"></span>
+        Login...
+    `;
+
+    loginStatus.innerHTML = "";
+
+    const { data, error } =
+        await supabaseClient.auth.signInWithPassword({
+            email: email,
+            password: password
+        });
+
+    if (error) {
+
+        console.error(error);
+
+        loginStatus.innerHTML = `
+            <div class="alert alert-danger">
+                <i class="bi bi-exclamation-circle"></i>
+                Login gagal.
+                <br>
+                <small>${error.message}</small>
+            </div>
+        `;
+
+        loginBtn.disabled = false;
+
+        loginBtn.innerHTML = `
+            <i class="bi bi-box-arrow-in-right"></i>
+            Login
+        `;
+
+        return;
+    }
+
+    showAdmin(data.session);
+
+});
+
+
+/* ================= SHOW ADMIN ================= */
+
+function showAdmin(session) {
+
+    loginPanel.style.display = "none";
+    adminPanel.style.display = "block";
+
+    navRight.innerHTML = `
+        <div class="d-flex align-items-center gap-2">
+
+            <a href="index.html" class="back-btn">
+                <i class="bi bi-house"></i>
+                Beranda
+            </a>
+
+            <button
+                onclick="logout()"
+                class="logout-btn"
+            >
+                <i class="bi bi-box-arrow-right"></i>
+                Keluar
+            </button>
+
+        </div>
+    `;
+
+}
+
+
+/* ================= LOGOUT ================= */
+
+async function logout() {
+
+    await supabaseClient.auth.signOut();
+
+    location.reload();
+
+}
+
+
+/* ================= CEK SESSION ================= */
+
+async function checkSession() {
+
+    const {
+        data: { session }
+    } = await supabaseClient.auth.getSession();
+
+    if (session) {
+
+        showAdmin(session);
+
+    }
+
+}
+
+checkSession();
+
+
+/* ================= TAMBAH APK ================= */
 
 const form =
     document.getElementById("addAppForm");
@@ -353,8 +571,23 @@ form.addEventListener("submit", async function(e) {
 
     e.preventDefault();
 
+    /* CEK SESSION */
 
-    /* AMBIL DATA */
+    const {
+        data: { session }
+    } = await supabaseClient.auth.getSession();
+
+    if (!session) {
+
+        status.innerHTML = `
+            <div class="alert alert-danger">
+                Silakan login terlebih dahulu.
+            </div>
+        `;
+
+        return;
+    }
+
 
     const name =
         document.getElementById("name").value.trim();
@@ -378,21 +611,15 @@ form.addEventListener("submit", async function(e) {
         document.getElementById("download_url").value.trim();
 
 
-    /* LOADING */
-
     saveBtn.disabled = true;
 
     saveBtn.innerHTML = `
-        <span
-            class="spinner-border spinner-border-sm">
-        </span>
+        <span class="spinner-border spinner-border-sm"></span>
         Menyimpan...
     `;
 
     status.innerHTML = "";
 
-
-    /* INSERT SUPABASE */
 
     const { data, error } =
         await supabaseClient
@@ -411,8 +638,6 @@ form.addEventListener("submit", async function(e) {
         .select();
 
 
-    /* ERROR */
-
     if (error) {
 
         console.error(error);
@@ -422,9 +647,7 @@ form.addEventListener("submit", async function(e) {
                 <i class="bi bi-exclamation-circle"></i>
                 Gagal menambahkan APK.
                 <br>
-                <small>
-                    ${error.message}
-                </small>
+                <small>${error.message}</small>
             </div>
         `;
 
@@ -439,8 +662,6 @@ form.addEventListener("submit", async function(e) {
     }
 
 
-    /* BERHASIL */
-
     status.innerHTML = `
         <div class="alert alert-success">
             <i class="bi bi-check-circle-fill"></i>
@@ -449,10 +670,7 @@ form.addEventListener("submit", async function(e) {
     `;
 
 
-    /* RESET FORM */
-
     form.reset();
-
 
     saveBtn.disabled = false;
 
@@ -464,10 +682,6 @@ form.addEventListener("submit", async function(e) {
 });
 
 </script>
-
-  <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
-<script src="supabase.js"></script>
-  
 
 </body>
 </html>
