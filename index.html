@@ -4,7 +4,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta name="theme-color" content="#080b16">
-    <title>APK DA•OFFICIAL - Download APK</title>
+    <title>WEBSITE DA•OFFICIAL - Download APK</title>
     <meta name="description" content="Download aplikasi Android di APK DA•OFFICIAL.">
 
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
@@ -12,50 +12,20 @@
 
     <style>
 /* ===== NOTIFIKASI WEBSITE ===== */
-.notification-wrap {
-    position: relative;
-    margin-left: auto;
-}
-
-#notificationBtn {
-    position: relative;
-    width: 44px;
-    height: 44px;
-    border: 1px solid #30354d;
-    border-radius: 14px;
-    background: #171b2d;
-    color: white;
-    font-size: 21px;
-}
-
-#notificationCount {
-    position: absolute;
-    top: -5px;
-    right: -5px;
-    min-width: 19px;
-    height: 19px;
-    padding: 0 5px;
-    border-radius: 20px;
-    background: #ef4444;
-    color: white;
-    font-size: 11px;
-    display: none;
-    align-items: center;
-    justify-content: center;
-}
-
 #notificationPanel {
-    display: none;
     position: absolute;
-    top: 54px;
+    top: 45px;
     right: 0;
-    width: min(320px, calc(100vw - 30px));
-    background: #111525;
-    border: 1px solid #30354d;
-    border-radius: 16px;
-    box-shadow: 0 15px 40px #0008;
-    z-index: 10001;
-    overflow: hidden;
+    width: 280px;
+    max-width: calc(100vw - 30px);
+    max-height: 320px;
+    overflow-y: auto;
+    background: #111827;
+    border: 1px solid #293449;
+    border-radius: 12px;
+    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.35);
+    z-index: 9999;
+    display: none;
 }
 
 #notificationPanel.show {
@@ -63,48 +33,48 @@
 }
 
 .notification-head {
-    padding: 15px;
     display: flex;
-    justify-content: space-between;
     align-items: center;
-    border-bottom: 1px solid #252a40;
-    font-weight: bold;
+    justify-content: space-between;
+    gap: 8px;
+    padding: 10px 12px;
+    font-size: 13px;
+    border-bottom: 1px solid #293449;
 }
 
 #markReadBtn {
-    border: 0;
-    background: transparent;
-    color: #a59bff;
-    font-size: 12px;
+    font-size: 10px;
+    padding: 5px 7px;
 }
 
 #notificationList {
-    max-height: 320px;
-    overflow-y: auto;
+    padding: 6px;
 }
 
 .notification-item {
-    padding: 13px 15px;
-    border-bottom: 1px solid #252a40;
-    color: #dce0f2;
-    font-size: 13px;
+    padding: 9px;
+    margin-bottom: 5px;
+    border-radius: 8px;
+    font-size: 12px;
+    overflow-wrap: anywhere;
 }
 
-.notification-item.unread {
-    background: #635bff13;
+.notification-item strong {
+    font-size: 11px;
 }
 
 .notification-item small {
     display: block;
-    margin-top: 5px;
-    color: #858ca1;
+    font-size: 10px;
+    margin-top: 4px;
+    color: #9ca3af;
 }
 
 .notification-empty {
-    padding: 25px 15px;
+    padding: 16px 10px;
     text-align: center;
-    color: #858ca1;
-    font-size: 13px;
+    font-size: 12px;
+    color: #9ca3af;
 }
 
         * { box-sizing: border-box; }
@@ -447,7 +417,7 @@
     <div class="loader-logo">A</div>
     <div class="loader-ring"></div>
 
-    <div class="loader-text">APK DA•OFFICIAL</div>
+    <div class="loader-text">WEBSITE DA•OFFICIAL</div>
     <div class="loader-subtext">Menyiapkan aplikasi untukmu...</div>
 
     <div class="loader-bar">
