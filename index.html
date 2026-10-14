@@ -577,9 +577,18 @@
                         <i class="bi bi-phone"></i> ${escapeHTML(app.version || "-")}
                         &nbsp; • &nbsp; ${escapeHTML(app.size || "-")}
                     </div>
-                    <a href="detail.html?id=${encodeURIComponent(app.id)}" class="download-btn">
-                        <i class="bi bi-info-circle"></i> Lihat Detail
-                    </a>
+                    
+<a href="detail.html?id=${encodeURIComponent(app.id)}" class="download-btn">
+    <i class="bi bi-info-circle"></i> Lihat Detail
+</a>
+
+<button
+    type="button"
+    class="btn btn-outline-light w-100 mt-2"
+    onclick="shareAPK('${app.id}')">
+    <i class="bi bi-share"></i> Bagikan APK
+</button>
+
                 </div>
             `).join("");
         }
@@ -607,6 +616,40 @@
         function escapeAttribute(value) {
             return escapeHTML(value);
         }
+      
+async function shareAPK(appId) {
+    const app = apps.find(
+        item => String(item.id) === String(appId)
+    );
+
+    if (!app) {
+        alert("APK tidak ditemukan.");
+        return;
+    }
+
+    const url = new URL(
+        `detail.html?id=${encodeURIComponent(app.id)}`,
+        window.location.href
+    ).href;
+
+    try {
+        if (navigator.share) {
+            await navigator.share({
+                title: app.name || "APK DA•OFFICIAL",
+                text: `Lihat ${app.name || "aplikasi ini"} di APK DA•OFFICIAL`,
+                url: url
+            });
+        } else {
+            await navigator.clipboard.writeText(url);
+            alert("Link APK berhasil disalin!");
+        }
+    } catch (error) {
+        if (error.name !== "AbortError") {
+            alert("Gagal membagikan link APK.");
+        }
+    }
+}
+
 
         loadApps();
 
