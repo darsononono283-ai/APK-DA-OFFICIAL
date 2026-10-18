@@ -66,6 +66,205 @@
     .notification-head button { border:0; background:transparent; text-decoration:underline; font-size:.75rem; }
     .notification-empty,.notification-item { font-size:.85rem; padding:8px; border-radius:10px; background:#fff; margin-bottom:7px; }
     @media(min-width:700px) { .container.main-width { max-width:760px; } .app-grid { grid-template-columns:repeat(3,minmax(0,1fr)); } .feature-grid { grid-template-columns:repeat(4,minmax(0,1fr)); } }
+ 
+.quote-text {
+  position: relative;
+  padding: 22px 16px !important;
+  background: #ffdf4d !important;
+  color: #ffffff;
+  border: 3px solid #1c1c1c !important;
+  border-radius: 16px !important;
+  font-family: Impact, "Arial Black", sans-serif;
+  font-size: clamp(1.5rem, 6vw, 2rem);
+  font-weight: 1000;
+  line-height: 1.3;
+  text-align: center;
+  text-transform: uppercase;
+  letter-spacing: .5px;
+  -webkit-text-stroke: 1.2px #1c1c1c;
+  text-shadow:
+    2px 2px 0 #1c1c1c,
+    4px 4px 0 #1c1c1c,
+    6px 6px 0 #e63830;
+  box-shadow: 5px 6px 0 #1c1c1c;
+  transform: rotate(-1deg);
+  overflow-wrap: anywhere;
+}
+    
+@keyframes comicPop {
+  0% {
+    opacity: 0;
+    transform: scale(.8) rotate(-3deg);
+  }
+  70% {
+    opacity: 1;
+    transform: scale(1.04) rotate(1deg);
+  }
+  100% {
+    opacity: 1;
+    transform: scale(1) rotate(-1deg);
+  }
+}
+
+.quote-text.pop {
+  animation: comicPop .35s ease-out;
+}
+
+.quote-label {
+  display: inline-block;
+  background: #e63830;
+  color: #fff;
+  border: 2px solid #1c1c1c;
+  border-radius: 8px;
+  padding: 5px 12px;
+  margin-bottom: 14px;
+  font-weight: 1000;
+  box-shadow: 3px 3px 0 #1c1c1c;
+  transform: rotate(-2deg);
+}
+
+.sad-heading {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  padding: 15px 10px;
+  margin-bottom: 18px;
+  background: #e63830;
+  color: #fff;
+  border: 3px solid #1c1c1c;
+  border-radius: 14px;
+  font-family: Impact, "Arial Black", sans-serif;
+  font-size: clamp(1.15rem, 5vw, 1.7rem);
+  font-weight: 1000;
+  text-align: center;
+  text-shadow:
+    2px 2px 0 #1c1c1c,
+    4px 4px 0 #1c1c1c;
+  box-shadow: 5px 6px 0 #1c1c1c;
+  transform: rotate(-1deg);
+}
+
+.sad-heading-icon {
+  font-size: 1.6em;
+  filter: drop-shadow(2px 3px 0 #1c1c1c);
+}
+
+.sad-heading-star {
+  color: #ffdf4d;
+  font-size: 1.3em;
+  text-shadow:
+    2px 2px 0 #1c1c1c,
+    3px 3px 0 #1c1c1c;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .quote-text.pop {
+    animation: none;
+  }
+}
+
+    
+.sad-panel {
+  padding: 22px 18px;
+  overflow: hidden;
+  background: #fff7f4;
+}
+
+.sad-badge {
+  display: table;
+  margin: 0 auto 16px;
+  padding: 7px 16px;
+  background: #ffdf4d;
+  color: #1c1c1c;
+  border: 2px solid #1c1c1c;
+  border-radius: 8px;
+  box-shadow: 3px 3px 0 #1c1c1c;
+  font-size: 12px;
+  font-weight: 900;
+  letter-spacing: 2px;
+  transform: rotate(-2deg);
+}
+
+.sad-heading {
+  margin: 0 0 14px;
+  padding: 15px 8px;
+  background: #e63830;
+  color: #fff;
+  border: 3px solid #1c1c1c;
+  border-radius: 12px;
+  font-family: Impact, "Arial Black", sans-serif;
+  font-size: clamp(22px, 6vw, 32px);
+  font-weight: 900;
+  text-align: center;
+  text-shadow: 3px 3px 0 #1c1c1c;
+  box-shadow: 4px 5px 0 #1c1c1c;
+}
+
+.sad-subtitle {
+  margin: 20px 0;
+  color: #65595a;
+  font-size: 14px;
+  text-align: center;
+}
+
+.quote-text {
+  display: flex;
+  min-height: 180px;
+  align-items: center;
+  justify-content: center;
+  margin: 22px 0 !important;
+  padding: 25px 18px !important;
+  background: #ffdf4d !important;
+  color: #fff;
+  border: 3px solid #1c1c1c !important;
+  border-radius: 14px !important;
+  font-family: Impact, "Arial Black", sans-serif;
+  font-size: clamp(23px, 6vw, 31px);
+  font-weight: 900;
+  line-height: 1.4;
+  text-align: center;
+  text-transform: uppercase;
+  overflow-wrap: anywhere;
+  text-shadow: 2px 2px 0 #1c1c1c,
+               4px 4px 0 #e63830;
+  box-shadow: 5px 6px 0 #1c1c1c;
+  transform: rotate(-1deg);
+}
+
+.sad-buttons {
+  display: grid;
+  gap: 12px;
+  margin-top: 26px;
+}
+
+.sad-buttons .comic-btn {
+  width: 100%;
+  min-height: 48px;
+  font-size: 15px;
+}
+
+.sad-footer {
+  margin-top: 24px;
+  color: #65595a;
+  font-size: 10px;
+  font-weight: 900;
+  letter-spacing: 1.5px;
+  text-align: center;
+}
+
+@media (max-width: 380px) {
+  .sad-panel {
+    padding: 18px 13px;
+  }
+
+  .quote-text {
+    min-height: 155px;
+    padding: 20px 12px !important;
+  }
+}
+
+
   </style>
 </head>
 <body>
@@ -140,18 +339,29 @@
       </div>
     </section>
 
-    <section id="sadPage" class="feature-page d-none">
-      <div class="comic-panel">
-        <h1 class="comic-title"><i class="bi bi-heartbreak text-danger"></i> Kata Sad</h1>
-        <p class="text-secondary">Kutipan galau, cinta, kehilangan, dan kehidupan.</p>
-        <div id="sadQuote" class="quote-text p-3 rounded-4 mb-3" style="background:var(--paper);border:2px solid var(--ink)">Terkadang, yang paling melelahkan adalah berpura-pura baik-baik saja.</div>
-        <div class="d-grid gap-2">
-          <button class="comic-btn yellow" onclick="newSadQuote()"><i class="bi bi-shuffle"></i> Kata lainnya</button>
-          <button class="comic-btn light" onclick="copySadQuote()"><i class="bi bi-copy"></i> Salin kata</button>
-          <button class="comic-btn primary" onclick="shareSadQuote()"><i class="bi bi-share"></i> Bagikan kata</button>
-        </div>
+  
+
+<section id="sadPage" class="feature-page d-none">
+  <div class="comic-panel sad-panel">
+    <div class="sad-badge">★ SAD VIBES ★</div>
+
+    <h1 class="comic-title sad-heading">
+      💔 KATA-KATA SAD
+    </h1>
+
+    <p class="sad-subtitle">
+      Kata yang mewakili hati, saat mulut memilih diam.
+    </p>
+
+    <div id="sadQuoteList" class="sad-quote-list">
+      <div class="empty-state">
+        Memuat kata-kata Sad...
       </div>
-    </section>
+    </div>
+  </div>
+</section>
+
+
 
     <section id="themePage" class="feature-page d-none">
       <div class="comic-panel">
@@ -350,6 +560,204 @@
     loadApps();
     window.addEventListener("load",() => setTimeout(() => document.getElementById("loading").classList.add("hide"),500));
     setTimeout(() => document.getElementById("loading").classList.add("hide"),5000);
+ 
+const musicCatalog = [
+  {
+    id: "37i9dQZF1DXcBWIGoYBM5M",
+    title: "Today's Top Hits",
+    artist: "Spotify Playlist",
+    type: "playlist"
+  },
+  {
+    id: "37i9dQZF1DX4JAvHpjipBk",
+    title: "Hits Indonesia",
+    artist: "Spotify Playlist",
+    type: "playlist"
+  },
+  {
+    id: "37i9dQZF1DXc6IFF23C9jj",
+    title: "Chill Hits",
+    artist: "Spotify Playlist",
+    type: "playlist"
+  }
+];
+
+let currentMusic = null;
+
+function showMusicTab(tab) {
+  const views = {
+    search: "musicSearchView",
+    playlist: "musicPlaylistView",
+    favorite: "musicFavoriteView",
+    downloads: "musicDownloadsView",
+    history: "musicHistoryView"
+  };
+
+  Object.entries(views).forEach(([key, id]) => {
+    document.getElementById(id)?.classList.toggle("d-none", key !== tab);
+  });
+
+  document.querySelectorAll(".music-tab").forEach(button => {
+    button.classList.toggle(
+      "active",
+      button.getAttribute("onclick")?.includes("'" + tab + "'")
+    );
+  });
+}
+
+function playMusicPlaylist(id, title) {
+  currentMusic = {
+    id,
+    title,
+    type: "playlist"
+  };
+
+  document.getElementById("musicNowPlaying").textContent = title;
+  document.getElementById("musicSpotifyFrame").src =
+    "https://open.spotify.com/embed/playlist/" +
+    encodeURIComponent(id);
+
+  document.getElementById("musicPlayerArea").classList.remove("d-none");
+
+  try {
+    const history = JSON.parse(localStorage.getItem("daMusicHistory") || "[]");
+    const updated = [
+      currentMusic,
+      ...history.filter(item => item.id !== id)
+    ].slice(0, 20);
+
+    localStorage.setItem("daMusicHistory", JSON.stringify(updated));
+    renderMusicHistory();
+  } catch (error) {
+    console.warn("Riwayat musik tidak dapat disimpan.", error);
+  }
+}
+
+function searchMusicCatalog() {
+  const query = document.getElementById("musicSearchInput").value
+    .trim().toLowerCase();
+
+  const results = musicCatalog.filter(item =>
+    (item.title + " " + item.artist).toLowerCase().includes(query)
+  );
+
+  const container = document.getElementById("musicSearchResults");
+
+  if (!query) {
+    container.innerHTML = "";
+    return;
+  }
+
+  if (!results.length) {
+    container.innerHTML =
+      '<p class="text-center mt-4">Belum ditemukan di katalog demo. Pencarian lagu Spotify lengkap memerlukan integrasi Spotify Web API.</p>';
+    return;
+  }
+
+  container.innerHTML = results.map(item => `
+    <button class="music-playlist"
+      onclick="playMusicPlaylist('${item.id}', '${item.title.replace(/'/g, "\\'")}')">
+      <span class="music-cover"><i class="bi bi-music-note-beamed"></i></span>
+      <span><strong>${item.title}</strong><small>${item.artist}</small></span>
+      <i class="bi bi-play-circle-fill"></i>
+    </button>
+    <button class="music-favorite-button"
+      onclick="saveMusicFavorite('${item.id}')">
+      <i class="bi bi-heart"></i> Tambah ke favorit
+    </button>
+  `).join("");
+}
+
+function saveMusicFavorite(id) {
+  const item = musicCatalog.find(track => track.id === id);
+  if (!item) return;
+
+  try {
+    const favorites = JSON.parse(localStorage.getItem("daMusicFavorites") || "[]");
+
+    if (favorites.some(track => track.id === id)) {
+      alert("Playlist sudah ada di favorit.");
+      return;
+    }
+
+    favorites.push(item);
+    localStorage.setItem("daMusicFavorites", JSON.stringify(favorites));
+    renderMusicFavorites();
+    alert("Ditambahkan ke favorit.");
+  } catch (error) {
+    alert("Favorit tidak dapat disimpan di browser ini.");
+  }
+}
+
+function renderMusicFavorites() {
+  const container = document.getElementById("musicFavoriteList");
+
+  try {
+    const favorites = JSON.parse(localStorage.getItem("daMusicFavorites") || "[]");
+
+    if (!favorites.length) {
+      container.innerHTML = '<div class="music-empty"><i class="bi bi-heart"></i><p>Belum ada lagu favorit.</p></div>';
+      return;
+    }
+
+    container.innerHTML = favorites.map(item => `
+      <div class="music-playlist">
+        <span class="music-cover"><i class="bi bi-heart-fill"></i></span>
+        <span><strong>${item.title}</strong><small>${item.artist}</small></span>
+        <button class="music-icon" onclick="playMusicPlaylist('${item.id}', '${item.title.replace(/'/g, "\\'")}')"><i class="bi bi-play-fill"></i></button>
+        <button class="music-icon" onclick="removeMusicFavorite('${item.id}')"><i class="bi bi-trash"></i></button>
+      </div>
+    `).join("");
+  } catch {
+    container.textContent = "Favorit belum tersedia.";
+  }
+}
+
+function removeMusicFavorite(id) {
+  const favorites = JSON.parse(localStorage.getItem("daMusicFavorites") || "[]");
+  localStorage.setItem(
+    "daMusicFavorites",
+    JSON.stringify(favorites.filter(item => item.id !== id))
+  );
+  renderMusicFavorites();
+}
+
+function renderMusicHistory() {
+  const container = document.getElementById("musicHistoryList");
+
+  try {
+    const history = JSON.parse(localStorage.getItem("daMusicHistory") || "[]");
+
+    if (!history.length) {
+      container.innerHTML = '<div class="music-empty"><i class="bi bi-clock-history"></i><p>Belum ada riwayat.</p></div>';
+      return;
+    }
+
+    container.innerHTML = history.map(item => `
+      <button class="music-playlist"
+        onclick="playMusicPlaylist('${item.id}', '${item.title.replace(/'/g, "\\'")}')">
+        <span class="music-cover"><i class="bi bi-clock-history"></i></span>
+        <span><strong>${item.title}</strong><small>Baru diputar</small></span>
+        <i class="bi bi-play-circle-fill"></i>
+      </button>
+    `).join("");
+  } catch {
+    container.textContent = "Riwayat belum tersedia.";
+  }
+}
+
+function toggleCurrentMusicFavorite() {
+  if (!currentMusic) {
+    alert("Pilih playlist terlebih dahulu.");
+    return;
+  }
+
+  saveMusicFavorite(currentMusic.id);
+}
+
+renderMusicFavorites();
+renderMusicHistory();
+
   </script>
 
 <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
@@ -358,4 +766,3 @@
 
 </body>
 </html>
-
