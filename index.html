@@ -529,10 +529,28 @@ async function loadSadQuotes() {
 
   list.textContent = "Memuat kata-kata Sad...";
 
-  const { data, error } = await client
+  console.log("Mulai mengambil data sad_quotes");
+
+const result = await Promise.race([
+  client
     .from("sad_quotes")
     .select("id, content, created_at")
-    .order("created_at", { ascending: false });
+    .order("created_at", { ascending: false }),
+  new Promise(resolve =>
+    setTimeout(() => resolve({
+      data: null,
+      error: { message: "Permintaan Supabase terlalu lama." }
+    }), 10000)
+  )
+]);
+
+const { data, error } = result;
+
+if (error) {
+  console.error("Gagal memuat Kata Sad:", error);
+  list.textContent = error.message;
+  return;
+}
 
   if (error) {
     console.error("Gagal memuat sad_quotes:", error);
