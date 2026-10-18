@@ -526,6 +526,8 @@ async function loadSadQuotes() {
     list.textContent = "Koneksi Supabase belum tersedia.";
     return;
   }
+  console.log("Supabase client ditemukan:", !!client);
+console.log("Fungsi query tersedia:", typeof client.from);
 
   list.textContent = "Memuat kata-kata Sad...";
 
