@@ -1,0 +1,361 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+  <meta name="theme-color" content="#e63830">
+  <meta name="description" content="APK DA•OFFICIAL - Download APK, musik, dan kata-kata sad.">
+  <title>APK DA•OFFICIAL</title>
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css" rel="stylesheet">
+  <style>
+    :root {
+      --paper:#f8dede; --card:#fff7f4; --primary:#e63830; --secondary:#ffdf4d;
+      --ink:#1c1c1c; --muted:#65595a; --shadow:4px 5px 0 var(--ink);
+    }
+    * { box-sizing:border-box; }
+    body { margin:0; padding-bottom:104px; background:var(--paper); color:var(--ink); font-family:system-ui,-apple-system,"Segoe UI",sans-serif; }
+    button,input { font:inherit; }
+    .comic-header { background:var(--primary); color:#fff; border-bottom:4px solid var(--ink); box-shadow:0 4px 0 #fff; }
+    .brand { font-weight:1000; letter-spacing:-.7px; font-size:1.15rem; color:#fff; text-decoration:none; }
+    .brand span { color:var(--secondary); }
+    .comic-icon { width:42px; height:42px; display:grid; place-items:center; border:2px solid var(--ink); border-radius:13px; background:var(--card); color:var(--ink); box-shadow:2px 3px 0 var(--ink); }
+    .hero { margin:20px 0; padding:23px 18px; background:var(--primary); color:#fff; border:3px solid var(--ink); border-radius:22px; box-shadow:var(--shadow); position:relative; overflow:hidden; }
+    .hero:after { content:"★"; position:absolute; right:16px; top:4px; color:var(--secondary); font-size:4rem; transform:rotate(15deg); opacity:.9; }
+    .hero h1 { font-size:clamp(1.5rem,6vw,2.2rem); font-weight:1000; line-height:1.05; text-transform:uppercase; max-width:80%; }
+    .hero p { max-width:80%; margin:10px 0 0; }
+    .comic-panel { background:var(--card); border:3px solid var(--ink); border-radius:18px; box-shadow:var(--shadow); padding:16px; }
+    .comic-title { font-weight:1000; text-transform:uppercase; font-size:1.1rem; margin:0 0 12px; }
+    .search-box { display:flex; align-items:center; gap:10px; background:var(--card); border:3px solid var(--ink); border-radius:14px; padding:0 13px; box-shadow:3px 3px 0 var(--ink); }
+    .search-box input { min-width:0; width:100%; padding:12px 0; background:transparent; color:var(--ink); border:0; outline:0; }
+    .feature-grid { display:grid; grid-template-columns:repeat(2,minmax(0,1fr)); gap:12px; margin:18px 0 24px; }
+    .feature-tile { min-height:104px; text-align:left; border:3px solid var(--ink); border-radius:17px; padding:14px; box-shadow:var(--shadow); font-weight:900; background:var(--card); color:var(--ink); transition:transform .12s; }
+    .feature-tile:active,.comic-btn:active { transform:translate(2px,3px); box-shadow:1px 2px 0 var(--ink); }
+    .feature-tile i { display:block; font-size:1.8rem; margin-bottom:6px; }
+    .feature-tile.red { background:var(--primary); color:#fff; }
+    .feature-tile.yellow { background:var(--secondary); }
+    .feature-tile small { display:block; font-weight:600; font-size:.78rem; opacity:.85; }
+    .categories { display:flex; gap:8px; overflow-x:auto; padding:3px 3px 8px; scrollbar-width:thin; }
+    .category-btn { white-space:nowrap; border:2px solid var(--ink); background:var(--card); color:var(--ink); border-radius:12px; padding:8px 13px; font-weight:800; }
+    .category-btn.active { background:var(--secondary); box-shadow:2px 3px 0 var(--ink); }
+    .app-grid { display:grid; grid-template-columns:repeat(2,minmax(0,1fr)); gap:14px; }
+    .app-card { min-width:0; background:var(--card); border:3px solid var(--ink); border-radius:17px; padding:12px; box-shadow:var(--shadow); overflow:hidden; }
+    .app-icon { width:66px; height:66px; object-fit:cover; border:2px solid var(--ink); border-radius:15px; background:#fff; }
+    .app-name { font-size:.95rem; font-weight:900; margin:10px 0 4px; overflow-wrap:anywhere; }
+    .app-description { font-size:.8rem; color:var(--muted); min-height:38px; overflow-wrap:anywhere; }
+    .comic-btn { display:inline-flex; justify-content:center; align-items:center; gap:6px; border:2px solid var(--ink); border-radius:11px; padding:9px 10px; font-weight:900; text-decoration:none; box-shadow:2px 3px 0 var(--ink); cursor:pointer; }
+    .comic-btn.primary { background:var(--primary); color:#fff; }
+    .comic-btn.light { background:var(--card); color:var(--ink); }
+    .comic-btn.yellow { background:var(--secondary); color:var(--ink); }
+    .feature-page { margin-top:18px; }
+    .quote-text { font-size:1.2rem; font-weight:800; line-height:1.5; }
+    .theme-swatches { display:grid; grid-template-columns:repeat(2,minmax(0,1fr)); gap:10px; }
+    .theme-choice { border:3px solid var(--ink); border-radius:14px; padding:12px; background:var(--card); text-align:left; font-weight:900; box-shadow:3px 4px 0 var(--ink); }
+    .swatch { display:inline-block; width:15px; height:15px; border:1px solid var(--ink); border-radius:50%; vertical-align:middle; margin-right:3px; }
+    .bottom-nav { position:fixed; z-index:1000; left:0; right:0; bottom:0; padding:10px 7px calc(10px + env(safe-area-inset-bottom)); display:grid; grid-template-columns:repeat(5,minmax(0,1fr)); gap:4px; background:#f5baba; border:3px solid var(--ink); border-bottom:0; border-radius:20px 20px 0 0; box-shadow:0 -4px 0 #fff; }
+    .nav-item { border:0; background:transparent; color:var(--ink); display:flex; flex-direction:column; align-items:center; gap:4px; font-size:.68rem; font-weight:1000; padding:0 1px; }
+    .nav-item .nav-icon { width:42px; height:40px; display:grid; place-items:center; background:var(--card); border:3px solid var(--ink); border-radius:12px; font-size:1.15rem; box-shadow:2px 3px 0 var(--ink); }
+    .nav-item.active .nav-icon { background:var(--secondary); }
+    .empty-state { padding:24px 10px; text-align:center; color:var(--muted); }
+    #loading { position:fixed; inset:0; z-index:2000; background:var(--primary); color:#fff; display:grid; place-items:center; font-weight:1000; font-size:1.2rem; transition:opacity .3s; }
+    #loading.hide { opacity:0; pointer-events:none; }
+    #notificationPanel { display:none; position:absolute; top:48px; right:0; width:min(310px,85vw); max-height:360px; overflow:auto; background:var(--card); color:var(--ink); border:3px solid var(--ink); border-radius:15px; box-shadow:var(--shadow); padding:12px; z-index:1200; }
+    #notificationPanel.show { display:block; }
+    .notification-wrap { position:relative; }
+    .notification-head { display:flex; align-items:center; justify-content:space-between; gap:8px; font-weight:900; margin-bottom:10px; }
+    .notification-head button { border:0; background:transparent; text-decoration:underline; font-size:.75rem; }
+    .notification-empty,.notification-item { font-size:.85rem; padding:8px; border-radius:10px; background:#fff; margin-bottom:7px; }
+    @media(min-width:700px) { .container.main-width { max-width:760px; } .app-grid { grid-template-columns:repeat(3,minmax(0,1fr)); } .feature-grid { grid-template-columns:repeat(4,minmax(0,1fr)); } }
+  </style>
+</head>
+<body>
+  <div id="loading">★ MEMUAT APK DA•OFFICIAL ★</div>
+
+  <header class="comic-header">
+    <div class="container main-width py-3 d-flex align-items-center gap-3">
+      <a class="brand" href="#" onclick="showPage('home');return false;"><i class="bi bi-box-seam-fill"></i> APK<span>DA•OFFICIAL</span></a>
+      <div class="ms-auto d-flex align-items-center gap-3">
+        <div class="notification-wrap">
+          <button id="notificationBtn" class="comic-icon" type="button" aria-label="Notifikasi" aria-expanded="false"><i class="bi bi-bell-fill"></i><span id="notificationCount" class="badge text-bg-warning">0</span></button>
+          <div id="notificationPanel">
+            <div class="notification-head"><span>🔔 Notifikasi</span><button id="markReadBtn" type="button">Tandai dibaca</button></div>
+            <div id="notificationList"><div class="notification-empty">Memuat notifikasi...</div></div>
+          </div>
+        </div>
+        <a class="comic-icon" href="admin.html" aria-label="Admin"><i class="bi bi-person-gear"></i></a>
+      </div>
+    </div>
+  </header>
+
+  <main class="container main-width">
+    <section id="homePage">
+      <div class="hero">
+        <h1>Selamat datang!</h1>
+        <p>Temukan APK favorit dan hiburanmu di satu tempat.</p>
+      </div>
+
+      <label class="search-box" for="searchInput">
+        <i class="bi bi-search"></i>
+        <input id="searchInput" type="search" placeholder="Cari aplikasi..." autocomplete="off">
+      </label>
+
+      <div class="feature-grid">
+        <button class="feature-tile red" onclick="showPage('apps')"><i class="bi bi-phone"></i>Download APK<small>Game, tools, media</small></button>
+        <button class="feature-tile yellow" onclick="showPage('spotify')"><i class="bi bi-spotify"></i>Spotify<small>Musik favorit</small></button>
+        <button class="feature-tile" onclick="showPage('sad')"><i class="bi bi-heartbreak"></i>Kata Sad<small>Kata galau harian</small></button>
+        <button class="feature-tile" onclick="showPage('theme')"><i class="bi bi-palette"></i>Tema<small>Ubah warna website</small></button>
+      </div>
+
+      <section class="mb-4">
+        <h2 class="comic-title">APK pilihan</h2>
+        <div id="homeApps" class="app-grid"><div class="empty-state">Memuat aplikasi...</div></div>
+        <button class="comic-btn primary mt-3 w-100" onclick="showPage('apps')">Lihat semua APK <i class="bi bi-arrow-right"></i></button>
+      </section>
+    </section>
+
+    <section id="appsPage" class="feature-page d-none">
+      <div class="comic-panel mb-3">
+        <h1 class="comic-title">Download APK</h1>
+        <label class="search-box" for="appSearchInput"><i class="bi bi-search"></i><input id="appSearchInput" type="search" placeholder="Cari nama aplikasi..."></label>
+        <div class="categories mt-3" id="categories">
+          <button class="category-btn active" data-category="Semua">Semua</button>
+          <button class="category-btn" data-category="Game">Game</button>
+          <button class="category-btn" data-category="Sosial">Sosial</button>
+          <button class="category-btn" data-category="Tools">Tools</button>
+          <button class="category-btn" data-category="Media">Media</button>
+          <button class="category-btn" data-category="Lainnya">Lainnya</button>
+        </div>
+      </div>
+      <div id="appGrid" class="app-grid"><div class="empty-state">Memuat aplikasi...</div></div>
+    </section>
+
+    <section id="spotifyPage" class="feature-page d-none">
+      <div class="comic-panel">
+        <h1 class="comic-title"><i class="bi bi-spotify text-success"></i> Spotify Music</h1>
+        <p>Dengarkan playlist favorit melalui Spotify.</p>
+        <div class="ratio ratio-1x1 rounded-4 overflow-hidden mb-3" style="max-height:380px">
+          <iframe src="https://open.spotify.com/embed/playlist/37i9dQZF1DXcBWIGoYBM5M?utm_source=generator" title="Spotify playlist" style="border:0" allow="autoplay; clipboard-write; encrypted-media; fullscreen; picture-in-picture" loading="lazy"></iframe>
+        </div>
+        <a class="comic-btn primary" href="https://open.spotify.com/" target="_blank" rel="noopener noreferrer"><i class="bi bi-box-arrow-up-right"></i> Buka Spotify</a>
+      </div>
+    </section>
+
+    <section id="sadPage" class="feature-page d-none">
+      <div class="comic-panel">
+        <h1 class="comic-title"><i class="bi bi-heartbreak text-danger"></i> Kata Sad</h1>
+        <p class="text-secondary">Kutipan galau, cinta, kehilangan, dan kehidupan.</p>
+        <div id="sadQuote" class="quote-text p-3 rounded-4 mb-3" style="background:var(--paper);border:2px solid var(--ink)">Terkadang, yang paling melelahkan adalah berpura-pura baik-baik saja.</div>
+        <div class="d-grid gap-2">
+          <button class="comic-btn yellow" onclick="newSadQuote()"><i class="bi bi-shuffle"></i> Kata lainnya</button>
+          <button class="comic-btn light" onclick="copySadQuote()"><i class="bi bi-copy"></i> Salin kata</button>
+          <button class="comic-btn primary" onclick="shareSadQuote()"><i class="bi bi-share"></i> Bagikan kata</button>
+        </div>
+      </div>
+    </section>
+
+    <section id="themePage" class="feature-page d-none">
+      <div class="comic-panel">
+        <h1 class="comic-title"><i class="bi bi-palette"></i> Pengaturan Tema</h1>
+        <p>Pilih gaya warna untuk website.</p>
+        <div class="theme-swatches">
+          <button class="theme-choice" onclick="setTheme('classic')"><span class="swatch" style="background:#e63830"></span><span class="swatch" style="background:#ffdf4d"></span><br>Classic Komik</button>
+          <button class="theme-choice" onclick="setTheme('cyber')"><span class="swatch" style="background:#d946ef"></span><span class="swatch" style="background:#22d3ee"></span><br>Cyberpunk</button>
+          <button class="theme-choice" onclick="setTheme('dark')"><span class="swatch" style="background:#635bff"></span><span class="swatch" style="background:#151827"></span><br>Dark Purple</button>
+          <button class="theme-choice" onclick="setTheme('mint')"><span class="swatch" style="background:#0f766e"></span><span class="swatch" style="background:#d1fae5"></span><br>Mint Fresh</button>
+        </div>
+      </div>
+    </section>
+  </main>
+
+  <nav class="bottom-nav" aria-label="Navigasi utama">
+    <button class="nav-item active" data-page="home" onclick="showPage('home')"><span class="nav-icon"><i class="bi bi-house-fill"></i></span>BERANDA</button>
+    <button class="nav-item" data-page="apps" onclick="showPage('apps')"><span class="nav-icon"><i class="bi bi-grid-fill"></i></span>MENU APK</button>
+    <button class="nav-item" data-page="spotify" onclick="showPage('spotify')"><span class="nav-icon"><i class="bi bi-spotify"></i></span>SPOTIFY</button>
+    <button class="nav-item" data-page="sad" onclick="showPage('sad')"><span class="nav-icon"><i class="bi bi-heartbreak-fill"></i></span>KATA SAD</button>
+    <button class="nav-item" data-page="theme" onclick="showPage('theme')"><span class="nav-icon"><i class="bi bi-palette-fill"></i></span>TEMA</button>
+  </nav>
+
+  <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+  <script src="./supabase.js"></script>
+  <script>
+    let apps = [];
+    let selectedCategory = "Semua";
+    const pageIds = {home:"homePage",apps:"appsPage",spotify:"spotifyPage",sad:"sadPage",theme:"themePage"};
+    const quotes = [
+      "Terkadang, yang paling melelahkan adalah berpura-pura baik-baik saja.",
+      "Aku diam bukan karena tak terluka, hanya lelah menjelaskan.",
+      "Tidak semua yang tersenyum sedang bahagia.",
+      "Rindu itu sederhana, yang rumit adalah menahan diri untuk tidak menghubungi.",
+      "Ada cerita yang akhirnya hanya bisa disimpan dalam hati.",
+      "Kadang mengikhlaskan lebih sulit daripada melupakan.",
+      "Aku terlihat baik-baik saja, padahal pikiranku sedang berisik.",
+      "Tidak semua kehilangan bisa digantikan."
+    ];
+
+    function showPage(page) {
+      Object.entries(pageIds).forEach(([key,id]) => {
+        document.getElementById(id)?.classList.toggle("d-none", key !== page);
+      });
+      document.querySelectorAll(".nav-item").forEach(button => {
+        button.classList.toggle("active", button.dataset.page === page);
+      });
+      if (page === "apps") renderApps();
+      window.scrollTo({top:0,behavior:"smooth"});
+    }
+
+    function escapeHTML(value) {
+      return String(value ?? "").replace(/[&<>"']/g, char => ({
+        "&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;","'":"&#39;"
+      }[char]));
+    }
+
+    function safeUrl(value) {
+      try {
+        const url = new URL(String(value || ""), window.location.href);
+        return ["https:","http:"].includes(url.protocol) ? url.href : "";
+      } catch { return ""; }
+    }
+
+    function appCard(app) {
+      const name = escapeHTML(app.name || "Aplikasi");
+      const description = escapeHTML(app.description || "Unduh dan lihat detail aplikasi ini.");
+      const icon = safeUrl(app.icon || app.image_url) || "https://placehold.co/120x120/f8dede/1c1c1c?text=APK";
+      const detailUrl = "detail.html?id=" + encodeURIComponent(app.id);
+      return `<article class="app-card">
+        <img class="app-icon" src="${escapeHTML(icon)}" alt="Ikon ${name}" loading="lazy" onerror="this.src='https://placehold.co/120x120/f8dede/1c1c1c?text=APK'">
+        <h3 class="app-name">${name}</h3>
+        <p class="app-description">${description}</p>
+        <a class="comic-btn primary w-100" href="${detailUrl}"><i class="bi bi-info-circle"></i> Detail APK</a>
+        <button class="comic-btn light w-100 mt-2" onclick="shareAPK('${String(app.id).replace(/'/g,"")}')"><i class="bi bi-share"></i> Bagikan</button>
+      </article>`;
+    }
+
+    function renderApps() {
+      const query = (document.getElementById("appSearchInput")?.value || document.getElementById("searchInput")?.value || "").trim().toLowerCase();
+      const filtered = apps.filter(app => {
+        const categoryOK = selectedCategory === "Semua" || String(app.category || "Lainnya").toLowerCase() === selectedCategory.toLowerCase();
+        const queryOK = !query || `${app.name||""} ${app.description||""} ${app.category||""}`.toLowerCase().includes(query);
+        return categoryOK && queryOK;
+      });
+      const grid = document.getElementById("appGrid");
+      if (grid) grid.innerHTML = filtered.length ? filtered.map(appCard).join("") : `<div class="empty-state comic-panel">Belum ada APK yang cocok.</div>`;
+      const homeGrid = document.getElementById("homeApps");
+      if (homeGrid) homeGrid.innerHTML = apps.length ? apps.slice(0,4).map(appCard).join("") : `<div class="empty-state comic-panel">Belum ada APK. Tambahkan melalui admin.</div>`;
+    }
+
+    async function loadApps() {
+      let client = window.supabaseClient || null;
+      if (!client && typeof supabase !== "undefined" && typeof supabase.from === "function") client = supabase;
+      if (!client && window.supabase && typeof window.supabase.from === "function") client = window.supabase;
+      if (!client || typeof client.from !== "function") {
+        document.getElementById("appGrid").innerHTML = `<div class="empty-state comic-panel">Supabase belum tersambung. Periksa konfigurasi di supabase.js.</div>`;
+        document.getElementById("homeApps").innerHTML = `<div class="empty-state comic-panel">Supabase belum tersambung.</div>`;
+        return;
+      }
+      const {data,error} = await client.from("apps").select("*").order("created_at",{ascending:false});
+      if (error) {
+        console.error("Gagal memuat apps:",error);
+        document.getElementById("appGrid").innerHTML = `<div class="empty-state comic-panel">Gagal memuat APK. Periksa tabel apps dan aturan RLS di Supabase.</div>`;
+        document.getElementById("homeApps").innerHTML = `<div class="empty-state comic-panel">Gagal memuat APK dari Supabase.</div>`;
+        return;
+      }
+      apps = data || [];
+      renderApps();
+      loadNotifications(client);
+    }
+
+    async function shareAPK(appId) {
+      const app = apps.find(item => String(item.id) === String(appId));
+      if (!app) return alert("APK tidak ditemukan.");
+      const url = new URL("detail.html?id=" + encodeURIComponent(app.id),window.location.href).href;
+      try {
+        if (navigator.share) await navigator.share({title:app.name || "APK DA•OFFICIAL",text:`Lihat ${app.name || "aplikasi ini"} di APK DA•OFFICIAL`,url});
+        else { await navigator.clipboard.writeText(url); alert("Link APK berhasil disalin!"); }
+      } catch(error) { if (error.name !== "AbortError") alert("Tidak bisa membagikan link. Salin URL halaman detail secara manual."); }
+    }
+
+    function newSadQuote() {
+      const element = document.getElementById("sadQuote");
+      let quote = element.textContent;
+      while (quotes.length > 1 && quote === element.textContent) quote = quotes[Math.floor(Math.random()*quotes.length)];
+      element.textContent = quote;
+    }
+    async function copySadQuote() {
+      try { await navigator.clipboard.writeText(document.getElementById("sadQuote").textContent); alert("Kata berhasil disalin!"); }
+      catch { alert("Penyalinan tidak tersedia. Silakan salin teks secara manual."); }
+    }
+    async function shareSadQuote() {
+      const text = document.getElementById("sadQuote").textContent;
+      try {
+        if (navigator.share) await navigator.share({title:"Kata Sad - APK DA•OFFICIAL",text});
+        else { await navigator.clipboard.writeText(text); alert("Kata berhasil disalin untuk dibagikan."); }
+      } catch(error) { if(error.name !== "AbortError") alert("Gagal membagikan kata."); }
+    }
+
+    function setTheme(theme) {
+      const root = document.documentElement;
+      const themes = {
+        classic:{paper:"#f8dede",card:"#fff7f4",primary:"#e63830",secondary:"#ffdf4d",ink:"#1c1c1c",muted:"#65595a"},
+        cyber:{paper:"#171326",card:"#242039",primary:"#d946ef",secondary:"#22d3ee",ink:"#f9f5ff",muted:"#d1c7e8"},
+        dark:{paper:"#10121d",card:"#1b2030",primary:"#635bff",secondary:"#a78bfa",ink:"#f5f3ff",muted:"#c4c0d8"},
+        mint:{paper:"#d1fae5",card:"#f0fdf4",primary:"#0f766e",secondary:"#bef264",ink:"#102a27",muted:"#46615b"}
+      };
+      const chosen = themes[theme] || themes.classic;
+      Object.entries(chosen).forEach(([key,value]) => root.style.setProperty("--"+key,value));
+      try { localStorage.setItem("apkda-theme",theme); } catch {}
+    }
+
+    async function loadNotifications(client) {
+      const list = document.getElementById("notificationList");
+      const count = document.getElementById("notificationCount");
+      try {
+        const {data,error} = await client.from("apps").select("id,name,created_at").order("created_at",{ascending:false}).limit(5);
+        if (error) throw error;
+        if (!data?.length) { list.innerHTML = `<div class="notification-empty">Belum ada notifikasi.</div>`; count.textContent = "0"; return; }
+        list.innerHTML = data.map(app => `<div class="notification-item"><strong>APK baru</strong><br>${escapeHTML(app.name || "Aplikasi baru")}</div>`).join("");
+        let seen = "";
+        try { seen = localStorage.getItem("apkda-last-seen") || ""; } catch {}
+        const newest = String(data[0].created_at || data[0].id);
+        count.textContent = seen === newest ? "0" : String(data.length);
+        document.getElementById("markReadBtn").onclick = () => {
+          try { localStorage.setItem("apkda-last-seen",newest); } catch {}
+          count.textContent = "0";
+        };
+      } catch {
+        list.innerHTML = `<div class="notification-empty">Notifikasi belum tersedia.</div>`;
+        count.textContent = "0";
+      }
+    }
+
+    document.getElementById("notificationBtn").addEventListener("click",() => {
+      const panel = document.getElementById("notificationPanel");
+      const open = panel.classList.toggle("show");
+      document.getElementById("notificationBtn").setAttribute("aria-expanded",String(open));
+    });
+    document.getElementById("searchInput").addEventListener("input",() => {
+      document.getElementById("appSearchInput").value = document.getElementById("searchInput").value;
+      renderApps();
+      showPage("apps");
+    });
+    document.getElementById("appSearchInput").addEventListener("input",renderApps);
+    document.getElementById("categories").addEventListener("click",event => {
+      const button = event.target.closest("[data-category]");
+      if (!button) return;
+      selectedCategory = button.dataset.category;
+      document.querySelectorAll(".category-btn").forEach(item => item.classList.toggle("active",item === button));
+      renderApps();
+    });
+
+    try { const savedTheme = localStorage.getItem("apkda-theme"); if (savedTheme) setTheme(savedTheme); } catch {}
+    loadApps();
+    window.addEventListener("load",() => setTimeout(() => document.getElementById("loading").classList.add("hide"),500));
+    setTimeout(() => document.getElementById("loading").classList.add("hide"),5000);
+  </script>
+
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+<script src="./supabase.js"></script>
+<script src="./script.js" defer></script>
+
+</body>
+</html>
+
