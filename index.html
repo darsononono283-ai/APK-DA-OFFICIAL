@@ -66,6 +66,72 @@
     .notification-head button { border:0; background:transparent; text-decoration:underline; font-size:.75rem; }
     .notification-empty,.notification-item { font-size:.85rem; padding:8px; border-radius:10px; background:#fff; margin-bottom:7px; }
     @media(min-width:700px) { .container.main-width { max-width:760px; } .app-grid { grid-template-columns:repeat(3,minmax(0,1fr)); } .feature-grid { grid-template-columns:repeat(4,minmax(0,1fr)); } }
+ 
+/* KARTU KATA SAD KOMIK 3D */
+.sad-grid {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 14px;
+  margin-top: 16px;
+}
+
+.sad-card {
+  min-width: 0;
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+  padding: 12px;
+  color: #1c1c1c;
+  background: #ffdf4d;
+  border: 3px solid #1c1c1c;
+  border-radius: 17px;
+  box-shadow: 4px 5px 0 #1c1c1c;
+  overflow-wrap: anywhere;
+}
+
+.sad-card:nth-child(4n+2) { background: #8ee7ff; }
+.sad-card:nth-child(4n+3) { background: #ffaaa5; }
+.sad-card:nth-child(4n+4) { background: #b9ff8a; }
+
+.sad-card .sad-card-icon {
+  display: grid;
+  place-items: center;
+  min-height: 58px;
+  background: #fff7f4;
+  border: 2px solid #1c1c1c;
+  border-radius: 12px;
+  font-size: 1.8rem;
+}
+
+.sad-card p {
+  margin: 0;
+  font-size: .88rem;
+  font-weight: 750;
+  line-height: 1.55;
+  white-space: pre-wrap;
+}
+
+.sad-card .comic-btn {
+  width: 100%;
+  margin-top: auto;
+}
+
+.sad-empty {
+  grid-column: 1 / -1;
+  padding: 20px 12px;
+  text-align: center;
+  background: var(--card);
+  border: 3px solid var(--ink);
+  border-radius: 15px;
+  box-shadow: var(--shadow);
+}
+
+@media (min-width: 700px) {
+  .sad-grid {
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+  }
+}
+
   </style>
 </head>
 <body>
@@ -140,18 +206,53 @@
       </div>
     </section>
 
-    <section id="sadPage" class="feature-page d-none">
-      <div class="comic-panel">
-        <h1 class="comic-title"><i class="bi bi-heartbreak text-danger"></i> Kata Sad</h1>
-        <p class="text-secondary">Kutipan galau, cinta, kehilangan, dan kehidupan.</p>
-        <div id="sadQuote" class="quote-text p-3 rounded-4 mb-3" style="background:var(--paper);border:2px solid var(--ink)">Terkadang, yang paling melelahkan adalah berpura-pura baik-baik saja.</div>
-        <div class="d-grid gap-2">
-          <button class="comic-btn yellow" onclick="newSadQuote()"><i class="bi bi-shuffle"></i> Kata lainnya</button>
-          <button class="comic-btn light" onclick="copySadQuote()"><i class="bi bi-copy"></i> Salin kata</button>
-          <button class="comic-btn primary" onclick="shareSadQuote()"><i class="bi bi-share"></i> Bagikan kata</button>
-        </div>
-      </div>
-    </section>
+    
+< id="sadPage" class="feature-page d-none">
+  < class="comic-panel">
+    <h1 class="comic-title">
+      <i class="bi bi-heartbreak text-danger"></i> Kata Sad
+    </h1>
+    <p class="text-secondary">
+      Kutipan galau, cinta, kehilangan, dan kehidupan.
+    </p>
+
+    
+<section id="sadPage" class="feature-page d-none">
+  <div class="comic-panel">
+    <h1 class="comic-title">
+      <i class="bi bi-heartbreak text-danger"></i>
+      Kata Sad
+    </h1>
+
+    <p>Kutipan galau, cinta, kehilangan, dan kehidupan.</p>
+
+    <div id="sadQuote" class="quote-text p-3 rounded-4 mb-3">
+      Memuat kata-kata...
+    </div>
+
+    <div class="d-grid gap-2 mb-4">
+      <button class="comic-btn yellow" onclick="newSadQuote()">
+        <i class="bi bi-shuffle"></i> Kata lainnya
+      </button>
+
+      <button class="comic-btn light" onclick="copySadQuote()">
+        <i class="bi bi-copy"></i> Salin kata
+      </button>
+
+      <button class="comic-btn primary" onclick="shareSadQuote()">
+        <i class="bi bi-share"></i> Bagikan kata
+      </button>
+    </div>
+
+    <h2 class="comic-title">💔 Koleksi Kata Sad</h2>
+
+    <div id="sadGrid" class="sad-grid">
+      <div class="sad-empty">Memuat koleksi kata sad...</div>
+    </div>
+  </div>
+</section>
+
+
 
     <section id="themePage" class="feature-page d-none">
       <div class="comic-panel">
@@ -179,18 +280,8 @@
   <script src="./supabase.js"></script>
   <script>
     let apps = [];
-    let selectedCategory = "Semua";
-    const pageIds = {home:"homePage",apps:"appsPage",spotify:"spotifyPage",sad:"sadPage",theme:"themePage"};
-    const quotes = [
-      "Terkadang, yang paling melelahkan adalah berpura-pura baik-baik saja.",
-      "Aku diam bukan karena tak terluka, hanya lelah menjelaskan.",
-      "Tidak semua yang tersenyum sedang bahagia.",
-      "Rindu itu sederhana, yang rumit adalah menahan diri untuk tidak menghubungi.",
-      "Ada cerita yang akhirnya hanya bisa disimpan dalam hati.",
-      "Kadang mengikhlaskan lebih sulit daripada melupakan.",
-      "Aku terlihat baik-baik saja, padahal pikiranku sedang berisik.",
-      "Tidak semua kehilangan bisa digantikan."
-    ];
+let sadQuotes = [];
+let selectedCategory = "Semua";
 
     function showPage(page) {
       Object.entries(pageIds).forEach(([key,id]) => {
@@ -263,7 +354,87 @@
       renderApps();
       loadNotifications(client);
     }
+let sadQuotes = [];
 
+async function loadSadQuotes(client) {
+  const grid = document.getElementById("sadGrid");
+  const featured = document.getElementById("sadQuote");
+
+  if (!grid || !featured) return;
+
+  try {
+    const { data, error } = await client
+      .from("sad_quotes")
+      .select("id,quote,created_at")
+      .order("created_at", { ascending: false });
+
+    if (error) throw error;
+
+    sadQuotes = (data || [])
+      .map(item => item.quote)
+      .filter(Boolean);
+
+    featured.textContent = sadQuotes.length
+      ? sadQuotes[0]
+      : "Belum ada kata sad. Tambahkan melalui admin.";
+
+    renderSadQuotes();
+  } catch (error) {
+    console.error("Gagal memuat Kata Sad:", error);
+    featured.textContent = "Kata Sad belum tersedia.";
+    grid.innerHTML =
+      '<div class="sad-empty">Koleksi Kata Sad gagal dimuat.</div>';
+  }
+}
+
+function renderSadQuotes() {
+  const grid = document.getElementById("sadGrid");
+  if (!grid) return;
+
+  if (!sadQuotes.length) {
+    grid.innerHTML =
+      '<div class="sad-empty">Belum ada koleksi Kata Sad.</div>';
+    return;
+  }
+
+  grid.innerHTML = sadQuotes.map((quote, index) => `
+    <article class="sad-card">
+      <div class="sad-card-icon">
+        <i class="bi bi-heartbreak-fill"></i>
+      </div>
+      <p>${escapeHTML(quote)}</p>
+      <button class="comic-btn primary"
+        type="button"
+        data-share-sad="${index}">
+        <i class="bi bi-share"></i> Bagikan
+      </button>
+    </article>
+  `).join("");
+}
+
+document.getElementById("sadGrid")?.addEventListener("click", async event => {
+  const button = event.target.closest("[data-share-sad]");
+  if (!button) return;
+
+  const quote = sadQuotes[Number(button.dataset.shareSad)];
+  if (!quote) return;
+
+  try {
+    if (navigator.share) {
+      await navigator.share({
+        title: "Kata Sad - APK DA•OFFICIAL",
+        text: quote
+      });
+    } else {
+      await navigator.clipboard.writeText(quote);
+      alert("Kata berhasil disalin.");
+    }
+  } catch (error) {
+    if (error.name !== "AbortError") {
+      alert("Gagal membagikan kata.");
+    }
+  }
+});
     async function shareAPK(appId) {
       const app = apps.find(item => String(item.id) === String(appId));
       if (!app) return alert("APK tidak ditemukan.");
@@ -275,35 +446,149 @@
     }
 
     function newSadQuote() {
-      const element = document.getElementById("sadQuote");
-      let quote = element.textContent;
-      while (quotes.length > 1 && quote === element.textContent) quote = quotes[Math.floor(Math.random()*quotes.length)];
-      element.textContent = quote;
+  const element = document.getElementById("sadQuote");
+
+  if (!sadQuotes.length) {
+    element.textContent = "Belum ada kata sad.";
+    return;
+  }
+
+  const current = element.textContent;
+  const alternatives = sadQuotes.filter(
+    quote => quote !== current
+  );
+
+  element.textContent = alternatives.length
+    ? alternatives[Math.floor(Math.random() * alternatives.length)]
+    : sadQuotes[0];
     }
+    
+let sadQuotes = [];
+
+async function loadSadQuotes(client) {
+  const grid = document.getElementById("sadGrid");
+  const featured = document.getElementById("sadQuote");
+
+  if (!grid || !featured) return;
+
+  try {
+    const { data, error } = await client
+      .from("sad_quotes")
+      .select("id, quote, created_at")
+      .order("created_at", { ascending: false });
+
+    if (error) throw error;
+
+    sadQuotes = (data || [])
+      .map(item => item.quote)
+      .filter(Boolean);
+
+    featured.textContent = sadQuotes.length
+      ? sadQuotes[0]
+      : "Belum ada kata sad di Supabase.";
+
+    renderSadQuotes();
+  } catch (error) {
+    console.error("Gagal memuat Kata Sad:", error);
+    featured.textContent = "Kata Sad belum tersedia.";
+    grid.innerHTML =
+      '<div class="sad-empty">Koleksi Kata Sad gagal dimuat.</div>';
+  }
+}
+
+function renderSadQuotes() {
+  const grid = document.getElementById("sadGrid");
+  if (!grid) return;
+
+  if (!sadQuotes.length) {
+    grid.innerHTML =
+      '<div class="sad-empty">Belum ada koleksi Kata Sad.</div>';
+    return;
+  }
+
+  grid.innerHTML = sadQuotes.map((quote, index) => `
+    <article class="sad-card">
+      <div class="sad-card-icon">💔</div>
+      <p>${escapeHTML(quote)}</p>
+      <button
+        class="comic-btn primary"
+        type="button"
+        data-share-sad="${index}">
+        <i class="bi bi-share"></i> Bagikan
+      </button>
+    </article>
+  `).join("");
+}
+
+function newSadQuote() {
+  const featured = document.getElementById("sadQuote");
+
+  if (!sadQuotes.length) {
+    featured.textContent = "Belum ada kata sad yang tersedia.";
+    return;
+  }
+
+  const current = featured.textContent;
+  const choices = sadQuotes.filter(quote => quote !== current);
+  const pool = choices.length ? choices : sadQuotes;
+
+  featured.textContent =
+    pool[Math.floor(Math.random() * pool.length)];
+}
+
+document.getElementById("sadGrid")?.addEventListener("click", async event => {
+  const button = event.target.closest("[data-share-sad]");
+  if (!button) return;
+
+  const quote = sadQuotes[Number(button.dataset.shareSad)];
+  if (!quote) return;
+
+  try {
+    if (navigator.share) {
+      await navigator.share({
+        title: "Kata Sad - APK DA•OFFICIAL",
+        text: quote
+      });
+    } else {
+      await navigator.clipboard.writeText(quote);
+      alert("Kata berhasil disalin.");
+    }
+  } catch (error) {
+    if (error.name !== "AbortError") {
+      alert("Gagal membagikan kata.");
+    }
+  }
+});
+
     async function copySadQuote() {
       try { await navigator.clipboard.writeText(document.getElementById("sadQuote").textContent); alert("Kata berhasil disalin!"); }
       catch { alert("Penyalinan tidak tersedia. Silakan salin teks secara manual."); }
     }
-    async function shareSadQuote() {
-      const text = document.getElementById("sadQuote").textContent;
-      try {
-        if (navigator.share) await navigator.share({title:"Kata Sad - APK DA•OFFICIAL",text});
-        else { await navigator.clipboard.writeText(text); alert("Kata berhasil disalin untuk dibagikan."); }
-      } catch(error) { if(error.name !== "AbortError") alert("Gagal membagikan kata."); }
-    }
+    
+async function shareSadQuote() {
+  const element = document.getElementById("sadQuote");
+  if (!element) return;
 
-    function setTheme(theme) {
-      const root = document.documentElement;
-      const themes = {
-        classic:{paper:"#f8dede",card:"#fff7f4",primary:"#e63830",secondary:"#ffdf4d",ink:"#1c1c1c",muted:"#65595a"},
-        cyber:{paper:"#171326",card:"#242039",primary:"#d946ef",secondary:"#22d3ee",ink:"#f9f5ff",muted:"#d1c7e8"},
-        dark:{paper:"#10121d",card:"#1b2030",primary:"#635bff",secondary:"#a78bfa",ink:"#f5f3ff",muted:"#c4c0d8"},
-        mint:{paper:"#d1fae5",card:"#f0fdf4",primary:"#0f766e",secondary:"#bef264",ink:"#102a27",muted:"#46615b"}
-      };
-      const chosen = themes[theme] || themes.classic;
-      Object.entries(chosen).forEach(([key,value]) => root.style.setProperty("--"+key,value));
-      try { localStorage.setItem("apkda-theme",theme); } catch {}
+  const text = element.textContent.trim();
+  if (!text) return;
+
+  try {
+    if (navigator.share) {
+      await navigator.share({
+        title: "Kata Sad - APK DA•OFFICIAL",
+        text
+      });
+    } else {
+      await navigator.clipboard.writeText(text);
+      alert("Kata berhasil disalin untuk dibagikan.");
     }
+  } catch (error) {
+    if (error.name !== "AbortError") {
+      alert("Gagal membagikan kata.");
+    }
+  }
+}
+
 
     async function loadNotifications(client) {
       const list = document.getElementById("notificationList");
@@ -351,11 +636,9 @@
     window.addEventListener("load",() => setTimeout(() => document.getElementById("loading").classList.add("hide"),500));
     setTimeout(() => document.getElementById("loading").classList.add("hide"),5000);
   </script>
+ <script src="./script.js" defer></script>
 
 <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
 <script src="./supabase.js"></script>
-<script src="./script.js" defer></script>
-
 </body>
 </html>
-
