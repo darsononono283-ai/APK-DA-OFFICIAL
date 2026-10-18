@@ -353,13 +353,12 @@
       Kata yang mewakili hati, saat mulut memilih diam.
     </p>
 
-    <div id="sadQuoteList" class="sad-quote-list">
-      <div class="empty-state">
-        Memuat kata-kata Sad...
-      </div>
+    
+<div id="sadQuoteList" class="sad-quote-list">
+  <div class="sad-empty">Memuat kata-kata Sad...</div>
     </div>
   </div>
-</section>
+ </section>
 
 
 
@@ -817,6 +816,10 @@ function toggleCurrentMusicFavorite() {
 
 renderMusicFavorites();
 renderMusicHistory();
+
+window.addEventListener("load", function () {
+  loadSadQuotes();
+});
 
   </script>
 
