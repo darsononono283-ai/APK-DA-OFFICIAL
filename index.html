@@ -259,7 +259,67 @@ min-height: 155px;
 padding: 20px 12px !important;
 }
 }
+/* KARTU KATA SAD - KOMIK */
+.sad-quote-list {
+  display: grid;
+  gap: 16px;
+  margin-top: 22px;
+}
 
+.sad-quote-card {
+  position: relative;
+  padding: 20px;
+  background: #fff7f4;
+  border: 3px solid #1c1c1c;
+  border-radius: 18px;
+  box-shadow: 5px 5px 0 #e63830;
+  color: #1c1c1c;
+  overflow-wrap: anywhere;
+}
+
+.sad-quote-number {
+  display: inline-block;
+  padding: 6px 10px;
+  margin-bottom: 14px;
+  background: #ffdf4d;
+  border: 2px solid #1c1c1c;
+  border-radius: 8px;
+  font-size: 12px;
+  font-weight: 900;
+  letter-spacing: 1px;
+}
+
+.sad-quote-content {
+  margin: 0 0 18px;
+  font-size: 17px;
+  font-weight: 700;
+  line-height: 1.8;
+  white-space: pre-wrap;
+}
+
+.sad-quote-card::after {
+  content: "💔";
+  position: absolute;
+  top: 12px;
+  right: 12px;
+  font-size: 23px;
+  transform: rotate(12deg);
+}
+
+.sad-quote-card .comic-btn {
+  width: 100%;
+  border: 2px solid #1c1c1c;
+  border-radius: 10px;
+  padding: 11px;
+  font-weight: 900;
+  box-shadow: 3px 3px 0 #1c1c1c;
+}
+
+.sad-quote-card .comic-btn:active {
+  transform: translate(2px, 2px);
+  box-shadow: 1px 1px 0 #1c1c1c;
+}
+    
   </style>  
 </head>  
 <body>  
