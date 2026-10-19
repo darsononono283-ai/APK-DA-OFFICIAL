@@ -408,7 +408,7 @@ padding: 20px 12px !important;
         <img class="app-icon" src="${escapeHTML(icon)}" alt="Ikon ${name}" loading="lazy" onerror="this.src='https://placehold.co/120x120/f8dede/1c1c1c?text=APK'">  
         <h3 class="app-name">${name}</h3>  
         <p class="app-description">${description}</p>  
-        <a class="comic-btn primary w-100" href="${detailUrl}"><i class="bi bi-info-circle"></i> Detail APK</a>
+        <a class="comic-btn primary w-100" href="${detailUrl}"><i  class="bi bi-info-circle"></i> Detail APK</a>
         <button class="comic-btn light w-100 mt-2" onclick="shareAPK('${String(app.id).replace(/'/g,"")}')"><i class="bi bi-share"></i> Bagikan</button>
       </article>`;
     }
@@ -508,11 +508,18 @@ async function loadSadQuotes() {
 console.log("Fungsi query tersedia:", typeof client.from);
 
   list.textContent = "Memuat kata-kata Sad...";
-const { data, error } = await client
-  .from("sad_quotes")
-  .select("*")
-  .order("created_at", { ascending: false });
-
+const { data, error } = await Promise.race([
+  client
+    .from("sad_quotes")
+    .select("*")
+    .order("created_at", { ascending: false }),
+  new Promise(resolve =>
+    setTimeout(() => resolve({
+      data: null,
+      error: { message: "Koneksi Supabase timeout." }
+    }), 10000)
+  )
+]);
 console.log("HASIL KATA SAD:", data);
 console.log("ERROR KATA SAD:", error);
 
