@@ -553,8 +553,6 @@ async function loadSadQuotes() {
  
   const list = document.getElementById("sadQuoteList");
   if (!list) return;
-
-  alert("Fungsi loadSadQuotes dijalankan");
   
   const client = window.supabaseClient ||
     (typeof supabase !== "undefined" &&
