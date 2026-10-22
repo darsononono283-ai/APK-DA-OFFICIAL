@@ -477,10 +477,35 @@ async function loadDetail(){
                         <i class="bi bi-chat-square-quote-fill"></i>
                         TENTANG APLIKASI
                     </h5>
-                    <p>${escapeHTML(data.description || "Belum ada deskripsi aplikasi.")}</p>
-                </section>
+                    
+<p>${escapeHTML(data.description || "Belum ada deskripsi aplikasi.")}</p>
+</section>
 
-                ${
+<section class="description" id="ratingSection">
+    <h5>⭐ RATING PENGGUNA</h5>
+
+    <div id="ratingSummary">
+        Memuat rating...
+    </div>
+
+    <p class="mt-3 mb-2">Berikan penilaianmu:</p>
+
+    <div id="ratingButtons" class="d-flex gap-2 flex-wrap">
+        ${[1,2,3,4,5].map(n => `
+            <button
+                type="button"
+                class="btn btn-warning border border-dark fw-bold"
+                data-rating="${n}"
+                aria-label="${n} bintang">
+                ★ ${n}
+            </button>
+        `).join("")}
+    </div>
+
+    <p id="ratingMessage" class="mt-3 mb-0"></p>
+</section>
+
+${
                     downloadURL
                     ? `
                         <a
