@@ -667,27 +667,91 @@ list.innerHTML = data.map((quote, index) => `
 }
 
 
-    async function loadNotifications(client) {
-      const list = document.getElementById("notificationList");
-      const count = document.getElementById("notificationCount");
-      try {
-        const {data,error} = await client.from("apps").select("id,name,created_at").order("created_at",{ascending:false}).limit(5);
-        if (error) throw error;
-        if (!data?.length) { list.innerHTML = `<div class="notification-empty">Belum ada notifikasi.</div>`; count.textContent = "0"; return; }
-        list.innerHTML = data.map(app => `<div class="notification-item"><strong>APK baru</strong><br>${escapeHTML(app.name || "Aplikasi baru")}</div>`).join("");
-        let seen = "";
-        try { seen = localStorage.getItem("apkda-last-seen") || ""; } catch {}
-        const newest = String(data[0].created_at || data[0].id);
-        count.textContent = seen === newest ? "0" : String(data.length);
-        document.getElementById("markReadBtn").onclick = () => {
-          try { localStorage.setItem("apkda-last-seen",newest); } catch {}
-          count.textContent = "0";
-        };
-      } catch {
-        list.innerHTML = `<div class="notification-empty">Notifikasi belum tersedia.</div>`;
-        count.textContent = "0";
-      }
+    
+async function loadNotifications(client) {
+  const list = document.getElementById("notificationList");
+  const count = document.getElementById("notificationCount");
+
+  try {
+    const [apkResult, announcementResult] = await Promise.all([
+      client
+        .from("apps")
+        .select("id,name,created_at")
+        .order("created_at", { ascending: false })
+        .limit(5),
+
+      client
+        .from("site_notifications")
+        .select("id,title,message,created_at")
+        .eq("active", true)
+        .order("created_at", { ascending: false })
+        .limit(10)
+    ]);
+
+    if (apkResult.error) throw apkResult.error;
+    if (announcementResult.error) throw announcementResult.error;
+
+    const notifications = [
+      ...(apkResult.data || []).map(app => ({
+        id: "apk-" + app.id,
+        title: "📦 APK baru",
+        message: app.name || "Aplikasi baru",
+        created_at: app.created_at
+      })),
+
+      ...(announcementResult.data || []).map(item => ({
+        id: "announcement-" + item.id,
+        title: "📢 " + item.title,
+        message: item.message,
+        created_at: item.created_at
+      }))
+    ].sort((a, b) =>
+      new Date(b.created_at || 0) - new Date(a.created_at || 0)
+    ).slice(0, 10);
+
+    if (!notifications.length) {
+      list.innerHTML =
+        '<div class="notification-empty">Belum ada notifikasi.</div>';
+      count.textContent = "0";
+      return;
     }
+
+    list.innerHTML = notifications.map(item => `
+      <div class="notification-item">
+        <strong>${escapeHTML(item.title)}</strong>
+        <p style="margin:5px 0 0;white-space:pre-wrap">${escapeHTML(item.message)}</p>
+        <small>${item.created_at
+          ? new Date(item.created_at).toLocaleString("id-ID")
+          : ""}</small>
+      </div>
+    `).join("");
+
+    const newest = notifications[0].created_at || notifications[0].id;
+    let seen = "";
+
+    try {
+      seen = localStorage.getItem("apkda-last-seen") || "";
+    } catch {}
+
+    count.textContent = seen === String(newest)
+      ? "0"
+      : String(notifications.length);
+
+    document.getElementById("markReadBtn").onclick = () => {
+      try {
+        localStorage.setItem("apkda-last-seen", String(newest));
+      } catch {}
+      count.textContent = "0";
+    };
+
+  } catch (error) {
+    console.error("Gagal memuat notifikasi:", error);
+    list.innerHTML =
+      '<div class="notification-empty">Notifikasi gagal dimuat. Periksa koneksi Supabase.</div>';
+    count.textContent = "0";
+  }
+}
+    
 
     document.getElementById("notificationBtn").addEventListener("click",() => {
       const panel = document.getElementById("notificationPanel");
