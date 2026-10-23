@@ -413,13 +413,30 @@ function safeImage(value) {
 function showMessage(id, message, type="danger") {
   $(id).innerHTML = `<div class="alert alert-${type}">${escapeHTML(message)}</div>`;
 }
+
 function clientReady() {
-  if (!window.supabaseClient) {
-    showMessage("loginStatus","Koneksi Supabase belum tersedia. Periksa supabase.js.");
+  if (
+    !window.supabase ||
+    typeof window.supabase.createClient !== "function"
+  ) {
+    showMessage(
+      "loginStatus",
+      "Pustaka Supabase belum dimuat. Periksa koneksi internet."
+    );
     return false;
   }
+
+  if (!window.supabaseClient) {
+    showMessage(
+      "loginStatus",
+      "Client Supabase belum dibuat. Periksa isi supabase.js."
+    );
+    return false;
+  }
+
   return true;
 }
+  
 
 /* LOGIN */
 loginForm.addEventListener("submit", async e => {
