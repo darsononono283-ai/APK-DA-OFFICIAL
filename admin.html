@@ -329,11 +329,57 @@ body {
         <h4>💔 DAFTAR KATA SAD</h4>
         <div id="quoteList"><div class="empty">Tekan menu Kata Sad untuk memuat data.</div></div>
       </div>
+    
+    </section>
+
+    <!-- PANEL PENGUMUMAN ADMIN -->
+    <section id="announcementPanel" style="display:none">
+      <div class="admin-box comic">
+        <div class="comic-heading">
+          <i class="bi bi-megaphone-fill"></i>
+          <h2>Pengumuman Admin!</h2>
+          <p>Kirim informasi terbaru kepada pengunjung</p>
+        </div>
+
+        <form id="announcementForm">
+          <div class="mb-3">
+            <label class="form-label" for="announcementTitle">
+              Judul Pengumuman
+            </label>
+            <input id="announcementTitle" class="form-control"
+              maxlength="150" required
+              placeholder="Contoh: Update APK DA•OFFICIAL">
+          </div>
+
+          <div class="mb-3">
+            <label class="form-label" for="announcementMessage">
+              Isi Pengumuman
+            </label>
+            <textarea id="announcementMessage" class="form-control"
+              rows="4" maxlength="2000" required
+              placeholder="Tulis pengumuman di sini..."></textarea>
+          </div>
+
+          <button type="submit" id="announcementSaveBtn"
+            class="btn-comic btn-red">
+            <i class="bi bi-send-fill"></i> TERBITKAN PENGUMUMAN
+          </button>
+        </form>
+
+        <div id="announcementStatus"></div>
+      </div>
+
+      <div class="item-list">
+        <h4>📢 DAFTAR PENGUMUMAN</h4>
+        <div id="announcementList">
+          <div class="empty">Memuat pengumuman...</div>
+        </div>
+      </div>
     </section>
   </div>
 </div>
 
-<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script
 <script src="supabase.js"></script>
 <script>
 let editingId = null;
