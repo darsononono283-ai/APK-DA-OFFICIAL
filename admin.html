@@ -471,14 +471,35 @@ async function logout() {
 checkSession();
 
 /* PINDAH MENU */
+
 function showSection(section) {
   const quotes = section === "quotes";
-  $("apkPanel").style.display = quotes ? "none" : "block";
-  $("quotePanel").style.display = quotes ? "block" : "none";
-  $("apkTab").classList.toggle("active",!quotes);
-  $("quoteTab").classList.toggle("active",quotes);
+  const announcements = section === "announcements";
+
+  $("apkPanel").style.display =
+    (!quotes && !announcements) ? "block" : "none";
+
+  $("quotePanel").style.display =
+    quotes ? "block" : "none";
+
+  $("announcementPanel").style.display =
+    announcements ? "block" : "none";
+
+  $("apkTab").classList.toggle(
+    "active", !quotes && !announcements
+  );
+
+  $("quoteTab").classList.toggle("active", quotes);
+
+  $("announcementTab").classList.toggle(
+    "active", announcements
+  );
+
   if (quotes) loadQuotes();
+
+  if (announcements) loadAnnouncements();
 }
+  
 
 /* TAMBAH / EDIT APK */
 form.addEventListener("submit", async e => {
