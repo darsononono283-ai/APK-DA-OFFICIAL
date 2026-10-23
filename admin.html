@@ -117,8 +117,9 @@ body {
 }
 .logout-btn { background:var(--red);color:white; }
 .tabs {
-  display:grid;
-  grid-template-columns:1fr 1fr;
+  display: grid;
+  grid-template-columns: repeat(3, 
+  minmax(0, 1fr));
   gap:10px;
   max-width:760px;
   margin:30px auto 0;
@@ -227,6 +228,11 @@ body {
       <button class="tab-btn" id="quoteTab" type="button" onclick="showSection('quotes')">
         <i class="bi bi-heartbreak-fill"></i> KATA SAD
       </button>
+      <button class="tab-btn" id="announcementTab" type="button"
+  onclick="showSection('announcements')">
+  <i class="bi bi-megaphone-fill"></i> PENGUMUMAN
+</button>
+      
     </div>
 
     <!-- KELOLA APK -->
