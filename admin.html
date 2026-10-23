@@ -545,15 +545,22 @@ $("quoteForm").addEventListener("submit",async e => {
   }
 
   const quote = $("quoteText").value.trim();
-  if (!quote) return showMessage("quoteStatus","Isi kata-kata terlebih dahulu.");
+const author = $("quoteAuthor").value.trim();
+
+if (!quote) {
+  return showMessage("quoteStatus","Isi kata-kata terlebih dahulu.");
+}
 
   $("quoteSaveBtn").disabled = true;
   $("quoteSaveBtn").textContent = "MENYIMPAN...";
 
   try {
     const result = editingQuoteId
-      ? await supabaseClient.from("sad_quotes").update({quote}).eq("id",editingQuoteId)
-      : await supabaseClient.from("sad_quotes").insert([{quote}]);
+  ? await supabaseClient.from("sad_quotes")
+      .update({quote, author})
+      .eq("id", editingQuoteId)
+  : await supabaseClient.from("sad_quotes")
+      .insert([{quote, author}]);
     if (result.error) throw result.error;
 
     showMessage("quoteStatus",editingQuoteId ? "Kata berhasil diperbarui!" : "Kata berhasil ditambahkan!","success");
