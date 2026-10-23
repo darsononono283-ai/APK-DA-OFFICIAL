@@ -698,6 +698,129 @@ $("quoteCancelBtn").addEventListener("click",() => {
   resetQuoteForm();
   $("quoteStatus").innerHTML = "";
 });
+
+  
+async function loadAnnouncements() {
+  const list = document.getElementById("announcementList");
+
+  if (!list) return;
+
+  list.innerHTML = '<div class="empty">Memuat pengumuman...</div>';
+
+  if (!window.supabaseClient) {
+    list.innerHTML = '<div class="empty">Supabase belum terhubung.</div>';
+    return;
+  }
+
+  const { data, error } = await window.supabaseClient
+    .from("site_notifications")
+    .select("id, title, message, created_at")
+    .order("created_at", { ascending: false });
+
+  if (error) {
+    console.error("Gagal memuat pengumuman:", error);
+    list.innerHTML =
+      '<div class="empty">Gagal memuat pengumuman. Periksa izin Supabase.</div>';
+    return;
+  }
+
+  if (!data || data.length === 0) {
+    list.innerHTML =
+      '<div class="empty">Belum ada pengumuman.</div>';
+    return;
+  }
+
+  list.innerHTML = data.map(item => `
+    <div class="admin-box comic" style="margin-bottom:12px">
+      <h5>${escapeHTML(item.title)}</h5>
+      <p>${escapeHTML(item.message)}</p>
+      <small>${new Date(item.created_at).toLocaleString("id-ID")}</small>
+      <br>
+      <button type="button" class="btn-comic btn-red"
+        onclick="deleteAnnouncement(${Number(item.id)})">
+        <i class="bi bi-trash-fill"></i> HAPUS
+      </button>
+    </div>
+  `).join("");
+}
+
+async function deleteAnnouncement(id) {
+  if (!confirm("Yakin ingin menghapus pengumuman ini?")) return;
+
+  const client = window.supabaseClient;
+
+  if (!client) {
+    alert("Supabase belum terhubung.");
+    return;
+  }
+
+  const { error } = await client
+    .from("site_notifications")
+    .delete()
+    .eq("id", id);
+
+  if (error) {
+    console.error("Gagal menghapus pengumuman:", error);
+    alert("Pengumuman gagal dihapus. Periksa izin admin di Supabase.");
+    return;
+  }
+
+  alert("Pengumuman berhasil dihapus.");
+  loadAnnouncements();
+}
+
+const announcementForm =
+  document.getElementById("announcementForm");
+
+if (announcementForm) {
+  announcementForm.addEventListener("submit", async function(event) {
+    event.preventDefault();
+
+    const client = window.supabaseClient;
+    const title = document.getElementById("announcementTitle").value.trim();
+    const message = document.getElementById("announcementMessage").value.trim();
+    const status = document.getElementById("announcementStatus");
+
+    if (!client) {
+      status.textContent = "Supabase belum terhubung.";
+      return;
+    }
+
+    if (!title || !message) {
+      status.textContent = "Judul dan isi pengumuman wajib diisi.";
+      return;
+    }
+
+    const { data: sessionData } = await client.auth.getSession();
+
+    if (!sessionData.session) {
+      status.textContent = "Silakan login sebagai admin terlebih dahulu.";
+      return;
+    }
+
+    const saveButton = document.getElementById("announcementSaveBtn");
+    saveButton.disabled = true;
+    status.textContent = "Menerbitkan pengumuman...";
+
+    const { error } = await client
+      .from("site_notifications")
+      .insert([{ title, message, active: true }]);
+
+    saveButton.disabled = false;
+
+    if (error) {
+      console.error("Gagal menerbitkan pengumuman:", error);
+      status.textContent =
+        "Gagal menerbitkan. Periksa izin INSERT di Supabase.";
+      return;
+    }
+
+    announcementForm.reset();
+    status.textContent = "Pengumuman berhasil diterbitkan!";
+    await loadAnnouncements();
+  });
+}
+  
 </script>
 </body>
 </html>
