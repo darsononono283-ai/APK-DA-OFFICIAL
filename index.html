@@ -630,16 +630,24 @@ if (!data || data.length === 0) {
     return;
   }
 
-  list.innerHTML = data.map((quote, index) => `
+  
+list.innerHTML = data.map((quote, index) => `
     <article class="sad-quote-card">
       <div class="sad-quote-number">★ KATA SAD #${index + 1}</div>
-      <p class="sad-quote-content">${escapeHTML(quote.quote)}</p>
+
+      <p class="sad-quote-content">${escapeHTML(quote.quote || "")}</p>
+
+      <div class="quote-author">
+        ✍️ ${escapeHTML(quote.author || "Tanpa nama")}
+      </div>
+
       <button class="comic-btn yellow w-100"
         data-copy-sad="${escapeHTML(quote.id)}">
         <i class="bi bi-copy"></i> Salin kata
       </button>
     </article>
   `).join("");
+  
 
   list.querySelectorAll("[data-copy-sad]").forEach(button => {
     button.addEventListener("click", async () => {
