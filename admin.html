@@ -591,6 +591,7 @@ async function loadQuotes() {
   $("quoteList").innerHTML = data.map(item => `
     <div class="item-card">
       <div class="quote-text">💔 ${escapeHTML(item.quote)}</div>
+<div class="item-info mt-2">✍️ ${escapeHTML(item.author || "Tanpa nama")}</div>
       <div class="d-flex gap-2 mt-3">
         <button class="small-comic btn-edit" onclick="editQuote('${escapeHTML(item.id)}')"><i class="bi bi-pencil"></i> Edit</button>
         <button class="small-comic btn-delete" onclick="deleteQuote('${escapeHTML(item.id)}')"><i class="bi bi-trash"></i> Hapus</button>
@@ -602,6 +603,7 @@ async function editQuote(id) {
   if (error) return alert("Gagal membuka kata: " + error.message);
   editingQuoteId = id;
   $("quoteText").value = data.quote || "";
+  $("quoteAuthor").value = data.author || "";
   $("quoteFormTitle").textContent = "Edit Kata Sad!";
   $("quoteCancelBtn").style.display = "block";
   updateQuoteButton();
