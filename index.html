@@ -506,7 +506,206 @@ padding: 20px 12px !important;
     .spotify-download-note h2 { margin:10px 0; font-weight:1000; }
     .spotify-download-note p { color:#555; line-height:1.6; }
     @media (max-width:390px) { .spotify-hero { padding:18px 13px; } .spotify-disc { flex-basis:60px; width:60px; height:60px; border-width:5px; font-size:1.5rem; } .spotify-hero-copy { max-width:78%; } .spotify-playlist-grid { gap:9px; } .spotify-playlist-card { padding:8px; } .playlist-play { right:12px; } }
+    
+/* ===== LOADING PREMIUM APK DA•OFFICIAL ===== */
+#loading {
+  position: fixed;
+  inset: 0;
+  z-index: 99999;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  overflow: hidden;
+  background:
+    radial-gradient(ellipse at center, #321014 0%, #10090d 48%, #030305 100%);
+  color: #fff;
+  opacity: 1;
+  visibility: visible;
+  transition: opacity .6s ease, visibility .6s ease;
+}
 
+#loading.hide {
+  opacity: 0;
+  visibility: hidden;
+  pointer-events: none;
+}
+
+.loader-bg-effects {
+  position: absolute;
+  inset: 0;
+  background: repeating-linear-gradient(
+    135deg,
+    transparent 0 35px,
+    rgba(230, 56, 48, .07) 36px 38px
+  );
+  animation: loaderBgMove 8s linear infinite;
+}
+
+.loader-content {
+  position: relative;
+  z-index: 1;
+  width: min(340px, 88vw);
+  text-align: center;
+  animation: loaderAppear .8s ease both;
+}
+
+.loader-ring {
+  width: 150px;
+  height: 150px;
+  margin: 0 auto 28px;
+  padding: 7px;
+  display: grid;
+  place-items: center;
+  border-radius: 50%;
+  border: 3px solid transparent;
+  background:
+    linear-gradient(#10090d, #10090d) padding-box,
+    conic-gradient(
+      #ffdf4d,
+      #e63830,
+      #ff5c52,
+      #ffdf4d
+    ) border-box;
+  box-shadow:
+    0 0 18px rgba(230, 56, 48, .45),
+    inset 0 0 20px rgba(230, 56, 48, .12);
+  animation: loaderSpin 4s linear infinite;
+}
+
+.loader-logo {
+  width: 124px;
+  height: 124px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  border: 2px solid #ffdf4d;
+  border-radius: 50%;
+  background: radial-gradient(circle, #401014, #100609 75%);
+  box-shadow: inset 0 0 18px rgba(230, 56, 48, .4);
+  animation: loaderCounterSpin 4s linear infinite;
+}
+
+.loader-logo strong {
+  color: #ffdf4d;
+  font-size: 31px;
+  line-height: 1;
+  font-weight: 1000;
+  text-shadow: 0 0 14px rgba(255, 223, 77, .65);
+}
+
+.loader-crown {
+  color: #ffdf4d;
+  font-size: 22px;
+}
+
+.loader-brand {
+  margin-top: 5px;
+  color: white;
+  font-size: 11px;
+  font-weight: 1000;
+  letter-spacing: 1px;
+}
+
+.loader-ribbon {
+  margin-top: 7px;
+  padding: 3px 8px;
+  border-radius: 4px;
+  background: #e63830;
+  color: white;
+  font-size: 8px;
+  font-weight: 900;
+}
+
+.loader-welcome {
+  color: #ffdf4d;
+  font-size: clamp(21px, 6vw, 28px);
+  font-weight: 1000;
+  letter-spacing: 2px;
+  text-shadow: 2px 2px 0 #e63830;
+}
+
+.loader-subtitle {
+  margin-top: 5px;
+  font-size: 13px;
+  font-weight: 900;
+  letter-spacing: 3px;
+}
+
+.loader-message {
+  margin: 27px 0 14px;
+  color: #d7c8c8;
+  font-size: 12px;
+}
+
+.loader-track {
+  width: 100%;
+  height: 9px;
+  padding: 2px;
+  overflow: hidden;
+  border: 1px solid #ffdf4d;
+  border-radius: 20px;
+  background: #251518;
+  box-shadow: 0 0 12px rgba(230, 56, 48, .2);
+}
+
+.loader-progress {
+  width: 0%;
+  height: 100%;
+  border-radius: 20px;
+  background: linear-gradient(90deg, #e63830, #ffdf4d);
+  box-shadow: 0 0 12px #e63830;
+  transition: width .15s linear;
+}
+
+#loaderPercent {
+  margin-top: 10px;
+  color: #ffdf4d;
+  font-size: 14px;
+  font-weight: 1000;
+}
+
+.loader-status {
+  margin-top: 7px;
+  color: #ff7770;
+  font-size: 10px;
+  font-weight: 900;
+  letter-spacing: 2px;
+}
+
+.loader-footer {
+  margin-top: 32px;
+  color: #a99b9b;
+  font-size: 9px;
+  letter-spacing: 1.5px;
+}
+
+@keyframes loaderSpin {
+  to { transform: rotate(360deg); }
+}
+
+@keyframes loaderCounterSpin {
+  to { transform: rotate(-360deg); }
+}
+
+@keyframes loaderAppear {
+  from { opacity: 0; transform: translateY(15px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+
+@keyframes loaderBgMove {
+  to { background-position: 100px 100px; }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .loader-ring,
+  .loader-logo,
+  .loader-bg-effects,
+  .loader-content {
+    animation: none;
+  }
+}
+    
   </style>  
   <script data-cfasync="false" src="https://accountut.com/1/e65196dc30ce7366edb273c1025596f5"></script>
 </head>  
@@ -1009,8 +1208,45 @@ async function loadNotifications(client) {
 
     try { const savedTheme = localStorage.getItem("apkda-theme"); if (savedTheme) setTheme(savedTheme); } catch {}
     loadApps();
-    window.addEventListener("load",() => setTimeout(() => document.getElementById("loading").classList.add("hide"),500));
-    setTimeout(() => document.getElementById("loading").classList.add("hide"),5000);
+    
+const loaderProgress = document.getElementById("loaderProgress");
+const loaderPercent = document.getElementById("loaderPercent");
+const loadingScreen = document.getElementById("loading");
+
+let progress = 0;
+let loaderFinished = false;
+
+const progressTimer = setInterval(() => {
+  if (loaderFinished) return;
+
+  if (progress < 90) {
+    progress += Math.max(1, Math.floor((90 - progress) / 10));
+
+    loaderProgress.style.width = progress + "%";
+    loaderPercent.textContent = progress + "%";
+  }
+}, 120);
+
+function finishLoading() {
+  if (loaderFinished) return;
+  loaderFinished = true;
+
+  clearInterval(progressTimer);
+
+  loaderProgress.style.width = "100%";
+  loaderPercent.textContent = "100%";
+
+  setTimeout(() => {
+    loadingScreen.classList.add("hide");
+  }, 400);
+}
+
+window.addEventListener("load", () => {
+  setTimeout(finishLoading, 400);
+});
+
+setTimeout(finishLoading, 7000);
+    
  
 const musicCatalog = [
   {
