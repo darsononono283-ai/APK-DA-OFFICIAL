@@ -451,6 +451,21 @@ padding: 20px 12px !important;
     }
 
 
+    
+    /* ===== SPOTIFY WEB API SEARCH ===== */
+    .spotify-api-controls { display:flex; gap:9px; flex-wrap:wrap; margin:12px 0; }
+    .spotify-connect-btn { display:inline-flex; align-items:center; justify-content:center; gap:8px; padding:10px 14px; border:2px solid #111; border-radius:12px; background:#1ed760; color:#111; font-weight:900; box-shadow:3px 3px 0 #111; }
+    .spotify-api-status { margin:8px 0 12px; padding:10px 12px; border-radius:12px; background:#202020; color:#eee; font-size:.82rem; line-height:1.5; }
+    .spotify-track-result { display:flex; align-items:center; gap:10px; padding:10px; border:1px solid #ddd; border-radius:13px; background:#fff; color:#222; }
+    .spotify-track-result img { flex:0 0 58px; width:58px; height:58px; object-fit:cover; border-radius:9px; background:#e7e7e7; }
+    .spotify-track-info { flex:1; min-width:0; }
+    .spotify-track-info strong { display:block; font-size:.86rem; overflow-wrap:anywhere; }
+    .spotify-track-info small { display:block; color:#666; font-size:.75rem; overflow-wrap:anywhere; }
+    .spotify-track-actions { display:flex; flex-direction:column; gap:6px; }
+    .spotify-track-actions button,.spotify-track-actions a { display:inline-flex; justify-content:center; align-items:center; gap:4px; border:1px solid #111; border-radius:9px; padding:7px 9px; background:#1ed760; color:#111; text-decoration:none; font-size:.75rem; font-weight:900; white-space:nowrap; }
+    .spotify-track-actions a { background:#fff; }
+    @media(max-width:390px) { .spotify-track-result { align-items:flex-start; gap:8px; } .spotify-track-result img { flex-basis:48px; width:48px; height:48px; } .spotify-track-actions button,.spotify-track-actions a { padding:6px; font-size:.68rem; } }
+
     /* Spotify page */
     .spotify-page { color:#fff; }
     .spotify-hero { position:relative; display:flex; align-items:center; justify-content:space-between; gap:12px; min-height:210px; overflow:hidden; padding:22px 18px; background:linear-gradient(135deg,#123d2b,#1db954 75%,#b8f5c9); border:3px solid var(--ink); border-radius:22px; box-shadow:5px 6px 0 var(--ink); }
@@ -806,10 +821,18 @@ padding: 20px 12px !important;
     <div class="spotify-disc" aria-hidden="true"><i class="bi bi-music-note-beamed"></i></div>
   </div>
 
+  <div class="spotify-api-controls">
+    <button type="button" id="spotifyConnectButton" class="spotify-connect-btn" onclick="connectSpotify()">
+      <i class="bi bi-spotify"></i> Hubungkan Spotify API
+    </button>
+  </div>
+  <div id="spotifyApiStatus" class="spotify-api-status" role="status" aria-live="polite">
+    Hubungkan akun Spotify untuk mencari lagu dari katalog Spotify.
+  </div>
   <div class="spotify-search-wrap">
     <i class="bi bi-search"></i>
-    <input id="musicSearchInput" type="search" placeholder="Cari playlist di katalog..." aria-label="Cari playlist">
-    <button type="button" onclick="searchMusicCatalog()" aria-label="Cari"><i class="bi bi-arrow-right"></i></button>
+    <input id="musicSearchInput" type="search" placeholder="Cari judul lagu atau artis..." aria-label="Cari lagu atau artis">
+    <button type="button" onclick="searchMusicCatalog()" aria-label="Cari lagu"><i class="bi bi-arrow-right"></i></button>
   </div>
 
   <div class="spotify-tabs" role="tablist" aria-label="Menu Spotify">
@@ -1322,39 +1345,239 @@ function playMusicPlaylist(id, title) {
   }
 }
 
-function searchMusicCatalog() {
-  const query = document.getElementById("musicSearchInput").value
-    .trim().toLowerCase();
+// ===== SPOTIFY WEB API (Authorization Code with PKCE) =====
+// Ganti Client ID di bawah. Jangan pernah menaruh Client Secret di kode publik.
+const SPOTIFY_CLIENT_ID = "GANTI_DENGAN_CLIENT_ID_SPOTIFY";
+const SPOTIFY_REDIRECT_URI = window.location.origin + window.location.pathname;
+const SPOTIFY_TOKEN_KEY = "daSpotifyAccessToken";
+const SPOTIFY_TOKEN_EXPIRY_KEY = "daSpotifyTokenExpiry";
+const SPOTIFY_VERIFIER_KEY = "daSpotifyCodeVerifier";
+const SPOTIFY_STATE_KEY = "daSpotifyOAuthState";
 
-  const results = musicCatalog.filter(item =>
-    (item.title + " " + item.artist).toLowerCase().includes(query)
-  );
+function setSpotifyStatus(message) {
+  const status = document.getElementById("spotifyApiStatus");
+  if (status) status.textContent = message;
+}
 
+function spotifyClientConfigured() {
+  return SPOTIFY_CLIENT_ID &&
+    SPOTIFY_CLIENT_ID !== "GANTI_DENGAN_CLIENT_ID_SPOTIFY" &&
+    SPOTIFY_CLIENT_ID.trim().length > 10;
+}
+
+function spotifyRandomString(length = 64) {
+  const chars = "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789-._~";
+  const bytes = new Uint8Array(length);
+  crypto.getRandomValues(bytes);
+  return Array.from(bytes, byte => chars[byte % chars.length]).join("");
+}
+
+function spotifyBase64Url(buffer) {
+  let binary = "";
+  new Uint8Array(buffer).forEach(byte => binary += String.fromCharCode(byte));
+  return btoa(binary).replace(/\+/g, "-").replace(/\//g, "_").replace(/=+$/g, "");
+}
+
+async function spotifyCreateChallenge(verifier) {
+  const digest = await crypto.subtle.digest("SHA-256", new TextEncoder().encode(verifier));
+  return spotifyBase64Url(digest);
+}
+
+function getSpotifyAccessToken() {
+  try {
+    const token = sessionStorage.getItem(SPOTIFY_TOKEN_KEY);
+    const expiry = Number(sessionStorage.getItem(SPOTIFY_TOKEN_EXPIRY_KEY) || 0);
+    if (token && Date.now() < expiry) return token;
+  } catch (error) {
+    console.warn("Token Spotify tidak dapat dibaca.", error);
+  }
+  return "";
+}
+
+async function connectSpotify() {
+  if (!spotifyClientConfigured()) {
+    setSpotifyStatus("Masukkan Client ID Spotify ke konstanta SPOTIFY_CLIENT_ID di index.html terlebih dahulu.");
+    return;
+  }
+  if (!window.isSecureContext && location.hostname !== "localhost") {
+    setSpotifyStatus("Spotify OAuth memerlukan HTTPS. Buka website melalui alamat HTTPS hosting.");
+    return;
+  }
+  try {
+    const verifier = spotifyRandomString(64);
+    const challenge = await spotifyCreateChallenge(verifier);
+    const state = spotifyRandomString(32);
+    sessionStorage.setItem(SPOTIFY_VERIFIER_KEY, verifier);
+    sessionStorage.setItem(SPOTIFY_STATE_KEY, state);
+
+    const params = new URLSearchParams({
+      client_id: SPOTIFY_CLIENT_ID.trim(),
+      response_type: "code",
+      redirect_uri: SPOTIFY_REDIRECT_URI,
+      code_challenge_method: "S256",
+      code_challenge: challenge,
+      state
+    });
+    location.assign("https://accounts.spotify.com/authorize?" + params.toString());
+  } catch (error) {
+    console.error("Spotify OAuth gagal dimulai:", error);
+    setSpotifyStatus("Tidak bisa memulai koneksi Spotify. Pastikan browser mendukung Web Crypto dan website menggunakan HTTPS.");
+  }
+}
+
+async function handleSpotifyOAuthCallback() {
+  const params = new URLSearchParams(location.search);
+  const code = params.get("code");
+  const returnedState = params.get("state");
+  const oauthError = params.get("error");
+
+  if (oauthError) {
+    setSpotifyStatus("Spotify membatalkan koneksi: " + oauthError + ".");
+    history.replaceState({}, document.title, SPOTIFY_REDIRECT_URI);
+    return;
+  }
+  if (!code) {
+    if (getSpotifyAccessToken()) setSpotifyStatus("Spotify sudah terhubung. Kamu bisa mencari lagu.");
+    return;
+  }
+
+  const savedState = sessionStorage.getItem(SPOTIFY_STATE_KEY);
+  const verifier = sessionStorage.getItem(SPOTIFY_VERIFIER_KEY);
+  history.replaceState({}, document.title, SPOTIFY_REDIRECT_URI);
+
+  if (!savedState || returnedState !== savedState || !verifier) {
+    setSpotifyStatus("Verifikasi Spotify gagal. Tekan Hubungkan Spotify lalu coba lagi.");
+    return;
+  }
+
+  try {
+    setSpotifyStatus("Menyelesaikan koneksi Spotify...");
+    const response = await fetch("https://accounts.spotify.com/api/token", {
+      method: "POST",
+      headers: { "Content-Type": "application/x-www-form-urlencoded" },
+      body: new URLSearchParams({
+        client_id: SPOTIFY_CLIENT_ID.trim(),
+        grant_type: "authorization_code",
+        code,
+        redirect_uri: SPOTIFY_REDIRECT_URI,
+        code_verifier: verifier
+      })
+    });
+    const data = await response.json();
+
+    if (!response.ok || !data.access_token) {
+      console.error("Spotify token error:", data);
+      setSpotifyStatus("Spotify tidak memberikan token. Periksa Client ID dan Redirect URI.");
+      return;
+    }
+    sessionStorage.setItem(SPOTIFY_TOKEN_KEY, data.access_token);
+    sessionStorage.setItem(SPOTIFY_TOKEN_EXPIRY_KEY,
+      String(Date.now() + Math.max(60, Number(data.expires_in || 3600) - 60) * 1000));
+    sessionStorage.removeItem(SPOTIFY_VERIFIER_KEY);
+    sessionStorage.removeItem(SPOTIFY_STATE_KEY);
+    setSpotifyStatus("Spotify terhubung. Sekarang cari judul lagu atau nama artis.");
+  } catch (error) {
+    console.error("Gagal mengambil token Spotify:", error);
+    setSpotifyStatus("Koneksi Spotify gagal. Periksa internet lalu coba lagi.");
+  }
+}
+
+async function searchMusicCatalog() {
+  const field = document.getElementById("musicSearchInput");
   const container = document.getElementById("musicSearchResults");
-
+  const query = (field?.value || "").trim();
+  if (!container) return;
   if (!query) {
     container.innerHTML = "";
+    setSpotifyStatus("Ketik judul lagu atau nama artis untuk mencari.");
     return;
   }
 
-  if (!results.length) {
-    container.innerHTML =
-      '<p class="text-center mt-4">Belum ditemukan di katalog demo. Pencarian lagu Spotify lengkap memerlukan integrasi Spotify Web API.</p>';
+  const token = getSpotifyAccessToken();
+  if (!token) {
+    setSpotifyStatus("Hubungkan Spotify terlebih dahulu sebelum mencari lagu.");
+    container.innerHTML = '<div class="music-empty"><i class="bi bi-spotify"></i><p>Tekan “Hubungkan Spotify API”, lalu izinkan akses.</p></div>';
     return;
   }
 
-  container.innerHTML = results.map(item => `
-    <button class="music-playlist"
-      onclick="playMusicPlaylist('${item.id}', '${item.title.replace(/'/g, "\\'")}')">
-      <span class="music-cover"><i class="bi bi-music-note-beamed"></i></span>
-      <span><strong>${item.title}</strong><small>${item.artist}</small></span>
-      <i class="bi bi-play-circle-fill"></i>
-    </button>
-    <button class="music-favorite-button"
-      onclick="saveMusicFavorite('${item.id}')">
-      <i class="bi bi-heart"></i> Tambah ke favorit
-    </button>
-  `).join("");
+  container.innerHTML = '<div class="music-empty"><i class="bi bi-arrow-repeat"></i><p>Mencari lagu di Spotify...</p></div>';
+  setSpotifyStatus("Sedang mencari “" + query + "” di Spotify...");
+
+  try {
+    const url = "https://api.spotify.com/v1/search?" + new URLSearchParams({
+      q: query, type: "track", limit: "10"
+    });
+    const response = await fetch(url, { headers: { Authorization: "Bearer " + token } });
+
+    if (response.status === 401) {
+      sessionStorage.removeItem(SPOTIFY_TOKEN_KEY);
+      sessionStorage.removeItem(SPOTIFY_TOKEN_EXPIRY_KEY);
+      container.innerHTML = "";
+      setSpotifyStatus("Sesi Spotify berakhir. Tekan Hubungkan Spotify untuk menyambungkan lagi.");
+      return;
+    }
+
+    const data = await response.json();
+    if (!response.ok) {
+      console.error("Spotify search error:", data);
+      container.innerHTML = '<div class="music-empty"><i class="bi bi-exclamation-circle"></i><p>Pencarian gagal. Periksa akses API aplikasi di Spotify Developer Dashboard.</p></div>';
+      setSpotifyStatus("Spotify menolak pencarian. Periksa akses aplikasi atau coba lagi.");
+      return;
+    }
+
+    const tracks = data.tracks?.items || [];
+    if (!tracks.length) {
+      container.innerHTML = '<div class="music-empty"><i class="bi bi-music-note"></i><p>Lagu tidak ditemukan. Coba kata kunci lain.</p></div>';
+      setSpotifyStatus("Tidak ada hasil untuk “" + query + "”.");
+      return;
+    }
+
+    container.innerHTML = tracks.map(track => {
+      const id = escapeHTML(track.id || "");
+      const title = escapeHTML(track.name || "Lagu tanpa judul");
+      const artist = escapeHTML((track.artists || []).map(item => item.name).join(", ") || "Artis tidak diketahui");
+      const album = escapeHTML(track.album?.name || "");
+      const imageUrl = track.album?.images?.[track.album.images.length - 1]?.url || "";
+      const cover = safeUrl(imageUrl);
+      const openUrl = safeUrl(track.external_urls?.spotify || "");
+      const coverMarkup = cover
+        ? `<img src="${escapeHTML(cover)}" alt="Sampul ${title}" loading="lazy">`
+        : '<span class="music-cover"><i class="bi bi-music-note-beamed"></i></span>';
+      return `<article class="spotify-track-result">
+        ${coverMarkup}
+        <div class="spotify-track-info"><strong>${title}</strong><small>${artist}</small><small>${album}</small></div>
+        <div class="spotify-track-actions">
+          <button type="button" data-track-id="${id}" data-track-title="${title}" onclick="playMusicTrack(this.dataset.trackId,this.dataset.trackTitle)"><i class="bi bi-play-fill"></i> Putar</button>
+          ${openUrl ? `<a href="${escapeHTML(openUrl)}" target="_blank" rel="noopener noreferrer">Spotify <i class="bi bi-box-arrow-up-right"></i></a>` : ""}
+        </div>
+      </article>`;
+    }).join("");
+    setSpotifyStatus("Ditemukan " + tracks.length + " hasil. Pilih Putar untuk membuka pemutar Spotify.");
+  } catch (error) {
+    console.error("Pencarian Spotify gagal:", error);
+    container.innerHTML = '<div class="music-empty"><i class="bi bi-wifi-off"></i><p>Gagal terhubung ke Spotify. Periksa internet lalu coba lagi.</p></div>';
+    setSpotifyStatus("Tidak dapat terhubung ke Spotify. Coba lagi nanti.");
+  }
+}
+
+function playMusicTrack(id, title) {
+  if (!id) return;
+  currentMusic = { id, title, type: "track" };
+  const titleElement = document.getElementById("musicNowPlaying");
+  const frame = document.getElementById("musicSpotifyFrame");
+  const player = document.getElementById("musicPlayerArea");
+  if (titleElement) titleElement.textContent = title || "Lagu Spotify";
+  if (frame) frame.src = "https://open.spotify.com/embed/track/" + encodeURIComponent(id);
+  if (player) player.classList.remove("d-none");
+
+  try {
+    const history = JSON.parse(localStorage.getItem("daMusicHistory") || "[]");
+    const updated = [currentMusic, ...history.filter(item => item.id !== id || item.type !== "track")].slice(0, 20);
+    localStorage.setItem("daMusicHistory", JSON.stringify(updated));
+    renderMusicHistory();
+  } catch (error) {
+    console.warn("Riwayat lagu tidak dapat disimpan.", error);
+  }
 }
 
 function saveMusicFavorite(id) {
@@ -1424,7 +1647,7 @@ function renderMusicHistory() {
 
     container.innerHTML = history.map(item => `
       <button class="music-playlist"
-        onclick="playMusicPlaylist('${item.id}', '${item.title.replace(/'/g, "\\'")}')">
+        onclick="${item.type === "track" ? "playMusicTrack" : "playMusicPlaylist"}('${String(item.id).replace(/'/g, "\\'")}', '${String(item.title).replace(/'/g, "\\'")}')">
         <span class="music-cover"><i class="bi bi-clock-history"></i></span>
         <span><strong>${item.title}</strong><small>Baru diputar</small></span>
         <i class="bi bi-play-circle-fill"></i>
@@ -1446,6 +1669,7 @@ function toggleCurrentMusicFavorite() {
 
 renderMusicFavorites();
 renderMusicHistory();
+handleSpotifyOAuthCallback();
 const musicSearchField = document.getElementById("musicSearchInput");
 if (musicSearchField) {
   musicSearchField.addEventListener("input", searchMusicCatalog);
