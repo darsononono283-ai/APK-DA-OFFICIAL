@@ -344,6 +344,112 @@ padding: 20px 12px !important;
   color: #e63830;
   text-align: right;
     }
+  
+
+    /* ===== PENYEMPURNAAN UI APK DA•OFFICIAL ===== */
+    html { scroll-behavior: smooth; }
+    body {
+      background-image: radial-gradient(rgba(28,28,28,.075) .8px, transparent .8px);
+      background-size: 15px 15px;
+      line-height: 1.55;
+    }
+    .comic-header {
+      position: sticky;
+      top: 0;
+      z-index: 1100;
+      box-shadow: 0 5px 0 rgba(255,255,255,.85), 0 8px 18px rgba(28,28,28,.12);
+    }
+    .brand { display:inline-flex; align-items:center; gap:5px; white-space:nowrap; }
+    .brand span { margin-left:2px; }
+    .comic-icon { flex:0 0 auto; transition:transform .18s ease, box-shadow .18s ease; }
+    .comic-icon:active { transform:translate(2px,2px); box-shadow:0 1px 0 var(--ink); }
+    .profile-comic {
+      width:104px; height:104px; margin:24px auto 16px;
+      border-width:4px; box-shadow:4px 5px 0 var(--primary);
+      transition:transform .2s ease;
+    }
+    .profile-comic:hover { transform:rotate(3deg) scale(1.03); }
+    .hero {
+      margin:18px 0 22px; padding:clamp(22px,5vw,34px) clamp(18px,5vw,28px);
+      background:linear-gradient(135deg,var(--primary),color-mix(in srgb,var(--primary),#1c1c1c 12%));
+      border-radius:24px; box-shadow:6px 7px 0 var(--ink);
+    }
+    .hero:before {
+      content:""; position:absolute; inset:0; pointer-events:none; opacity:.12;
+      background-image:radial-gradient(#fff 1px,transparent 1px); background-size:10px 10px;
+      mask-image:linear-gradient(90deg,#000,transparent 78%);
+    }
+    .hero:after { right:18px; top:12px; font-size:clamp(3rem,12vw,5rem); text-shadow:3px 4px 0 var(--ink); }
+    .hero h1 { position:relative; z-index:1; letter-spacing:-.8px; }
+    .hero p { position:relative; z-index:1; font-size:.98rem; line-height:1.65; }
+    .search-box { transition:box-shadow .18s ease, transform .18s ease; }
+    .search-box:focus-within { box-shadow:0 0 0 3px color-mix(in srgb,var(--primary),transparent 72%),3px 4px 0 var(--ink); }
+    .feature-grid { gap:13px; }
+    .feature-tile {
+      position:relative; overflow:hidden; min-height:116px; padding:16px 13px;
+      transition:transform .18s ease, box-shadow .18s ease;
+    }
+    .feature-tile i { width:44px; height:44px; display:grid; place-items:center; border:2px solid currentColor; border-radius:13px; margin-bottom:10px; font-size:1.45rem; }
+    .feature-tile small { margin-top:3px; line-height:1.4; }
+    .feature-tile:hover { transform:translateY(-3px); box-shadow:4px 7px 0 var(--ink); }
+    .comic-panel { border-radius:21px; box-shadow:5px 6px 0 var(--ink); }
+    .comic-title { display:flex; align-items:center; gap:8px; line-height:1.3; }
+    .app-grid { align-items:stretch; gap:13px; }
+    .app-card {
+      display:flex; flex-direction:column; align-items:flex-start;
+      border-radius:19px; padding:13px; box-shadow:4px 5px 0 var(--ink);
+      transition:transform .18s ease, box-shadow .18s ease;
+    }
+    .app-card:hover { transform:translateY(-3px); box-shadow:5px 8px 0 var(--primary); }
+    .app-icon { width:64px; height:64px; border-radius:17px; }
+    .app-name { width:100%; line-height:1.35; }
+    .app-description { width:100%; line-height:1.5; }
+    .app-card .comic-btn { margin-top:auto; min-height:42px; font-size:.82rem; }
+    .comic-btn { transition:transform .14s ease, box-shadow .14s ease, filter .14s ease; }
+    .comic-btn:hover { filter:brightness(1.04); }
+    .category-btn { transition:background .15s ease, transform .15s ease; }
+    .category-btn:active { transform:scale(.97); }
+    .empty-state { border-radius:16px; line-height:1.6; }
+    #notificationPanel { box-shadow:5px 6px 0 var(--ink); }
+    .notification-item { border:1px solid rgba(28,28,28,.12); overflow-wrap:anywhere; }
+    .notification-item p { margin-bottom:4px !important; }
+    .bottom-nav {
+      background:color-mix(in srgb,var(--paper),#fff 12%);
+      padding-top:9px; box-shadow:0 -5px 0 rgba(255,255,255,.9),0 -10px 24px rgba(28,28,28,.10);
+      backdrop-filter:blur(12px); -webkit-backdrop-filter:blur(12px);
+    }
+    .nav-item { min-width:0; font-size:clamp(.55rem,2.1vw,.68rem); }
+    .nav-item .nav-icon { width:40px; height:38px; transition:transform .15s ease,background .15s ease; }
+    .nav-item.active .nav-icon { transform:translateY(-3px) rotate(-3deg); box-shadow:3px 4px 0 var(--ink); }
+    .nav-item.active { color:var(--primary); }
+    .theme-choice { transition:transform .16s ease,box-shadow .16s ease; }
+    .theme-choice:hover { transform:translateY(-2px); box-shadow:4px 6px 0 var(--ink); }
+    .sad-quote-card { box-shadow:4px 5px 0 var(--primary); }
+    button:focus-visible, a:focus-visible, input:focus-visible { outline:3px solid #1769ff; outline-offset:3px; }
+    @media (min-width:700px) {
+      .container.main-width { max-width:900px; }
+      .app-grid { grid-template-columns:repeat(3,minmax(0,1fr)); }
+      .hero { padding:34px 30px; }
+    }
+    @media (max-width:420px) {
+      body { padding-bottom:98px; }
+      .brand { font-size:1rem; letter-spacing:-.5px; }
+      .comic-header .container { gap:8px !important; }
+      .comic-header .container > .ms-auto { gap:9px !important; }
+      .comic-icon { width:39px; height:39px; }
+      .hero h1 { max-width:82%; }
+      .feature-grid { gap:10px; }
+      .feature-tile { min-height:108px; padding:12px; }
+      .app-grid { gap:11px; }
+      .app-card { padding:10px; }
+      .app-icon { width:58px; height:58px; }
+      .bottom-nav { gap:2px; padding-left:4px; padding-right:4px; }
+      .nav-item .nav-icon { width:35px; height:35px; border-width:2px; }
+    }
+    @media (prefers-reduced-motion: reduce) {
+      *,*::before,*::after { scroll-behavior:auto !important; transition:none !important; animation:none !important; }
+    }
+
   </style>  
   <script data-cfasync="false" src="https://accountut.com/1/e65196dc30ce7366edb273c1025596f5"></script>
 </head>  
@@ -428,7 +534,8 @@ padding: 20px 12px !important;
 
 <div id="sadQuoteList" class="sad-quote-list">
   <div class="sad-empty">Memuat kata-kata Sad...</div>
-  </div>  
+  </div>
+  </div>
  </section>  <section id="themePage" class="feature-page d-none">  
   <div class="comic-panel">  
     <h1 class="comic-title"><i class="bi bi-palette"></i> Pengaturan Tema</h1>  
