@@ -450,6 +450,63 @@ padding: 20px 12px !important;
       *,*::before,*::after { scroll-behavior:auto !important; transition:none !important; animation:none !important; }
     }
 
+
+    /* Spotify page */
+    .spotify-page { color:#fff; }
+    .spotify-hero { position:relative; display:flex; align-items:center; justify-content:space-between; gap:12px; min-height:210px; overflow:hidden; padding:22px 18px; background:linear-gradient(135deg,#123d2b,#1db954 75%,#b8f5c9); border:3px solid var(--ink); border-radius:22px; box-shadow:5px 6px 0 var(--ink); }
+    .spotify-hero-copy { position:relative; z-index:1; max-width:74%; }
+    .spotify-kicker { display:inline-flex; align-items:center; gap:6px; padding:5px 9px; border:1px solid rgba(255,255,255,.5); border-radius:999px; background:rgba(0,0,0,.15); font-size:.68rem; font-weight:900; letter-spacing:.7px; }
+    .spotify-hero h1 { margin:14px 0 8px; font-size:clamp(1.55rem,6vw,2.2rem); font-weight:1000; line-height:1.05; }
+    .spotify-hero h1 span { color:#baffcf; }
+    .spotify-hero p { margin:0 0 14px; font-size:.88rem; color:#effff3; }
+    .spotify-open-link { display:inline-flex; align-items:center; gap:7px; padding:9px 12px; background:#fff; color:#123d2b; text-decoration:none; font-weight:900; border:2px solid var(--ink); border-radius:11px; box-shadow:3px 3px 0 var(--ink); }
+    .spotify-disc { flex:0 0 82px; width:82px; height:82px; display:grid; place-items:center; border:7px solid rgba(255,255,255,.22); border-radius:50%; background:repeating-radial-gradient(circle,#111 0 5px,#262626 6px 8px); color:#1ed760; font-size:2rem; box-shadow:0 0 0 3px rgba(0,0,0,.25); transform:rotate(-12deg); }
+    .spotify-search-wrap { display:flex; align-items:center; gap:10px; margin:17px 0 12px; padding:5px 7px 5px 14px; color:#fff; background:#202020; border:2px solid #111; border-radius:14px; }
+    .spotify-search-wrap input { width:100%; min-width:0; padding:8px 0; border:0; outline:0; background:transparent; color:#fff; }
+    .spotify-search-wrap input::placeholder { color:#c5c5c5; }
+    .spotify-search-wrap button { flex:0 0 38px; height:38px; border:0; border-radius:10px; background:#1ed760; color:#111; font-size:1.1rem; }
+    .spotify-tabs { display:flex; gap:7px; overflow-x:auto; padding:4px 2px 11px; scrollbar-width:thin; }
+    .music-tab { flex:0 0 auto; padding:9px 12px; border:2px solid #111; border-radius:999px; background:#fff7f4; color:#222; font-size:.78rem; font-weight:900; }
+    .music-tab.active { background:#1ed760; box-shadow:2px 3px 0 #111; }
+    .spotify-view { margin-top:12px; padding:17px 14px; color:#222; background:#fff7f4; border:3px solid #1c1c1c; border-radius:19px; box-shadow:4px 5px 0 #1c1c1c; }
+    .spotify-section-heading { display:flex; align-items:center; justify-content:space-between; gap:12px; margin-bottom:14px; }
+    .spotify-section-heading span,.spotify-player-head small { display:block; color:#5e6b61; font-size:.65rem; font-weight:1000; letter-spacing:1px; }
+    .spotify-section-heading h2 { margin:3px 0 0; font-size:1.25rem; font-weight:1000; }
+    .spotify-section-heading > i { font-size:1.7rem; color:#168b43; }
+    .spotify-playlist-grid { display:grid; grid-template-columns:repeat(2,minmax(0,1fr)); gap:12px; }
+    .spotify-playlist-card { position:relative; min-width:0; display:flex; flex-direction:column; align-items:flex-start; text-align:left; padding:10px; border:2px solid #222; border-radius:15px; background:#fff; color:#222; box-shadow:2px 3px 0 #222; }
+    .playlist-art { width:100%; aspect-ratio:1.3; display:grid; place-items:center; margin-bottom:10px; border:2px solid #222; border-radius:10px; color:#fff; font-size:2.4rem; }
+    .art-green { background:linear-gradient(135deg,#064e3b,#1ed760); }
+    .art-red { background:linear-gradient(135deg,#8b1e2d,#ff7a59); }
+    .art-purple { background:linear-gradient(135deg,#352064,#9a76ed); }
+    .spotify-playlist-card strong { padding-right:3px; font-size:.9rem; line-height:1.3; }
+    .spotify-playlist-card small { margin-top:4px; color:#666; font-size:.75rem; }
+    .playlist-play { position:absolute; right:16px; top:calc((100% - 70px) * .38); display:grid; place-items:center; width:38px; height:38px; border-radius:50%; background:#1ed760; color:#111; font-size:1.4rem; box-shadow:0 2px 7px #0003; }
+    .spotify-results:empty { display:none; }
+    .spotify-results:not(:empty) { display:grid; gap:8px; margin-bottom:14px; }
+    .music-playlist { display:flex; align-items:center; gap:10px; width:100%; padding:10px; border:1px solid #ddd; border-radius:12px; background:#fff; color:#222; text-align:left; }
+    .music-playlist > span:nth-child(2) { display:flex; flex:1; min-width:0; flex-direction:column; }
+    .music-playlist strong { font-size:.86rem; }
+    .music-playlist small { color:#666; font-size:.75rem; }
+    .music-cover { flex:0 0 42px; width:42px; height:42px; display:grid; place-items:center; border-radius:10px; background:#d7f8e1; color:#13783a; font-size:1.2rem; }
+    .music-playlist > i { color:#15883e; font-size:1.35rem; }
+    .music-favorite-button { width:100%; margin-top:6px; padding:8px; border:1px solid #ddd; border-radius:10px; background:#f2fff5; color:#146c35; font-weight:800; }
+    .spotify-player { margin:14px 0; padding:13px; border:3px solid #111; border-radius:18px; background:#1d1d1d; box-shadow:4px 5px 0 #111; }
+    .spotify-player-head { display:flex; align-items:center; justify-content:space-between; gap:10px; margin-bottom:12px; color:#fff; }
+    .spotify-player-head strong { display:block; max-width:180px; overflow-wrap:anywhere; }
+    .spotify-favorite-current { border:1px solid #1ed760; border-radius:9px; padding:7px 9px; background:#1ed760; color:#111; font-size:.75rem; font-weight:900; }
+    .spotify-embed { overflow:hidden; border-radius:12px; }
+    .spotify-embed iframe { border:0; }
+    .spotify-note { margin:10px 2px 0; color:#ddd; font-size:.72rem; }
+    .spotify-list { display:grid; gap:8px; }
+    .music-empty { padding:25px 10px; text-align:center; color:#6b6b6b; }
+    .music-empty i { display:block; margin-bottom:8px; font-size:2rem; color:#168b43; }
+    .spotify-download-note { padding:18px 8px; text-align:center; }
+    .spotify-download-note > i { color:#168b43; font-size:2.4rem; }
+    .spotify-download-note h2 { margin:10px 0; font-weight:1000; }
+    .spotify-download-note p { color:#555; line-height:1.6; }
+    @media (max-width:390px) { .spotify-hero { padding:18px 13px; } .spotify-disc { flex-basis:60px; width:60px; height:60px; border-width:5px; font-size:1.5rem; } .spotify-hero-copy { max-width:78%; } .spotify-playlist-grid { gap:9px; } .spotify-playlist-card { padding:8px; } .playlist-play { right:12px; } }
+
   </style>  
   <script data-cfasync="false" src="https://accountut.com/1/e65196dc30ce7366edb273c1025596f5"></script>
 </head>  
@@ -511,15 +568,58 @@ padding: 20px 12px !important;
   <div id="appGrid" class="app-grid"><div class="empty-state">Memuat aplikasi...</div></div>  
 </section>  
 
-<section id="spotifyPage" class="feature-page d-none">  
-  <div class="comic-panel">  
-    <h1 class="comic-title"><i class="bi bi-spotify text-success"></i> Spotify Music</h1>  
-    <p>Dengarkan playlist favorit melalui Spotify.</p>  
-    <div class="ratio ratio-1x1 rounded-4 overflow-hidden mb-3" style="max-height:380px">  
-      <iframe src="https://open.spotify.com/album/5Jxo2E2KiKJ8agqonJak0H?si=0wUm0FjNTtGBM5iLn0OP9w&utm_source=copy-link" title="Spotify playlist" style="border:0" allow="autoplay; clipboard-write; encrypted-media; fullscreen; picture-in-picture" loading="lazy"></iframe>  
-    </div>  
-    <a class="comic-btn primary" href="https://open.spotify.com/" target="_blank" rel="noopener noreferrer"><i class="bi bi-box-arrow-up-right"></i> Buka Spotify</a>  
-  </div>  
+<section id="spotifyPage" class="feature-page d-none spotify-page">
+  <div class="spotify-hero">
+    <div class="spotify-hero-copy">
+      <span class="spotify-kicker"><i class="bi bi-spotify"></i> DA•OFFICIAL MUSIC</span>
+      <h1>Musik untuk<br><span>setiap suasana.</span></h1>
+      <p>Temukan playlist santai, lagu hits, dan musik pilihanmu.</p>
+      <a class="spotify-open-link" href="https://open.spotify.com/" target="_blank" rel="noopener noreferrer">Buka Spotify <i class="bi bi-arrow-up-right"></i></a>
+    </div>
+    <div class="spotify-disc" aria-hidden="true"><i class="bi bi-music-note-beamed"></i></div>
+  </div>
+
+  <div class="spotify-search-wrap">
+    <i class="bi bi-search"></i>
+    <input id="musicSearchInput" type="search" placeholder="Cari playlist di katalog..." aria-label="Cari playlist">
+    <button type="button" onclick="searchMusicCatalog()" aria-label="Cari"><i class="bi bi-arrow-right"></i></button>
+  </div>
+
+  <div class="spotify-tabs" role="tablist" aria-label="Menu Spotify">
+    <button type="button" class="music-tab active" onclick="showMusicTab('search')"><i class="bi bi-compass"></i> Jelajahi</button>
+    <button type="button" class="music-tab" onclick="showMusicTab('playlist')"><i class="bi bi-music-note-list"></i> Playlist</button>
+    <button type="button" class="music-tab" onclick="showMusicTab('favorite')"><i class="bi bi-heart"></i> Favorit</button>
+    <button type="button" class="music-tab" onclick="showMusicTab('history')"><i class="bi bi-clock-history"></i> Riwayat</button>
+  </div>
+
+  <div id="musicPlayerArea" class="spotify-player d-none">
+    <div class="spotify-player-head"><div><small>SEDANG DIPILIH</small><strong id="musicNowPlaying">Playlist Spotify</strong></div><button type="button" class="spotify-favorite-current" onclick="toggleCurrentMusicFavorite()"><i class="bi bi-heart"></i> Favorit</button></div>
+    <div class="ratio ratio-4x3 spotify-embed"><iframe id="musicSpotifyFrame" title="Pemutar playlist Spotify" src="https://open.spotify.com/embed/playlist/37i9dQZF1DXcBWIGoYBM5M" allow="autoplay; clipboard-write; encrypted-media; fullscreen; picture-in-picture" loading="lazy"></iframe></div>
+    <p class="spotify-note"><i class="bi bi-info-circle"></i> Pemutaran mengikuti fitur dan akun Spotify yang kamu gunakan.</p>
+  </div>
+
+  <div id="musicSearchView" class="spotify-view">
+    <div class="spotify-section-heading"><div><span>PILIHAN BUAT KAMU</span><h2>Playlist populer</h2></div><i class="bi bi-stars"></i></div>
+    <div id="musicSearchResults" class="spotify-results"></div>
+    <div class="spotify-playlist-grid">
+      <button class="spotify-playlist-card" type="button" onclick="playMusicPlaylist('37i9dQZF1DXcBWIGoYBM5M','Today's Top Hits')"><span class="playlist-art art-green"><i class="bi bi-fire"></i></span><strong>Today's Top Hits</strong><small>Lagu hits pilihan</small><span class="playlist-play"><i class="bi bi-play-fill"></i></span></button>
+      <button class="spotify-playlist-card" type="button" onclick="playMusicPlaylist('37i9dQZF1DX4JAvHpjipBk','Hits Indonesia')"><span class="playlist-art art-red"><i class="bi bi-soundwave"></i></span><strong>Hits Indonesia</strong><small>Musik Indonesia</small><span class="playlist-play"><i class="bi bi-play-fill"></i></span></button>
+      <button class="spotify-playlist-card" type="button" onclick="playMusicPlaylist('37i9dQZF1DXc6IFF23C9jj','Chill Hits')"><span class="playlist-art art-purple"><i class="bi bi-moon-stars-fill"></i></span><strong>Chill Hits</strong><small>Temani waktu santai</small><span class="playlist-play"><i class="bi bi-play-fill"></i></span></button>
+    </div>
+  </div>
+
+  <div id="musicPlaylistView" class="spotify-view d-none">
+    <div class="spotify-section-heading"><div><span>KOLEKSI MUSIK</span><h2>Playlist pilihan</h2></div><i class="bi bi-collection-play"></i></div>
+    <div class="spotify-playlist-grid">
+      <button class="spotify-playlist-card" type="button" onclick="playMusicPlaylist('37i9dQZF1DXcBWIGoYBM5M','Today's Top Hits')"><span class="playlist-art art-green"><i class="bi bi-fire"></i></span><strong>Today's Top Hits</strong><small>Playlist Spotify</small><span class="playlist-play"><i class="bi bi-play-fill"></i></span></button>
+      <button class="spotify-playlist-card" type="button" onclick="playMusicPlaylist('37i9dQZF1DX4JAvHpjipBk','Hits Indonesia')"><span class="playlist-art art-red"><i class="bi bi-soundwave"></i></span><strong>Hits Indonesia</strong><small>Playlist Spotify</small><span class="playlist-play"><i class="bi bi-play-fill"></i></span></button>
+      <button class="spotify-playlist-card" type="button" onclick="playMusicPlaylist('37i9dQZF1DXc6IFF23C9jj','Chill Hits')"><span class="playlist-art art-purple"><i class="bi bi-moon-stars-fill"></i></span><strong>Chill Hits</strong><small>Playlist Spotify</small><span class="playlist-play"><i class="bi bi-play-fill"></i></span></button>
+    </div>
+  </div>
+
+  <div id="musicFavoriteView" class="spotify-view d-none"><div class="spotify-section-heading"><div><span>TERSIMPAN DI PERANGKAT</span><h2>Playlist favorit</h2></div><i class="bi bi-heart-fill"></i></div><div id="musicFavoriteList" class="spotify-list"></div></div>
+  <div id="musicHistoryView" class="spotify-view d-none"><div class="spotify-section-heading"><div><span>PUTAR LAGI</span><h2>Riwayat pilihan</h2></div><i class="bi bi-clock-history"></i></div><div id="musicHistoryList" class="spotify-list"></div></div>
+  <div id="musicDownloadsView" class="spotify-view d-none"><div class="spotify-download-note"><i class="bi bi-download"></i><h2>Musik offline</h2><p>Unduhan offline tersedia melalui aplikasi resmi Spotify sesuai paket akunmu. Situs ini tidak mengunduh atau menyimpan file musik.</p><a href="https://open.spotify.com/" target="_blank" rel="noopener noreferrer" class="spotify-open-link">Buka Spotify <i class="bi bi-arrow-up-right"></i></a></div></div>
 </section>
 
 <section id="sadPage" class="feature-page d-none">  
@@ -926,6 +1026,8 @@ function showMusicTab(tab) {
       button.getAttribute("onclick")?.includes("'" + tab + "'")
     );
   });
+  if (tab === "favorite") renderMusicFavorites();
+  if (tab === "history") renderMusicHistory();
 }
 
 function playMusicPlaylist(id, title) {
@@ -1080,6 +1182,13 @@ function toggleCurrentMusicFavorite() {
 
 renderMusicFavorites();
 renderMusicHistory();
+const musicSearchField = document.getElementById("musicSearchInput");
+if (musicSearchField) {
+  musicSearchField.addEventListener("input", searchMusicCatalog);
+  musicSearchField.addEventListener("keydown", event => {
+    if (event.key === "Enter") searchMusicCatalog();
+  });
+}
 
 window.addEventListener("load", function () {
   loadSadQuotes();
