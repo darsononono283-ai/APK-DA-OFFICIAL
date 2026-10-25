@@ -646,7 +646,7 @@ html[data-mode="dark"] input,html[data-mode="dark"] textarea,html[data-mode="dar
   </header>    <main class="container main-width">  
     <section id="homePage">  
       <div class="profile-comic">
-  <img src="https://cdn.phototourl.com/member/2026-10-19-6e1ef9a3-0cf8-4474-882f-6aa1a13ea1b8.jpg" alt="Profil APK DA OFFICIAL">
+  <img src="https://cdn.phototourl.com/member/2026-10-19-6e1ef9a3-0cf8-4474-882f-6aa1a13ea1b8.jpg" alt="Profil APK DA OFFICIAL" loading="lazy" decoding="async">
       </div>
       <div class="hero">  
         <h1>Selamat datang!</h1>  
@@ -775,6 +775,15 @@ html[data-mode="dark"] input,html[data-mode="dark"] textarea,html[data-mode="dar
   </div>  
 </section>
 
+
+  <section class="site-help-links comic-panel mt-4 mb-4" aria-label="Informasi website">
+    <h2 class="comic-title">Bantuan & Privasi</h2>
+    <p>Butuh bantuan download atau ingin tahu cara data digunakan?</p>
+    <div class="d-flex flex-wrap gap-2">
+      <a class="comic-btn primary" href="./bantuan.html"><i class="bi bi-life-preserver"></i> Pusat Bantuan</a>
+      <a class="comic-btn" href="./privasi.html"><i class="bi bi-shield-lock"></i> Kebijakan Privasi</a>
+    </div>
+  </section>
   </main>    <nav class="bottom-nav" aria-label="Navigasi utama">  
     <button class="nav-item active" data-page="home" onclick="showPage('home')"><span class="nav-icon"><i class="bi bi-house-fill"></i></span>BERANDA</button>  
     <button class="nav-item" data-page="apps" onclick="showPage('apps')"><span class="nav-icon"><i class="bi bi-grid-fill"></i></span>MENU APK</button>  
@@ -826,7 +835,7 @@ html[data-mode="dark"] input,html[data-mode="dark"] textarea,html[data-mode="dar
       const icon = safeUrl(app.icon || app.image_url) || "https://placehold.co/120x120/f8dede/1c1c1c?text=APK";  
       const detailUrl = "detail.html?id=" + encodeURIComponent(app.id);  
       return `<article class="app-card">  
-        <img class="app-icon" src="${escapeHTML(icon)}" alt="Ikon ${name}" loading="lazy" onerror="this.src='https://placehold.co/120x120/f8dede/1c1c1c?text=APK'">  
+        <img class="app-icon" src="${escapeHTML(icon)}" alt="Ikon ${name}" loading="lazy" onerror="this.src='https://placehold.co/120x120/f8dede/1c1c1c?text=APK'" decoding="async">  
         <h3 class="app-name">${name}</h3>  
         <p class="app-description">${description}</p>  
         <a class="comic-btn primary w-100" href="${detailUrl}"><i  class="bi bi-info-circle"></i> Detail APK</a>
@@ -1381,7 +1390,7 @@ async function searchMusicCatalog() {
       const cover = safeUrl(imageUrl);
       const openUrl = safeUrl(track.external_urls?.spotify || "");
       const coverMarkup = cover
-        ? `<img src="${escapeHTML(cover)}" alt="Sampul ${title}" loading="lazy">`
+        ? `<img src="${escapeHTML(cover)}" alt="Sampul ${title}" loading="lazy" decoding="async">`
         : '<span class="music-cover"><i class="bi bi-music-note-beamed"></i></span>';
       return `<article class="spotify-track-result">
         ${coverMarkup}
@@ -1600,5 +1609,39 @@ window.addEventListener("load", function () {
 })();
 </script>
 
-  </body>
+  
+<script>
+/* Perlindungan spam dasar untuk formulir yang diberi atribut data-spam-protect.
+   Validasi ini membantu UX, bukan pengganti rate-limit backend. */
+(function () {
+  const KEY = "apkda-form-last-submit";
+  document.querySelectorAll("form[data-spam-protect]").forEach(function (form) {
+    if (form.dataset.spamGuardReady) return;
+    form.dataset.spamGuardReady = "1";
+    // Honeypot tersembunyi: tambahkan input dengan name="website" pada formulir terkait.
+    const honeypot = form.querySelector('[name="website"]');
+    const submitButton = form.querySelector('[type="submit"]');
+    form.addEventListener("submit", function (event) {
+      if (honeypot && honeypot.value.trim()) {
+        event.preventDefault();
+        return;
+      }
+      let last = 0;
+      try { last = Number(sessionStorage.getItem(KEY) || 0); } catch (_) {}
+      if (Date.now() - last < 8000) {
+        event.preventDefault();
+        alert("Tunggu beberapa detik sebelum mengirim lagi.");
+        return;
+      }
+      try { sessionStorage.setItem(KEY, String(Date.now())); } catch (_) {}
+      if (submitButton) {
+        submitButton.disabled = true;
+        setTimeout(function () { submitButton.disabled = false; }, 8000);
+      }
+    });
+  });
+})();
+</script>
+
+</body>
 </html>
