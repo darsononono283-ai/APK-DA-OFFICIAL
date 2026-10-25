@@ -1,0 +1,1668 @@
+<!DOCTYPE html>  
+<html lang="id">  
+<head>  
+  <meta charset="UTF-8">  
+  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">  
+  <meta name="theme-color" content="#e63830">  
+  <meta name="description" content="APK DA•OFFICIAL - Download APK, musik, dan kata-kata sad.">  
+  <title>APK DA•OFFICIAL</title>  
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">  
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css" rel="stylesheet">  
+  <style>  
+    :root {  
+      --paper:#f8dede; --card:#fff7f4; --primary:#e63830; --secondary:#ffdf4d;  
+      --ink:#1c1c1c; --muted:#65595a; --shadow:4px 5px 0 var(--ink);  
+    }  
+    * { box-sizing:border-box; }  
+    body { margin:0; padding-bottom:104px; background:var(--paper); color:var(--ink); font-family:system-ui,-apple-system,"Segoe UI",sans-serif; }  
+    button,input { font:inherit; }  
+    .comic-header { background:var(--primary); color:#fff; border-bottom:4px solid var(--ink); box-shadow:0 4px 0 #fff; }  
+    .brand { font-weight:1000; letter-spacing:-.7px; font-size:1.15rem; color:#fff; text-decoration:none; }  
+    .brand span { color:var(--secondary); }  
+    .comic-icon { width:42px; height:42px; display:grid; place-items:center; border:2px solid var(--ink); border-radius:13px; background:var(--card); color:var(--ink); box-shadow:2px 3px 0 var(--ink); }  
+    .hero { margin:20px 0; padding:23px 18px; background:var(--primary); color:#fff; border:3px solid var(--ink); border-radius:22px; box-shadow:var(--shadow); position:relative; overflow:hidden; }  
+    .hero:after { content:"★"; position:absolute; right:16px; top:4px; color:var(--secondary); font-size:4rem; transform:rotate(15deg); opacity:.9; }  
+    .hero h1 { font-size:clamp(1.5rem,6vw,2.2rem); font-weight:1000; line-height:1.05; text-transform:uppercase; max-width:80%; }  
+    .hero p { max-width:80%; margin:10px 0 0; }  
+    .comic-panel { background:var(--card); border:3px solid var(--ink); border-radius:18px; box-shadow:var(--shadow); padding:16px; }  
+    .comic-title { font-weight:1000; text-transform:uppercase; font-size:1.1rem; margin:0 0 12px; }  
+    .search-box { display:flex; align-items:center; gap:10px; background:var(--card); border:3px solid var(--ink); border-radius:14px; padding:0 13px; box-shadow:3px 3px 0 var(--ink); }  
+    .search-box input { min-width:0; width:100%; padding:12px 0; background:transparent; color:var(--ink); border:0; outline:0; }  
+    .feature-grid { display:grid; grid-template-columns:repeat(2,minmax(0,1fr)); gap:12px; margin:18px 0 24px; }  
+    .feature-tile { min-height:104px; text-align:left; border:3px solid var(--ink); border-radius:17px; padding:14px; box-shadow:var(--shadow); font-weight:900; background:var(--card); color:var(--ink); transition:transform .12s; }  
+    .feature-tile:active,.comic-btn:active { transform:translate(2px,3px); box-shadow:1px 2px 0 var(--ink); }  
+    .feature-tile i { display:block; font-size:1.8rem; margin-bottom:6px; }  
+    .feature-tile.red { background:var(--primary); color:#fff; }  
+    .feature-tile.yellow { background:var(--secondary); }  
+    .feature-tile small { display:block; font-weight:600; font-size:.78rem; opacity:.85; }  
+    .categories { display:flex; gap:8px; overflow-x:auto; padding:3px 3px 8px; scrollbar-width:thin; }  
+    .category-btn { white-space:nowrap; border:2px solid var(--ink); background:var(--card); color:var(--ink); border-radius:12px; padding:8px 13px; font-weight:800; }  
+    .category-btn.active { background:var(--secondary); box-shadow:2px 3px 0 var(--ink); }  
+    .app-grid { display:grid; grid-template-columns:repeat(2,minmax(0,1fr)); gap:14px; }  
+    .app-card { min-width:0; background:var(--card); border:3px solid var(--ink); border-radius:17px; padding:12px; box-shadow:var(--shadow); overflow:hidden; }  
+    .app-icon { width:66px; height:66px; object-fit:cover; border:2px solid var(--ink); border-radius:15px; background:#fff; }  
+    .app-name { font-size:.95rem; font-weight:900; margin:10px 0 4px; overflow-wrap:anywhere; }  
+    .app-description { font-size:.8rem; color:var(--muted); min-height:38px; overflow-wrap:anywhere; }  
+    .comic-btn { display:inline-flex; justify-content:center; align-items:center; gap:6px; border:2px solid var(--ink); border-radius:11px; padding:9px 10px; font-weight:900; text-decoration:none; box-shadow:2px 3px 0 var(--ink); cursor:pointer; }  
+    .comic-btn.primary { background:var(--primary); color:#fff; }  
+    .comic-btn.light { background:var(--card); color:var(--ink); }  
+    .comic-btn.yellow { background:var(--secondary); color:var(--ink); }  
+    .feature-page { margin-top:18px; }  
+    .quote-text { font-size:1.2rem; font-weight:800; line-height:1.5; }  
+    .theme-swatches { display:grid; grid-template-columns:repeat(2,minmax(0,1fr)); gap:10px; }  
+    .theme-choice { border:3px solid var(--ink); border-radius:14px; padding:12px; background:var(--card); text-align:left; font-weight:900; box-shadow:3px 4px 0 var(--ink); }  
+    .swatch { display:inline-block; width:15px; height:15px; border:1px solid var(--ink); border-radius:50%; vertical-align:middle; margin-right:3px; }  
+    .bottom-nav { position:fixed; z-index:1000; left:0; right:0; bottom:0; padding:10px 7px calc(10px + env(safe-area-inset-bottom)); display:grid; grid-template-columns:repeat(5,minmax(0,1fr)); gap:4px; background:#f5baba; border:3px solid var(--ink); border-bottom:0; border-radius:20px 20px 0 0; box-shadow:0 -4px 0 #fff; }  
+    .nav-item { border:0; background:transparent; color:var(--ink); display:flex; flex-direction:column; align-items:center; gap:4px; font-size:.68rem; font-weight:1000; padding:0 1px; }  
+    .nav-item .nav-icon { width:42px; height:40px; display:grid; place-items:center; background:var(--card); border:3px solid var(--ink); border-radius:12px; font-size:1.15rem; box-shadow:2px 3px 0 var(--ink); }  
+    .nav-item.active .nav-icon { background:var(--secondary); }  
+    .empty-state { padding:24px 10px; text-align:center; color:var(--muted); }  
+    #loading { position:fixed; inset:0; z-index:2000; background:var(--primary); color:#fff; display:grid; place-items:center; font-weight:1000; font-size:1.2rem; transition:opacity .3s; }  
+    #loading.hide { opacity:0; pointer-events:none; }  
+    #notificationPanel { display:none; position:absolute; top:calc(100% + 12px); right:0; left:auto; width:min(320px,calc(100vw - 24px)); max-width:calc(100vw - 24px); max-height:min(55vh,360px); overflow-x:hidden; overflow-y:auto; box-sizing:border-box; background:var(--card); color:var(--ink); border:3px solid var(--ink); border-radius:15px; box-shadow:var(--shadow); padding:9px; z-index:5000; }  
+    #notificationPanel.show { display:block; }  
+    .notification-wrap { position:relative; }  
+    .notification-head { display:flex; align-items:center; justify-content:space-between; gap:8px; font-weight:900; margin-bottom:10px; }  
+    .notification-head button { border:0; background:transparent; text-decoration:underline; font-size:.75rem; }  
+    .notification-empty,.notification-item { font-size:.78rem; line-height:1.4; padding:8px; border-radius:10px; background:#fff; margin-bottom:7px; overflow-wrap:anywhere; word-break:normal; }
+    .notification-item * { max-width:100%; overflow-wrap:anywhere; }
+    @media(max-width:420px) { #notificationPanel { width:min(320px,calc(100vw - 24px)); max-width:calc(100vw - 24px); padding:8px; } .notification-head { gap:5px; font-size:.82rem; } .notification-head button { font-size:.68rem; white-space:normal; } .notification-empty,.notification-item { font-size:.75rem; } }  
+    @media(min-width:700px) { .container.main-width { max-width:760px; } .app-grid { grid-template-columns:repeat(3,minmax(0,1fr)); } .feature-grid { grid-template-columns:repeat(4,minmax(0,1fr)); } }  .quote-text {
+position: relative;
+padding: 22px 16px !important;
+background: #ffdf4d !important;
+color: #ffffff;
+border: 3px solid #1c1c1c !important;
+border-radius: 16px !important;
+font-family: Impact, "Arial Black", sans-serif;
+font-size: clamp(1.5rem, 6vw, 2rem);
+font-weight: 1000;
+line-height: 1.3;
+text-align: center;
+text-transform: uppercase;
+letter-spacing: .5px;
+-webkit-text-stroke: 1.2px #1c1c1c;
+text-shadow:
+2px 2px 0 #1c1c1c,
+4px 4px 0 #1c1c1c,
+6px 6px 0 #e63830;
+box-shadow: 5px 6px 0 #1c1c1c;
+transform: rotate(-1deg);
+overflow-wrap: anywhere;
+}
+
+@keyframes comicPop {
+0% {
+opacity: 0;
+transform: scale(.8) rotate(-3deg);
+}
+70% {
+opacity: 1;
+transform: scale(1.04) rotate(1deg);
+}
+100% {
+opacity: 1;
+transform: scale(1) rotate(-1deg);
+}
+}
+
+.quote-text.pop {
+animation: comicPop .35s ease-out;
+}
+
+.quote-label {
+display: inline-block;
+background: #e63830;
+color: #fff;
+border: 2px solid #1c1c1c;
+border-radius: 8px;
+padding: 5px 12px;
+margin-bottom: 14px;
+font-weight: 1000;
+box-shadow: 3px 3px 0 #1c1c1c;
+transform: rotate(-2deg);
+}
+
+.sad-heading {
+display: flex;
+align-items: center;
+justify-content: center;
+gap: 8px;
+padding: 15px 10px;
+margin-bottom: 18px;
+background: #e63830;
+color: #fff;
+border: 3px solid #1c1c1c;
+border-radius: 14px;
+font-family: Impact, "Arial Black", sans-serif;
+font-size: clamp(1.15rem, 5vw, 1.7rem);
+font-weight: 1000;
+text-align: center;
+text-shadow:
+2px 2px 0 #1c1c1c,
+4px 4px 0 #1c1c1c;
+box-shadow: 5px 6px 0 #1c1c1c;
+transform: rotate(-1deg);
+}
+
+.sad-heading-icon {
+font-size: 1.6em;
+filter: drop-shadow(2px 3px 0 #1c1c1c);
+}
+
+.sad-heading-star {
+color: #ffdf4d;
+font-size: 1.3em;
+text-shadow:
+2px 2px 0 #1c1c1c,
+3px 3px 0 #1c1c1c;
+}
+
+@media (prefers-reduced-motion: reduce) {
+.quote-text.pop {
+animation: none;
+}
+}
+
+.sad-panel {
+padding: 22px 18px;
+overflow: hidden;
+background: #fff7f4;
+}
+
+.sad-badge {
+display: table;
+margin: 0 auto 16px;
+padding: 7px 16px;
+background: #ffdf4d;
+color: #1c1c1c;
+border: 2px solid #1c1c1c;
+border-radius: 8px;
+box-shadow: 3px 3px 0 #1c1c1c;
+font-size: 12px;
+font-weight: 900;
+letter-spacing: 2px;
+transform: rotate(-2deg);
+}
+
+.sad-heading {
+margin: 0 0 14px;
+padding: 15px 8px;
+background: #e63830;
+color: #fff;
+border: 3px solid #1c1c1c;
+border-radius: 12px;
+font-family: Impact, "Arial Black", sans-serif;
+font-size: clamp(22px, 6vw, 32px);
+font-weight: 900;
+text-align: center;
+text-shadow: 3px 3px 0 #1c1c1c;
+box-shadow: 4px 5px 0 #1c1c1c;
+}
+
+.sad-subtitle {
+margin: 20px 0;
+color: #65595a;
+font-size: 14px;
+text-align: center;
+}
+
+.quote-text {
+display: flex;
+min-height: 180px;
+align-items: center;
+justify-content: center;
+margin: 22px 0 !important;
+padding: 25px 18px !important;
+background: #ffdf4d !important;
+color: #fff;
+border: 3px solid #1c1c1c !important;
+border-radius: 14px !important;
+font-family: Impact, "Arial Black", sans-serif;
+font-size: clamp(23px, 6vw, 31px);
+font-weight: 900;
+line-height: 1.4;
+text-align: center;
+text-transform: uppercase;
+overflow-wrap: anywhere;
+text-shadow: 2px 2px 0 #1c1c1c,
+4px 4px 0 #e63830;
+box-shadow: 5px 6px 0 #1c1c1c;
+transform: rotate(-1deg);
+}
+
+.sad-buttons {
+display: grid;
+gap: 12px;
+margin-top: 26px;
+}
+
+.sad-buttons .comic-btn {
+width: 100%;
+min-height: 48px;
+font-size: 15px;
+}
+
+.sad-footer {
+margin-top: 24px;
+color: #65595a;
+font-size: 10px;
+font-weight: 900;
+letter-spacing: 1.5px;
+text-align: center;
+}
+
+@media (max-width: 380px) {
+.sad-panel {
+padding: 18px 13px;
+}
+
+.quote-text {
+min-height: 155px;
+padding: 20px 12px !important;
+}
+}
+/* KARTU KATA SAD - KOMIK */
+.sad-quote-list {
+  display: grid;
+  gap: 16px;
+  margin-top: 22px;
+}
+
+.sad-quote-card {
+  position: relative;
+  padding: 20px;
+  background: #fff7f4;
+  border: 3px solid #1c1c1c;
+  border-radius: 18px;
+  box-shadow: 5px 5px 0 #e63830;
+  color: #1c1c1c;
+  overflow-wrap: anywhere;
+}
+
+.sad-quote-number {
+  display: inline-block;
+  padding: 6px 10px;
+  margin-bottom: 14px;
+  background: #ffdf4d;
+  border: 2px solid #1c1c1c;
+  border-radius: 8px;
+  font-size: 12px;
+  font-weight: 900;
+  letter-spacing: 1px;
+}
+
+.sad-quote-content {
+  margin: 0 0 18px;
+  font-size: 17px;
+  font-weight: 700;
+  line-height: 1.8;
+  white-space: pre-wrap;
+}
+
+.sad-quote-card::after {
+  content: "💔";
+  position: absolute;
+  top: 12px;
+  right: 12px;
+  font-size: 23px;
+  transform: rotate(12deg);
+}
+
+.sad-quote-card .comic-btn {
+  width: 100%;
+  border: 2px solid #1c1c1c;
+  border-radius: 10px;
+  padding: 11px;
+  font-weight: 900;
+  box-shadow: 3px 3px 0 #1c1c1c;
+}
+
+.sad-quote-card .comic-btn:active {
+  transform: translate(2px, 2px);
+  box-shadow: 1px 1px 0 #1c1c1c;
+}
+  .profile-comic {
+  width: 112px;
+  height: 112px;
+  margin: 0 auto 18px;
+  border: 5px solid #1c1c1c;
+  border-radius: 50%;
+  background: #ffdf4d;
+  box-shadow: 5px 5px 0 #e63830;
+  overflow: hidden;
+}
+
+.profile-comic img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  display: block;
+}
+    .quote-author {
+  margin-top: 10px;
+  font-size: 13px;
+  font-weight: bold;
+  color: #e63830;
+  text-align: right;
+    }
+  
+
+    /* ===== PENYEMPURNAAN UI APK DA•OFFICIAL ===== */
+    html { scroll-behavior: smooth; }
+    body {
+      background-image: radial-gradient(rgba(28,28,28,.075) .8px, transparent .8px);
+      background-size: 15px 15px;
+      line-height: 1.55;
+    }
+    .comic-header {
+      position: sticky;
+      top: 0;
+      z-index: 1100;
+      box-shadow: 0 5px 0 rgba(255,255,255,.85), 0 8px 18px rgba(28,28,28,.12);
+    }
+    .brand { display:inline-flex; align-items:center; gap:5px; white-space:nowrap; }
+    .brand span { margin-left:2px; }
+    .comic-icon { flex:0 0 auto; transition:transform .18s ease, box-shadow .18s ease; }
+    .comic-icon:active { transform:translate(2px,2px); box-shadow:0 1px 0 var(--ink); }
+    .profile-comic {
+      width:104px; height:104px; margin:24px auto 16px;
+      border-width:4px; box-shadow:4px 5px 0 var(--primary);
+      transition:transform .2s ease;
+    }
+    .profile-comic:hover { transform:rotate(3deg) scale(1.03); }
+    .hero {
+      margin:18px 0 22px; padding:clamp(22px,5vw,34px) clamp(18px,5vw,28px);
+      background:linear-gradient(135deg,var(--primary),color-mix(in srgb,var(--primary),#1c1c1c 12%));
+      border-radius:24px; box-shadow:6px 7px 0 var(--ink);
+    }
+    .hero:before {
+      content:""; position:absolute; inset:0; pointer-events:none; opacity:.12;
+      background-image:radial-gradient(#fff 1px,transparent 1px); background-size:10px 10px;
+      mask-image:linear-gradient(90deg,#000,transparent 78%);
+    }
+    .hero:after { right:18px; top:12px; font-size:clamp(3rem,12vw,5rem); text-shadow:3px 4px 0 var(--ink); }
+    .hero h1 { position:relative; z-index:1; letter-spacing:-.8px; }
+    .hero p { position:relative; z-index:1; font-size:.98rem; line-height:1.65; }
+    .search-box { transition:box-shadow .18s ease, transform .18s ease; }
+    .search-box:focus-within { box-shadow:0 0 0 3px color-mix(in srgb,var(--primary),transparent 72%),3px 4px 0 var(--ink); }
+    .feature-grid { gap:13px; }
+    .feature-tile {
+      position:relative; overflow:hidden; min-height:116px; padding:16px 13px;
+      transition:transform .18s ease, box-shadow .18s ease;
+    }
+    .feature-tile i { width:44px; height:44px; display:grid; place-items:center; border:2px solid currentColor; border-radius:13px; margin-bottom:10px; font-size:1.45rem; }
+    .feature-tile small { margin-top:3px; line-height:1.4; }
+    .feature-tile:hover { transform:translateY(-3px); box-shadow:4px 7px 0 var(--ink); }
+    .comic-panel { border-radius:21px; box-shadow:5px 6px 0 var(--ink); }
+    .comic-title { display:flex; align-items:center; gap:8px; line-height:1.3; }
+    .app-grid { align-items:stretch; gap:13px; }
+    .app-card {
+      display:flex; flex-direction:column; align-items:flex-start;
+      border-radius:19px; padding:13px; box-shadow:4px 5px 0 var(--ink);
+      transition:transform .18s ease, box-shadow .18s ease;
+    }
+    .app-card:hover { transform:translateY(-3px); box-shadow:5px 8px 0 var(--primary); }
+    .app-icon { width:64px; height:64px; border-radius:17px; }
+    .app-name { width:100%; line-height:1.35; }
+    .app-description { width:100%; line-height:1.5; }
+    .app-card .comic-btn { margin-top:auto; min-height:42px; font-size:.82rem; }
+    .comic-btn { transition:transform .14s ease, box-shadow .14s ease, filter .14s ease; }
+    .comic-btn:hover { filter:brightness(1.04); }
+    .category-btn { transition:background .15s ease, transform .15s ease; }
+    .category-btn:active { transform:scale(.97); }
+    .empty-state { border-radius:16px; line-height:1.6; }
+    #notificationPanel { box-shadow:5px 6px 0 var(--ink); }
+    .notification-item { border:1px solid rgba(28,28,28,.12); overflow-wrap:anywhere; }
+    .notification-item p { margin-bottom:4px !important; }
+    .bottom-nav {
+      background:color-mix(in srgb,var(--paper),#fff 12%);
+      padding-top:9px; box-shadow:0 -5px 0 rgba(255,255,255,.9),0 -10px 24px rgba(28,28,28,.10);
+      backdrop-filter:blur(12px); -webkit-backdrop-filter:blur(12px);
+    }
+    .nav-item { min-width:0; font-size:clamp(.55rem,2.1vw,.68rem); }
+    .nav-item .nav-icon { width:40px; height:38px; transition:transform .15s ease,background .15s ease; }
+    .nav-item.active .nav-icon { transform:translateY(-3px) rotate(-3deg); box-shadow:3px 4px 0 var(--ink); }
+    .nav-item.active { color:var(--primary); }
+    .theme-choice { transition:transform .16s ease,box-shadow .16s ease; }
+    .theme-choice:hover { transform:translateY(-2px); box-shadow:4px 6px 0 var(--ink); }
+    .sad-quote-card { box-shadow:4px 5px 0 var(--primary); }
+    button:focus-visible, a:focus-visible, input:focus-visible { outline:3px solid #1769ff; outline-offset:3px; }
+    @media (min-width:700px) {
+      .container.main-width { max-width:900px; }
+      .app-grid { grid-template-columns:repeat(3,minmax(0,1fr)); }
+      .hero { padding:34px 30px; }
+    }
+    @media (max-width:420px) {
+      body { padding-bottom:98px; }
+      .brand { font-size:1rem; letter-spacing:-.5px; }
+      .comic-header .container { gap:8px !important; }
+      .comic-header .container > .ms-auto { gap:9px !important; }
+      .comic-icon { width:39px; height:39px; }
+      .hero h1 { max-width:82%; }
+      .feature-grid { gap:10px; }
+      .feature-tile { min-height:108px; padding:12px; }
+      .app-grid { gap:11px; }
+      .app-card { padding:10px; }
+      .app-icon { width:58px; height:58px; }
+      .bottom-nav { gap:2px; padding-left:4px; padding-right:4px; }
+      .nav-item .nav-icon { width:35px; height:35px; border-width:2px; }
+    }
+    @media (prefers-reduced-motion: reduce) {
+      *,*::before,*::after { scroll-behavior:auto !important; transition:none !important; animation:none !important; }
+    }
+
+
+    
+    /* ===== SPOTIFY WEB API SEARCH ===== */
+    .spotify-api-controls { display:flex; gap:9px; flex-wrap:wrap; margin:12px 0; }
+    .spotify-connect-btn { display:inline-flex; align-items:center; justify-content:center; gap:8px; padding:10px 14px; border:2px solid #111; border-radius:12px; background:#1ed760; color:#111; font-weight:900; box-shadow:3px 3px 0 #111; }
+    .spotify-api-status { margin:8px 0 12px; padding:10px 12px; border-radius:12px; background:#202020; color:#eee; font-size:.82rem; line-height:1.5; }
+    .spotify-track-result { display:flex; align-items:center; gap:10px; padding:10px; border:1px solid #ddd; border-radius:13px; background:#fff; color:#222; }
+    .spotify-track-result img { flex:0 0 58px; width:58px; height:58px; object-fit:cover; border-radius:9px; background:#e7e7e7; }
+    .spotify-track-info { flex:1; min-width:0; }
+    .spotify-track-info strong { display:block; font-size:.86rem; overflow-wrap:anywhere; }
+    .spotify-track-info small { display:block; color:#666; font-size:.75rem; overflow-wrap:anywhere; }
+    .spotify-track-actions { display:flex; flex-direction:column; gap:6px; }
+    .spotify-track-actions button,.spotify-track-actions a { display:inline-flex; justify-content:center; align-items:center; gap:4px; border:1px solid #111; border-radius:9px; padding:7px 9px; background:#1ed760; color:#111; text-decoration:none; font-size:.75rem; font-weight:900; white-space:nowrap; }
+    .spotify-track-actions a { background:#fff; }
+    @media(max-width:390px) { .spotify-track-result { align-items:flex-start; gap:8px; } .spotify-track-result img { flex-basis:48px; width:48px; height:48px; } .spotify-track-actions button,.spotify-track-actions a { padding:6px; font-size:.68rem; } }
+
+    /* Spotify page */
+    .spotify-page { color:#fff; }
+    .spotify-hero { position:relative; display:flex; align-items:center; justify-content:space-between; gap:12px; min-height:210px; overflow:hidden; padding:22px 18px; background:linear-gradient(135deg,#123d2b,#1db954 75%,#b8f5c9); border:3px solid var(--ink); border-radius:22px; box-shadow:5px 6px 0 var(--ink); }
+    .spotify-hero-copy { position:relative; z-index:1; max-width:74%; }
+    .spotify-kicker { display:inline-flex; align-items:center; gap:6px; padding:5px 9px; border:1px solid rgba(255,255,255,.5); border-radius:999px; background:rgba(0,0,0,.15); font-size:.68rem; font-weight:900; letter-spacing:.7px; }
+    .spotify-hero h1 { margin:14px 0 8px; font-size:clamp(1.55rem,6vw,2.2rem); font-weight:1000; line-height:1.05; }
+    .spotify-hero h1 span { color:#baffcf; }
+    .spotify-hero p { margin:0 0 14px; font-size:.88rem; color:#effff3; }
+    .spotify-open-link { display:inline-flex; align-items:center; gap:7px; padding:9px 12px; background:#fff; color:#123d2b; text-decoration:none; font-weight:900; border:2px solid var(--ink); border-radius:11px; box-shadow:3px 3px 0 var(--ink); }
+    .spotify-disc { flex:0 0 82px; width:82px; height:82px; display:grid; place-items:center; border:7px solid rgba(255,255,255,.22); border-radius:50%; background:repeating-radial-gradient(circle,#111 0 5px,#262626 6px 8px); color:#1ed760; font-size:2rem; box-shadow:0 0 0 3px rgba(0,0,0,.25); transform:rotate(-12deg); }
+    .spotify-search-wrap { display:flex; align-items:center; gap:10px; margin:17px 0 12px; padding:5px 7px 5px 14px; color:#fff; background:#202020; border:2px solid #111; border-radius:14px; }
+    .spotify-search-wrap input { width:100%; min-width:0; padding:8px 0; border:0; outline:0; background:transparent; color:#fff; }
+    .spotify-search-wrap input::placeholder { color:#c5c5c5; }
+    .spotify-search-wrap button { flex:0 0 38px; height:38px; border:0; border-radius:10px; background:#1ed760; color:#111; font-size:1.1rem; }
+    .spotify-tabs { display:flex; gap:7px; overflow-x:auto; padding:4px 2px 11px; scrollbar-width:thin; }
+    .music-tab { flex:0 0 auto; padding:9px 12px; border:2px solid #111; border-radius:999px; background:#fff7f4; color:#222; font-size:.78rem; font-weight:900; }
+    .music-tab.active { background:#1ed760; box-shadow:2px 3px 0 #111; }
+    .spotify-view { margin-top:12px; padding:17px 14px; color:#222; background:#fff7f4; border:3px solid #1c1c1c; border-radius:19px; box-shadow:4px 5px 0 #1c1c1c; }
+    .spotify-section-heading { display:flex; align-items:center; justify-content:space-between; gap:12px; margin-bottom:14px; }
+    .spotify-section-heading span,.spotify-player-head small { display:block; color:#5e6b61; font-size:.65rem; font-weight:1000; letter-spacing:1px; }
+    .spotify-section-heading h2 { margin:3px 0 0; font-size:1.25rem; font-weight:1000; }
+    .spotify-section-heading > i { font-size:1.7rem; color:#168b43; }
+    .spotify-playlist-grid { display:grid; grid-template-columns:repeat(2,minmax(0,1fr)); gap:12px; }
+    .spotify-playlist-card { position:relative; min-width:0; display:flex; flex-direction:column; align-items:flex-start; text-align:left; padding:10px; border:2px solid #222; border-radius:15px; background:#fff; color:#222; box-shadow:2px 3px 0 #222; }
+    .playlist-art { width:100%; aspect-ratio:1.3; display:grid; place-items:center; margin-bottom:10px; border:2px solid #222; border-radius:10px; color:#fff; font-size:2.4rem; }
+    .art-green { background:linear-gradient(135deg,#064e3b,#1ed760); }
+    .art-red { background:linear-gradient(135deg,#8b1e2d,#ff7a59); }
+    .art-purple { background:linear-gradient(135deg,#352064,#9a76ed); }
+    .spotify-playlist-card strong { padding-right:3px; font-size:.9rem; line-height:1.3; }
+    .spotify-playlist-card small { margin-top:4px; color:#666; font-size:.75rem; }
+    .playlist-play { position:absolute; right:16px; top:calc((100% - 70px) * .38); display:grid; place-items:center; width:38px; height:38px; border-radius:50%; background:#1ed760; color:#111; font-size:1.4rem; box-shadow:0 2px 7px #0003; }
+    .spotify-results:empty { display:none; }
+    .spotify-results:not(:empty) { display:grid; gap:8px; margin-bottom:14px; }
+    .music-playlist { display:flex; align-items:center; gap:10px; width:100%; padding:10px; border:1px solid #ddd; border-radius:12px; background:#fff; color:#222; text-align:left; }
+    .music-playlist > span:nth-child(2) { display:flex; flex:1; min-width:0; flex-direction:column; }
+    .music-playlist strong { font-size:.86rem; }
+    .music-playlist small { color:#666; font-size:.75rem; }
+    .music-cover { flex:0 0 42px; width:42px; height:42px; display:grid; place-items:center; border-radius:10px; background:#d7f8e1; color:#13783a; font-size:1.2rem; }
+    .music-playlist > i { color:#15883e; font-size:1.35rem; }
+    .music-favorite-button { width:100%; margin-top:6px; padding:8px; border:1px solid #ddd; border-radius:10px; background:#f2fff5; color:#146c35; font-weight:800; }
+    .spotify-player { margin:14px 0; padding:13px; border:3px solid #111; border-radius:18px; background:#1d1d1d; box-shadow:4px 5px 0 #111; }
+    .spotify-player-head { display:flex; align-items:center; justify-content:space-between; gap:10px; margin-bottom:12px; color:#fff; }
+    .spotify-player-head strong { display:block; max-width:180px; overflow-wrap:anywhere; }
+    .spotify-favorite-current { border:1px solid #1ed760; border-radius:9px; padding:7px 9px; background:#1ed760; color:#111; font-size:.75rem; font-weight:900; }
+    .spotify-embed { overflow:hidden; border-radius:12px; }
+    .spotify-embed iframe { border:0; }
+    .spotify-note { margin:10px 2px 0; color:#ddd; font-size:.72rem; }
+    .spotify-list { display:grid; gap:8px; }
+    .music-empty { padding:25px 10px; text-align:center; color:#6b6b6b; }
+    .music-empty i { display:block; margin-bottom:8px; font-size:2rem; color:#168b43; }
+    .spotify-download-note { padding:18px 8px; text-align:center; }
+    .spotify-download-note > i { color:#168b43; font-size:2.4rem; }
+    .spotify-download-note h2 { margin:10px 0; font-weight:1000; }
+    .spotify-download-note p { color:#555; line-height:1.6; }
+    @media (max-width:390px) { .spotify-hero { padding:18px 13px; } .spotify-disc { flex-basis:60px; width:60px; height:60px; border-width:5px; font-size:1.5rem; } .spotify-hero-copy { max-width:78%; } .spotify-playlist-grid { gap:9px; } .spotify-playlist-card { padding:8px; } .playlist-play { right:12px; } }
+    
+/* ===== LOADING PREMIUM KOMIK APK DA•OFFICIAL ===== */
+#loading {
+  position:fixed; inset:0; z-index:99999;
+  display:flex; align-items:center; justify-content:center;
+  overflow:hidden; padding:24px;
+  color:var(--ink);
+  background:
+    radial-gradient(circle at 18% 20%,rgba(255,255,255,.65) 0 2px,transparent 3px),
+    radial-gradient(circle at 80% 75%,rgba(255,255,255,.5) 0 2px,transparent 3px),
+    repeating-linear-gradient(135deg,#e63830 0 28px,#d92e28 28px 56px);
+  background-size:34px 34px,42px 42px,auto;
+  opacity:1; visibility:visible;
+  transition:opacity .45s ease,visibility .45s ease;
+}
+#loading.hide { opacity:0; visibility:hidden; pointer-events:none; }
+.loader-bg-effects {
+  position:absolute; inset:0; pointer-events:none;
+  background:radial-gradient(ellipse at center,transparent 20%,rgba(20,10,10,.22) 100%);
+}
+.loader-content {
+  position:relative; z-index:1; width:min(360px,92vw);
+  padding:26px 22px 22px; text-align:center;
+  background:#fff7f4; border:4px solid #1c1c1c; border-radius:24px;
+  box-shadow:9px 10px 0 #1c1c1c;
+  animation:loaderAppear .65s cubic-bezier(.2,.8,.2,1) both;
+}
+.loader-ring {
+  width:142px;height:142px;margin:0 auto 22px;padding:7px;
+  display:grid;place-items:center;border-radius:50%;
+  border:4px solid #1c1c1c;
+  background:conic-gradient(#ffdf4d 0 25%,#e63830 25% 50%,#ffdf4d 50% 75%,#e63830 75%);
+  box-shadow:5px 5px 0 #1c1c1c;
+  animation:loaderSpin 5s linear infinite;
+}
+.loader-logo {
+  width:112px;height:112px;display:flex;flex-direction:column;
+  align-items:center;justify-content:center;border:3px solid #1c1c1c;
+  border-radius:50%;background:#ffdf4d;color:#1c1c1c;
+  box-shadow:inset 0 0 0 4px #fff7f4;
+  animation:loaderCounterSpin 5s linear infinite;
+}
+.loader-logo strong {color:#e63830;font-size:31px;line-height:1;font-weight:1000;text-shadow:2px 2px 0 #1c1c1c;}
+.loader-crown {color:#1c1c1c;font-size:20px;line-height:1;}
+.loader-brand {margin-top:4px;color:#1c1c1c;font-size:10px;font-weight:1000;letter-spacing:1px;}
+.loader-ribbon {margin-top:6px;padding:3px 8px;border:2px solid #1c1c1c;border-radius:5px;background:#e63830;color:#fff;font-size:8px;font-weight:1000;}
+.loader-welcome {color:#e63830;font-size:clamp(21px,6vw,28px);font-weight:1000;letter-spacing:1px;line-height:1.15;text-shadow:2px 2px 0 #ffdf4d,3px 3px 0 #1c1c1c;}
+.loader-subtitle {margin-top:7px;color:#1c1c1c;font-size:12px;font-weight:1000;letter-spacing:2px;}
+.loader-message {margin:22px 0 12px;color:#65595a;font-size:12px;font-weight:700;}
+.loader-track {width:100%;height:14px;padding:2px;overflow:hidden;border:3px solid #1c1c1c;border-radius:20px;background:#fff;box-shadow:3px 3px 0 #1c1c1c;}
+.loader-progress {width:0%;height:100%;border-radius:20px;background:linear-gradient(90deg,#e63830 0%,#ffdf4d 100%);transition:width .15s linear;}
+#loaderPercent {margin-top:11px;color:#e63830;font-size:16px;font-weight:1000;}
+.loader-status {margin-top:5px;color:#65595a;font-size:10px;font-weight:1000;letter-spacing:2px;}
+.loader-footer {margin-top:22px;color:#1c1c1c;font-size:9px;font-weight:1000;letter-spacing:1px;}
+@keyframes loaderSpin {to{transform:rotate(360deg);}}
+@keyframes loaderCounterSpin {to{transform:rotate(-360deg);}}
+@keyframes loaderAppear {from{opacity:0;transform:translateY(16px) scale(.96)}to{opacity:1;transform:translateY(0) scale(1)}}
+@media(max-height:620px){.loader-content{padding:16px;width:min(330px,92vw)}.loader-ring{width:105px;height:105px;margin-bottom:14px}.loader-logo{width:81px;height:81px}.loader-logo strong{font-size:24px}.loader-crown{font-size:15px}.loader-brand{font-size:8px}.loader-ribbon{font-size:7px;margin-top:3px}.loader-message{margin:12px 0}.loader-footer{margin-top:12px}}
+@media(prefers-reduced-motion:reduce){.loader-ring,.loader-logo,.loader-content{animation:none}}
+
+
+/* Fitur tambahan: mode gelap/terang, kontrol bahasa, dan PWA */
+.utility-toggle{border:3px solid var(--ink);background:var(--secondary);color:var(--ink);border-radius:12px;min-width:38px;height:38px;display:grid;place-items:center;font-weight:1000;box-shadow:2px 3px 0 var(--ink);padding:0 7px}
+html[data-mode="dark"] body{--paper:#11131d;--card:#1c2030;--ink:#f5f3ff;--muted:#c4c0d8;background:var(--paper);color:var(--ink)}
+html[data-mode="dark"] .comic-header{background:#25213b;color:#fff}
+html[data-mode="dark"] .bottom-nav{background:#242039}
+html[data-mode="dark"] .nav-icon,html[data-mode="dark"] .notification-empty,html[data-mode="dark"] .notification-item{background:#292d40;color:#f5f3ff}
+html[data-mode="dark"] input,html[data-mode="dark"] textarea,html[data-mode="dark"] select{background:#202438;color:#fff;border-color:#777}
+@media(max-width:430px){.utility-toggle{min-width:32px;height:34px;border-width:2px;font-size:.78rem}.comic-header .container{gap:7px!important}.comic-header .d-flex.gap-3{gap:7px!important}.brand{font-size:.9rem}}
+
+  </style>  
+  <script data-cfasync="false" src="https://accountut.com/1/e65196dc30ce7366edb273c1025596f5"></script>
+  <link rel="manifest" href="./manifest.json">
+  <meta name="apple-mobile-web-app-capable" content="yes">
+  <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+</head>  
+<body>  
+  
+<div id="loading" role="status" aria-label="Memuat website">
+  <div class="loader-bg-effects"></div>
+
+  <div class="loader-content">
+    <div class="loader-ring">
+      <div class="loader-logo">
+        <span class="loader-crown">♛</span>
+        <strong>APK</strong>
+        <span class="loader-brand">DA•OFFICIAL</span>
+        <span class="loader-ribbon">DOWNLOAD APK</span>
+      </div>
+    </div>
+
+    <div class="loader-welcome">SELAMAT DATANG</div>
+    <div class="loader-subtitle">DI APK DA•OFFICIAL</div>
+
+    <p class="loader-message">Menyiapkan sesuatu yang keren...</p>
+
+    <div class="loader-track">
+      <div id="loaderProgress" class="loader-progress"></div>
+    </div>
+
+    <div id="loaderPercent">0%</div>
+    <div class="loader-status">MEMUAT WEBSITE...</div>
+    <div class="loader-footer">★ MOHON TUNGGU SEBENTAR ★</div>
+  </div>
+</div>
+  <header class="comic-header">  
+    <div class="container main-width py-3 d-flex align-items-center gap-3">  
+      <a class="brand" href="#" onclick="showPage('home');return false;"><i class="bi bi-box-seam-fill"></i> APK<span>DA•OFFICIAL</span></a>  
+      <div class="ms-auto d-flex align-items-center gap-3">  
+        <div class="notification-wrap">  
+          <button id="notificationBtn" class="comic-icon" type="button" aria-label="Notifikasi" aria-expanded="false"><i class="bi bi-bell-fill"></i><span id="notificationCount" class="badge text-bg-warning">0</span></button>  
+          <div id="notificationPanel">  
+            <div class="notification-head"><span>🔔 Notifikasi</span><button id="markReadBtn" type="button">Tandai dibaca</button></div>  
+            <div id="notificationList"><div class="notification-empty">Memuat notifikasi...</div></div>  
+          </div>  
+        </div>  
+        <button class="comic-icon utility-toggle" id="themeModeBtn" type="button" aria-label="Ganti mode terang atau gelap" title="Mode terang/gelap"><i class="bi bi-moon-stars-fill"></i></button>
+        <button class="comic-icon utility-toggle" id="languageBtn" type="button" aria-label="Ganti bahasa" title="Bahasa">ID</button>
+        <button class="comic-icon utility-toggle" id="installPwaBtn" type="button" aria-label="Pasang website" title="Pasang website" hidden><i class="bi bi-download"></i></button>
+      </div>  
+    </div>  
+  </header>    <main class="container main-width">  
+    <section id="homePage">  
+      <div class="profile-comic">
+  <img src="https://cdn.phototourl.com/member/2026-10-19-6e1ef9a3-0cf8-4474-882f-6aa1a13ea1b8.jpg" alt="Profil APK DA OFFICIAL" loading="lazy" decoding="async">
+      </div>
+      <div class="hero">  
+        <h1>Selamat datang!</h1>  
+        <p>Temukan APK favorit dan hiburanmu di satu tempat.</p>  
+      </div>  <label class="search-box" for="searchInput">  
+    <i class="bi bi-search"></i>  
+    <input id="searchInput" type="search" placeholder="Cari aplikasi..." autocomplete="off">  
+  </label>  
+
+  <div class="feature-grid">  
+    <button class="feature-tile red" onclick="showPage('apps')"><i class="bi bi-phone"></i>Menu Aplikasi<small>Game, tools, media</small></button>  
+    <button class="feature-tile yellow" onclick="showPage('spotify')"><i class="bi bi-spotify"></i>Spotify<small>Musik favorit</small></button>  
+    <button class="feature-tile" onclick="showPage('sad')"><i class="bi bi-heartbreak"></i>Kata Sad<small>Kata galau harian</small></button>  
+    <button class="feature-tile" onclick="showPage('theme')"><i class="bi bi-palette"></i>Tema<small>Ubah warna website</small></button>  
+  </div>  
+
+  <section class="mb-4">  
+    <h2 class="comic-title">APK pilihan</h2>  
+    <div id="homeApps" class="app-grid"><div class="empty-state">Memuat aplikasi...</div></div>  
+    <button class="comic-btn primary mt-3 w-100" onclick="showPage('apps')">Lihat semua APK <i class="bi bi-arrow-right"></i></button>  
+  </section>  
+</section>  
+
+<section id="appsPage" class="feature-page d-none">  
+  <div class="comic-panel mb-3">  
+    <h1 class="comic-title">Menu Aplikasi</h1>  
+    <label class="search-box" for="appSearchInput"><i class="bi bi-search"></i><input id="appSearchInput" type="search" placeholder="Cari nama aplikasi..."></label>  
+    <div class="categories mt-3" id="categories">  
+      <button class="category-btn active" data-category="Semua">Semua</button>  
+      <button class="category-btn" data-category="Game">Game</button>  
+      <button class="category-btn" data-category="Sosial">Sosial</button>  
+      <button class="category-btn" data-category="Tools">Tools</button>  
+      <button class="category-btn" data-category="Media">Media</button>  
+      <button class="category-btn" data-category="Lainnya">Lainnya</button>  
+    </div>  
+  </div>  
+  <div id="appGrid" class="app-grid"><div class="empty-state">Memuat aplikasi...</div></div>  
+</section>  
+
+<section id="spotifyPage" class="feature-page d-none spotify-page">
+  <div class="spotify-hero">
+    <div class="spotify-hero-copy">
+      <span class="spotify-kicker"><i class="bi bi-spotify"></i> DA•OFFICIAL MUSIC</span>
+      <h1>Musik untuk<br><span>setiap suasana.</span></h1>
+      <p>Temukan playlist santai, lagu hits, dan musik pilihanmu.</p>
+      <a class="spotify-open-link" href="https://open.spotify.com/" target="_blank" rel="noopener noreferrer">Buka Spotify <i class="bi bi-arrow-up-right"></i></a>
+    </div>
+    <div class="spotify-disc" aria-hidden="true"><i class="bi bi-music-note-beamed"></i></div>
+  </div>
+
+  <div class="spotify-api-controls">
+    <button type="button" id="spotifyConnectButton" class="spotify-connect-btn" onclick="connectSpotify()">
+      <i class="bi bi-spotify"></i> Hubungkan Spotify API
+    </button>
+  </div>
+  <div id="spotifyApiStatus" class="spotify-api-status" role="status" aria-live="polite">
+    Hubungkan akun Spotify untuk mencari lagu dari katalog Spotify.
+  </div>
+  <div class="spotify-search-wrap">
+    <i class="bi bi-search"></i>
+    <input id="musicSearchInput" type="search" placeholder="Cari judul lagu atau artis..." aria-label="Cari lagu atau artis">
+    <button type="button" onclick="searchMusicCatalog()" aria-label="Cari lagu"><i class="bi bi-arrow-right"></i></button>
+  </div>
+
+  <div class="spotify-tabs" role="tablist" aria-label="Menu Spotify">
+    <button type="button" class="music-tab active" onclick="showMusicTab('search')"><i class="bi bi-compass"></i> Jelajahi</button>
+    <button type="button" class="music-tab" onclick="showMusicTab('playlist')"><i class="bi bi-music-note-list"></i> Playlist</button>
+    <button type="button" class="music-tab" onclick="showMusicTab('favorite')"><i class="bi bi-heart"></i> Favorit</button>
+    <button type="button" class="music-tab" onclick="showMusicTab('history')"><i class="bi bi-clock-history"></i> Riwayat</button>
+  </div>
+
+  <div id="musicPlayerArea" class="spotify-player d-none">
+    <div class="spotify-player-head"><div><small>SEDANG DIPILIH</small><strong id="musicNowPlaying">Playlist Spotify</strong></div><button type="button" class="spotify-favorite-current" onclick="toggleCurrentMusicFavorite()"><i class="bi bi-heart"></i> Favorit</button></div>
+    <div class="ratio ratio-4x3 spotify-embed"><iframe id="musicSpotifyFrame" title="Pemutar playlist Spotify" src="https://open.spotify.com/embed/playlist/37i9dQZF1DXcBWIGoYBM5M" allow="autoplay; clipboard-write; encrypted-media; fullscreen; picture-in-picture" loading="lazy"></iframe></div>
+    <p class="spotify-note"><i class="bi bi-info-circle"></i> Pemutaran mengikuti fitur dan akun Spotify yang kamu gunakan.</p>
+  </div>
+
+  <div id="musicSearchView" class="spotify-view">
+    <div class="spotify-section-heading"><div><span>PILIHAN BUAT KAMU</span><h2>Playlist populer</h2></div><i class="bi bi-stars"></i></div>
+    <div id="musicSearchResults" class="spotify-results"></div>
+    <div class="spotify-playlist-grid">
+      <button class="spotify-playlist-card" type="button" onclick="playMusicPlaylist('37i9dQZF1DXcBWIGoYBM5M','Today's Top Hits')"><span class="playlist-art art-green"><i class="bi bi-fire"></i></span><strong>Today's Top Hits</strong><small>Lagu hits pilihan</small><span class="playlist-play"><i class="bi bi-play-fill"></i></span></button>
+      <button class="spotify-playlist-card" type="button" onclick="playMusicPlaylist('37i9dQZF1DX4JAvHpjipBk','Hits Indonesia')"><span class="playlist-art art-red"><i class="bi bi-soundwave"></i></span><strong>Hits Indonesia</strong><small>Musik Indonesia</small><span class="playlist-play"><i class="bi bi-play-fill"></i></span></button>
+      <button class="spotify-playlist-card" type="button" onclick="playMusicPlaylist('37i9dQZF1DXc6IFF23C9jj','Chill Hits')"><span class="playlist-art art-purple"><i class="bi bi-moon-stars-fill"></i></span><strong>Chill Hits</strong><small>Temani waktu santai</small><span class="playlist-play"><i class="bi bi-play-fill"></i></span></button>
+    </div>
+  </div>
+
+  <div id="musicPlaylistView" class="spotify-view d-none">
+    <div class="spotify-section-heading"><div><span>KOLEKSI MUSIK</span><h2>Playlist pilihan</h2></div><i class="bi bi-collection-play"></i></div>
+    <div class="spotify-playlist-grid">
+      <button class="spotify-playlist-card" type="button" onclick="playMusicPlaylist('37i9dQZF1DXcBWIGoYBM5M','Today's Top Hits')"><span class="playlist-art art-green"><i class="bi bi-fire"></i></span><strong>Today's Top Hits</strong><small>Playlist Spotify</small><span class="playlist-play"><i class="bi bi-play-fill"></i></span></button>
+      <button class="spotify-playlist-card" type="button" onclick="playMusicPlaylist('37i9dQZF1DX4JAvHpjipBk','Hits Indonesia')"><span class="playlist-art art-red"><i class="bi bi-soundwave"></i></span><strong>Hits Indonesia</strong><small>Playlist Spotify</small><span class="playlist-play"><i class="bi bi-play-fill"></i></span></button>
+      <button class="spotify-playlist-card" type="button" onclick="playMusicPlaylist('37i9dQZF1DXc6IFF23C9jj','Chill Hits')"><span class="playlist-art art-purple"><i class="bi bi-moon-stars-fill"></i></span><strong>Chill Hits</strong><small>Playlist Spotify</small><span class="playlist-play"><i class="bi bi-play-fill"></i></span></button>
+    </div>
+  </div>
+
+  <div id="musicFavoriteView" class="spotify-view d-none"><div class="spotify-section-heading"><div><span>TERSIMPAN DI PERANGKAT</span><h2>Playlist favorit</h2></div><i class="bi bi-heart-fill"></i></div><div id="musicFavoriteList" class="spotify-list"></div></div>
+  <div id="musicHistoryView" class="spotify-view d-none"><div class="spotify-section-heading"><div><span>PUTAR LAGI</span><h2>Riwayat pilihan</h2></div><i class="bi bi-clock-history"></i></div><div id="musicHistoryList" class="spotify-list"></div></div>
+  <div id="musicDownloadsView" class="spotify-view d-none"><div class="spotify-download-note"><i class="bi bi-download"></i><h2>Musik offline</h2><p>Unduhan offline tersedia melalui aplikasi resmi Spotify sesuai paket akunmu. Situs ini tidak mengunduh atau menyimpan file musik.</p><a href="https://open.spotify.com/" target="_blank" rel="noopener noreferrer" class="spotify-open-link">Buka Spotify <i class="bi bi-arrow-up-right"></i></a></div></div>
+</section>
+
+<section id="sadPage" class="feature-page d-none">  
+  <div class="comic-panel sad-panel">  
+    <div class="sad-badge">★ SAD VIBES ★</div>  <h1 class="comic-title sad-heading">  
+  💔 KATA-KATA SAD  
+</h1>  
+
+<p class="sad-subtitle">  
+  Kata yang mewakili hati, saat mulut memilih diam.  
+</p>
+
+<div id="sadQuoteList" class="sad-quote-list">
+  <div class="sad-empty">Memuat kata-kata Sad...</div>
+  </div>
+  </div>
+ </section>  <section id="themePage" class="feature-page d-none">  
+  <div class="comic-panel">  
+    <h1 class="comic-title"><i class="bi bi-palette"></i> Pengaturan Tema</h1>  
+    <p>Pilih gaya warna untuk website.</p>  
+    <div class="theme-swatches">  
+      <button class="theme-choice" onclick="setTheme('classic')"><span class="swatch" style="background:#e63830"></span><span class="swatch" style="background:#ffdf4d"></span><br>Classic Komik</button>  
+      <button class="theme-choice" onclick="setTheme('cyber')"><span class="swatch" style="background:#d946ef"></span><span class="swatch" style="background:#22d3ee"></span><br>Cyberpunk</button>  
+      <button class="theme-choice" onclick="setTheme('dark')"><span class="swatch" style="background:#635bff"></span><span class="swatch" style="background:#151827"></span><br>Dark Purple</button>  
+      <button class="theme-choice" onclick="setTheme('mint')"><span class="swatch" style="background:#0f766e"></span><span class="swatch" style="background:#d1fae5"></span><br>Mint Fresh</button>  
+    </div>  
+  </div>  
+</section>
+
+
+  <section class="site-help-links comic-panel mt-4 mb-4" aria-label="Informasi website">
+    <h2 class="comic-title">Bantuan & Privasi</h2>
+    <p>Butuh bantuan download atau ingin tahu cara data digunakan?</p>
+    <div class="d-flex flex-wrap gap-2">
+      <a class="comic-btn primary" href="./bantuan.html"><i class="bi bi-life-preserver"></i> Pusat Bantuan</a>
+      <a class="comic-btn" href="./privasi.html"><i class="bi bi-shield-lock"></i> Kebijakan Privasi</a>
+    </div>
+  </section>
+  </main>    <nav class="bottom-nav" aria-label="Navigasi utama">  
+    <button class="nav-item active" data-page="home" onclick="showPage('home')"><span class="nav-icon"><i class="bi bi-house-fill"></i></span>BERANDA</button>  
+    <button class="nav-item" data-page="apps" onclick="showPage('apps')"><span class="nav-icon"><i class="bi bi-grid-fill"></i></span>MENU APK</button>  
+    <button class="nav-item" data-page="spotify" onclick="showPage('spotify')"><span class="nav-icon"><i class="bi bi-spotify"></i></span>SPOTIFY</button>  
+    <button class="nav-item" data-page="sad" onclick="showPage('sad')"><span class="nav-icon"><i class="bi bi-heartbreak-fill"></i></span>KATA SAD</button>  
+    <button class="nav-item" data-page="theme" onclick="showPage('theme')"><span class="nav-icon"><i class="bi bi-palette-fill"></i></span>TEMA</button>  
+  </nav>    <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>    <script src="./supabase.js"></script>    <script>  
+    let apps = [];  
+    let selectedCategory = "Semua";  
+    const pageIds = {home:"homePage",apps:"appsPage",spotify:"spotifyPage",sad:"sadPage",theme:"themePage"};  
+    const quotes = [  
+      "Terkadang, yang paling melelahkan adalah berpura-pura baik-baik saja.",  
+      "Aku diam bukan karena tak terluka, hanya lelah menjelaskan.",  
+      "Tidak semua yang tersenyum sedang bahagia.",  
+      "Rindu itu sederhana, yang rumit adalah menahan diri untuk tidak menghubungi.",  
+      "Ada cerita yang akhirnya hanya bisa disimpan dalam hati.",  
+      "Kadang mengikhlaskan lebih sulit daripada melupakan.",  
+      "Aku terlihat baik-baik saja, padahal pikiranku sedang berisik.",  
+      "Tidak semua kehilangan bisa digantikan."  
+    ];  
+  
+    function showPage(page) {  
+      Object.entries(pageIds).forEach(([key,id]) => {  
+        document.getElementById(id)?.classList.toggle("d-none", key !== page);  
+      });  
+      document.querySelectorAll(".nav-item").forEach(button => {  
+        button.classList.toggle("active", button.dataset.page === page);  
+      });  
+      if (page === "apps") renderApps();  
+      window.scrollTo({top:0,behavior:"smooth"});  
+    }  
+  
+    function escapeHTML(value) {  
+      return String(value ?? "").replace(/[&<>"']/g, char => ({  
+        "&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;","'":"&#39;"  
+      }[char]));  
+    }  
+  
+    function safeUrl(value) {  
+      try {  
+        const url = new URL(String(value || ""), window.location.href);  
+        return ["https:","http:"].includes(url.protocol) ? url.href : "";  
+      } catch { return ""; }  
+    }  
+  
+    function appCard(app) {  
+      const name = escapeHTML(app.name || "Aplikasi");  
+      const description = escapeHTML(app.description || "Unduh dan lihat detail aplikasi ini.");  
+      const icon = safeUrl(app.icon || app.image_url) || "https://placehold.co/120x120/f8dede/1c1c1c?text=APK";  
+      const detailUrl = "detail.html?id=" + encodeURIComponent(app.id);  
+      return `<article class="app-card">  
+        <img class="app-icon" src="${escapeHTML(icon)}" alt="Ikon ${name}" loading="lazy" onerror="this.src='https://placehold.co/120x120/f8dede/1c1c1c?text=APK'" decoding="async">  
+        <h3 class="app-name">${name}</h3>  
+        <p class="app-description">${description}</p>  
+        <a class="comic-btn primary w-100" href="${detailUrl}"><i  class="bi bi-info-circle"></i> Detail APK</a>
+        <button class="comic-btn light w-100 mt-2" onclick="shareAPK('${String(app.id).replace(/'/g,"")}')"><i class="bi bi-share"></i> Bagikan</button>
+      </article>`;
+    }
+
+    function renderApps() {
+      const query = (document.getElementById("appSearchInput")?.value || document.getElementById("searchInput")?.value || "").trim().toLowerCase();
+      const filtered = apps.filter(app => {
+        const categoryOK = selectedCategory === "Semua" || String(app.category || "Lainnya").toLowerCase() === selectedCategory.toLowerCase();
+        const queryOK = !query || `${app.name||""} ${app.description||""} ${app.category||""}`.toLowerCase().includes(query);
+        return categoryOK && queryOK;
+      });
+      const grid = document.getElementById("appGrid");
+      if (grid) grid.innerHTML = filtered.length ? filtered.map(appCard).join("") : `<div class="empty-state comic-panel">Belum ada APK yang cocok.</div>`;
+      const homeGrid = document.getElementById("homeApps");
+      if (homeGrid) homeGrid.innerHTML = apps.length ? apps.slice(0,4).map(appCard).join("") : `<div class="empty-state comic-panel">Belum ada APK. Tambahkan melalui admin.</div>`;
+    }
+
+    async function loadApps() {
+      let client = window.supabaseClient || null;
+      if (!client && typeof supabase !== "undefined" && typeof supabase.from === "function") client = supabase;
+      if (!client && window.supabase && typeof window.supabase.from === "function") client = window.supabase;
+      if (!client || typeof client.from !== "function") {
+        document.getElementById("appGrid").innerHTML = `<div class="empty-state comic-panel">Supabase belum tersambung. Periksa konfigurasi di supabase.js.</div>`;
+        document.getElementById("homeApps").innerHTML = `<div class="empty-state comic-panel">Supabase belum tersambung.</div>`;
+        return;
+      }
+      const {data,error} = await client.from("apps").select("*").order("created_at",{ascending:false});
+      if (error) {
+        console.error("Gagal memuat apps:",error);
+        document.getElementById("appGrid").innerHTML = `<div class="empty-state comic-panel">Gagal memuat APK. Periksa tabel apps dan aturan RLS di Supabase.</div>`;
+        document.getElementById("homeApps").innerHTML = `<div class="empty-state comic-panel">Gagal memuat APK dari Supabase.</div>`;
+        return;
+      }
+      apps = data || [];
+      renderApps();
+      loadNotifications(client);
+    }
+
+    async function shareAPK(appId) {
+      const app = apps.find(item => String(item.id) === String(appId));
+      if (!app) return alert("APK tidak ditemukan.");
+      const url = new URL("detail.html?id=" + encodeURIComponent(app.id),window.location.href).href;
+      try {
+        if (navigator.share) await navigator.share({title:app.name || "APK DA•OFFICIAL",text:`Lihat ${app.name || "aplikasi ini"} di APK DA•OFFICIAL`,url});
+        else { await navigator.clipboard.writeText(url); alert("Link APK berhasil disalin!"); }
+      } catch(error) { if (error.name !== "AbortError") alert("Tidak bisa membagikan link. Salin URL halaman detail secara manual."); }
+    }
+
+    function newSadQuote() {
+      const element = document.getElementById("sadQuote");
+      let quote = element.textContent;
+      while (quotes.length > 1 && quote === element.textContent) quote = quotes[Math.floor(Math.random()*quotes.length)];
+      element.textContent = quote;
+    }
+    async function copySadQuote() {
+      try { await navigator.clipboard.writeText(document.getElementById("sadQuote").textContent); alert("Kata berhasil disalin!"); }
+      catch { alert("Penyalinan tidak tersedia. Silakan salin teks secara manual."); }
+    }
+    async function shareSadQuote() {
+      const text = document.getElementById("sadQuote").textContent;
+      try {
+        if (navigator.share) await navigator.share({title:"Kata Sad - APK DA•OFFICIAL",text});
+        else { await navigator.clipboard.writeText(text); alert("Kata berhasil disalin untuk dibagikan."); }
+      } catch(error) { if(error.name !== "AbortError") alert("Gagal membagikan kata."); }
+    }
+
+    function setTheme(theme) {
+      const root = document.documentElement;
+      const themes = {
+        classic:{paper:"#f8dede",card:"#fff7f4",primary:"#e63830",secondary:"#ffdf4d",ink:"#1c1c1c",muted:"#65595a"},
+        cyber:{paper:"#171326",card:"#242039",primary:"#d946ef",secondary:"#22d3ee",ink:"#f9f5ff",muted:"#d1c7e8"},
+        dark:{paper:"#10121d",card:"#1b2030",primary:"#635bff",secondary:"#a78bfa",ink:"#f5f3ff",muted:"#c4c0d8"},
+        mint:{paper:"#d1fae5",card:"#f0fdf4",primary:"#0f766e",secondary:"#bef264",ink:"#102a27",muted:"#46615b"}
+      };
+      const chosen = themes[theme] || themes.classic;
+      Object.entries(chosen).forEach(([key,value]) => root.style.setProperty("--"+key,value));
+      try { localStorage.setItem("apkda-theme",theme); } catch {}
+    }
+    
+async function loadSadQuotes() {
+  console.log("TES: loadSadQuotes mulai berjalan");
+ 
+  const list = document.getElementById("sadQuoteList");
+  if (!list) return;
+  
+  const client = window.supabaseClient ||
+    (typeof supabase !== "undefined" &&
+     typeof supabase.from === "function" ? supabase : null);
+
+  if (!client || typeof client.from !== "function") {
+    list.textContent = "Koneksi Supabase belum tersedia.";
+    return;
+  }
+  console.log("Supabase client ditemukan:", !!client);
+console.log("Fungsi query tersedia:", typeof client.from);
+
+  list.textContent = "Memuat kata-kata Sad...";
+const { data, error } = await Promise.race([
+  client
+    .from("sad_quotes")
+    .select("*")
+    .order("created_at", { ascending: false }),
+  new Promise(resolve =>
+    setTimeout(() => resolve({
+      data: null,
+      error: { message: "Koneksi Supabase timeout." }
+    }), 10000)
+  )
+]);
+console.log("HASIL KATA SAD:", data);
+console.log("ERROR KATA SAD:", error);
+
+if (error) {
+  list.textContent = "Error Supabase: " + error.message;
+  return;
+}
+
+if (!data || data.length === 0) {
+  list.textContent = "Data sad_quotes kosong atau tidak terbaca.";
+  return;
+}
+
+  if (error) {
+    console.error("Gagal memuat sad_quotes:", error);
+    list.textContent = "Gagal memuat kata-kata. Periksa Console dan aturan RLS.";
+    return;
+  }
+
+  if (!data || data.length === 0) {
+    list.textContent = "Belum ada kata-kata Sad.";
+    return;
+  }
+
+  
+list.innerHTML = data.map((quote, index) => `
+    <article class="sad-quote-card">
+      <div class="sad-quote-number">★ KATA SAD #${index + 1}</div>
+
+      <p class="sad-quote-content">${escapeHTML(quote.quote || "")}</p>
+
+      <div class="quote-author">
+        ✍️ ${escapeHTML(quote.author || "Tanpa nama")}
+      </div>
+
+      <button class="comic-btn yellow w-100"
+        data-copy-sad="${escapeHTML(quote.id)}">
+        <i class="bi bi-copy"></i> Salin kata
+      </button>
+    </article>
+  `).join("");
+  
+
+  list.querySelectorAll("[data-copy-sad]").forEach(button => {
+    button.addEventListener("click", async () => {
+      const quote = data.find(item =>
+        String(item.id) === button.dataset.copySad
+      );
+      if (!quote) return;
+
+      try {
+        await navigator.clipboard.writeText(quote.quote);
+        alert("Kata berhasil disalin!");
+      } catch {
+        alert(quote.content);
+      }
+    });
+  });
+}
+
+
+    
+async function loadNotifications(client) {
+  const list = document.getElementById("notificationList");
+  const count = document.getElementById("notificationCount");
+
+  try {
+    const [apkResult, announcementResult] = await Promise.all([
+      client
+        .from("apps")
+        .select("id,name,created_at")
+        .order("created_at", { ascending: false })
+        .limit(5),
+
+      client
+        .from("site_notifications")
+        .select("id,title,message,created_at")
+        .eq("active", true)
+        .order("created_at", { ascending: false })
+        .limit(10)
+    ]);
+
+    if (apkResult.error) throw apkResult.error;
+    if (announcementResult.error) throw announcementResult.error;
+
+    const notifications = [
+      ...(apkResult.data || []).map(app => ({
+        id: "apk-" + app.id,
+        title: "📦 APK baru",
+        message: app.name || "Aplikasi baru",
+        created_at: app.created_at
+      })),
+
+      ...(announcementResult.data || []).map(item => ({
+        id: "announcement-" + item.id,
+        title: "📢 " + item.title,
+        message: item.message,
+        created_at: item.created_at
+      }))
+    ].sort((a, b) =>
+      new Date(b.created_at || 0) - new Date(a.created_at || 0)
+    ).slice(0, 10);
+
+    if (!notifications.length) {
+      list.innerHTML =
+        '<div class="notification-empty">Belum ada notifikasi.</div>';
+      count.textContent = "0";
+      return;
+    }
+
+    list.innerHTML = notifications.map(item => `
+      <div class="notification-item">
+        <strong>${escapeHTML(item.title)}</strong>
+        <p style="margin:5px 0 0;white-space:pre-wrap">${escapeHTML(item.message)}</p>
+        <small>${item.created_at
+          ? new Date(item.created_at).toLocaleString("id-ID")
+          : ""}</small>
+      </div>
+    `).join("");
+
+    const newest = notifications[0].created_at || notifications[0].id;
+    let seen = "";
+
+    try {
+      seen = localStorage.getItem("apkda-last-seen") || "";
+    } catch {}
+
+    count.textContent = seen === String(newest)
+      ? "0"
+      : String(notifications.length);
+
+    document.getElementById("markReadBtn").onclick = () => {
+      try {
+        localStorage.setItem("apkda-last-seen", String(newest));
+      } catch {}
+      count.textContent = "0";
+    };
+
+  } catch (error) {
+    console.error("Gagal memuat notifikasi:", error);
+    list.innerHTML =
+      '<div class="notification-empty">Notifikasi gagal dimuat. Periksa koneksi Supabase.</div>';
+    count.textContent = "0";
+  }
+}
+    
+
+    document.getElementById("notificationBtn").addEventListener("click",() => {
+      const panel = document.getElementById("notificationPanel");
+      const button = document.getElementById("notificationBtn");
+      const open = panel.classList.toggle("show");
+      button.setAttribute("aria-expanded",String(open));
+      // Panel diposisikan oleh CSS relatif terhadap pembungkus ikon lonceng.
+      // Hapus koordinat inline lama agar tidak bergeser/keluar layar di HP.
+      if (open) {
+        panel.style.removeProperty("left");
+        panel.style.removeProperty("right");
+        panel.style.removeProperty("top");
+        panel.style.removeProperty("width");
+        panel.style.removeProperty("max-width");
+      }
+    });
+    window.addEventListener("resize", () => {
+      const panel = document.getElementById("notificationPanel");
+      if (panel) {
+        panel.style.removeProperty("left");
+        panel.style.removeProperty("right");
+        panel.style.removeProperty("top");
+        panel.style.removeProperty("width");
+        panel.style.removeProperty("max-width");
+      }
+    });
+    document.getElementById("searchInput").addEventListener("input",() => {
+      document.getElementById("appSearchInput").value = document.getElementById("searchInput").value;
+      renderApps();
+      showPage("apps");
+    });
+    document.getElementById("appSearchInput").addEventListener("input",renderApps);
+    document.getElementById("categories").addEventListener("click",event => {
+      const button = event.target.closest("[data-category]");
+      if (!button) return;
+      selectedCategory = button.dataset.category;
+      document.querySelectorAll(".category-btn").forEach(item => item.classList.toggle("active",item === button));
+      renderApps();
+    });
+
+    try { const savedTheme = localStorage.getItem("apkda-theme"); if (savedTheme) setTheme(savedTheme); } catch {}
+    loadApps();
+    
+
+    
+ 
+const musicCatalog = [
+  {
+    id: "37i9dQZF1DXcBWIGoYBM5M",
+    title: "Today's Top Hits",
+    artist: "Spotify Playlist",
+    type: "playlist"
+  },
+  {
+    id: "37i9dQZF1DX4JAvHpjipBk",
+    title: "Hits Indonesia",
+    artist: "Spotify Playlist",
+    type: "playlist"
+  },
+  {
+    id: "37i9dQZF1DXc6IFF23C9jj",
+    title: "Chill Hits",
+    artist: "Spotify Playlist",
+    type: "playlist"
+  }
+];
+
+let currentMusic = null;
+
+function showMusicTab(tab) {
+  const views = {
+    search: "musicSearchView",
+    playlist: "musicPlaylistView",
+    favorite: "musicFavoriteView",
+    downloads: "musicDownloadsView",
+    history: "musicHistoryView"
+  };
+
+  Object.entries(views).forEach(([key, id]) => {
+    document.getElementById(id)?.classList.toggle("d-none", key !== tab);
+  });
+
+  document.querySelectorAll(".music-tab").forEach(button => {
+    button.classList.toggle(
+      "active",
+      button.getAttribute("onclick")?.includes("'" + tab + "'")
+    );
+  });
+  if (tab === "favorite") renderMusicFavorites();
+  if (tab === "history") renderMusicHistory();
+}
+
+function playMusicPlaylist(id, title) {
+  currentMusic = {
+    id,
+    title,
+    type: "playlist"
+  };
+
+  document.getElementById("musicNowPlaying").textContent = title;
+  document.getElementById("musicSpotifyFrame").src =
+    "https://open.spotify.com/embed/playlist/" +
+    encodeURIComponent(id);
+
+  document.getElementById("musicPlayerArea").classList.remove("d-none");
+
+  try {
+    const history = JSON.parse(localStorage.getItem("daMusicHistory") || "[]");
+    const updated = [
+      currentMusic,
+      ...history.filter(item => item.id !== id)
+    ].slice(0, 20);
+
+    localStorage.setItem("daMusicHistory", JSON.stringify(updated));
+    renderMusicHistory();
+  } catch (error) {
+    console.warn("Riwayat musik tidak dapat disimpan.", error);
+  }
+}
+
+// ===== SPOTIFY WEB API (Authorization Code with PKCE) =====
+// Ganti Client ID di bawah. Jangan pernah menaruh Client Secret di kode publik.
+const SPOTIFY_CLIENT_ID = "GANTI_DENGAN_CLIENT_ID_SPOTIFY";
+const SPOTIFY_REDIRECT_URI = window.location.origin + window.location.pathname;
+const SPOTIFY_TOKEN_KEY = "daSpotifyAccessToken";
+const SPOTIFY_TOKEN_EXPIRY_KEY = "daSpotifyTokenExpiry";
+const SPOTIFY_VERIFIER_KEY = "daSpotifyCodeVerifier";
+const SPOTIFY_STATE_KEY = "daSpotifyOAuthState";
+
+function setSpotifyStatus(message) {
+  const status = document.getElementById("spotifyApiStatus");
+  if (status) status.textContent = message;
+}
+
+function spotifyClientConfigured() {
+  return SPOTIFY_CLIENT_ID &&
+    SPOTIFY_CLIENT_ID !== "GANTI_DENGAN_CLIENT_ID_SPOTIFY" &&
+    SPOTIFY_CLIENT_ID.trim().length > 10;
+}
+
+function spotifyRandomString(length = 64) {
+  const chars = "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789-._~";
+  const bytes = new Uint8Array(length);
+  crypto.getRandomValues(bytes);
+  return Array.from(bytes, byte => chars[byte % chars.length]).join("");
+}
+
+function spotifyBase64Url(buffer) {
+  let binary = "";
+  new Uint8Array(buffer).forEach(byte => binary += String.fromCharCode(byte));
+  return btoa(binary).replace(/\+/g, "-").replace(/\//g, "_").replace(/=+$/g, "");
+}
+
+async function spotifyCreateChallenge(verifier) {
+  const digest = await crypto.subtle.digest("SHA-256", new TextEncoder().encode(verifier));
+  return spotifyBase64Url(digest);
+}
+
+function getSpotifyAccessToken() {
+  try {
+    const token = sessionStorage.getItem(SPOTIFY_TOKEN_KEY);
+    const expiry = Number(sessionStorage.getItem(SPOTIFY_TOKEN_EXPIRY_KEY) || 0);
+    if (token && Date.now() < expiry) return token;
+  } catch (error) {
+    console.warn("Token Spotify tidak dapat dibaca.", error);
+  }
+  return "";
+}
+
+async function connectSpotify() {
+  if (!spotifyClientConfigured()) {
+    setSpotifyStatus("Masukkan Client ID Spotify ke konstanta SPOTIFY_CLIENT_ID di index.html terlebih dahulu.");
+    return;
+  }
+  if (!window.isSecureContext && location.hostname !== "localhost") {
+    setSpotifyStatus("Spotify OAuth memerlukan HTTPS. Buka website melalui alamat HTTPS hosting.");
+    return;
+  }
+  try {
+    const verifier = spotifyRandomString(64);
+    const challenge = await spotifyCreateChallenge(verifier);
+    const state = spotifyRandomString(32);
+    sessionStorage.setItem(SPOTIFY_VERIFIER_KEY, verifier);
+    sessionStorage.setItem(SPOTIFY_STATE_KEY, state);
+
+    const params = new URLSearchParams({
+      client_id: SPOTIFY_CLIENT_ID.trim(),
+      response_type: "code",
+      redirect_uri: SPOTIFY_REDIRECT_URI,
+      code_challenge_method: "S256",
+      code_challenge: challenge,
+      state
+    });
+    location.assign("https://accounts.spotify.com/authorize?" + params.toString());
+  } catch (error) {
+    console.error("Spotify OAuth gagal dimulai:", error);
+    setSpotifyStatus("Tidak bisa memulai koneksi Spotify. Pastikan browser mendukung Web Crypto dan website menggunakan HTTPS.");
+  }
+}
+
+async function handleSpotifyOAuthCallback() {
+  const params = new URLSearchParams(location.search);
+  const code = params.get("code");
+  const returnedState = params.get("state");
+  const oauthError = params.get("error");
+
+  if (oauthError) {
+    setSpotifyStatus("Spotify membatalkan koneksi: " + oauthError + ".");
+    history.replaceState({}, document.title, SPOTIFY_REDIRECT_URI);
+    return;
+  }
+  if (!code) {
+    if (getSpotifyAccessToken()) setSpotifyStatus("Spotify sudah terhubung. Kamu bisa mencari lagu.");
+    return;
+  }
+
+  const savedState = sessionStorage.getItem(SPOTIFY_STATE_KEY);
+  const verifier = sessionStorage.getItem(SPOTIFY_VERIFIER_KEY);
+  history.replaceState({}, document.title, SPOTIFY_REDIRECT_URI);
+
+  if (!savedState || returnedState !== savedState || !verifier) {
+    setSpotifyStatus("Verifikasi Spotify gagal. Tekan Hubungkan Spotify lalu coba lagi.");
+    return;
+  }
+
+  try {
+    setSpotifyStatus("Menyelesaikan koneksi Spotify...");
+    const response = await fetch("https://accounts.spotify.com/api/token", {
+      method: "POST",
+      headers: { "Content-Type": "application/x-www-form-urlencoded" },
+      body: new URLSearchParams({
+        client_id: SPOTIFY_CLIENT_ID.trim(),
+        grant_type: "authorization_code",
+        code,
+        redirect_uri: SPOTIFY_REDIRECT_URI,
+        code_verifier: verifier
+      })
+    });
+    const data = await response.json();
+
+    if (!response.ok || !data.access_token) {
+      console.error("Spotify token error:", data);
+      setSpotifyStatus("Spotify tidak memberikan token. Periksa Client ID dan Redirect URI.");
+      return;
+    }
+    sessionStorage.setItem(SPOTIFY_TOKEN_KEY, data.access_token);
+    sessionStorage.setItem(SPOTIFY_TOKEN_EXPIRY_KEY,
+      String(Date.now() + Math.max(60, Number(data.expires_in || 3600) - 60) * 1000));
+    sessionStorage.removeItem(SPOTIFY_VERIFIER_KEY);
+    sessionStorage.removeItem(SPOTIFY_STATE_KEY);
+    setSpotifyStatus("Spotify terhubung. Sekarang cari judul lagu atau nama artis.");
+  } catch (error) {
+    console.error("Gagal mengambil token Spotify:", error);
+    setSpotifyStatus("Koneksi Spotify gagal. Periksa internet lalu coba lagi.");
+  }
+}
+
+async function searchMusicCatalog() {
+  const field = document.getElementById("musicSearchInput");
+  const container = document.getElementById("musicSearchResults");
+  const query = (field?.value || "").trim();
+  if (!container) return;
+  if (!query) {
+    container.innerHTML = "";
+    setSpotifyStatus("Ketik judul lagu atau nama artis untuk mencari.");
+    return;
+  }
+
+  const token = getSpotifyAccessToken();
+  if (!token) {
+    setSpotifyStatus("Hubungkan Spotify terlebih dahulu sebelum mencari lagu.");
+    container.innerHTML = '<div class="music-empty"><i class="bi bi-spotify"></i><p>Tekan “Hubungkan Spotify API”, lalu izinkan akses.</p></div>';
+    return;
+  }
+
+  container.innerHTML = '<div class="music-empty"><i class="bi bi-arrow-repeat"></i><p>Mencari lagu di Spotify...</p></div>';
+  setSpotifyStatus("Sedang mencari “" + query + "” di Spotify...");
+
+  try {
+    const url = "https://api.spotify.com/v1/search?" + new URLSearchParams({
+      q: query, type: "track", limit: "10"
+    });
+    const response = await fetch(url, { headers: { Authorization: "Bearer " + token } });
+
+    if (response.status === 401) {
+      sessionStorage.removeItem(SPOTIFY_TOKEN_KEY);
+      sessionStorage.removeItem(SPOTIFY_TOKEN_EXPIRY_KEY);
+      container.innerHTML = "";
+      setSpotifyStatus("Sesi Spotify berakhir. Tekan Hubungkan Spotify untuk menyambungkan lagi.");
+      return;
+    }
+
+    const data = await response.json();
+    if (!response.ok) {
+      console.error("Spotify search error:", data);
+      container.innerHTML = '<div class="music-empty"><i class="bi bi-exclamation-circle"></i><p>Pencarian gagal. Periksa akses API aplikasi di Spotify Developer Dashboard.</p></div>';
+      setSpotifyStatus("Spotify menolak pencarian. Periksa akses aplikasi atau coba lagi.");
+      return;
+    }
+
+    const tracks = data.tracks?.items || [];
+    if (!tracks.length) {
+      container.innerHTML = '<div class="music-empty"><i class="bi bi-music-note"></i><p>Lagu tidak ditemukan. Coba kata kunci lain.</p></div>';
+      setSpotifyStatus("Tidak ada hasil untuk “" + query + "”.");
+      return;
+    }
+
+    container.innerHTML = tracks.map(track => {
+      const id = escapeHTML(track.id || "");
+      const title = escapeHTML(track.name || "Lagu tanpa judul");
+      const artist = escapeHTML((track.artists || []).map(item => item.name).join(", ") || "Artis tidak diketahui");
+      const album = escapeHTML(track.album?.name || "");
+      const imageUrl = track.album?.images?.[track.album.images.length - 1]?.url || "";
+      const cover = safeUrl(imageUrl);
+      const openUrl = safeUrl(track.external_urls?.spotify || "");
+      const coverMarkup = cover
+        ? `<img src="${escapeHTML(cover)}" alt="Sampul ${title}" loading="lazy" decoding="async">`
+        : '<span class="music-cover"><i class="bi bi-music-note-beamed"></i></span>';
+      return `<article class="spotify-track-result">
+        ${coverMarkup}
+        <div class="spotify-track-info"><strong>${title}</strong><small>${artist}</small><small>${album}</small></div>
+        <div class="spotify-track-actions">
+          <button type="button" data-track-id="${id}" data-track-title="${title}" onclick="playMusicTrack(this.dataset.trackId,this.dataset.trackTitle)"><i class="bi bi-play-fill"></i> Putar</button>
+          ${openUrl ? `<a href="${escapeHTML(openUrl)}" target="_blank" rel="noopener noreferrer">Spotify <i class="bi bi-box-arrow-up-right"></i></a>` : ""}
+        </div>
+      </article>`;
+    }).join("");
+    setSpotifyStatus("Ditemukan " + tracks.length + " hasil. Pilih Putar untuk membuka pemutar Spotify.");
+  } catch (error) {
+    console.error("Pencarian Spotify gagal:", error);
+    container.innerHTML = '<div class="music-empty"><i class="bi bi-wifi-off"></i><p>Gagal terhubung ke Spotify. Periksa internet lalu coba lagi.</p></div>';
+    setSpotifyStatus("Tidak dapat terhubung ke Spotify. Coba lagi nanti.");
+  }
+}
+
+function playMusicTrack(id, title) {
+  if (!id) return;
+  currentMusic = { id, title, type: "track" };
+  const titleElement = document.getElementById("musicNowPlaying");
+  const frame = document.getElementById("musicSpotifyFrame");
+  const player = document.getElementById("musicPlayerArea");
+  if (titleElement) titleElement.textContent = title || "Lagu Spotify";
+  if (frame) frame.src = "https://open.spotify.com/embed/track/" + encodeURIComponent(id);
+  if (player) player.classList.remove("d-none");
+
+  try {
+    const history = JSON.parse(localStorage.getItem("daMusicHistory") || "[]");
+    const updated = [currentMusic, ...history.filter(item => item.id !== id || item.type !== "track")].slice(0, 20);
+    localStorage.setItem("daMusicHistory", JSON.stringify(updated));
+    renderMusicHistory();
+  } catch (error) {
+    console.warn("Riwayat lagu tidak dapat disimpan.", error);
+  }
+}
+
+function saveMusicFavorite(id) {
+  const item = musicCatalog.find(track => track.id === id);
+  if (!item) return;
+
+  try {
+    const favorites = JSON.parse(localStorage.getItem("daMusicFavorites") || "[]");
+
+    if (favorites.some(track => track.id === id)) {
+      alert("Playlist sudah ada di favorit.");
+      return;
+    }
+
+    favorites.push(item);
+    localStorage.setItem("daMusicFavorites", JSON.stringify(favorites));
+    renderMusicFavorites();
+    alert("Ditambahkan ke favorit.");
+  } catch (error) {
+    alert("Favorit tidak dapat disimpan di browser ini.");
+  }
+}
+
+function renderMusicFavorites() {
+  const container = document.getElementById("musicFavoriteList");
+
+  try {
+    const favorites = JSON.parse(localStorage.getItem("daMusicFavorites") || "[]");
+
+    if (!favorites.length) {
+      container.innerHTML = '<div class="music-empty"><i class="bi bi-heart"></i><p>Belum ada lagu favorit.</p></div>';
+      return;
+    }
+
+    container.innerHTML = favorites.map(item => `
+      <div class="music-playlist">
+        <span class="music-cover"><i class="bi bi-heart-fill"></i></span>
+        <span><strong>${item.title}</strong><small>${item.artist}</small></span>
+        <button class="music-icon" onclick="playMusicPlaylist('${item.id}', '${item.title.replace(/'/g, "\\'")}')"><i class="bi bi-play-fill"></i></button>
+        <button class="music-icon" onclick="removeMusicFavorite('${item.id}')"><i class="bi bi-trash"></i></button>
+      </div>
+    `).join("");
+  } catch {
+    container.textContent = "Favorit belum tersedia.";
+  }
+}
+
+function removeMusicFavorite(id) {
+  const favorites = JSON.parse(localStorage.getItem("daMusicFavorites") || "[]");
+  localStorage.setItem(
+    "daMusicFavorites",
+    JSON.stringify(favorites.filter(item => item.id !== id))
+  );
+  renderMusicFavorites();
+}
+
+function renderMusicHistory() {
+  const container = document.getElementById("musicHistoryList");
+
+  try {
+    const history = JSON.parse(localStorage.getItem("daMusicHistory") || "[]");
+
+    if (!history.length) {
+      container.innerHTML = '<div class="music-empty"><i class="bi bi-clock-history"></i><p>Belum ada riwayat.</p></div>';
+      return;
+    }
+
+    container.innerHTML = history.map(item => `
+      <button class="music-playlist"
+        onclick="${item.type === "track" ? "playMusicTrack" : "playMusicPlaylist"}('${String(item.id).replace(/'/g, "\\'")}', '${String(item.title).replace(/'/g, "\\'")}')">
+        <span class="music-cover"><i class="bi bi-clock-history"></i></span>
+        <span><strong>${item.title}</strong><small>Baru diputar</small></span>
+        <i class="bi bi-play-circle-fill"></i>
+      </button>
+    `).join("");
+  } catch {
+    container.textContent = "Riwayat belum tersedia.";
+  }
+}
+
+function toggleCurrentMusicFavorite() {
+  if (!currentMusic) {
+    alert("Pilih playlist terlebih dahulu.");
+    return;
+  }
+
+  saveMusicFavorite(currentMusic.id);
+}
+
+renderMusicFavorites();
+renderMusicHistory();
+handleSpotifyOAuthCallback();
+const musicSearchField = document.getElementById("musicSearchInput");
+if (musicSearchField) {
+  musicSearchField.addEventListener("input", searchMusicCatalog);
+  musicSearchField.addEventListener("keydown", event => {
+    if (event.key === "Enter") searchMusicCatalog();
+  });
+}
+
+window.addEventListener("load", function () {
+  loadSadQuotes();
+});
+
+  </script>
+  <script>
+window.addEventListener("load", function () {
+  if (typeof loadSadQuotes === "function") {
+    loadSadQuotes();
+  } else {
+    alert("Fungsi loadSadQuotes tidak ditemukan!");
+  }
+});
+  </script>
+
+    <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+    <script src="./supabase.js"></script>
+    <script src="./script.js" defer></script>
+   <script data-cfasync="false" src="https://bellnewyork.org/14/dc3954d26e169baf2de245e7198ba6c8"></script>
+   <script>
+   // Loading berdiri sendiri agar tidak ikut gagal jika skrip fitur lain bermasalah.
+   (function () {
+     function startPremiumLoader() {
+       const screen = document.getElementById("loading");
+       const bar = document.getElementById("loaderProgress");
+       const percentLabel = document.getElementById("loaderPercent");
+       if (!screen || !bar || !percentLabel) return;
+       let progress = 0;
+       let finished = false;
+       const timer = setInterval(function () {
+         if (finished) return;
+         if (progress < 90) {
+           progress += Math.max(1, Math.floor((90 - progress) / 10));
+           bar.style.width = progress + "%";
+           percentLabel.textContent = progress + "%";
+         }
+       }, 120);
+       function finish() {
+         if (finished) return;
+         finished = true;
+         clearInterval(timer);
+         bar.style.width = "100%";
+         percentLabel.textContent = "100%";
+         setTimeout(function () { screen.classList.add("hide"); }, 350);
+       }
+       window.addEventListener("load", function () { setTimeout(finish, 300); }, { once: true });
+       // Pengaman: jangan biarkan layar loading menutupi website selamanya.
+       setTimeout(finish, 7000);
+     }
+     if (document.readyState === "loading") {
+       document.addEventListener("DOMContentLoaded", startPremiumLoader, { once: true });
+     } else {
+       startPremiumLoader();
+     }
+   })();
+   </script>
+
+<script>
+(function(){
+  const root=document.documentElement;
+  const themeBtn=document.getElementById('themeModeBtn');
+  const langBtn=document.getElementById('languageBtn');
+  const installBtn=document.getElementById('installPwaBtn');
+  let lang='id'; let deferredInstall=null;
+  try { if(localStorage.getItem('apkda-mode')==='dark') root.dataset.mode='dark'; } catch(e){}
+  function refreshThemeIcon(){ if(!themeBtn)return; themeBtn.innerHTML=root.dataset.mode==='dark'?'<i class="bi bi-sun-fill"></i>':'<i class="bi bi-moon-stars-fill"></i>'; }
+  refreshThemeIcon();
+  themeBtn?.addEventListener('click',()=>{root.dataset.mode=root.dataset.mode==='dark'?'light':'dark';try{localStorage.setItem('apkda-mode',root.dataset.mode)}catch(e){}refreshThemeIcon();});
+  const translations={
+    id:{nav:['BERANDA','MENU APK','SPOTIFY','KATA SAD','TEMA'],install:'Pasang website',lang:'ID'},
+    en:{nav:['HOME','APK MENU','SPOTIFY','SAD QUOTES','THEMES'],install:'Install website',lang:'EN'}
+  };
+  function setLanguage(next){lang=next;const t=translations[lang];document.querySelectorAll('.nav-item').forEach((el,i)=>{if(t.nav[i]){const icon=el.querySelector('.nav-icon');el.textContent=t.nav[i];if(icon)el.prepend(icon)}});if(langBtn)langBtn.textContent=t.lang;document.documentElement.lang=lang;try{localStorage.setItem('apkda-lang',lang)}catch(e){}}
+  try{lang=localStorage.getItem('apkda-lang')==='en'?'en':'id'}catch(e){}
+  setLanguage(lang);
+  langBtn?.addEventListener('click',()=>setLanguage(lang==='id'?'en':'id'));
+  window.addEventListener('beforeinstallprompt',e=>{e.preventDefault();deferredInstall=e;if(installBtn)installBtn.hidden=false;});
+  installBtn?.addEventListener('click',async()=>{if(!deferredInstall)return;deferredInstall.prompt();await deferredInstall.userChoice;deferredInstall=null;installBtn.hidden=true;});
+  if('serviceWorker' in navigator && /^https?:$/.test(location.protocol)){window.addEventListener('load',()=>navigator.serviceWorker.register('./sw.js').catch(err=>console.warn('PWA offline belum aktif:',err)));}
+})();
+</script>
+
+  
+<script>
+/* Perlindungan spam dasar untuk formulir yang diberi atribut data-spam-protect.
+   Validasi ini membantu UX, bukan pengganti rate-limit backend. */
+(function () {
+  const KEY = "apkda-form-last-submit";
+  document.querySelectorAll("form[data-spam-protect]").forEach(function (form) {
+    if (form.dataset.spamGuardReady) return;
+    form.dataset.spamGuardReady = "1";
+    // Honeypot tersembunyi: tambahkan input dengan name="website" pada formulir terkait.
+    const honeypot = form.querySelector('[name="website"]');
+    const submitButton = form.querySelector('[type="submit"]');
+    form.addEventListener("submit", function (event) {
+      if (honeypot && honeypot.value.trim()) {
+        event.preventDefault();
+        return;
+      }
+      let last = 0;
+      try { last = Number(sessionStorage.getItem(KEY) || 0); } catch (_) {}
+      if (Date.now() - last < 8000) {
+        event.preventDefault();
+        alert("Tunggu beberapa detik sebelum mengirim lagi.");
+        return;
+      }
+      try { sessionStorage.setItem(KEY, String(Date.now())); } catch (_) {}
+      if (submitButton) {
+        submitButton.disabled = true;
+        setTimeout(function () { submitButton.disabled = false; }, 8000);
+      }
+    });
+  });
+})();
+</script>
+
+</body>
+</html>
