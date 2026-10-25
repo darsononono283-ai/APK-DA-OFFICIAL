@@ -59,12 +59,14 @@
     .empty-state { padding:24px 10px; text-align:center; color:var(--muted); }  
     #loading { position:fixed; inset:0; z-index:2000; background:var(--primary); color:#fff; display:grid; place-items:center; font-weight:1000; font-size:1.2rem; transition:opacity .3s; }  
     #loading.hide { opacity:0; pointer-events:none; }  
-    #notificationPanel { display:none; position:absolute; top:48px; right:0; width:min(310px,85vw); max-height:360px; overflow:auto; background:var(--card); color:var(--ink); border:3px solid var(--ink); border-radius:15px; box-shadow:var(--shadow); padding:12px; z-index:1200; }  
+    #notificationPanel { display:none; position:fixed; top:150px; left:8px; right:auto; width:min(320px,calc(100vw - 16px)); max-width:calc(100vw - 16px); max-height:min(55vh,360px); overflow-x:hidden; overflow-y:auto; box-sizing:border-box; background:var(--card); color:var(--ink); border:3px solid var(--ink); border-radius:15px; box-shadow:var(--shadow); padding:9px; z-index:1200; }  
     #notificationPanel.show { display:block; }  
     .notification-wrap { position:relative; }  
     .notification-head { display:flex; align-items:center; justify-content:space-between; gap:8px; font-weight:900; margin-bottom:10px; }  
     .notification-head button { border:0; background:transparent; text-decoration:underline; font-size:.75rem; }  
-    .notification-empty,.notification-item { font-size:.85rem; padding:8px; border-radius:10px; background:#fff; margin-bottom:7px; }  
+    .notification-empty,.notification-item { font-size:.78rem; line-height:1.4; padding:8px; border-radius:10px; background:#fff; margin-bottom:7px; overflow-wrap:anywhere; word-break:normal; }
+    .notification-item * { max-width:100%; overflow-wrap:anywhere; }
+    @media(max-width:420px) { #notificationPanel { width:min(320px,calc(100vw - 16px)); max-width:calc(100vw - 16px); padding:8px; } .notification-head { gap:5px; font-size:.82rem; } .notification-head button { font-size:.68rem; white-space:normal; } .notification-empty,.notification-item { font-size:.75rem; } }  
     @media(min-width:700px) { .container.main-width { max-width:760px; } .app-grid { grid-template-columns:repeat(3,minmax(0,1fr)); } .feature-grid { grid-template-columns:repeat(4,minmax(0,1fr)); } }  .quote-text {
 position: relative;
 padding: 22px 16px !important;
@@ -1097,8 +1099,30 @@ async function loadNotifications(client) {
 
     document.getElementById("notificationBtn").addEventListener("click",() => {
       const panel = document.getElementById("notificationPanel");
+      const button = document.getElementById("notificationBtn");
       const open = panel.classList.toggle("show");
-      document.getElementById("notificationBtn").setAttribute("aria-expanded",String(open));
+      button.setAttribute("aria-expanded",String(open));
+      if (open) {
+        const rect = button.getBoundingClientRect();
+        const width = Math.min(320, window.innerWidth - 16);
+        panel.style.width = width + "px";
+        panel.style.maxWidth = width + "px";
+        panel.style.left = Math.max(8, Math.min(rect.right - width, window.innerWidth - width - 8)) + "px";
+        panel.style.right = "auto";
+        panel.style.top = Math.min(rect.bottom + 8, window.innerHeight - 120) + "px";
+      }
+    });
+    window.addEventListener("resize", () => {
+      const panel = document.getElementById("notificationPanel");
+      if (panel && panel.classList.contains("show")) {
+        const button = document.getElementById("notificationBtn");
+        const rect = button.getBoundingClientRect();
+        const width = Math.min(320, window.innerWidth - 16);
+        panel.style.width = width + "px";
+        panel.style.maxWidth = width + "px";
+        panel.style.left = Math.max(8, Math.min(rect.right - width, window.innerWidth - width - 8)) + "px";
+        panel.style.top = Math.min(rect.bottom + 8, window.innerHeight - 120) + "px";
+      }
     });
     document.getElementById("searchInput").addEventListener("input",() => {
       document.getElementById("appSearchInput").value = document.getElementById("searchInput").value;
