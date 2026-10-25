@@ -293,6 +293,14 @@ body{
     font-weight:900;
 }
 
+
+.rating-stars{display:flex;gap:8px;flex-wrap:wrap;margin-top:10px}
+.rating-stars button{min-width:48px;padding:9px 12px;background:var(--yellow);border:3px solid var(--black);border-radius:10px;box-shadow:3px 3px 0 var(--black);font-weight:1000}
+.rating-stars button:hover,.rating-stars button:focus{background:var(--red);color:white;transform:translateY(-2px)}
+.rating-stars button:disabled{opacity:.6;cursor:not-allowed;transform:none}
+#ratingSummary{font-weight:900;margin-top:8px}
+#ratingMessage{font-weight:800;overflow-wrap:anywhere}
+
 @media(max-width:500px){
     .detail-container{margin:25px auto;padding:12px}
     .detail-card{padding:20px;box-shadow:7px 7px 0 var(--black)}
@@ -375,6 +383,83 @@ function showError(message){
             </a>
         </div>
     `;
+}
+
+
+async function initAppRating(appId){
+    const client = window.supabaseClient;
+    const summary = document.getElementById("ratingSummary");
+    const message = document.getElementById("ratingMessage");
+    const buttons = [...document.querySelectorAll("#ratingButtons button[data-rating]")];
+
+    if(!client || appId === undefined || appId === null || String(appId).trim() === ""){
+        summary.textContent = "Rating belum tersedia.";
+        message.textContent = "Koneksi Supabase atau ID aplikasi tidak tersedia.";
+        buttons.forEach(button => button.disabled = true);
+        return;
+    }
+
+    const storageKey = "da_official_rated_" + String(appId);
+    let alreadyRated = false;
+    try { alreadyRated = localStorage.getItem(storageKey) === "1"; } catch (_) {}
+
+    async function refreshSummary(){
+        const { data, error } = await client
+            .from("app_ratings")
+            .select("rating")
+            .eq("app_id", String(appId));
+
+        if(error){
+            console.error("Gagal membaca rating Supabase:", error);
+            summary.textContent = "Rating belum dapat dimuat.";
+            message.textContent = "Periksa tabel app_ratings dan izin SELECT di Supabase.";
+            return false;
+        }
+
+        const ratings = (data || []).map(row => Number(row.rating)).filter(n => n >= 1 && n <= 5);
+        if(!ratings.length){
+            summary.textContent = "Belum ada rating. Jadilah yang pertama!";
+        } else {
+            const average = ratings.reduce((sum, n) => sum + n, 0) / ratings.length;
+            summary.textContent = "⭐ " + average.toFixed(1) + " / 5 · " + ratings.length + " penilaian";
+        }
+        return true;
+    }
+
+    await refreshSummary();
+
+    if(alreadyRated){
+        message.textContent = "Kamu sudah memberi rating untuk aplikasi ini di perangkat ini.";
+        buttons.forEach(button => button.disabled = true);
+        return;
+    }
+
+    buttons.forEach(button => {
+        button.addEventListener("click", async () => {
+            const rating = Number(button.dataset.rating);
+            if(!Number.isInteger(rating) || rating < 1 || rating > 5) return;
+
+            buttons.forEach(item => item.disabled = true);
+            message.textContent = "Menyimpan rating...";
+
+            // Jangan kirim kolom id; database yang membuatnya otomatis.
+            const { error } = await client
+                .from("app_ratings")
+                .insert({ app_id: String(appId), rating: rating });
+
+            if(error){
+                console.error("Gagal menyimpan rating Supabase:", error);
+                message.textContent = "Gagal menyimpan rating: " + (error.message || "Periksa tabel dan izin INSERT.");
+                buttons.forEach(item => item.disabled = false);
+                return;
+            }
+
+            try { localStorage.setItem(storageKey, "1"); } catch (_) {}
+            message.textContent = "Terima kasih! Rating berhasil disimpan.";
+            await refreshSummary();
+            buttons.forEach(item => item.disabled = true);
+        });
+    });
 }
 
 async function loadDetail(){
@@ -490,7 +575,7 @@ async function loadDetail(){
 
     <p class="mt-3 mb-2">Berikan penilaianmu:</p>
 
-    <div id="ratingButtons" class="d-flex gap-2 flex-wrap">
+    <div id="ratingButtons" class="rating-stars">
         ${[1,2,3,4,5].map(n => `
             <button
                 type="button"
@@ -533,6 +618,8 @@ ${
 
             </article>
         `;
+
+        initAppRating(data.id);
     }catch(error){
         console.error("Kesalahan halaman detail:",error);
         showError("TERJADI KESALAHAN SAAT MEMUAT APK!");
