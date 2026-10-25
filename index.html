@@ -522,207 +522,80 @@ padding: 20px 12px !important;
     .spotify-download-note p { color:#555; line-height:1.6; }
     @media (max-width:390px) { .spotify-hero { padding:18px 13px; } .spotify-disc { flex-basis:60px; width:60px; height:60px; border-width:5px; font-size:1.5rem; } .spotify-hero-copy { max-width:78%; } .spotify-playlist-grid { gap:9px; } .spotify-playlist-card { padding:8px; } .playlist-play { right:12px; } }
     
-/* ===== LOADING PREMIUM APK DA•OFFICIAL ===== */
+/* ===== LOADING PREMIUM KOMIK APK DA•OFFICIAL ===== */
 #loading {
-  position: fixed;
-  inset: 0;
-  z-index: 99999;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  overflow: hidden;
+  position:fixed; inset:0; z-index:99999;
+  display:flex; align-items:center; justify-content:center;
+  overflow:hidden; padding:24px;
+  color:var(--ink);
   background:
-    radial-gradient(ellipse at center, #321014 0%, #10090d 48%, #030305 100%);
-  color: #fff;
-  opacity: 1;
-  visibility: visible;
-  transition: opacity .6s ease, visibility .6s ease;
+    radial-gradient(circle at 18% 20%,rgba(255,255,255,.65) 0 2px,transparent 3px),
+    radial-gradient(circle at 80% 75%,rgba(255,255,255,.5) 0 2px,transparent 3px),
+    repeating-linear-gradient(135deg,#e63830 0 28px,#d92e28 28px 56px);
+  background-size:34px 34px,42px 42px,auto;
+  opacity:1; visibility:visible;
+  transition:opacity .45s ease,visibility .45s ease;
 }
-
-#loading.hide {
-  opacity: 0;
-  visibility: hidden;
-  pointer-events: none;
-}
-
+#loading.hide { opacity:0; visibility:hidden; pointer-events:none; }
 .loader-bg-effects {
-  position: absolute;
-  inset: 0;
-  background: repeating-linear-gradient(
-    135deg,
-    transparent 0 35px,
-    rgba(230, 56, 48, .07) 36px 38px
-  );
-  animation: loaderBgMove 8s linear infinite;
+  position:absolute; inset:0; pointer-events:none;
+  background:radial-gradient(ellipse at center,transparent 20%,rgba(20,10,10,.22) 100%);
 }
-
 .loader-content {
-  position: relative;
-  z-index: 1;
-  width: min(340px, 88vw);
-  text-align: center;
-  animation: loaderAppear .8s ease both;
+  position:relative; z-index:1; width:min(360px,92vw);
+  padding:26px 22px 22px; text-align:center;
+  background:#fff7f4; border:4px solid #1c1c1c; border-radius:24px;
+  box-shadow:9px 10px 0 #1c1c1c;
+  animation:loaderAppear .65s cubic-bezier(.2,.8,.2,1) both;
 }
-
 .loader-ring {
-  width: 150px;
-  height: 150px;
-  margin: 0 auto 28px;
-  padding: 7px;
-  display: grid;
-  place-items: center;
-  border-radius: 50%;
-  border: 3px solid transparent;
-  background:
-    linear-gradient(#10090d, #10090d) padding-box,
-    conic-gradient(
-      #ffdf4d,
-      #e63830,
-      #ff5c52,
-      #ffdf4d
-    ) border-box;
-  box-shadow:
-    0 0 18px rgba(230, 56, 48, .45),
-    inset 0 0 20px rgba(230, 56, 48, .12);
-  animation: loaderSpin 4s linear infinite;
+  width:142px;height:142px;margin:0 auto 22px;padding:7px;
+  display:grid;place-items:center;border-radius:50%;
+  border:4px solid #1c1c1c;
+  background:conic-gradient(#ffdf4d 0 25%,#e63830 25% 50%,#ffdf4d 50% 75%,#e63830 75%);
+  box-shadow:5px 5px 0 #1c1c1c;
+  animation:loaderSpin 5s linear infinite;
 }
-
 .loader-logo {
-  width: 124px;
-  height: 124px;
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  justify-content: center;
-  border: 2px solid #ffdf4d;
-  border-radius: 50%;
-  background: radial-gradient(circle, #401014, #100609 75%);
-  box-shadow: inset 0 0 18px rgba(230, 56, 48, .4);
-  animation: loaderCounterSpin 4s linear infinite;
+  width:112px;height:112px;display:flex;flex-direction:column;
+  align-items:center;justify-content:center;border:3px solid #1c1c1c;
+  border-radius:50%;background:#ffdf4d;color:#1c1c1c;
+  box-shadow:inset 0 0 0 4px #fff7f4;
+  animation:loaderCounterSpin 5s linear infinite;
 }
+.loader-logo strong {color:#e63830;font-size:31px;line-height:1;font-weight:1000;text-shadow:2px 2px 0 #1c1c1c;}
+.loader-crown {color:#1c1c1c;font-size:20px;line-height:1;}
+.loader-brand {margin-top:4px;color:#1c1c1c;font-size:10px;font-weight:1000;letter-spacing:1px;}
+.loader-ribbon {margin-top:6px;padding:3px 8px;border:2px solid #1c1c1c;border-radius:5px;background:#e63830;color:#fff;font-size:8px;font-weight:1000;}
+.loader-welcome {color:#e63830;font-size:clamp(21px,6vw,28px);font-weight:1000;letter-spacing:1px;line-height:1.15;text-shadow:2px 2px 0 #ffdf4d,3px 3px 0 #1c1c1c;}
+.loader-subtitle {margin-top:7px;color:#1c1c1c;font-size:12px;font-weight:1000;letter-spacing:2px;}
+.loader-message {margin:22px 0 12px;color:#65595a;font-size:12px;font-weight:700;}
+.loader-track {width:100%;height:14px;padding:2px;overflow:hidden;border:3px solid #1c1c1c;border-radius:20px;background:#fff;box-shadow:3px 3px 0 #1c1c1c;}
+.loader-progress {width:0%;height:100%;border-radius:20px;background:linear-gradient(90deg,#e63830 0%,#ffdf4d 100%);transition:width .15s linear;}
+#loaderPercent {margin-top:11px;color:#e63830;font-size:16px;font-weight:1000;}
+.loader-status {margin-top:5px;color:#65595a;font-size:10px;font-weight:1000;letter-spacing:2px;}
+.loader-footer {margin-top:22px;color:#1c1c1c;font-size:9px;font-weight:1000;letter-spacing:1px;}
+@keyframes loaderSpin {to{transform:rotate(360deg);}}
+@keyframes loaderCounterSpin {to{transform:rotate(-360deg);}}
+@keyframes loaderAppear {from{opacity:0;transform:translateY(16px) scale(.96)}to{opacity:1;transform:translateY(0) scale(1)}}
+@media(max-height:620px){.loader-content{padding:16px;width:min(330px,92vw)}.loader-ring{width:105px;height:105px;margin-bottom:14px}.loader-logo{width:81px;height:81px}.loader-logo strong{font-size:24px}.loader-crown{font-size:15px}.loader-brand{font-size:8px}.loader-ribbon{font-size:7px;margin-top:3px}.loader-message{margin:12px 0}.loader-footer{margin-top:12px}}
+@media(prefers-reduced-motion:reduce){.loader-ring,.loader-logo,.loader-content{animation:none}}
 
-.loader-logo strong {
-  color: #ffdf4d;
-  font-size: 31px;
-  line-height: 1;
-  font-weight: 1000;
-  text-shadow: 0 0 14px rgba(255, 223, 77, .65);
-}
 
-.loader-crown {
-  color: #ffdf4d;
-  font-size: 22px;
-}
+/* Fitur tambahan: mode gelap/terang, kontrol bahasa, dan PWA */
+.utility-toggle{border:3px solid var(--ink);background:var(--secondary);color:var(--ink);border-radius:12px;min-width:38px;height:38px;display:grid;place-items:center;font-weight:1000;box-shadow:2px 3px 0 var(--ink);padding:0 7px}
+html[data-mode="dark"] body{--paper:#11131d;--card:#1c2030;--ink:#f5f3ff;--muted:#c4c0d8;background:var(--paper);color:var(--ink)}
+html[data-mode="dark"] .comic-header{background:#25213b;color:#fff}
+html[data-mode="dark"] .bottom-nav{background:#242039}
+html[data-mode="dark"] .nav-icon,html[data-mode="dark"] .notification-empty,html[data-mode="dark"] .notification-item{background:#292d40;color:#f5f3ff}
+html[data-mode="dark"] input,html[data-mode="dark"] textarea,html[data-mode="dark"] select{background:#202438;color:#fff;border-color:#777}
+@media(max-width:430px){.utility-toggle{min-width:32px;height:34px;border-width:2px;font-size:.78rem}.comic-header .container{gap:7px!important}.comic-header .d-flex.gap-3{gap:7px!important}.brand{font-size:.9rem}}
 
-.loader-brand {
-  margin-top: 5px;
-  color: white;
-  font-size: 11px;
-  font-weight: 1000;
-  letter-spacing: 1px;
-}
-
-.loader-ribbon {
-  margin-top: 7px;
-  padding: 3px 8px;
-  border-radius: 4px;
-  background: #e63830;
-  color: white;
-  font-size: 8px;
-  font-weight: 900;
-}
-
-.loader-welcome {
-  color: #ffdf4d;
-  font-size: clamp(21px, 6vw, 28px);
-  font-weight: 1000;
-  letter-spacing: 2px;
-  text-shadow: 2px 2px 0 #e63830;
-}
-
-.loader-subtitle {
-  margin-top: 5px;
-  font-size: 13px;
-  font-weight: 900;
-  letter-spacing: 3px;
-}
-
-.loader-message {
-  margin: 27px 0 14px;
-  color: #d7c8c8;
-  font-size: 12px;
-}
-
-.loader-track {
-  width: 100%;
-  height: 9px;
-  padding: 2px;
-  overflow: hidden;
-  border: 1px solid #ffdf4d;
-  border-radius: 20px;
-  background: #251518;
-  box-shadow: 0 0 12px rgba(230, 56, 48, .2);
-}
-
-.loader-progress {
-  width: 0%;
-  height: 100%;
-  border-radius: 20px;
-  background: linear-gradient(90deg, #e63830, #ffdf4d);
-  box-shadow: 0 0 12px #e63830;
-  transition: width .15s linear;
-}
-
-#loaderPercent {
-  margin-top: 10px;
-  color: #ffdf4d;
-  font-size: 14px;
-  font-weight: 1000;
-}
-
-.loader-status {
-  margin-top: 7px;
-  color: #ff7770;
-  font-size: 10px;
-  font-weight: 900;
-  letter-spacing: 2px;
-}
-
-.loader-footer {
-  margin-top: 32px;
-  color: #a99b9b;
-  font-size: 9px;
-  letter-spacing: 1.5px;
-}
-
-@keyframes loaderSpin {
-  to { transform: rotate(360deg); }
-}
-
-@keyframes loaderCounterSpin {
-  to { transform: rotate(-360deg); }
-}
-
-@keyframes loaderAppear {
-  from { opacity: 0; transform: translateY(15px); }
-  to { opacity: 1; transform: translateY(0); }
-}
-
-@keyframes loaderBgMove {
-  to { background-position: 100px 100px; }
-}
-
-@media (prefers-reduced-motion: reduce) {
-  .loader-ring,
-  .loader-logo,
-  .loader-bg-effects,
-  .loader-content {
-    animation: none;
-  }
-}
-    
   </style>  
   <script data-cfasync="false" src="https://accountut.com/1/e65196dc30ce7366edb273c1025596f5"></script>
+  <link rel="manifest" href="./manifest.json">
+  <meta name="apple-mobile-web-app-capable" content="yes">
+  <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
 </head>  
 <body>  
   
@@ -764,6 +637,9 @@ padding: 20px 12px !important;
             <div id="notificationList"><div class="notification-empty">Memuat notifikasi...</div></div>  
           </div>  
         </div>  
+        <button class="comic-icon utility-toggle" id="themeModeBtn" type="button" aria-label="Ganti mode terang atau gelap" title="Mode terang/gelap"><i class="bi bi-moon-stars-fill"></i></button>
+        <button class="comic-icon utility-toggle" id="languageBtn" type="button" aria-label="Ganti bahasa" title="Bahasa">ID</button>
+        <button class="comic-icon utility-toggle" id="installPwaBtn" type="button" aria-label="Pasang website" title="Pasang website" hidden><i class="bi bi-download"></i></button>
         <a class="comic-icon" href="admin.html" aria-label="Admin"><i class="bi bi-person-gear"></i></a>  
       </div>  
     </div>  
@@ -1232,43 +1108,7 @@ async function loadNotifications(client) {
     try { const savedTheme = localStorage.getItem("apkda-theme"); if (savedTheme) setTheme(savedTheme); } catch {}
     loadApps();
     
-const loaderProgress = document.getElementById("loaderProgress");
-const loaderPercent = document.getElementById("loaderPercent");
-const loadingScreen = document.getElementById("loading");
 
-let progress = 0;
-let loaderFinished = false;
-
-const progressTimer = setInterval(() => {
-  if (loaderFinished) return;
-
-  if (progress < 90) {
-    progress += Math.max(1, Math.floor((90 - progress) / 10));
-
-    loaderProgress.style.width = progress + "%";
-    loaderPercent.textContent = progress + "%";
-  }
-}, 120);
-
-function finishLoading() {
-  if (loaderFinished) return;
-  loaderFinished = true;
-
-  clearInterval(progressTimer);
-
-  loaderProgress.style.width = "100%";
-  loaderPercent.textContent = "100%";
-
-  setTimeout(() => {
-    loadingScreen.classList.add("hide");
-  }, 400);
-}
-
-window.addEventListener("load", () => {
-  setTimeout(finishLoading, 400);
-});
-
-setTimeout(finishLoading, 7000);
     
  
 const musicCatalog = [
@@ -1347,7 +1187,7 @@ function playMusicPlaylist(id, title) {
 
 // ===== SPOTIFY WEB API (Authorization Code with PKCE) =====
 // Ganti Client ID di bawah. Jangan pernah menaruh Client Secret di kode publik.
-const SPOTIFY_CLIENT_ID = "31gqbru57bbehib6yo3muf44qyoq";
+const SPOTIFY_CLIENT_ID = "GANTI_DENGAN_CLIENT_ID_SPOTIFY";
 const SPOTIFY_REDIRECT_URI = window.location.origin + window.location.pathname;
 const SPOTIFY_TOKEN_KEY = "daSpotifyAccessToken";
 const SPOTIFY_TOKEN_EXPIRY_KEY = "daSpotifyTokenExpiry";
@@ -1697,5 +1537,68 @@ window.addEventListener("load", function () {
     <script src="./supabase.js"></script>
     <script src="./script.js" defer></script>
    <script data-cfasync="false" src="https://bellnewyork.org/14/dc3954d26e169baf2de245e7198ba6c8"></script>
+   <script>
+   // Loading berdiri sendiri agar tidak ikut gagal jika skrip fitur lain bermasalah.
+   (function () {
+     function startPremiumLoader() {
+       const screen = document.getElementById("loading");
+       const bar = document.getElementById("loaderProgress");
+       const percentLabel = document.getElementById("loaderPercent");
+       if (!screen || !bar || !percentLabel) return;
+       let progress = 0;
+       let finished = false;
+       const timer = setInterval(function () {
+         if (finished) return;
+         if (progress < 90) {
+           progress += Math.max(1, Math.floor((90 - progress) / 10));
+           bar.style.width = progress + "%";
+           percentLabel.textContent = progress + "%";
+         }
+       }, 120);
+       function finish() {
+         if (finished) return;
+         finished = true;
+         clearInterval(timer);
+         bar.style.width = "100%";
+         percentLabel.textContent = "100%";
+         setTimeout(function () { screen.classList.add("hide"); }, 350);
+       }
+       window.addEventListener("load", function () { setTimeout(finish, 300); }, { once: true });
+       // Pengaman: jangan biarkan layar loading menutupi website selamanya.
+       setTimeout(finish, 7000);
+     }
+     if (document.readyState === "loading") {
+       document.addEventListener("DOMContentLoaded", startPremiumLoader, { once: true });
+     } else {
+       startPremiumLoader();
+     }
+   })();
+   </script>
+
+<script>
+(function(){
+  const root=document.documentElement;
+  const themeBtn=document.getElementById('themeModeBtn');
+  const langBtn=document.getElementById('languageBtn');
+  const installBtn=document.getElementById('installPwaBtn');
+  let lang='id'; let deferredInstall=null;
+  try { if(localStorage.getItem('apkda-mode')==='dark') root.dataset.mode='dark'; } catch(e){}
+  function refreshThemeIcon(){ if(!themeBtn)return; themeBtn.innerHTML=root.dataset.mode==='dark'?'<i class="bi bi-sun-fill"></i>':'<i class="bi bi-moon-stars-fill"></i>'; }
+  refreshThemeIcon();
+  themeBtn?.addEventListener('click',()=>{root.dataset.mode=root.dataset.mode==='dark'?'light':'dark';try{localStorage.setItem('apkda-mode',root.dataset.mode)}catch(e){}refreshThemeIcon();});
+  const translations={
+    id:{nav:['BERANDA','MENU APK','SPOTIFY','KATA SAD','TEMA'],install:'Pasang website',lang:'ID'},
+    en:{nav:['HOME','APK MENU','SPOTIFY','SAD QUOTES','THEMES'],install:'Install website',lang:'EN'}
+  };
+  function setLanguage(next){lang=next;const t=translations[lang];document.querySelectorAll('.nav-item').forEach((el,i)=>{if(t.nav[i]){const icon=el.querySelector('.nav-icon');el.textContent=t.nav[i];if(icon)el.prepend(icon)}});if(langBtn)langBtn.textContent=t.lang;document.documentElement.lang=lang;try{localStorage.setItem('apkda-lang',lang)}catch(e){}}
+  try{lang=localStorage.getItem('apkda-lang')==='en'?'en':'id'}catch(e){}
+  setLanguage(lang);
+  langBtn?.addEventListener('click',()=>setLanguage(lang==='id'?'en':'id'));
+  window.addEventListener('beforeinstallprompt',e=>{e.preventDefault();deferredInstall=e;if(installBtn)installBtn.hidden=false;});
+  installBtn?.addEventListener('click',async()=>{if(!deferredInstall)return;deferredInstall.prompt();await deferredInstall.userChoice;deferredInstall=null;installBtn.hidden=true;});
+  if('serviceWorker' in navigator && /^https?:$/.test(location.protocol)){window.addEventListener('load',()=>navigator.serviceWorker.register('./sw.js').catch(err=>console.warn('PWA offline belum aktif:',err)));}
+})();
+</script>
+
   </body>
 </html>
