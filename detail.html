@@ -456,9 +456,34 @@ async function initAppRating(appId){
             message.textContent = "Menyimpan rating...";
 
             // Jangan kirim kolom id; database yang membuatnya otomatis.
+            // Ambil voter_id stabil untuk browser ini agar sesuai dengan kebijakan RLS.
+            // Mendukung kolom voter_id bertipe text atau uuid.
+            let voterId = "";
+            const voterStorageKey = "da_official_voter_id";
+            try {
+                voterId = localStorage.getItem(voterStorageKey) || "";
+                if (!voterId) {
+                    if (window.crypto && typeof window.crypto.randomUUID === "function") {
+                        voterId = window.crypto.randomUUID();
+                    } else {
+                        voterId = "voter-" + Date.now().toString(36) + "-" +
+                            Math.random().toString(36).slice(2, 12);
+                    }
+                    localStorage.setItem(voterStorageKey, voterId);
+                }
+            } catch (_) {
+                voterId = (window.crypto && typeof window.crypto.randomUUID === "function")
+                    ? window.crypto.randomUUID()
+                    : "voter-" + Date.now().toString(36) + "-" + Math.random().toString(36).slice(2, 12);
+            }
+
             const { error } = await client
                 .from("app_ratings")
-                .insert({ app_id: String(appId), rating: rating });
+                .insert({
+                    app_id: String(appId),
+                    rating: rating,
+                    voter_id: voterId
+                });
 
             if(error){
                 console.error("Gagal menyimpan rating Supabase:", error);
