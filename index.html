@@ -4,7 +4,13 @@
   <meta charset="UTF-8">  
   <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">  
   <meta name="theme-color" content="#e63830">  
-  <meta name="description" content="APK DA•OFFICIAL - Download APK, musik, dan kata-kata sad.">  
+  <meta name="description" content="Temukan APK Android, game, aplikasi terbaru, panduan Android, musik, dan kata-kata sad di APK DA•OFFICIAL.">
+  <meta name="robots" content="index,follow,max-image-preview:large">
+  <link rel="canonical" href="https://darsononono283-ai.github.io/apk-da-official/">
+  <meta property="og:type" content="website">
+  <meta property="og:title" content="APK DA•OFFICIAL - Download APK Android">
+  <meta property="og:description" content="Temukan aplikasi Android, game, dan panduan Android di APK DA•OFFICIAL.">
+  <meta property="og:url" content="https://darsononono283-ai.github.io/apk-da-official/">  
   <title>APK DA•OFFICIAL</title>  
   <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">  
   <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css" rel="stylesheet">  
@@ -606,6 +612,21 @@ html[data-mode="dark"] input,html[data-mode="dark"] textarea,html[data-mode="dar
     .settings-option:active{transform:translateY(1px)}
     html[data-mode="dark"] .settings-option{background:#24283a;color:var(--ink)}
 
+  
+    /* Fitur pengunjung: favorit, pencarian, populer, terbaru */
+    .search-tools{display:flex;gap:8px;flex-wrap:wrap;margin:8px 0 18px}
+    .search-tools button{border:2px solid var(--ink);border-radius:10px;background:var(--secondary);padding:7px 10px;font-weight:800;font-size:.82rem}
+    .favorite-btn{background:#fff0f3!important;color:#9f1239!important}
+    .favorite-btn.is-favorite{background:#ffe4e6!important;color:#be123c!important}
+    .mini-section{margin:24px 0}
+    .mini-section-head{display:flex;align-items:center;justify-content:space-between;gap:8px}
+    .mini-section-head .comic-title{margin-bottom:12px}
+    .mini-section-head button{border:0;background:transparent;color:var(--primary);font-weight:900}
+    .guide-link{display:block;padding:14px;border:2px solid var(--ink);border-radius:14px;background:var(--secondary);color:var(--ink);font-weight:900;text-decoration:none;box-shadow:3px 4px 0 var(--ink)}
+    .guide-link small{display:block;font-weight:600;margin-top:4px}
+    .search-history-list{display:flex;gap:7px;flex-wrap:wrap;margin-top:8px}
+    .search-history-list button{border:1px solid var(--ink);border-radius:999px;padding:5px 10px;background:var(--card);font-size:.8rem}
+
   </style>  
   <script data-cfasync="false" src="https://accountut.com/1/e65196dc30ce7366edb273c1025596f5"></script>
   <link rel="manifest" href="./manifest.json">
@@ -685,11 +706,30 @@ html[data-mode="dark"] input,html[data-mode="dark"] textarea,html[data-mode="dar
     <button class="feature-tile" onclick="showPage('theme')"><i class="bi bi-palette"></i>Tema<small>Ubah warna website</small></button>  
   </div>  
 
-  <section class="mb-4">  
-    <h2 class="comic-title">APK pilihan</h2>  
-    <div id="homeApps" class="app-grid"><div class="empty-state">Memuat aplikasi...</div></div>  
-    <button class="comic-btn primary mt-3 w-100" onclick="showPage('apps')">Lihat semua APK <i class="bi bi-arrow-right"></i></button>  
-  </section>  
+  <div class="search-tools">
+    <button type="button" onclick="showPage('favorites')"><i class="bi bi-heart-fill"></i> APK Favorit</button>
+    <button type="button" onclick="showSearchHistory()"><i class="bi bi-clock-history"></i> Riwayat pencarian</button>
+  </div>
+  <div id="searchHistoryPanel" class="comic-panel mb-3" hidden>
+    <div class="d-flex justify-content-between align-items-center gap-2"><strong>Riwayat pencarian</strong><button class="comic-btn light" type="button" onclick="clearSearchHistory()">Hapus</button></div>
+    <div id="searchHistoryList" class="search-history-list"></div>
+  </div>
+  <section class="mini-section">
+    <div class="mini-section-head"><h2 class="comic-title"><i class="bi bi-stars"></i> APK terbaru</h2><button onclick="showPage('apps')">Semua <i class="bi bi-arrow-right"></i></button></div>
+    <div id="newApps" class="app-grid"><div class="empty-state">Memuat APK terbaru...</div></div>
+  </section>
+  <section class="mini-section">
+    <div class="mini-section-head"><h2 class="comic-title"><i class="bi bi-fire"></i> APK populer</h2><button onclick="showPage('apps')">Semua <i class="bi bi-arrow-right"></i></button></div>
+    <div id="popularApps" class="app-grid"><div class="empty-state">Menghitung popularitas...</div></div>
+  </section>
+  <section class="mb-4">
+    <h2 class="comic-title">APK pilihan</h2>
+    <div id="homeApps" class="app-grid"><div class="empty-state">Memuat aplikasi...</div></div>
+    <button class="comic-btn primary mt-3 w-100" onclick="showPage('apps')">Lihat semua APK <i class="bi bi-arrow-right"></i></button>
+  </section>
+  <a class="guide-link mb-4" href="panduan.html"><i class="bi bi-journal-richtext"></i> Panduan Android
+    <small>Tips instalasi, kompatibilitas, dan keamanan aplikasi.</small>
+  </a>
 </section>  
 
 <section id="appsPage" class="feature-page d-none">  
@@ -707,6 +747,14 @@ html[data-mode="dark"] input,html[data-mode="dark"] textarea,html[data-mode="dar
   </div>  
   <div id="appGrid" class="app-grid"><div class="empty-state">Memuat aplikasi...</div></div>  
 </section>  
+
+<section id="favoritesPage" class="feature-page d-none">
+  <div class="comic-panel mb-3">
+    <h1 class="comic-title"><i class="bi bi-heart-fill"></i> APK Favorit</h1>
+    <p>Daftar favorit tersimpan di perangkat ini.</p>
+    <div id="favoriteApps" class="app-grid"><div class="empty-state">Memuat favorit...</div></div>
+  </div>
+</section>
 
 <section id="spotifyPage" class="feature-page d-none spotify-page">
   <div class="spotify-hero">
@@ -805,7 +853,7 @@ html[data-mode="dark"] input,html[data-mode="dark"] textarea,html[data-mode="dar
   </nav>    <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>    <script src="./supabase.js"></script>    <script>  
     let apps = [];  
     let selectedCategory = "Semua";  
-    const pageIds = {home:"homePage",apps:"appsPage",spotify:"spotifyPage",sad:"sadPage",theme:"themePage"};  
+    const pageIds = {home:"homePage",apps:"appsPage",favorites:"favoritesPage",spotify:"spotifyPage",sad:"sadPage",theme:"themePage"};  
     const quotes = [  
       "Terkadang, yang paling melelahkan adalah berpura-pura baik-baik saja.",  
       "Aku diam bukan karena tak terluka, hanya lelah menjelaskan.",  
@@ -817,7 +865,74 @@ html[data-mode="dark"] input,html[data-mode="dark"] textarea,html[data-mode="dar
       "Tidak semua kehilangan bisa digantikan."  
     ];  
   
-    function showPage(page) {  
+    function getFavoriteIds(){
+  try { return JSON.parse(localStorage.getItem("da_official_favorites") || "[]").map(String); }
+  catch (_) { return []; }
+}
+function isFavorite(appId){ return getFavoriteIds().includes(String(appId)); }
+function toggleFavorite(appId){
+  const ids=getFavoriteIds(), key=String(appId);
+  const next=ids.includes(key)?ids.filter(id=>id!==key):[...ids,key];
+  try { localStorage.setItem("da_official_favorites",JSON.stringify(next)); } catch(_){}
+  renderApps();
+  renderFavorites();
+}
+function renderFavorites(){
+  const target=document.getElementById("favoriteApps");
+  if(!target) return;
+  const ids=getFavoriteIds();
+  const saved=apps.filter(app=>ids.includes(String(app.id)));
+  target.innerHTML=saved.length?saved.map(appCard).join(""):'<div class="empty-state comic-panel">Belum ada APK favorit. Tekan tombol hati pada kartu APK untuk menyimpannya.</div>';
+}
+function getSearchHistory(){
+  try { return JSON.parse(localStorage.getItem("da_official_search_history") || "[]").filter(Boolean).slice(0,8); }
+  catch (_) { return []; }
+}
+function rememberSearch(value){
+  const query=String(value||"").trim();
+  if(query.length<2) return;
+  const history=getSearchHistory().filter(item=>item.toLowerCase()!==query.toLowerCase());
+  history.unshift(query);
+  try { localStorage.setItem("da_official_search_history",JSON.stringify(history.slice(0,8))); } catch(_){}
+}
+function showSearchHistory(){
+  const panel=document.getElementById("searchHistoryPanel");
+  const list=document.getElementById("searchHistoryList");
+  if(!panel||!list) return;
+  panel.hidden=!panel.hidden;
+  const history=getSearchHistory();
+  list.innerHTML=history.length?history.map(item=>`<button type="button" onclick="useSearchHistory(${JSON.stringify(item).replace(/</g,"\\u003c")})">${escapeHTML(item)}</button>`).join(""):'<span class="text-muted small">Belum ada riwayat pencarian.</span>';
+}
+function useSearchHistory(value){
+  const input=document.getElementById("searchInput");
+  const appInput=document.getElementById("appSearchInput");
+  if(input) input.value=value;
+  if(appInput) appInput.value=value;
+  showPage("apps");
+  renderApps();
+}
+function clearSearchHistory(){
+  try { localStorage.removeItem("da_official_search_history"); } catch(_){}
+  const list=document.getElementById("searchHistoryList");
+  if(list) list.innerHTML='<span class="text-muted small">Riwayat dihapus.</span>';
+}
+async function loadPopularity(){
+  const target=document.getElementById("popularApps");
+  if(!target) return;
+  if(!apps.length){target.innerHTML='<div class="empty-state comic-panel">Belum ada APK populer.</div>';return;}
+  const client=window.supabaseClient;
+  let counts={};
+  if(client){
+    try{
+      const {data,error}=await client.from("app_downloads").select("app_id");
+      if(error) throw error;
+      (data||[]).forEach(row=>{const k=String(row.app_id);counts[k]=(counts[k]||0)+1;});
+    }catch(error){console.warn("Statistik popularitas belum tersedia:",error);}
+  }
+  const sorted=[...apps].sort((a,b)=>(counts[String(b.id)]||0)-(counts[String(a.id)]||0));
+  target.innerHTML=sorted.slice(0,4).map(appCard).join("");
+}
+function showPage(page) {  
       Object.entries(pageIds).forEach(([key,id]) => {  
         document.getElementById(id)?.classList.toggle("d-none", key !== page);  
       });  
@@ -852,6 +967,7 @@ html[data-mode="dark"] input,html[data-mode="dark"] textarea,html[data-mode="dar
         <p class="app-description">${description}</p>  
         <a class="comic-btn primary w-100" href="${detailUrl}"><i  class="bi bi-info-circle"></i> Detail APK</a>
         <button class="comic-btn light w-100 mt-2" onclick="shareAPK('${String(app.id).replace(/'/g,"")}')"><i class="bi bi-share"></i> Bagikan</button>
+        <button class="comic-btn light favorite-btn w-100 mt-2 ${isFavorite(app.id)?"is-favorite":""}" onclick="toggleFavorite('${String(app.id).replace(/'/g,"")}')" aria-pressed="${isFavorite(app.id)}"><i class="bi ${isFavorite(app.id)?"bi-heart-fill":"bi-heart"}"></i> ${isFavorite(app.id)?"Favorit tersimpan":"Simpan favorit"}</button>
       </article>`;
     }
 
@@ -864,8 +980,13 @@ html[data-mode="dark"] input,html[data-mode="dark"] textarea,html[data-mode="dar
       });
       const grid = document.getElementById("appGrid");
       if (grid) grid.innerHTML = filtered.length ? filtered.map(appCard).join("") : `<div class="empty-state comic-panel">Belum ada APK yang cocok.</div>`;
+      const newest=[...apps].sort((a,b)=>new Date(b.created_at||0)-new Date(a.created_at||0));
       const homeGrid = document.getElementById("homeApps");
-      if (homeGrid) homeGrid.innerHTML = apps.length ? apps.slice(0,4).map(appCard).join("") : `<div class="empty-state comic-panel">Belum ada APK. Tambahkan melalui admin.</div>`;
+      const newGrid = document.getElementById("newApps");
+      if (homeGrid) homeGrid.innerHTML = apps.length ? newest.slice(0,4).map(appCard).join("") : `<div class="empty-state comic-panel">Belum ada APK. Tambahkan melalui admin.</div>`;
+      if (newGrid) newGrid.innerHTML = apps.length ? newest.slice(0,4).map(appCard).join("") : `<div class="empty-state comic-panel">Belum ada APK terbaru.</div>`;
+      renderFavorites();
+      loadPopularity();
     }
 
     async function loadApps() {
