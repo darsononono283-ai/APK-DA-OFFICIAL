@@ -231,6 +231,46 @@ body{
     overflow-wrap:anywhere;
 }
 
+
+/* Statistik unduhan */
+.download-stats{
+    display:flex;align-items:center;gap:12px;margin-top:18px;padding:15px 16px;
+    background:#f7f9fc;border:1px solid #e3e8ef;border-radius:14px;
+}
+.download-stats-icon{
+    display:flex;align-items:center;justify-content:center;width:44px;height:44px;flex:0 0 44px;
+    color:#2456a6;background:#e8f0ff;border-radius:12px;font-size:21px;
+}
+.download-stats-label{color:#647184;font-size:12px;font-weight:700}
+#downloadCount{color:#182230;font-size:19px;font-weight:850;line-height:1.35}
+.download-stats-note{margin-left:auto;color:#7b8797;font-size:11px;text-align:right}
+/* Ulasan pengguna */
+#reviewsSection{margin-top:20px;padding:22px;background:#fff;border:1px solid #e3e8ef;border-radius:18px;box-shadow:0 8px 24px rgba(20,30,50,.06)}
+#reviewsSection h5{display:flex;align-items:center;gap:9px;margin:0 0 8px;color:#182230;font-size:17px;font-weight:800}
+#reviewsSection h5 i{color:#2456a6;font-size:20px}
+.reviews-subtitle{margin:0 0 18px;color:#647184;font-size:13px;line-height:1.6}
+.review-form{display:grid;gap:11px}
+.review-field{width:100%;padding:12px 13px;color:#182230;background:#fbfcfe;border:1px solid #d7dee8;border-radius:11px;font:inherit;font-size:14px}
+.review-field:focus{outline:3px solid rgba(37,99,235,.16);border-color:#6b91df}
+.review-field::placeholder{color:#8a95a5}
+.review-submit{display:inline-flex;align-items:center;justify-content:center;gap:8px;width:100%;padding:12px 15px;color:#fff;background:#1d4ed8;border:0;border-radius:11px;font-size:14px;font-weight:800;transition:background .18s ease}
+.review-submit:hover{background:#1e40af}
+.review-submit:disabled{opacity:.6;cursor:not-allowed}
+#reviewsMessage{margin:0;color:#526174;font-size:13px;line-height:1.6;overflow-wrap:anywhere}
+#reviewsMessage:empty{display:none}
+.reviews-list{display:grid;gap:11px;margin-top:18px}
+.review-item{padding:14px;background:#f8fafc;border:1px solid #e8edf3;border-radius:12px}
+.review-item-head{display:flex;justify-content:space-between;gap:10px;align-items:center;margin-bottom:7px}
+.review-author{color:#243044;font-size:13px;font-weight:800;overflow-wrap:anywhere}
+.review-date{color:#7b8797;font-size:11px;white-space:nowrap}
+.review-text{margin:0;color:#445166;font-size:14px;line-height:1.7;white-space:pre-line;overflow-wrap:anywhere}
+.reviews-empty{padding:16px;text-align:center;color:#758195;background:#f8fafc;border:1px dashed #d7dee8;border-radius:12px;font-size:13px}
+@media(max-width:500px){
+ #reviewsSection{padding:17px;border-radius:15px}
+ .download-stats{padding:12px}
+ .download-stats-note{max-width:88px}
+}
+
 .download-btn{
     display:block;
     width:100%;
@@ -736,6 +776,142 @@ async function initAppRating(appId){
     });
 }
 
+
+function formatReviewDate(value){
+    if(!value) return "";
+    const date = new Date(value);
+    if(Number.isNaN(date.getTime())) return "";
+    return date.toLocaleDateString("id-ID",{day:"numeric",month:"short",year:"numeric"});
+}
+
+async function initDownloadStats(appId){
+    const client = window.supabaseClient;
+    const countEl = document.getElementById("downloadCount");
+    if(!countEl) return;
+    if(!client){ countEl.textContent = "Belum tersedia"; return; }
+    try{
+        const { count, error } = await client
+            .from("app_downloads")
+            .select("id",{count:"exact",head:true})
+            .eq("app_id",String(appId));
+        if(error) throw error;
+        countEl.textContent = Number(count || 0).toLocaleString("id-ID") + " unduhan";
+    }catch(error){
+        console.error("Gagal memuat statistik unduhan:",error);
+        countEl.textContent = "Belum tersedia";
+    }
+}
+
+function initDownloadTracking(appId){
+    const button = document.getElementById("downloadAppButton");
+    const client = window.supabaseClient;
+    if(!button || !client) return;
+    button.addEventListener("click", async function(event){
+        // Buka tab secara langsung agar tidak diblokir, lalu catat klik sebelum mengarah ke file.
+        event.preventDefault();
+        const url = button.href;
+        const downloadTab = window.open("about:blank","_blank");
+        if(downloadTab) downloadTab.opener = null;
+        try{
+            const record = client.from("app_downloads").insert({app_id:String(appId)});
+            await Promise.race([
+                record,
+                new Promise(resolve => setTimeout(resolve,1200))
+            ]);
+        }catch(error){
+            console.error("Gagal mencatat klik unduhan:",error);
+        }finally{
+            if(downloadTab){
+                try{ downloadTab.location.href = url; }
+                catch(_){ window.location.href = url; }
+            }else{
+                window.location.href = url;
+            }
+        }
+    });
+}
+
+async function initUserReviews(appId){
+    const client = window.supabaseClient;
+    const form = document.getElementById("reviewForm");
+    const list = document.getElementById("reviewsList");
+    const message = document.getElementById("reviewsMessage");
+    const submit = document.getElementById("reviewSubmit");
+    if(!form || !list || !message || !submit) return;
+
+    function renderReviews(rows){
+        if(!rows || !rows.length){
+            list.innerHTML = '<div class="reviews-empty">Belum ada ulasan. Jadilah yang pertama berbagi pengalaman!</div>';
+            return;
+        }
+        list.innerHTML = rows.map(row => `
+            <article class="review-item">
+                <div class="review-item-head">
+                    <span class="review-author"><i class="bi bi-person-circle" aria-hidden="true"></i> ${escapeHTML(row.display_name || "Pengguna")}</span>
+                    <time class="review-date">${escapeHTML(formatReviewDate(row.created_at))}</time>
+                </div>
+                <p class="review-text">${escapeHTML(row.review_text || "")}</p>
+            </article>
+        `).join("");
+    }
+
+    async function loadReviews(){
+        if(!client){
+            list.innerHTML = '<div class="reviews-empty">Koneksi Supabase belum tersedia.</div>';
+            return;
+        }
+        try{
+            const {data,error} = await client.from("app_reviews")
+                .select("display_name,review_text,created_at")
+                .eq("app_id",String(appId))
+                .order("created_at",{ascending:false})
+                .limit(20);
+            if(error) throw error;
+            renderReviews(data || []);
+        }catch(error){
+            console.error("Gagal memuat ulasan:",error);
+            list.innerHTML = '<div class="reviews-empty">Ulasan belum dapat dimuat. Periksa tabel dan kebijakan Supabase.</div>';
+        }
+    }
+
+    form.addEventListener("submit",async function(event){
+        event.preventDefault();
+        const reviewText = document.getElementById("reviewText").value.trim();
+        const displayName = document.getElementById("reviewName").value.trim().slice(0,40) || "Pengguna";
+        if(!reviewText){
+            message.textContent = "Tulis ulasan terlebih dahulu.";
+            return;
+        }
+        if(reviewText.length > 800){
+            message.textContent = "Ulasan maksimal 800 karakter.";
+            return;
+        }
+        if(!client){
+            message.textContent = "Koneksi Supabase belum tersedia.";
+            return;
+        }
+        submit.disabled = true;
+        message.textContent = "Mengirim ulasan...";
+        try{
+            const {error} = await client.from("app_reviews").insert({
+                app_id:String(appId),
+                display_name:displayName,
+                review_text:reviewText
+            });
+            if(error) throw error;
+            form.reset();
+            message.textContent = "Terima kasih! Ulasan berhasil dikirim.";
+            await loadReviews();
+        }catch(error){
+            console.error("Gagal mengirim ulasan:",error);
+            message.textContent = "Ulasan gagal dikirim. Periksa tabel app_reviews dan kebijakan RLS di Supabase.";
+        }finally{
+            submit.disabled = false;
+        }
+    });
+    await loadReviews();
+}
+
 async function loadDetail(){
     const content=document.getElementById("content");
 
@@ -840,6 +1016,31 @@ async function loadDetail(){
 <p>${escapeHTML(data.description || "Belum ada deskripsi aplikasi.")}</p>
 </section>
 
+<section class="download-stats" aria-label="Statistik unduhan">
+    <div class="download-stats-icon" aria-hidden="true"><i class="bi bi-cloud-arrow-down-fill"></i></div>
+    <div>
+        <div class="download-stats-label">TOTAL UNDUHAN</div>
+        <div id="downloadCount" role="status" aria-live="polite">Memuat...</div>
+    </div>
+    <div class="download-stats-note">Data dari<br>Supabase</div>
+</section>
+
+<section id="reviewsSection" aria-labelledby="reviewsTitle">
+    <h5 id="reviewsTitle"><i class="bi bi-chat-square-text-fill" aria-hidden="true"></i> ULASAN PENGGUNA</h5>
+    <p class="reviews-subtitle">Bagikan pengalamanmu agar pengguna lain bisa mengenal aplikasi ini.</p>
+    <form id="reviewForm" class="review-form">
+        <label class="visually-hidden" for="reviewName">Nama</label>
+        <input id="reviewName" class="review-field" type="text" maxlength="40" placeholder="Nama (opsional)" autocomplete="nickname">
+        <label class="visually-hidden" for="reviewText">Ulasan</label>
+        <textarea id="reviewText" class="review-field" rows="3" maxlength="800" required placeholder="Tulis ulasan yang sopan (maksimal 800 karakter)..."></textarea>
+        <button id="reviewSubmit" class="review-submit" type="submit"><i class="bi bi-send-fill" aria-hidden="true"></i> Kirim ulasan</button>
+        <p id="reviewsMessage" role="status" aria-live="polite"></p>
+    </form>
+    <div id="reviewsList" class="reviews-list" aria-live="polite">
+        <div class="reviews-empty">Memuat ulasan...</div>
+    </div>
+</section>
+
 <section class="description" id="ratingSection" aria-labelledby="ratingTitle">
     <h5 id="ratingTitle"><i class="bi bi-star-fill" aria-hidden="true"></i> PENILAIAN PENGGUNA</h5>
 
@@ -872,6 +1073,7 @@ ${
                             href="${escapeHTML(downloadURL)}"
                             target="_blank"
                             rel="noopener noreferrer"
+                            id="downloadAppButton"
                             class="download-btn"
                         >
                             <i class="bi bi-cloud-arrow-down-fill"></i>
@@ -893,6 +1095,10 @@ ${
 
             </article>
         `;
+
+        initDownloadStats(data.id);
+        initDownloadTracking(data.id);
+        initUserReviews(data.id);
 
         initAppRating(data.id).catch(error => {
             console.error("Kesalahan fitur rating:", error);
