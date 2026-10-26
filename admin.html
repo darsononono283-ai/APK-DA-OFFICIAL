@@ -168,6 +168,18 @@ body {
   border:3px dashed var(--black);
   border-radius:14px;
 }
+#statsPanel { display:none; }
+.stats-grid { display:grid; grid-template-columns:repeat(4,minmax(0,1fr)); gap:12px; margin:28px auto 18px; max-width:1000px; }
+.stats-card { background:var(--paper); border:3px solid var(--black); border-radius:14px; padding:15px; box-shadow:4px 4px 0 var(--black); min-width:0; }
+.stats-label { font-size:12px; color:#555; }
+.stats-value { font-size:clamp(23px,4vw,34px); font-weight:1000; overflow-wrap:anywhere; }
+.stats-panel { max-width:1000px; margin:18px auto; padding:18px; }
+.stats-row { display:flex; align-items:center; gap:10px; margin:12px 0; }
+.stats-row-name { min-width:0; flex:1; overflow-wrap:anywhere; font-size:13px; }
+.stats-track { flex:2; height:12px; background:#e5e5e5; border:2px solid var(--black); border-radius:7px; overflow:hidden; }
+.stats-fill { height:100%; background:var(--blue); }
+.stats-count { min-width:32px; text-align:right; font-weight:1000; }
+@media(max-width:600px){ .stats-grid { grid-template-columns:repeat(2,minmax(0,1fr)); margin:22px 8px; } .stats-panel { margin:18px 8px; padding:14px; } .tabs { grid-template-columns:repeat(2,minmax(0,1fr)); } }
 #adminPanel,#quotePanel { display:none; }
 #loginPanel { display:block; }
 #quoteStatus,#status,#loginStatus { margin-top:15px; }
@@ -232,6 +244,9 @@ body {
   onclick="showSection('announcements')">
   <i class="bi bi-megaphone-fill"></i> PENGUMUMAN
 </button>
+      <button class="tab-btn" id="statsTab" type="button" onclick="showSection('stats')">
+        <i class="bi bi-bar-chart-fill"></i> STATISTIK
+      </button>
       
     </div>
 
@@ -382,6 +397,29 @@ body {
         </div>
       </div>
     </section>
+
+    <!-- DASHBOARD STATISTIK ADMIN -->
+    <section id="statsPanel" style="display:none">
+      <div class="container">
+        <div class="comic-heading mt-4">
+          <h2>Dashboard Statistik!</h2>
+          <p>Ringkasan data APK DA•OFFICIAL dari Supabase</p>
+          <button type="button" class="btn-comic btn-blue" style="max-width:260px" onclick="loadDashboardStats()">
+            <i class="bi bi-arrow-clockwise"></i> PERBARUI STATISTIK
+          </button>
+          <div id="statsStatus" class="mt-3"></div>
+        </div>
+        <div class="stats-grid">
+          <div class="stats-card"><div class="stats-label">TOTAL APLIKASI</div><div class="stats-value" id="statsApps">—</div></div>
+          <div class="stats-card"><div class="stats-label">KLIK UNDUHAN TERCATAT</div><div class="stats-value" id="statsDownloads">—</div></div>
+          <div class="stats-card"><div class="stats-label">TOTAL ULASAN</div><div class="stats-value" id="statsReviews">—</div></div>
+          <div class="stats-card"><div class="stats-label">TOTAL PENILAIAN</div><div class="stats-value" id="statsRatings">—</div></div>
+        </div>
+        <div class="admin-box comic stats-panel"><h4>🔥 APK TERPOPULER</h4><div id="statsPopular"><div class="empty">Tekan menu Statistik untuk memuat data.</div></div></div>
+        <div class="admin-box comic stats-panel"><h4>🆕 APK TERBARU</h4><div id="statsLatest"><div class="empty">Memuat data...</div></div></div>
+        <div class="admin-box comic stats-panel"><h4>⬇️ AKTIVITAS UNDUHAN TERBARU</h4><div id="statsRecent"><div class="empty">Memuat data...</div></div><p class="item-info mt-3">Angka unduhan menghitung catatan klik yang tersimpan, bukan bukti file selesai diunduh. Statistik ulasan/rating memerlukan tabel terkait dan izin baca admin di Supabase.</p></div>
+      </div>
+    </section>
   </div>
 </div>
 
@@ -498,31 +536,19 @@ checkSession();
 function showSection(section) {
   const quotes = section === "quotes";
   const announcements = section === "announcements";
-
-  $("apkPanel").style.display =
-    (!quotes && !announcements) ? "block" : "none";
-
-  $("quotePanel").style.display =
-    quotes ? "block" : "none";
-
-  $("announcementPanel").style.display =
-    announcements ? "block" : "none";
-
-  $("apkTab").classList.toggle(
-    "active", !quotes && !announcements
-  );
-
+  const stats = section === "stats";
+  $("apkPanel").style.display = (!quotes && !announcements && !stats) ? "block" : "none";
+  $("quotePanel").style.display = quotes ? "block" : "none";
+  $("announcementPanel").style.display = announcements ? "block" : "none";
+  $("statsPanel").style.display = stats ? "block" : "none";
+  $("apkTab").classList.toggle("active", !quotes && !announcements && !stats);
   $("quoteTab").classList.toggle("active", quotes);
-
-  $("announcementTab").classList.toggle(
-    "active", announcements
-  );
-
+  $("announcementTab").classList.toggle("active", announcements);
+  $("statsTab").classList.toggle("active", stats);
   if (quotes) loadQuotes();
-
   if (announcements) loadAnnouncements();
+  if (stats) loadDashboardStats();
 }
-  
 
 /* TAMBAH / EDIT APK */
 form.addEventListener("submit", async e => {
@@ -723,6 +749,42 @@ $("quoteCancelBtn").addEventListener("click",() => {
 });
 
   
+/* DASHBOARD STATISTIK ADMIN */
+async function loadDashboardStats() {
+  const client = window.supabaseClient;
+  const status = $("statsStatus");
+  if (!client) { status.innerHTML = '<div class="alert alert-danger">Supabase belum terhubung.</div>'; return; }
+  status.innerHTML = '<div class="alert alert-info">Memuat statistik...</div>';
+  ["statsApps","statsDownloads","statsReviews","statsRatings"].forEach(id => $(id).textContent = "…");
+  const errors = [];
+  async function readTable(table) {
+    const {data,error} = await client.from(table).select("*");
+    if (error) { errors.push(table + ": " + error.message); return null; }
+    return data || [];
+  }
+  const [apps, downloads, reviews, ratings] = await Promise.all([
+    readTable("apps"), readTable("app_downloads"), readTable("app_reviews"), readTable("app_ratings")
+  ]);
+  const fmt = n => Number(n || 0).toLocaleString("id-ID");
+  $("statsApps").textContent = apps ? fmt(apps.length) : "—";
+  $("statsDownloads").textContent = downloads ? fmt(downloads.length) : "—";
+  $("statsReviews").textContent = reviews ? fmt(reviews.length) : "—";
+  $("statsRatings").textContent = ratings ? fmt(ratings.length) : "—";
+  const appNames = new Map((apps || []).map(app => [String(app.id), app.name || app.title || String(app.id)]));
+  const counts = new Map();
+  (downloads || []).forEach(item => { const id = String(item.app_id ?? ""); if (id) counts.set(id, (counts.get(id) || 0) + 1); });
+  const popular = [...counts.entries()].map(([id,count]) => ({name:appNames.get(id) || ("APK ID " + id),count})).sort((a,b)=>b.count-a.count).slice(0,7);
+  $("statsPopular").innerHTML = popular.length ? popular.map(item => {
+    const max = Math.max(1, ...popular.map(x => x.count));
+    return `<div class="stats-row"><div class="stats-row-name">${escapeHTML(item.name)}</div><div class="stats-track"><div class="stats-fill" style="width:${Math.round(item.count/max*100)}%"></div></div><div class="stats-count">${fmt(item.count)}</div></div>`;
+  }).join("") : `<div class="empty">${downloads ? "Belum ada catatan klik unduhan." : "Data unduhan tidak dapat dibaca."}</div>`;
+  const latest = [...(apps || [])].sort((a,b)=>new Date(b.created_at || 0)-new Date(a.created_at || 0)).slice(0,7);
+  $("statsLatest").innerHTML = apps ? (latest.length ? latest.map(app => `<div class="item-card"><div class="item-name">${escapeHTML(app.name || app.title || "APK tanpa nama")}</div><div class="item-info">${escapeHTML(app.version || "Versi tidak dicantumkan")} · ${escapeHTML(app.created_at ? new Date(app.created_at).toLocaleString("id-ID") : "Tanggal tidak tersedia")}</div></div>`).join("") : '<div class="empty">Belum ada APK.</div>') : '<div class="empty">Data aplikasi gagal dimuat.</div>';
+  const recent = [...(downloads || [])].sort((a,b)=>new Date(b.created_at || 0)-new Date(a.created_at || 0)).slice(0,10);
+  $("statsRecent").innerHTML = downloads ? (recent.length ? recent.map(item => `<div class="item-card"><div class="item-name">${escapeHTML(appNames.get(String(item.app_id)) || item.app_id || "APK tidak dikenal")}</div><div class="item-info">${escapeHTML(item.created_at ? new Date(item.created_at).toLocaleString("id-ID") : "Waktu tidak tersedia")}</div></div>`).join("") : '<div class="empty">Belum ada aktivitas unduhan.</div>') : '<div class="empty">Data aktivitas tidak dapat dimuat.</div>';
+  status.innerHTML = errors.length ? `<div class="alert alert-warning">Statistik dimuat sebagian. Periksa tabel atau izin RLS:<br>${errors.map(escapeHTML).join("<br>")}</div>` : '<div class="alert alert-success">Statistik berhasil diperbarui.</div>';
+}
+
 async function loadAnnouncements() {
   const list = document.getElementById("announcementList");
 
