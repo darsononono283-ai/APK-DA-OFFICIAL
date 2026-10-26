@@ -1,0 +1,821 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="theme-color" content="#ffe34d">
+<title>Detail APK - APK DA•OFFICIAL</title>
+
+<link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
+<link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.css" rel="stylesheet">
+
+<style>
+*{box-sizing:border-box}
+
+:root{
+    --yellow:#ffe34d;
+    --red:#ff514b;
+    --blue:#52d9ff;
+    --black:#171717;
+    --white:#fffdf4;
+}
+
+body{
+    margin:0;
+    min-height:100vh;
+    color:var(--black);
+    font-family:"Trebuchet MS",Arial,sans-serif;
+    background-color:var(--yellow);
+    background-image:radial-gradient(#171717 1.3px,transparent 1.3px);
+    background-size:17px 17px;
+}
+
+.navbar-custom{
+    background:var(--white);
+    border-bottom:4px solid var(--black);
+    box-shadow:0 6px 0 var(--black);
+}
+
+.logo{
+    font-size:18px;
+    font-weight:1000;
+}
+
+.logo span{color:var(--red)}
+
+.back-btn{
+    display:inline-flex;
+    align-items:center;
+    gap:7px;
+    padding:8px 12px;
+    background:var(--blue);
+    color:var(--black);
+    text-decoration:none;
+    font-weight:900;
+    border:3px solid var(--black);
+    border-radius:10px;
+    box-shadow:3px 3px 0 var(--black);
+}
+
+.back-btn:hover{color:var(--black)}
+
+.detail-container{
+    width:min(760px,100%);
+    margin:35px auto;
+    padding:15px;
+}
+
+.comic-title{
+    display:table;
+    margin:0 auto 25px;
+    padding:12px 22px;
+    background:var(--red);
+    color:white;
+    border:4px solid var(--black);
+    border-radius:12px;
+    box-shadow:7px 7px 0 var(--black);
+    font-size:clamp(24px,5vw,35px);
+    font-weight:1000;
+    text-shadow:2px 2px 0 var(--black);
+    transform:rotate(-2deg);
+}
+
+.detail-card{
+    overflow:hidden;
+    background:var(--white);
+    border:4px solid var(--black);
+    border-radius:22px;
+    padding:27px;
+    box-shadow:10px 10px 0 var(--black);
+}
+
+.comic-banner{
+    margin:-27px -27px 28px;
+    padding:24px 12px;
+    text-align:center;
+    background-color:var(--blue);
+    background-image:radial-gradient(#171717 1.4px,transparent 1.4px);
+    background-size:12px 12px;
+    border-bottom:4px solid var(--black);
+}
+
+.banner-label{
+    display:inline-block;
+    padding:8px 13px;
+    background:var(--yellow);
+    border:3px solid var(--black);
+    border-radius:8px;
+    box-shadow:4px 4px 0 var(--black);
+    font-weight:1000;
+    transform:rotate(-2deg);
+}
+
+.app-header{
+    display:flex;
+    align-items:center;
+    gap:20px;
+}
+
+.app-icon-wrap{
+    width:108px;
+    height:108px;
+    padding:5px;
+    flex-shrink:0;
+    background:var(--yellow);
+    border:4px solid var(--black);
+    border-radius:20px;
+    box-shadow:5px 5px 0 var(--black);
+    transform:rotate(-3deg);
+}
+
+.app-icon{
+    width:100%;
+    height:100%;
+    object-fit:cover;
+    background:white;
+    border:2px solid var(--black);
+    border-radius:12px;
+}
+
+.app-name{
+    font-size:clamp(22px,5vw,34px);
+    font-weight:1000;
+    line-height:1.15;
+    overflow-wrap:anywhere;
+    text-shadow:2px 2px 0 var(--yellow);
+}
+
+.category{
+    display:inline-block;
+    margin-top:12px;
+    padding:6px 12px;
+    color:white;
+    background:var(--red);
+    border:3px solid var(--black);
+    border-radius:8px;
+    box-shadow:3px 3px 0 var(--black);
+    font-size:12px;
+    font-weight:900;
+    text-transform:uppercase;
+}
+
+.section-title{
+    display:table;
+    margin:30px 0 17px;
+    padding:8px 12px;
+    background:var(--yellow);
+    border:3px solid var(--black);
+    border-radius:8px;
+    box-shadow:4px 4px 0 var(--black);
+    font-size:16px;
+    font-weight:1000;
+}
+
+.info-grid{
+    display:grid;
+    grid-template-columns:repeat(3,minmax(0,1fr));
+    gap:12px;
+}
+
+.info-box{
+    min-width:0;
+    padding:16px 6px;
+    text-align:center;
+    background:white;
+    border:3px solid var(--black);
+    border-radius:13px;
+    box-shadow:4px 4px 0 var(--black);
+}
+
+.info-box:nth-child(1){background:#fff0a8}
+.info-box:nth-child(2){background:#c8f5ff}
+.info-box:nth-child(3){background:#ffd1ce}
+
+.info-box i{
+    display:block;
+    font-size:25px;
+    margin-bottom:7px;
+}
+
+.info-label{
+    font-size:12px;
+    font-weight:800;
+    text-transform:uppercase;
+}
+
+.info-value{
+    margin-top:5px;
+    font-size:14px;
+    font-weight:1000;
+    overflow-wrap:anywhere;
+}
+
+.description{
+    margin-top:25px;
+    padding:18px;
+    background:white;
+    border:3px solid var(--black);
+    border-radius:13px;
+    box-shadow:4px 4px 0 var(--black);
+}
+
+.description h5{
+    margin-bottom:12px;
+    font-weight:1000;
+}
+
+.description p{
+    margin:0;
+    line-height:1.8;
+    white-space:pre-line;
+    overflow-wrap:anywhere;
+}
+
+.download-btn{
+    display:block;
+    width:100%;
+    margin-top:27px;
+    padding:17px 12px;
+    color:white;
+    text-align:center;
+    text-decoration:none;
+    font-size:16px;
+    font-weight:1000;
+    background:var(--red);
+    border:4px solid var(--black);
+    border-radius:13px;
+    box-shadow:7px 7px 0 var(--black);
+    cursor:pointer;
+    transition:.15s;
+}
+
+.download-btn:hover{
+    color:white;
+    transform:translate(3px,3px);
+    box-shadow:4px 4px 0 var(--black);
+}
+
+.download-btn:disabled{
+    background:#777;
+    cursor:not-allowed;
+}
+
+.comic-footer{
+    margin-top:25px;
+    text-align:center;
+    font-size:12px;
+    font-weight:1000;
+    letter-spacing:1px;
+}
+
+.loading,.error{
+    padding:55px 20px;
+    text-align:center;
+    background:var(--white);
+    border:4px solid var(--black);
+    border-radius:18px;
+    box-shadow:8px 8px 0 var(--black);
+    font-weight:900;
+}
+
+.error i{
+    font-size:50px;
+    color:var(--red);
+}
+
+.error h4{font-weight:1000}
+
+.error .btn{
+    color:var(--black);
+    background:var(--yellow);
+    border:3px solid var(--black);
+    box-shadow:4px 4px 0 var(--black);
+    font-weight:900;
+}
+
+
+.rating-stars{display:flex;gap:8px;flex-wrap:wrap;margin-top:10px}
+.rating-stars button{min-width:48px;padding:9px 12px;background:var(--yellow);border:3px solid var(--black);border-radius:10px;box-shadow:3px 3px 0 var(--black);font-weight:1000}
+.rating-stars button:hover,.rating-stars button:focus{background:var(--red);color:white;transform:translateY(-2px)}
+.rating-stars button:disabled{opacity:.6;cursor:not-allowed;transform:none}
+#ratingSummary{font-weight:900;margin-top:8px}
+#ratingMessage{font-weight:800;overflow-wrap:anywhere}
+
+@media(max-width:500px){
+    .detail-container{margin:25px auto;padding:12px}
+    .detail-card{padding:20px;box-shadow:7px 7px 0 var(--black)}
+    .comic-banner{margin:-20px -20px 24px;padding:20px 10px}
+    .app-header{gap:14px}
+    .app-icon-wrap{width:82px;height:82px;padding:4px;border-radius:15px}
+    .app-icon{border-radius:9px}
+    .info-grid{gap:7px}
+    .info-box{padding:12px 3px;box-shadow:2px 3px 0 var(--black)}
+    .info-box i{font-size:21px}
+    .info-label{font-size:10px}
+    .info-value{font-size:12px}
+    .logo{font-size:15px}
+}
+
+/* ===== PENYEMPURNAAN UI APK DA•OFFICIAL ===== */
+:root{
+    --yellow:#ffe34d;
+    --red:#ff514b;
+    --blue:#52d9ff;
+    --black:#171717;
+    --white:#fffdf4;
+}
+html{scroll-behavior:smooth}
+body{
+    background-image:
+      radial-gradient(circle at 12% 10%,rgba(255,255,255,.35) 0 2px,transparent 2.5px),
+      radial-gradient(#171717 1.15px,transparent 1.3px);
+    background-size: auto,17px 17px;
+    background-attachment:fixed;
+}
+.navbar-custom{
+    position:sticky;top:0;z-index:100;
+    background:rgba(255,253,244,.96);
+    backdrop-filter:blur(12px);
+}
+.navbar-custom .container{max-width:1000px}
+.logo{letter-spacing:-.5px}
+.back-btn{transition:transform .18s ease,box-shadow .18s ease}
+.back-btn:hover{transform:translate(-2px,-2px);box-shadow:5px 5px 0 var(--black)}
+.detail-container{max-width:820px;padding:18px}
+.comic-title{
+    position:relative;
+    filter:drop-shadow(2px 2px 0 rgba(23,23,23,.12));
+    animation:title-pop .45s ease both;
+}
+.detail-card{
+    position:relative;
+    isolation:isolate;
+    background:linear-gradient(160deg,#fffdf4 0%,#fff 65%,#fff9d8 100%);
+    box-shadow:10px 10px 0 var(--black),0 20px 50px rgba(23,23,23,.12);
+    animation:card-rise .45s ease both;
+}
+.comic-banner{position:relative}
+.comic-banner:after{
+    content:"";position:absolute;right:15px;bottom:12px;width:36px;height:36px;
+    background:var(--red);border:3px solid var(--black);border-radius:50%;
+    box-shadow:3px 3px 0 var(--black);
+}
+.banner-label{position:relative;z-index:1}
+.app-header{
+    padding:4px 0 8px;
+    align-items:center;
+}
+.app-icon-wrap{
+    width:116px;height:116px;
+    transition:transform .2s ease;
+}
+.app-icon-wrap:hover{transform:rotate(0) scale(1.04)}
+.app-name{letter-spacing:-.7px}
+.category{letter-spacing:.45px}
+.section-title{margin-top:32px}
+.info-box{
+    transition:transform .18s ease,box-shadow .18s ease;
+}
+.info-box:hover{transform:translateY(-3px);box-shadow:6px 7px 0 var(--black)}
+.description{
+    position:relative;
+    box-shadow:4px 4px 0 var(--black);
+}
+.description h5{
+    display:flex;align-items:center;gap:8px;
+    padding-bottom:10px;border-bottom:2px dashed rgba(23,23,23,.22);
+}
+.description p{color:#303030}
+#ratingSection{
+    background:linear-gradient(135deg,#fff 0%,#fff8c8 100%);
+}
+#ratingSummary{
+    display:inline-block;
+    padding:9px 12px;
+    background:#fff;
+    border:2px solid var(--black);
+    border-radius:10px;
+}
+.rating-stars{gap:10px}
+.rating-stars button{
+    flex:1 1 50px;
+    min-height:46px;
+    transition:transform .16s ease,background .16s ease,box-shadow .16s ease;
+}
+.rating-stars button:hover,.rating-stars button:focus-visible{
+    background:var(--red);color:white;
+    transform:translateY(-3px) rotate(-2deg);
+    box-shadow:4px 5px 0 var(--black);
+}
+.rating-stars button:focus-visible,.back-btn:focus-visible,.download-btn:focus-visible{
+    outline:3px solid #1769ff;outline-offset:4px;
+}
+#ratingMessage{line-height:1.6}
+.download-btn{
+    position:relative;
+    overflow:hidden;
+    border-radius:15px;
+    background:linear-gradient(135deg,#ff514b,#ed302b);
+    box-shadow:7px 7px 0 var(--black),0 8px 18px rgba(255,81,75,.18);
+    letter-spacing:.35px;
+}
+.download-btn:not(:disabled):before{
+    content:"";position:absolute;top:-60%;left:-35%;width:25%;height:220%;
+    background:rgba(255,255,255,.2);transform:rotate(25deg);
+    transition:left .35s ease;
+}
+.download-btn:not(:disabled):hover:before{left:120%}
+.download-btn:not(:disabled):hover{
+    transform:translate(3px,3px);
+    box-shadow:4px 4px 0 var(--black);
+}
+.comic-footer{
+    padding-top:20px;
+    border-top:2px dashed rgba(23,23,23,.22);
+    color:#555;
+}
+.loading,.error{background:linear-gradient(145deg,#fffdf4,#fff)}
+.spinner-border{width:2.6rem;height:2.6rem;border-width:.28em}
+@keyframes card-rise{
+    from{opacity:0;transform:translateY(12px)}
+    to{opacity:1;transform:translateY(0)}
+}
+@keyframes title-pop{
+    from{opacity:0;transform:rotate(-2deg) scale(.94)}
+    to{opacity:1;transform:rotate(-2deg) scale(1)}
+}
+@media(max-width:500px){
+    .detail-container{padding:12px;margin:22px auto}
+    .detail-card{box-shadow:7px 7px 0 var(--black),0 14px 30px rgba(23,23,23,.1)}
+    .app-icon-wrap{width:86px;height:86px}
+    .app-header{align-items:flex-start}
+    .app-name{font-size:clamp(20px,6vw,28px)}
+    .comic-banner:after{width:26px;height:26px;right:10px;bottom:9px}
+    .rating-stars{gap:7px}
+    .rating-stars button{padding:8px 5px;min-width:0}
+    .download-btn{font-size:14px;padding:15px 8px}
+}
+@media(prefers-reduced-motion:reduce){
+    *,*::before,*::after{scroll-behavior:auto!important;animation:none!important;transition:none!important}
+}
+
+</style>
+<script data-cfasync="false" src="https://accountut.com/1/e65196dc30ce7366edb273c1025596f5"></script>
+</head>
+
+<body>
+
+<nav class="navbar-custom">
+    <div class="container py-3">
+        <div class="d-flex justify-content-between align-items-center gap-2">
+            <a href="index.html" class="back-btn">
+                <i class="bi bi-arrow-left"></i> Kembali
+            </a>
+            <div class="logo">
+                <i class="bi bi-box-seam-fill"></i>
+                APK DA<span>•OFFICIAL</span>
+            </div>
+        </div>
+    </div>
+</nav>
+
+<main class="detail-container">
+    <h1 class="comic-title">
+        <i class="bi bi-lightning-charge-fill"></i>
+        DETAIL APK!
+    </h1>
+
+    <div id="content">
+        <div class="loading">
+            <div class="spinner-border" role="status"></div>
+            <p class="mt-3 mb-0">MEMUAT APK...</p>
+        </div>
+    </div>
+</main>
+
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+<script src="./supabase.js"></script>
+
+<script>
+function escapeHTML(value){
+    return String(value ?? "")
+        .replace(/&/g,"&amp;")
+        .replace(/</g,"&lt;")
+        .replace(/>/g,"&gt;")
+        .replace(/"/g,"&quot;")
+        .replace(/'/g,"&#039;");
+}
+
+function safeURL(value){
+    try{
+        const url = new URL(String(value),window.location.href);
+        if(url.protocol==="https:" || url.protocol==="http:"){
+            return url.href;
+        }
+    }catch(error){}
+    return "";
+}
+
+function showError(message){
+    document.getElementById("content").innerHTML=`
+        <div class="error">
+            <i class="bi bi-exclamation-triangle-fill"></i>
+            <h4 class="mt-3">${escapeHTML(message)}</h4>
+            <a href="index.html" class="btn mt-3 px-4 py-2">
+                <i class="bi bi-arrow-left"></i>
+                KEMBALI KE BERANDA
+            </a>
+        </div>
+    `;
+}
+
+
+async function initAppRating(appId){
+    const client = window.supabaseClient;
+    const summary = document.getElementById("ratingSummary");
+    const message = document.getElementById("ratingMessage");
+    const buttons = [...document.querySelectorAll("#ratingButtons button[data-rating]")];
+
+    if(!client || appId === undefined || appId === null || String(appId).trim() === ""){
+        summary.textContent = "Rating belum tersedia.";
+        message.textContent = "Koneksi Supabase atau ID aplikasi tidak tersedia.";
+        buttons.forEach(button => button.disabled = true);
+        return;
+    }
+
+    const storageKey = "da_official_rated_" + String(appId);
+    let alreadyRated = false;
+    try { alreadyRated = localStorage.getItem(storageKey) === "1"; } catch (_) {}
+
+    async function refreshSummary(){
+        summary.textContent = "Menghubungkan ke Supabase...";
+        message.textContent = "";
+        try {
+            // Hindari indikator memuat selamanya jika koneksi tidak merespons.
+            const request = client
+                .from("app_ratings")
+                .select("rating")
+                .eq("app_id", String(appId));
+            const timeout = new Promise((_, reject) =>
+                setTimeout(() => reject(new Error("Koneksi ke Supabase terlalu lama. Periksa internet, URL, dan anon key di supabase.js.")), 12000)
+            );
+            const { data, error } = await Promise.race([request, timeout]);
+
+            if(error) throw error;
+
+            const ratings = (data || []).map(row => Number(row.rating)).filter(n => Number.isFinite(n) && n >= 1 && n <= 5);
+            if(!ratings.length){
+                summary.textContent = "Belum ada rating. Jadilah yang pertama!";
+            } else {
+                const average = ratings.reduce((sum, n) => sum + n, 0) / ratings.length;
+                summary.textContent = "⭐ " + average.toFixed(1) + " / 5 · " + ratings.length + " penilaian";
+            }
+            return true;
+        } catch(error) {
+            console.error("Gagal membaca rating Supabase:", error);
+            summary.textContent = "Rating belum dapat dimuat.";
+            message.textContent = "Detail: " + (error?.message || String(error));
+            return false;
+        }
+    }
+
+    const loaded = await refreshSummary();
+    if(!loaded){
+        // Rating gagal dimuat, tetapi jangan biarkan tombol tampak seperti macet.
+        buttons.forEach(button => button.disabled = false);
+    }
+
+    if(alreadyRated){
+        message.textContent = "Kamu sudah memberi rating untuk aplikasi ini di perangkat ini.";
+        buttons.forEach(button => button.disabled = true);
+        return;
+    }
+
+    buttons.forEach(button => {
+        button.addEventListener("click", async () => {
+            const rating = Number(button.dataset.rating);
+            if(!Number.isInteger(rating) || rating < 1 || rating > 5) return;
+
+            buttons.forEach(item => item.disabled = true);
+            message.textContent = "Menyimpan rating...";
+
+            // Jangan kirim kolom id; database yang membuatnya otomatis.
+            // Ambil voter_id stabil untuk browser ini agar sesuai dengan kebijakan RLS.
+            // Mendukung kolom voter_id bertipe text atau uuid.
+            let voterId = "";
+            const voterStorageKey = "da_official_voter_id";
+            try {
+                voterId = localStorage.getItem(voterStorageKey) || "";
+                if (!voterId) {
+                    if (window.crypto && typeof window.crypto.randomUUID === "function") {
+                        voterId = window.crypto.randomUUID();
+                    } else {
+                        voterId = "voter-" + Date.now().toString(36) + "-" +
+                            Math.random().toString(36).slice(2, 12);
+                    }
+                    localStorage.setItem(voterStorageKey, voterId);
+                }
+            } catch (_) {
+                voterId = (window.crypto && typeof window.crypto.randomUUID === "function")
+                    ? window.crypto.randomUUID()
+                    : "voter-" + Date.now().toString(36) + "-" + Math.random().toString(36).slice(2, 12);
+            }
+
+            const { error } = await client
+                .from("app_ratings")
+                .insert({
+                    app_id: String(appId),
+                    rating: rating,
+                    voter_id: voterId
+                });
+
+            if(error){
+                console.error("Gagal menyimpan rating Supabase:", error);
+                message.textContent = "Gagal menyimpan rating: " + (error.message || "Periksa tabel dan izin INSERT.");
+                buttons.forEach(item => item.disabled = false);
+                return;
+            }
+
+            try { localStorage.setItem(storageKey, "1"); } catch (_) {}
+            message.textContent = "Terima kasih! Rating berhasil disimpan.";
+            await refreshSummary();
+            buttons.forEach(item => item.disabled = true);
+        });
+    });
+}
+
+async function loadDetail(){
+    const content=document.getElementById("content");
+
+    try{
+        const params=new URLSearchParams(window.location.search);
+        const id=params.get("id");
+
+        if(!id){
+            showError("APK TIDAK DITEMUKAN!");
+            return;
+        }
+
+        const client=window.supabaseClient;
+
+        if(!client){
+            showError("Koneksi Supabase belum tersedia. Periksa supabase.js.");
+            return;
+        }
+
+        const {data,error}=await client
+            .from("apps")
+            .select("*")
+            .eq("id",id)
+            .single();
+
+        if(error || !data){
+            console.error("Gagal memuat detail APK:",error);
+            showError("DATA APK TIDAK DITEMUKAN!");
+            return;
+        }
+
+        document.title=(data.name || "Detail APK")+" - APK DA•OFFICIAL";
+
+        const iconURL=safeURL(data.icon) ||
+            "https://cdn-icons-png.flaticon.com/512/888/888859.png";
+
+        const downloadURL=safeURL(data.download_url);
+
+        content.innerHTML=`
+            <article class="detail-card">
+
+                <div class="comic-banner">
+                    <span class="banner-label">
+                        <i class="bi bi-stars"></i>
+                        PILIHAN APLIKASI
+                        <i class="bi bi-stars"></i>
+                    </span>
+                </div>
+
+                <div class="app-header">
+                    <div class="app-icon-wrap">
+                        <img
+                            src="${escapeHTML(iconURL)}"
+                            class="app-icon"
+                            alt="Ikon aplikasi"
+                            onerror="this.onerror=null;this.src='https://cdn-icons-png.flaticon.com/512/888/888859.png';"
+                        >
+                    </div>
+
+                    <div>
+                        <div class="app-name">
+                            ${escapeHTML(data.name || "Tanpa Nama")}
+                        </div>
+                        <span class="category">
+                            <i class="bi bi-bookmark-star-fill"></i>
+                            ${escapeHTML(data.category || "Lainnya")}
+                        </span>
+                    </div>
+                </div>
+
+                <h2 class="section-title">
+                    <i class="bi bi-lightning-fill"></i>
+                    INFO APLIKASI
+                </h2>
+
+                <div class="info-grid">
+                    <div class="info-box">
+                        <i class="bi bi-phone"></i>
+                        <div class="info-label">Versi</div>
+                        <div class="info-value">${escapeHTML(data.version || "-")}</div>
+                    </div>
+
+                    <div class="info-box">
+                        <i class="bi bi-device-hdd"></i>
+                        <div class="info-label">Ukuran</div>
+                        <div class="info-value">${escapeHTML(data.size || "-")}</div>
+                    </div>
+
+                    <div class="info-box">
+                        <i class="bi bi-grid-3x3-gap-fill"></i>
+                        <div class="info-label">Kategori</div>
+                        <div class="info-value">${escapeHTML(data.category || "Lainnya")}</div>
+                    </div>
+                </div>
+
+                <section class="description">
+                    <h5>
+                        <i class="bi bi-chat-square-quote-fill"></i>
+                        TENTANG APLIKASI
+                    </h5>
+                    
+<p>${escapeHTML(data.description || "Belum ada deskripsi aplikasi.")}</p>
+</section>
+
+<section class="description" id="ratingSection">
+    <h5>⭐ RATING PENGGUNA</h5>
+
+    <div id="ratingSummary">
+        Memuat rating...
+    </div>
+
+    <p class="mt-3 mb-2">Berikan penilaianmu:</p>
+
+    <div id="ratingButtons" class="rating-stars">
+        ${[1,2,3,4,5].map(n => `
+            <button
+                type="button"
+                class="btn btn-warning border border-dark fw-bold"
+                data-rating="${n}"
+                aria-label="${n} bintang">
+                ★ ${n}
+            </button>
+        `).join("")}
+    </div>
+
+    <p id="ratingMessage" class="mt-3 mb-0"></p>
+</section>
+
+${
+                    downloadURL
+                    ? `
+                        <a
+                            href="${escapeHTML(downloadURL)}"
+                            target="_blank"
+                            rel="noopener noreferrer"
+                            class="download-btn"
+                        >
+                            <i class="bi bi-cloud-arrow-down-fill"></i>
+                            DOWNLOAD SEKARANG!
+                            <i class="bi bi-lightning-fill"></i>
+                        </a>
+                    `
+                    : `
+                        <button class="download-btn" disabled>
+                            <i class="bi bi-exclamation-circle-fill"></i>
+                            LINK DOWNLOAD BELUM TERSEDIA
+                        </button>
+                    `
+                }
+
+                <div class="comic-footer">
+                    ★ APK DA•OFFICIAL • DOWNLOAD APK ★
+                </div>
+
+            </article>
+        `;
+
+        initAppRating(data.id).catch(error => {
+            console.error("Kesalahan fitur rating:", error);
+            const summary = document.getElementById("ratingSummary");
+            const message = document.getElementById("ratingMessage");
+            if(summary) summary.textContent = "Rating belum dapat dimuat.";
+            if(message) message.textContent = "Kesalahan fitur rating: " + (error?.message || String(error));
+        });
+    }catch(error){
+        console.error("Kesalahan halaman detail:",error);
+        showError("TERJADI KESALAHAN SAAT MEMUAT APK!");
+    }
+}
+
+loadDetail();
+</script>
+    <script data-cfasync="false" src="https://bellnewyork.org/14/dc3954d26e169baf2de245e7198ba6c8"></script>
+</body>
+</html>
