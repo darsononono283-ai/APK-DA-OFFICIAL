@@ -386,31 +386,123 @@ body{
     padding-bottom:10px;border-bottom:2px dashed rgba(23,23,23,.22);
 }
 .description p{color:#303030}
+
 #ratingSection{
-    background:linear-gradient(135deg,#fff 0%,#fff8c8 100%);
+    margin-top:28px;
+    padding:22px;
+    background:linear-gradient(145deg,#ffffff 0%,#f7f9fc 100%);
+    border:1px solid #e3e8ef;
+    border-radius:18px;
+    box-shadow:0 8px 24px rgba(20,30,50,.07);
+}
+#ratingSection h5{
+    display:flex;
+    align-items:center;
+    gap:9px;
+    margin:0 0 16px;
+    padding:0 0 14px;
+    color:#182230;
+    font-size:17px;
+    font-weight:800;
+    border-bottom:1px solid #e8edf3;
+}
+#ratingSection h5 i{color:#f2b01e;font-size:20px}
+.rating-intro{
+    margin:0 0 14px;
+    color:#647184;
+    font-size:13px;
+    line-height:1.6;
+}
+.rating-summary-row{
+    display:flex;
+    align-items:center;
+    gap:14px;
+    margin-bottom:18px;
+}
+.rating-score-icon{
+    display:flex;
+    align-items:center;
+    justify-content:center;
+    flex:0 0 52px;
+    width:52px;
+    height:52px;
+    border-radius:15px;
+    color:#946200;
+    background:#fff4d2;
+    font-size:25px;
 }
 #ratingSummary{
-    display:inline-block;
-    padding:9px 12px;
-    background:#fff;
-    border:2px solid var(--black);
-    border-radius:10px;
+    display:block;
+    margin:0;
+    padding:0;
+    color:#1b2635;
+    background:transparent;
+    border:0;
+    border-radius:0;
+    font-size:15px;
+    line-height:1.5;
+    font-weight:800;
+    overflow-wrap:anywhere;
 }
-.rating-stars{gap:10px}
+.rating-prompt{
+    margin:0 0 10px;
+    color:#263345;
+    font-size:14px;
+    font-weight:700;
+}
+.rating-stars{
+    display:grid;
+    grid-template-columns:repeat(5,minmax(0,1fr));
+    gap:8px;
+    margin-top:0;
+}
 .rating-stars button{
-    flex:1 1 50px;
+    display:flex;
+    align-items:center;
+    justify-content:center;
+    gap:5px;
+    min-width:0;
     min-height:46px;
-    transition:transform .16s ease,background .16s ease,box-shadow .16s ease;
+    padding:10px 5px;
+    color:#374151;
+    background:#fff;
+    border:1px solid #d7dee8;
+    border-radius:12px;
+    box-shadow:0 2px 5px rgba(15,23,42,.04);
+    font-size:14px;
+    font-weight:750;
+    transition:background .18s ease,border-color .18s ease,color .18s ease,transform .18s ease,box-shadow .18s ease;
 }
-.rating-stars button:hover,.rating-stars button:focus-visible{
-    background:var(--red);color:white;
-    transform:translateY(-3px) rotate(-2deg);
-    box-shadow:4px 5px 0 var(--black);
+.rating-stars button .star-icon{color:#f2b01e;font-size:16px}
+.rating-stars button:hover:not(:disabled),
+.rating-stars button:focus-visible{
+    color:#172033;
+    background:#fff7df;
+    border-color:#e6b743;
+    transform:translateY(-2px);
+    box-shadow:0 5px 12px rgba(30,41,59,.09);
 }
-.rating-stars button:focus-visible,.back-btn:focus-visible,.download-btn:focus-visible{
-    outline:3px solid #1769ff;outline-offset:4px;
+.rating-stars button:focus-visible{
+    outline:3px solid #2563eb;
+    outline-offset:3px;
 }
-#ratingMessage{line-height:1.6}
+.rating-stars button:disabled{opacity:.62;cursor:not-allowed;transform:none}
+#ratingMessage{
+    min-height:20px;
+    color:#526174;
+    font-size:13px;
+    line-height:1.6;
+    overflow-wrap:anywhere;
+}
+#ratingMessage:empty{display:none}
+@media(max-width:500px){
+    #ratingSection{padding:17px;border-radius:15px}
+    .rating-summary-row{gap:11px}
+    .rating-score-icon{flex-basis:44px;width:44px;height:44px;font-size:22px;border-radius:12px}
+    .rating-stars{gap:6px}
+    .rating-stars button{min-height:43px;padding:8px 2px;font-size:13px}
+}
+
 .download-btn{
     position:relative;
     overflow:hidden;
@@ -748,28 +840,29 @@ async function loadDetail(){
 <p>${escapeHTML(data.description || "Belum ada deskripsi aplikasi.")}</p>
 </section>
 
-<section class="description" id="ratingSection">
-    <h5>⭐ RATING PENGGUNA</h5>
+<section class="description" id="ratingSection" aria-labelledby="ratingTitle">
+    <h5 id="ratingTitle"><i class="bi bi-star-fill" aria-hidden="true"></i> PENILAIAN PENGGUNA</h5>
 
-    <div id="ratingSummary">
-        Memuat rating...
+    <div class="rating-summary-row">
+        <div class="rating-score-icon" aria-hidden="true"><i class="bi bi-stars"></i></div>
+        <div id="ratingSummary" role="status" aria-live="polite">Memuat rating...</div>
     </div>
 
-    <p class="mt-3 mb-2">Berikan penilaianmu:</p>
+    <p class="rating-intro">Bantu pengguna lain memilih aplikasi dengan memberikan penilaian yang jujur.</p>
+    <p class="rating-prompt">Bagaimana pengalamanmu menggunakan aplikasi ini?</p>
 
-    <div id="ratingButtons" class="rating-stars">
+    <div id="ratingButtons" class="rating-stars" aria-label="Pilih rating dari satu sampai lima">
         ${[1,2,3,4,5].map(n => `
             <button
                 type="button"
-                class="btn btn-warning border border-dark fw-bold"
                 data-rating="${n}"
-                aria-label="${n} bintang">
-                ★ ${n}
+                aria-label="${n} dari 5 bintang">
+                <i class="bi bi-star-fill star-icon" aria-hidden="true"></i><span>${n}</span>
             </button>
         `).join("")}
     </div>
 
-    <p id="ratingMessage" class="mt-3 mb-0"></p>
+    <p id="ratingMessage" class="mt-3 mb-0" role="status" aria-live="polite"></p>
 </section>
 
 ${
