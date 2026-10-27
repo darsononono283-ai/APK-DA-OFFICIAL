@@ -596,11 +596,74 @@ body{
 }
 
 .detail-favorite-active{background:#ffe4e6!important;color:#be123c!important}
+
+/* ===== Tema bersama dengan index.html ===== */
+:root{
+  --yellow:#ffe34d; --red:#ff514b; --blue:#52d9ff; --black:#171717; --white:#fffdf4;
+  --theme-bg:var(--yellow); --theme-surface:var(--white); --theme-text:var(--black);
+  --theme-primary:var(--red); --theme-accent:var(--blue); --theme-border:var(--black);
+  --theme-shadow:var(--black); --theme-dot:rgba(23,23,23,.78);
+}
+body{color:var(--theme-text);background-color:var(--theme-bg);background-image:radial-gradient(var(--theme-dot) 1.3px,transparent 1.3px)}
+.navbar-custom{background:var(--theme-surface);border-color:var(--theme-border);box-shadow:0 6px 0 var(--theme-border)}
+.logo span{color:var(--theme-primary)}
+.back-btn{background:var(--theme-accent);color:var(--theme-text);border-color:var(--theme-border);box-shadow:3px 3px 0 var(--theme-border)}
+.back-btn:hover{color:var(--theme-text)}
+.comic-title{background:var(--theme-primary);border-color:var(--theme-border);box-shadow:7px 7px 0 var(--theme-border)}
+.detail-card{background:var(--theme-surface);border-color:var(--theme-border);box-shadow:10px 10px 0 var(--theme-border),0 20px 50px rgba(0,0,0,.12)}
+.comic-banner{background-color:var(--theme-accent);border-color:var(--theme-border);background-image:radial-gradient(var(--theme-dot) 1.4px,transparent 1.4px)}
+.banner-label,.section-title{background:var(--theme-bg);border-color:var(--theme-border);box-shadow:4px 4px 0 var(--theme-border);color:var(--theme-text)}
+.app-icon-wrap{background:var(--theme-bg);border-color:var(--theme-border);box-shadow:5px 5px 0 var(--theme-border)}
+.app-name{text-shadow:2px 2px 0 var(--theme-bg)}
+.category{background:var(--theme-primary);border-color:var(--theme-border);box-shadow:3px 3px 0 var(--theme-border)}
+.info-box{border-color:var(--theme-border);box-shadow:4px 4px 0 var(--theme-border)}
+.info-box:nth-child(1){background:color-mix(in srgb,var(--theme-bg) 70%,white)}
+.info-box:nth-child(2){background:color-mix(in srgb,var(--theme-accent) 40%,white)}
+.info-box:nth-child(3){background:color-mix(in srgb,var(--theme-primary) 30%,white)}
+.description{background:var(--theme-surface);border-color:var(--theme-border);box-shadow:4px 4px 0 var(--theme-border)}
+.download-btn{background:var(--theme-primary);border-color:var(--theme-border);box-shadow:7px 7px 0 var(--theme-border),0 8px 18px rgba(0,0,0,.12)}
+.download-btn:hover{color:white}
+.loading,.error{background:var(--theme-surface);border-color:var(--theme-border);box-shadow:8px 8px 0 var(--theme-border)}
+.error i{color:var(--theme-primary)}
+.error .btn{background:var(--theme-bg);color:var(--theme-text);border-color:var(--theme-border);box-shadow:4px 4px 0 var(--theme-border)}
+.rating-stars button{background:var(--theme-surface);border-color:color-mix(in srgb,var(--theme-border) 25%,white)}
+.rating-stars button:hover,.rating-stars button:focus{background:color-mix(in srgb,var(--theme-primary) 18%,white);color:var(--theme-text)}
+.download-stats,#reviewsSection,#ratingSection{background:var(--theme-surface);border-color:color-mix(in srgb,var(--theme-border) 18%,white)}
+.download-stats-icon{background:color-mix(in srgb,var(--theme-accent) 30%,white);color:var(--theme-text)}
+.review-submit{background:var(--theme-primary);color:white}
+.review-submit:hover{filter:brightness(.9)}
+.review-field{background:var(--theme-surface)}
+.comic-footer{border-color:color-mix(in srgb,var(--theme-border) 22%,transparent);color:var(--theme-text)}
+.detail-favorite-active{background:color-mix(in srgb,var(--theme-primary) 20%,white)!important;color:var(--theme-text)!important}
+body[data-theme="classic"]{--theme-bg:#ffe34d;--theme-surface:#fffdf4;--theme-text:#171717;--theme-primary:#ff514b;--theme-accent:#52d9ff;--theme-border:#171717;--theme-dot:rgba(23,23,23,.78)}
+body[data-theme="cyber"]{--theme-bg:#080b1c;--theme-surface:#111a2e;--theme-text:#effaff;--theme-primary:#ff3dce;--theme-accent:#00e5ff;--theme-border:#00e5ff;--theme-shadow:#00e5ff;--theme-dot:rgba(0,229,255,.28)}
+body[data-theme="dark"]{--theme-bg:#101318;--theme-surface:#1c222b;--theme-text:#f2f5f9;--theme-primary:#7c5cff;--theme-accent:#36cfc9;--theme-border:#404958;--theme-dot:rgba(255,255,255,.12)}
+body[data-theme="mint"]{--theme-bg:#d8fff0;--theme-surface:#f5fffb;--theme-text:#173b31;--theme-primary:#ff7a90;--theme-accent:#4cc9b0;--theme-border:#173b31;--theme-dot:rgba(23,59,49,.35)}
+body[data-theme="ocean"]{--theme-bg:#d9f2ff;--theme-surface:#f5fbff;--theme-text:#10334a;--theme-primary:#087ea4;--theme-accent:#4fc3f7;--theme-border:#10334a;--theme-dot:rgba(16,51,74,.3)}
+body[data-theme="sunset"]{--theme-bg:#ffdfcc;--theme-surface:#fff7f0;--theme-text:#55251d;--theme-primary:#ef476f;--theme-accent:#ff9f1c;--theme-border:#55251d;--theme-dot:rgba(85,37,29,.3)}
+body[data-theme="sakura"]{--theme-bg:#ffe4f0;--theme-surface:#fff7fb;--theme-text:#54233e;--theme-primary:#e84393;--theme-accent:#ff9ecf;--theme-border:#54233e;--theme-dot:rgba(84,35,62,.28)}
+body[data-theme="lime"]{--theme-bg:#efffc7;--theme-surface:#fbffef;--theme-text:#293b0b;--theme-primary:#5b8c00;--theme-accent:#b7ef4a;--theme-border:#293b0b;--theme-dot:rgba(41,59,11,.28)}
+body[data-theme="royal"]{--theme-bg:#e4e7ff;--theme-surface:#f8f8ff;--theme-text:#1e2455;--theme-primary:#4f46e5;--theme-accent:#818cf8;--theme-border:#1e2455;--theme-dot:rgba(30,36,85,.3)}
+body[data-theme="coffee"]{--theme-bg:#ead8c5;--theme-surface:#fff8ee;--theme-text:#3e2b20;--theme-primary:#8d5524;--theme-accent:#c9a27e;--theme-border:#3e2b20;--theme-dot:rgba(62,43,32,.28)}
+@media(prefers-reduced-motion:reduce){.detail-card,.comic-title{animation:none!important}}
+
 </style>
 <script data-cfasync="false" src="https://accountut.com/1/e65196dc30ce7366edb273c1025596f5"></script>
 </head>
 
 <body>
+<script>
+(function(){
+  const allowed=["classic","cyber","dark","mint","ocean","sunset","sakura","lime","royal","coffee"];
+  let theme="classic";
+  try{theme=localStorage.getItem("apkda-theme")||"classic"}catch(_){}
+  if(!allowed.includes(theme))theme="classic";
+  document.body.dataset.theme=theme;
+  const meta=document.querySelector('meta[name="theme-color"]');
+  const colors={classic:"#ffe34d",cyber:"#080b1c",dark:"#101318",mint:"#d8fff0",ocean:"#d9f2ff",sunset:"#ffdfcc",sakura:"#ffe4f0",lime:"#efffc7",royal:"#e4e7ff",coffee:"#ead8c5"};
+  if(meta)meta.content=colors[theme]||colors.classic;
+})();
+</script>
 
 <nav class="navbar-custom">
     <div class="container py-3">
