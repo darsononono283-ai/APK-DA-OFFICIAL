@@ -840,9 +840,43 @@ html[data-mode="dark"] #settingsPanel { background:var(--card); color:var(--ink)
 .anime-genre-chips a,.anime-genre-chips span{display:inline-flex;text-decoration:none;padding:7px 11px;border-radius:999px;font-size:.88rem}
 .anime-source-switch button[aria-pressed="true"]{font-weight:700}
 </style>
+
+<style id="apkda-entry-captcha-style">
+  #apkdaCaptchaGate{position:fixed;inset:0;z-index:5000;display:none;align-items:center;justify-content:center;padding:18px;background:rgba(15,12,22,.78);backdrop-filter:blur(8px);-webkit-backdrop-filter:blur(8px)}
+  #apkdaCaptchaGate.show{display:flex}
+  .apkda-captcha-card{width:min(100%,390px);padding:22px;background:var(--card,#fff7f4);color:var(--ink,#1c1c1c);border:3px solid var(--ink,#1c1c1c);border-radius:22px;box-shadow:7px 8px 0 var(--ink,#1c1c1c);text-align:center;animation:apkdaCaptchaPop .28s ease-out}
+  .apkda-captcha-icon{width:58px;height:58px;margin:0 auto 12px;display:grid;place-items:center;border:3px solid var(--ink,#1c1c1c);border-radius:17px;background:var(--primary,#e63830);color:#fff;font-size:1.7rem;box-shadow:3px 4px 0 var(--ink,#1c1c1c)}
+  .apkda-captcha-card h2{font-size:1.35rem;font-weight:1000;margin:0 0 7px}
+  .apkda-captcha-card p{font-size:.9rem;margin:0 0 15px;color:var(--muted,#65595a)}
+  #apkdaCaptchaCode{display:flex;align-items:center;justify-content:center;min-height:66px;margin:12px 0;padding:12px;border:2px dashed var(--ink,#1c1c1c);border-radius:13px;background:var(--paper,#f8dede);font-family:monospace;font-size:clamp(1.8rem,8vw,2.3rem);font-weight:1000;letter-spacing:.24em;text-decoration:line-through;text-decoration-color:var(--primary,#e63830);text-shadow:2px 2px 0 rgba(0,0,0,.12);user-select:none}
+  .apkda-captcha-controls{display:flex;gap:8px;margin:10px 0 0}
+  #apkdaCaptchaInput{width:100%;min-width:0;padding:12px;border:2px solid var(--ink,#1c1c1c);border-radius:11px;background:var(--paper,#f8dede);color:var(--ink,#1c1c1c);outline-offset:3px;text-align:center;font-weight:800;letter-spacing:.12em;text-transform:uppercase}
+  .apkda-captcha-btn{border:2px solid var(--ink,#1c1c1c);border-radius:11px;padding:11px 13px;font-weight:900;cursor:pointer;box-shadow:2px 3px 0 var(--ink,#1c1c1c)}
+  #apkdaCaptchaRefresh{background:var(--secondary,#ffdf4d);color:var(--ink,#1c1c1c);flex:0 0 auto}
+  #apkdaCaptchaSubmit{width:100%;margin-top:13px;background:var(--primary,#e63830);color:#fff}
+  #apkdaCaptchaMessage{min-height:1.3em;margin-top:10px;font-size:.84rem;font-weight:800;color:#c62828}
+  @keyframes apkdaCaptchaPop{from{opacity:0;transform:translateY(12px) scale(.97)}to{opacity:1;transform:translateY(0) scale(1)}}
+  @media(prefers-reduced-motion:reduce){.apkda-captcha-card{animation:none}}
+</style>
+
 </head>  
 <body>  
-  
+
+<div id="apkdaCaptchaGate" role="dialog" aria-modal="true" aria-labelledby="apkdaCaptchaTitle" aria-describedby="apkdaCaptchaDescription">
+  <form class="apkda-captcha-card" id="apkdaCaptchaForm" autocomplete="off">
+    <div class="apkda-captcha-icon"><i class="bi bi-shield-lock-fill" aria-hidden="true"></i></div>
+    <h2 id="apkdaCaptchaTitle">Verifikasi Pengunjung</h2>
+    <p id="apkdaCaptchaDescription">Masukkan kode di bawah untuk melanjutkan ke APK DA•OFFICIAL.</p>
+    <div id="apkdaCaptchaCode" aria-label="Kode CAPTCHA">SF32G</div>
+    <div class="apkda-captcha-controls">
+      <input id="apkdaCaptchaInput" name="captcha" type="text" placeholder="Ketik kode di sini" maxlength="6" required autocomplete="off" autocapitalize="characters" spellcheck="false" aria-label="Masukkan kode CAPTCHA">
+      <button id="apkdaCaptchaRefresh" class="apkda-captcha-btn" type="button" aria-label="Ganti kode CAPTCHA" title="Ganti kode"><i class="bi bi-arrow-clockwise" aria-hidden="true"></i></button>
+    </div>
+    <button id="apkdaCaptchaSubmit" class="apkda-captcha-btn" type="submit">Verifikasi & Masuk <i class="bi bi-arrow-right-circle-fill" aria-hidden="true"></i></button>
+    <div id="apkdaCaptchaMessage" role="status" aria-live="polite"></div>
+  </form>
+</div>
+
 <div id="loading" role="status" aria-label="Memuat website">
   <div class="loader-bg-effects"></div>
 
@@ -2179,6 +2213,58 @@ window.addEventListener("load", function () {
 </script>
 
 
+
+
+<script id="apkda-entry-captcha-script">
+(function(){
+  'use strict';
+  const gate=document.getElementById('apkdaCaptchaGate');
+  const form=document.getElementById('apkdaCaptchaForm');
+  const codeBox=document.getElementById('apkdaCaptchaCode');
+  const input=document.getElementById('apkdaCaptchaInput');
+  const message=document.getElementById('apkdaCaptchaMessage');
+  const refresh=document.getElementById('apkdaCaptchaRefresh');
+  const submit=document.getElementById('apkdaCaptchaSubmit');
+  if(!gate||!form||!codeBox||!input||!message||!refresh||!submit)return;
+  const verifiedKey='apkda-captcha-verified-v1';
+  let currentCode='';
+  function makeCode(){
+    const chars='ABCDEFGHJKLMNPQRSTUVWXYZ23456789';
+    let result='';
+    for(let i=0;i<5;i++) result+=chars[Math.floor(Math.random()*chars.length)];
+    currentCode=result;
+    codeBox.textContent=result;
+    codeBox.setAttribute('aria-label','Kode CAPTCHA '+result.split('').join(' '));
+    input.value='';
+    message.textContent='';
+  }
+  function openGate(){
+    let passed=false;
+    try{passed=sessionStorage.getItem(verifiedKey)==='yes';}catch(e){}
+    if(passed)return;
+    makeCode();
+    gate.classList.add('show');
+    document.body.style.overflow='hidden';
+    setTimeout(()=>input.focus(),100);
+  }
+  refresh.addEventListener('click',makeCode);
+  form.addEventListener('submit',function(e){
+    e.preventDefault();
+    if(input.value.trim().toUpperCase()!==currentCode){
+      message.textContent='Kode belum benar. Coba lagi.';
+      makeCode();
+      input.focus();
+      return;
+    }
+    try{sessionStorage.setItem(verifiedKey,'yes');}catch(e){}
+    gate.classList.remove('show');
+    document.body.style.overflow='';
+    message.textContent='Verifikasi berhasil.';
+  });
+  if(document.readyState==='loading')document.addEventListener('DOMContentLoaded',openGate,{once:true});
+  else openGate();
+})();
+</script>
 
 </body>
 </html>
