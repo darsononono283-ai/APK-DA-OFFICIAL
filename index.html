@@ -832,6 +832,14 @@ html[data-mode="dark"] #settingsPanel { background:var(--card); color:var(--ink)
   <link rel="manifest" href="./manifest.json">
   <meta name="apple-mobile-web-app-capable" content="yes">
   <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+
+<style>
+.anime-source-switch{display:flex;flex-wrap:wrap;gap:8px;margin:12px 0 16px}
+.anime-genre-list{margin:12px 0;padding:12px;border:1px solid var(--border-color,rgba(255,255,255,.18));border-radius:14px}
+.anime-genre-chips{display:flex;flex-wrap:wrap;gap:8px}
+.anime-genre-chips a,.anime-genre-chips span{display:inline-flex;text-decoration:none;padding:7px 11px;border-radius:999px;font-size:.88rem}
+.anime-source-switch button[aria-pressed="true"]{font-weight:700}
+</style>
 </head>  
 <body>  
   
@@ -966,8 +974,15 @@ html[data-mode="dark"] #settingsPanel { background:var(--card); color:var(--ink)
     <div class="anime-hero-art" aria-hidden="true"><i class="bi bi-tv-fill"></i><b>ANIME!</b></div>
   </div>
   <section class="anime-api-panel comic-panel" aria-labelledby="jikanTitle">
-    <div class="anime-section-head"><div><small>DATABASE ANIME ONLINE</small><h2 id="jikanTitle">Jelajahi Anime</h2></div><span class="anime-count">Jikan API · Gratis</span></div>
+    <div class="anime-section-head"><div><small>DATABASE ANIME ONLINE</small><h2 id="jikanTitle">Jelajahi Anime</h2></div><span class="anime-count">Senplay API</span></div>
     <p>Temukan anime dari database publik. Fitur ini tidak membutuhkan API key.</p>
+    <div class="anime-source-switch" role="group" aria-label="Pilih sumber anime">
+      <button type="button" class="anime-primary-btn" data-anime-source="samehadaku" aria-pressed="false">Samehadaku</button>
+      <button type="button" class="anime-secondary-btn" data-anime-source="otakudesu" aria-pressed="true">Otakudesu</button>
+      <button type="button" class="anime-secondary-btn" data-anime-source="animasu" aria-pressed="false">Animasu Terbaru</button>
+      <button type="button" class="anime-secondary-btn" data-anime-source="genres" aria-pressed="false">Genre Kusonime</button>
+    </div>
+    <div id="senplayGenres" class="anime-genre-list" hidden></div>
     <form id="jikanSearchForm" class="anime-form anime-api-search-form">
       <label for="jikanSearchInput">Cari judul anime</label>
       <input id="jikanSearchInput" type="search" maxlength="100" placeholder="Contoh: Naruto, One Piece..." autocomplete="off">
@@ -976,7 +991,7 @@ html[data-mode="dark"] #settingsPanel { background:var(--card); color:var(--ink)
     </form>
     <p id="jikanStatus" class="anime-api-status" role="status" aria-live="polite">Memuat anime populer...</p>
     <div id="jikanResults" class="anime-grid"><div class="anime-empty comic-panel">Menghubungkan ke database anime...</div></div>
-    <p class="anime-api-note">Informasi berasal dari Jikan API yang mengakses data MyAnimeList. Tombol detail membuka halaman informasi anime, bukan pemutar episode.</p>
+    <p class="anime-api-note">Data katalog diambil dari Senplay Samehadaku API. Pencarian menyaring judul yang sudah dimuat pada halaman aktif; tombol detail membuka sumber anime.</p>
   </section>
   <div class="anime-search-wrap"><i class="bi bi-search"></i><input id="animeSearchInput" type="search" placeholder="Cari katalog anime yang disimpan..." aria-label="Cari katalog anime" oninput="renderAnimeCatalog()"></div>
   <div class="anime-section-head"><div><small>KOLEKSI PILIHANMU</small><h2>Katalog Anime</h2></div><span class="anime-count" id="animeCount">0 judul</span></div>
@@ -2008,56 +2023,137 @@ window.addEventListener("load", function () {
 
 
 <script>
-/* Jikan API v4: endpoint publik, tidak memerlukan API key. */
+/* Senplay API: Samehadaku, Otakudesu, Animasu terbaru, dan genre Kusonime. */
 (function(){
-  const API='https://api.jikan.moe/v4';
+  const BASE='https://api.senplay.web.id/api';
   const results=document.getElementById('jikanResults');
   const status=document.getElementById('jikanStatus');
   const form=document.getElementById('jikanSearchForm');
   const input=document.getElementById('jikanSearchInput');
-  const topBtn=document.getElementById('jikanTopBtn');
-  if(!results||!status||!form||!input||!topBtn)return;
+  const reloadBtn=document.getElementById('jikanTopBtn');
+  const genreBox=document.getElementById('senplayGenres');
+  const sourceButtons=[...document.querySelectorAll('[data-anime-source]')];
+  if(!results||!status||!form||!input||!reloadBtn)return;
+
   let busy=false;
+  let currentPage=1;
+  let currentItems=[];
+  let source='otakudesu';
+  const endpoints={
+    samehadaku:page=>BASE+'/samehadaku/anime?page='+page,
+    otakudesu:page=>BASE+'/otakudesu/anime?page='+page,
+    animasu:()=>BASE+'/animasu/anime/latest',
+    genres:()=>BASE+'/kusonime/anime/genres'
+  };
+  const sourceNames={samehadaku:'Samehadaku',otakudesu:'Otakudesu',animasu:'Animasu terbaru',genres:'Genre Kusonime'};
   const escapeHTML=value=>String(value??'').replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
   const safeURL=value=>{try{const u=new URL(value);return u.protocol==='https:'?u.href:''}catch(_){return ''}};
   function setStatus(message){status.textContent=message}
+  function normalize(a){
+    return {
+      title:a.title||a.name||'Anime tanpa judul',
+      image:a.image||a.thumbnail||a.poster||'',
+      url:a.url||'',
+      type:a.type||'Anime',
+      status:a.status||'—',
+      episode:a.episode??a.episodeCount??null,
+      day:a.day||'',
+      date:a.date||'',
+      synopsis:a.synopsis||a.description||'',
+      score:a.score??null,
+      genres:Array.isArray(a.genres)?a.genres.map(g=>typeof g==='string'?g:(g.name||'')).filter(Boolean):[]
+    };
+  }
   function render(items){
-    if(!Array.isArray(items)||!items.length){results.innerHTML='<div class="anime-empty comic-panel"><h3>Anime tidak ditemukan</h3><p>Coba kata kunci lain.</p></div>';return}
-    results.innerHTML=items.map(a=>{
-      const title=a.title_english||a.title||'Anime tanpa judul';
-      const image=safeURL(a.images?.jpg?.large_image_url||a.images?.jpg?.image_url);
-      const url=safeURL(a.url);
-      const synopsis=(a.synopsis||'Sinopsis belum tersedia.').slice(0,230)+(a.synopsis&&a.synopsis.length>230?'…':'');
+    if(!Array.isArray(items)||!items.length){
+      results.innerHTML='<div class="anime-empty comic-panel"><h3>Anime tidak ditemukan</h3><p>Coba kata kunci lain atau pilih sumber anime yang berbeda.</p></div>';
+      return;
+    }
+    results.innerHTML=items.map(raw=>{
+      const a=normalize(raw), title=a.title;
+      const image=safeURL(a.image), url=safeURL(a.url);
+      const synopsis=(a.synopsis||'Informasi tambahan belum tersedia.').slice(0,230)+(a.synopsis&&a.synopsis.length>230?'…':'');
       const score=Number.isFinite(Number(a.score))&&a.score?Number(a.score).toFixed(1):'Belum ada';
+      const genreLine=a.genres.length?'<p><strong>Genre:</strong> '+escapeHTML(a.genres.join(', '))+'</p>':'';
       const poster=image?'<img src="'+escapeHTML(image)+'" alt="Poster '+escapeHTML(title)+'" loading="lazy" referrerpolicy="no-referrer">':'<i class="bi bi-stars" aria-hidden="true"></i>';
-      const link=url?'<a class="anime-primary-btn" href="'+escapeHTML(url)+'" target="_blank" rel="noopener noreferrer">Lihat detail ↗</a>':'';
-      return '<article class="anime-card"><div class="anime-card-poster">'+poster+'</div><div class="anime-card-body"><h3>'+escapeHTML(title)+'</h3><p>'+escapeHTML(synopsis)+'</p><p><strong>Skor:</strong> '+score+' · <strong>Tahun:</strong> '+escapeHTML(a.year||a.aired?.prop?.from?.year||'—')+'</p><div class="anime-card-actions">'+link+'</div></div></article>';
+      const link=url?'<a class="anime-primary-btn" href="'+escapeHTML(url)+'" target="_blank" rel="noopener noreferrer">Lihat sumber ↗</a>':'';
+      let meta='<p><strong>Tipe:</strong> '+escapeHTML(a.type)+' · <strong>Status:</strong> '+escapeHTML(a.status)+'</p>';
+      if(a.episode!==null)meta+='<p><strong>Episode:</strong> '+escapeHTML(a.episode)+'</p>';
+      if(a.day||a.date)meta+='<p><strong>Jadwal:</strong> '+escapeHTML([a.day,a.date].filter(Boolean).join(' · '))+'</p>';
+      return '<article class="anime-card"><div class="anime-card-poster">'+poster+'</div><div class="anime-card-body"><h3>'+escapeHTML(title)+'</h3>'+meta+'<p><strong>Skor:</strong> '+score+'</p>'+genreLine+'<p>'+escapeHTML(synopsis)+'</p><div class="anime-card-actions">'+link+'</div></div></article>';
     }).join('');
   }
-  async function request(path,label){
+  function renderGenres(items){
+    if(!Array.isArray(items)||!items.length){genreBox.innerHTML='<p>Daftar genre belum tersedia.</p>';return}
+    genreBox.innerHTML='<p><strong>Genre Kusonime ('+items.length+')</strong></p><div class="anime-genre-chips">'+items.map(g=>{
+      const url=safeURL(g.url);
+      return url?'<a class="anime-secondary-btn" href="'+escapeHTML(url)+'" target="_blank" rel="noopener noreferrer">'+escapeHTML(g.name)+'</a>':'<span class="anime-secondary-btn">'+escapeHTML(g.name)+'</span>';
+    }).join('')+'</div>';
+  }
+  function setSource(next){
+    source=next;
+    sourceButtons.forEach(button=>{
+      const active=button.dataset.animeSource===source;
+      button.setAttribute('aria-pressed',String(active));
+      button.classList.toggle('anime-primary-btn',active);
+      button.classList.toggle('anime-secondary-btn',!active);
+    });
+    genreBox.hidden=source!=='genres';
+    form.hidden=source==='genres';
+    reloadBtn.hidden=source==='genres';
+    if(source==='animasu')reloadBtn.textContent='Muat ulang terbaru';
+    else reloadBtn.textContent='Muat ulang daftar';
+    input.value='';
+    request(source==='animasu'||source==='genres'?1:currentPage);
+  }
+  async function request(page){
     if(busy)return;
-    busy=true;topBtn.disabled=true;form.querySelector('button[type="submit"]').disabled=true;
-    setStatus('Sedang memuat '+label+'...');
-    results.innerHTML='<div class="anime-empty comic-panel">Mengambil data anime...</div>';
+    busy=true;currentPage=page;reloadBtn.disabled=true;
+    const submit=form.querySelector('button[type="submit"]');
+    if(submit)submit.disabled=true;
+    setStatus('Memuat data '+sourceNames[source]+'...');
+    results.innerHTML='<div class="anime-empty comic-panel">Mengambil data dari Senplay API...</div>';
     try{
-      const response=await fetch(API+path,{headers:{Accept:'application/json'}});
-      if(response.status===429)throw new Error('Permintaan terlalu sering. Tunggu sekitar 5 detik lalu coba lagi.');
-      if(!response.ok)throw new Error('Server anime merespons dengan status '+response.status+'.');
-      const data=await response.json();render(data.data||[]);
-      setStatus((data.data||[]).length+' hasil tersedia dari Jikan API.');
+      const response=await fetch(endpoints[source](page),{headers:{Accept:'application/json'}});
+      if(response.status===429)throw new Error('Batas permintaan tercapai. Tunggu sebentar lalu coba lagi.');
+      if(!response.ok)throw new Error('Server merespons dengan status HTTP '+response.status+'.');
+      const payload=await response.json();
+      if(payload.ok===false||payload.statusCode>=400)throw new Error(payload.message||'Layanan API mengembalikan kesalahan.');
+      const data=payload.data||{};
+      if(source==='genres'){
+        const genres=Array.isArray(data.genres)?data.genres:[];
+        renderGenres(genres);
+        results.innerHTML='<div class="anime-empty comic-panel">Pilih genre di atas untuk membuka daftar genre pada situs sumber.</div>';
+        setStatus(genres.length+' genre dimuat dari Kusonime.');
+      }else{
+        currentItems=Array.isArray(data.results)?data.results:[];
+        applySearch();
+        const pageLabel=source==='animasu'?'daftar terbaru':('halaman '+(data.page||page));
+        setStatus(currentItems.length+' anime dimuat dari '+sourceNames[source]+' · '+pageLabel+'.');
+      }
     }catch(error){
-      results.innerHTML='<div class="anime-empty comic-panel"><h3>Data belum bisa dimuat</h3><p>'+escapeHTML(error.message||'Periksa koneksi internet, lalu coba lagi.')+'</p></div>';
-      setStatus('Koneksi ke database anime gagal.');
-    }finally{busy=false;topBtn.disabled=false;form.querySelector('button[type="submit"]').disabled=false}
+      const message=error instanceof TypeError
+        ?'Tidak dapat menghubungi server. Periksa koneksi internet atau akses API, lalu coba lagi.'
+        :(error.message||'Periksa koneksi internet, lalu coba lagi.');
+      results.innerHTML='<div class="anime-empty comic-panel"><h3>Data belum bisa dimuat</h3><p>'+escapeHTML(message)+'</p><button class="anime-primary-btn" type="button" onclick="document.getElementById(\'jikanTopBtn\').click()">Coba lagi</button></div>';
+      setStatus('Koneksi ke '+sourceNames[source]+' gagal.');
+      if(source==='genres')genreBox.innerHTML='';
+    }finally{busy=false;reloadBtn.disabled=false;if(submit)submit.disabled=false}
+  }
+  function applySearch(){
+    const query=input.value.trim().toLocaleLowerCase();
+    const filtered=query?currentItems.filter(a=>String(a.title||'').toLocaleLowerCase().includes(query)):currentItems;
+    render(filtered);
+    if(query)setStatus(filtered.length+' hasil cocok di daftar '+sourceNames[source]+'. Pencarian menyaring data yang sudah dimuat.');
   }
   form.addEventListener('submit',event=>{
-    event.preventDefault();const query=input.value.trim();
-    if(!query){setStatus('Masukkan judul anime yang ingin dicari.');input.focus();return}
-    request('/anime?q='+encodeURIComponent(query)+'&limit=12&sfw=true','hasil pencarian');
+    event.preventDefault();
+    if(!currentItems.length){request(currentPage);return}
+    applySearch();
   });
-  topBtn.addEventListener('click',()=>{input.value='';request('/top/anime?limit=12&filter=bypopularity','anime populer')});
-  document.addEventListener('DOMContentLoaded',()=>request('/top/anime?limit=12&filter=bypopularity','anime populer'),{once:true});
-  if(document.readyState!=='loading')request('/top/anime?limit=12&filter=bypopularity','anime populer');
+  reloadBtn.addEventListener('click',()=>{input.value='';request(source==='animasu'?1:currentPage)});
+  sourceButtons.forEach(button=>button.addEventListener('click',()=>setSource(button.dataset.animeSource)));
+  setSource('otakudesu');
 })();
 </script>
 
