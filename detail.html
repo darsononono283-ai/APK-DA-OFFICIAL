@@ -248,6 +248,25 @@ body{
 .download-stats-label{color:#647184;font-size:12px;font-weight:700}
 #downloadCount{color:#182230;font-size:19px;font-weight:850;line-height:1.35}
 .download-stats-note{margin-left:auto;color:#7b8797;font-size:11px;text-align:right}
+
+/* Ringkasan rating bergaya Google Play */
+.rating-overview{display:grid;grid-template-columns:112px 1fr;gap:18px;align-items:center;margin:8px 0 22px}
+.rating-big{text-align:center}
+.rating-big-score{display:block;font-size:clamp(42px,10vw,58px);font-weight:500;line-height:1;color:#182230}
+.rating-big-stars{color:#f4b400;letter-spacing:2px;font-size:17px;white-space:nowrap}
+.rating-total{display:block;color:#647184;font-size:12px;font-weight:600;margin-top:4px}
+.rating-bars{display:grid;gap:7px}
+.rating-bar-row{display:grid;grid-template-columns:12px 1fr;gap:8px;align-items:center;color:#647184;font-size:12px}
+.rating-bar-track{height:10px;background:#e8ebf0;border-radius:99px;overflow:hidden}
+.rating-bar-fill{height:100%;background:#f4b400;border-radius:99px;min-width:0}
+.review-rating{color:#f4b400;letter-spacing:1px;font-size:14px;margin:2px 0 7px}
+.review-helpful{border:0;background:transparent;color:#647184;padding:6px 0;font-size:12px}
+.review-helpful i{font-size:15px;margin-right:5px}
+.review-rating-picker{display:flex;align-items:center;gap:7px;flex-wrap:wrap}
+.review-rating-picker button{border:0;background:transparent;color:#aab2bf;font-size:27px;padding:2px;line-height:1}
+.review-rating-picker button.selected,.review-rating-picker button:hover{color:#f4b400}
+@media(max-width:420px){.rating-overview{grid-template-columns:88px 1fr;gap:12px}.rating-big-stars{font-size:14px;letter-spacing:0}}
+
 /* Ulasan pengguna */
 #reviewsSection{margin-top:20px;padding:22px;background:#fff;border:1px solid #e3e8ef;border-radius:18px;box-shadow:0 8px 24px rgba(20,30,50,.06)}
 #reviewsSection h5{display:flex;align-items:center;gap:9px;margin:0 0 8px;color:#182230;font-size:17px;font-weight:800}
@@ -783,12 +802,16 @@ async function initAppRating(appId){
             if(error) throw error;
 
             const ratings = (data || []).map(row => Number(row.rating)).filter(n => Number.isFinite(n) && n >= 1 && n <= 5);
-            if(!ratings.length){
-                summary.textContent = "Belum ada rating. Jadilah yang pertama!";
-            } else {
-                const average = ratings.reduce((sum, n) => sum + n, 0) / ratings.length;
-                summary.textContent = "⭐ " + average.toFixed(1) + " / 5 · " + ratings.length + " penilaian";
-            }
+            const averageEl = document.getElementById("ratingAverage");
+            const totalEl = document.getElementById("ratingTotal");
+            const bars = [1,2,3,4,5].map(n => ({n,count:ratings.filter(r=>r===n).length}));
+            if(averageEl) averageEl.textContent = ratings.length ? (ratings.reduce((sum,n)=>sum+n,0)/ratings.length).toFixed(1) : "—";
+            if(totalEl) totalEl.textContent = ratings.length + (ratings.length === 1 ? " penilaian" : " penilaian");
+            bars.forEach(({n,count})=>{
+                const bar = document.getElementById("ratingBar"+n);
+                if(bar) bar.style.width = (ratings.length ? (count/ratings.length*100) : 0) + "%";
+            });
+            summary.textContent = ratings.length ? "Rangkuman berdasarkan penilaian pengguna." : "Belum ada rating. Jadilah yang pertama!";
             return true;
         } catch(error) {
             console.error("Gagal membaca rating Supabase:", error);
@@ -926,6 +949,24 @@ async function initUserReviews(appId){
     const submit = document.getElementById("reviewSubmit");
     if(!form || !list || !message || !submit) return;
 
+    let selectedReviewRating = 0;
+    const ratingPicker = document.getElementById("reviewRatingPicker");
+    const ratingLabel = document.getElementById("reviewRatingLabel");
+    if(ratingPicker){
+        const labels = {1:"Buruk",2:"Kurang",3:"Cukup",4:"Bagus",5:"Sangat bagus"};
+        ratingPicker.querySelectorAll("[data-review-rating]").forEach(button=>{
+            button.addEventListener("click",()=>{
+                selectedReviewRating = Number(button.dataset.reviewRating);
+                ratingPicker.querySelectorAll("[data-review-rating]").forEach(item=>{
+                    const active = Number(item.dataset.reviewRating) <= selectedReviewRating;
+                    item.classList.toggle("selected",active);
+                    item.innerHTML = `<i class="bi bi-star${active?'-fill':''}"></i>`;
+                });
+                if(ratingLabel) ratingLabel.textContent = labels[selectedReviewRating];
+            });
+        });
+    }
+
     function renderReviews(rows){
         if(!rows || !rows.length){
             list.innerHTML = '<div class="reviews-empty">Belum ada ulasan. Jadilah yang pertama berbagi pengalaman!</div>';
@@ -937,7 +978,9 @@ async function initUserReviews(appId){
                     <span class="review-author"><i class="bi bi-person-circle" aria-hidden="true"></i> ${escapeHTML(row.display_name || "Pengguna")}</span>
                     <time class="review-date">${escapeHTML(formatReviewDate(row.created_at))}</time>
                 </div>
+                <div class="review-rating" aria-label="${Math.max(0,Math.min(5,Number(row.rating)||0))} dari 5 bintang">${"★".repeat(Math.max(0,Math.min(5,Number(row.rating)||0)))}${"☆".repeat(5-Math.max(0,Math.min(5,Number(row.rating)||0)))}</div>
                 <p class="review-text">${escapeHTML(row.review_text || "")}</p>
+                <button class="review-helpful" type="button" aria-label="Tombol suka ulasan"><i class="bi bi-hand-thumbs-up"></i> Membantu</button>
             </article>
         `).join("");
     }
@@ -949,7 +992,7 @@ async function initUserReviews(appId){
         }
         try{
             const {data,error} = await client.from("app_reviews")
-                .select("display_name,review_text,created_at")
+                .select("display_name,review_text,rating,created_at")
                 .eq("app_id",String(appId))
                 .order("created_at",{ascending:false})
                 .limit(20);
@@ -969,6 +1012,10 @@ async function initUserReviews(appId){
             message.textContent = "Tulis ulasan terlebih dahulu.";
             return;
         }
+        if(!selectedReviewRating){
+            message.textContent = "Pilih rating bintang 1 sampai 5 terlebih dahulu.";
+            return;
+        }
         if(reviewText.length > 800){
             message.textContent = "Ulasan maksimal 800 karakter.";
             return;
@@ -983,10 +1030,19 @@ async function initUserReviews(appId){
             const {error} = await client.from("app_reviews").insert({
                 app_id:String(appId),
                 display_name:displayName,
-                review_text:reviewText
+                review_text:reviewText,
+                rating:selectedReviewRating
             });
             if(error) throw error;
             form.reset();
+            selectedReviewRating = 0;
+            if(ratingPicker){
+                ratingPicker.querySelectorAll("[data-review-rating]").forEach(item=>{
+                    item.classList.remove("selected");
+                    item.innerHTML = '<i class="bi bi-star-fill"></i>';
+                });
+            }
+            if(ratingLabel) ratingLabel.textContent = "Pilih 1–5 bintang";
             message.textContent = "Terima kasih! Ulasan berhasil dikirim.";
             await loadReviews();
         }catch(error){
@@ -1126,6 +1182,13 @@ async function loadDetail(){
         <label class="visually-hidden" for="reviewName">Nama</label>
         <input id="reviewName" class="review-field" type="text" maxlength="40" placeholder="Nama (opsional)" autocomplete="nickname">
         <label class="visually-hidden" for="reviewText">Ulasan</label>
+        
+        <div class="review-rating-picker" id="reviewRatingPicker" aria-label="Pilih bintang untuk ulasan">
+            <span style="font-size:13px;color:#647184;font-weight:700">Penilaian:</span>
+            ${[1,2,3,4,5].map(n => `<button type="button" data-review-rating="${n}" aria-label="${n} bintang"><i class="bi bi-star-fill"></i></button>`).join("")}
+            <span id="reviewRatingLabel" style="font-size:12px;color:#647184">Pilih 1–5 bintang</span>
+        </div>
+
         <textarea id="reviewText" class="review-field" rows="3" maxlength="800" required placeholder="Tulis ulasan yang sopan (maksimal 800 karakter)..."></textarea>
         <button id="reviewSubmit" class="review-submit" type="submit"><i class="bi bi-send-fill" aria-hidden="true"></i> Kirim ulasan</button>
         <p id="reviewsMessage" role="status" aria-live="polite"></p>
@@ -1138,10 +1201,19 @@ async function loadDetail(){
 <section class="description" id="ratingSection" aria-labelledby="ratingTitle">
     <h5 id="ratingTitle"><i class="bi bi-star-fill" aria-hidden="true"></i> PENILAIAN PENGGUNA</h5>
 
-    <div class="rating-summary-row">
-        <div class="rating-score-icon" aria-hidden="true"><i class="bi bi-stars"></i></div>
-        <div id="ratingSummary" role="status" aria-live="polite">Memuat rating...</div>
+    
+    <div class="rating-overview">
+        <div class="rating-big">
+            <span class="rating-big-score" id="ratingAverage">—</span>
+            <span class="rating-big-stars">★★★★★</span>
+            <span class="rating-total" id="ratingTotal">0 penilaian</span>
+        </div>
+        <div class="rating-bars" id="ratingBreakdown" aria-label="Sebaran rating">
+            ${[5,4,3,2,1].map(n => `<div class="rating-bar-row"><span>${n}</span><div class="rating-bar-track"><div class="rating-bar-fill" id="ratingBar${n}" style="width:0%"></div></div></div>`).join("")}
+        </div>
     </div>
+    <div id="ratingSummary" role="status" aria-live="polite" style="font-size:13px;color:#647184">Memuat rating...</div>
+
 
     <p class="rating-intro">Bantu pengguna lain memilih aplikasi dengan memberikan penilaian yang jujur.</p>
     <p class="rating-prompt">Bagaimana pengalamanmu menggunakan aplikasi ini?</p>
