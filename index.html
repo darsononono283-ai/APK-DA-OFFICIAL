@@ -4,7 +4,7 @@
   <meta charset="UTF-8">  
   <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">  
   <meta name="theme-color" content="#e63830">  
-  <meta name="description" content="Temukan APK Android, game, aplikasi terbaru, katalog anime resmi, dan kata-kata sad di APK DA•OFFICIAL.">
+  <meta name="description" content="Temukan APK Android, game, aplikasi terbaru, musik, dan kata-kata sad di APK DA•OFFICIAL.">
   <meta name="robots" content="index,follow,max-image-preview:large">
   <link rel="canonical" href="https://darsononono283-ai.github.io/apk-da-official/">
   <meta property="og:type" content="website">
@@ -943,7 +943,7 @@ html[data-mode="dark"] #settingsPanel { background:var(--card); color:var(--ink)
 
   <div class="feature-grid">  
     <button class="feature-tile red" onclick="showPage('apps')"><i class="bi bi-phone"></i>Menu Aplikasi<small>Game, tools, media</small></button>  
-    <button class="feature-tile yellow" onclick="showPage('spotify')"><i class="bi bi-play-btn-fill"></i>Anime<small>Katalog anime resmi</small></button>  
+    <button class="feature-tile yellow" onclick="showPage('spotify')"><i class="bi bi-music-note-beamed"></i>DA•MUSIC<small>Putar lagu MP3 favoritmu</small></button>  
     <button class="feature-tile" onclick="showPage('sad')"><i class="bi bi-heartbreak"></i>Kata Sad<small>Kata galau harian</small></button>  
     <button class="feature-tile" onclick="showPage('theme')"><i class="bi bi-palette"></i>Tema<small>Ubah warna website</small></button>  
   </div>  
@@ -998,52 +998,51 @@ html[data-mode="dark"] #settingsPanel { background:var(--card); color:var(--ink)
   </div>
 </section>
 
-<section id="spotifyPage" class="feature-page d-none anime-page">
-  <div class="anime-hero comic-panel">
-    <div class="anime-hero-copy">
-      <span class="anime-kicker"><i class="bi bi-play-circle-fill"></i> DA•OFFICIAL ANIME</span>
-      <h1>Anime favoritmu,<br><span>petualangan dimulai!</span></h1>
-      <p>Katalog anime dengan tautan ke layanan resmi. Episode hanya diputar jika penyedia mendukung sematan resmi.</p>
+<section id="spotifyPage" class="feature-page d-none music-page-v1">
+  <div class="music-hero comic-panel">
+    <div class="music-hero-copy">
+      <span class="music-kicker"><i class="bi bi-soundwave"></i> PEMUTAR MUSIK MANDIRI</span>
+      <h1>DA•MUSIC<br><span>Putar suasana hatimu!</span></h1>
+      <p>Tambahkan tautan audio MP3 milikmu, lalu putar langsung dari website APK DA•OFFICIAL.</p>
     </div>
-    <div class="anime-hero-art" aria-hidden="true"><i class="bi bi-tv-fill"></i><b>ANIME!</b></div>
+    <div class="music-hero-disc" aria-hidden="true"><i class="bi bi-music-note-beamed"></i></div>
   </div>
-  <section class="anime-api-panel comic-panel" aria-labelledby="jikanTitle">
-    <div class="anime-section-head"><div><small>DATABASE ANIME ONLINE</small><h2 id="jikanTitle">Jelajahi Anime</h2></div><span class="anime-count">Senplay API</span></div>
-    <p>Temukan anime dari database publik. Fitur ini tidak membutuhkan API key.</p>
-    <div class="anime-source-switch" role="group" aria-label="Pilih sumber anime">
-      <button type="button" class="anime-primary-btn" data-anime-source="samehadaku" aria-pressed="false">Samehadaku</button>
-      <button type="button" class="anime-secondary-btn" data-anime-source="otakudesu" aria-pressed="true">Otakudesu</button>
-      <button type="button" class="anime-secondary-btn" data-anime-source="animasu" aria-pressed="false">Animasu Terbaru</button>
-      <button type="button" class="anime-secondary-btn" data-anime-source="genres" aria-pressed="false">Genre Kusonime</button>
+
+  <section class="music-player-card comic-panel" aria-label="Pemutar musik">
+    <div class="music-now-playing">
+      <div class="music-cover-large"><i class="bi bi-disc-fill"></i></div>
+      <div class="music-now-info">
+        <small>SEDANG DIPUTAR</small>
+        <h2 id="musicNowTitle">Belum ada lagu</h2>
+        <p id="musicNowArtist">Tambahkan lagu MP3 untuk mulai mendengarkan.</p>
+      </div>
     </div>
-    <div id="senplayGenres" class="anime-genre-list" hidden></div>
-    <form id="jikanSearchForm" class="anime-form anime-api-search-form">
-      <label for="jikanSearchInput">Cari judul anime</label>
-      <input id="jikanSearchInput" type="search" maxlength="100" placeholder="Contoh: Naruto, One Piece..." autocomplete="off">
-      <button class="anime-primary-btn" type="submit"><i class="bi bi-search"></i> Cari anime</button>
-      <button class="anime-secondary-btn" id="jikanTopBtn" type="button"><i class="bi bi-fire"></i> Anime populer</button>
-    </form>
-    <p id="jikanStatus" class="anime-api-status" role="status" aria-live="polite">Memuat anime populer...</p>
-    <div id="jikanResults" class="anime-grid"><div class="anime-empty comic-panel">Menghubungkan ke database anime...</div></div>
-    <p class="anime-api-note">Data katalog diambil dari Senplay Samehadaku API. Pencarian menyaring judul yang sudah dimuat pada halaman aktif; tombol detail membuka sumber anime.</p>
+    <audio id="daMusicAudio" controls preload="metadata" style="width:100%;margin-top:15px"></audio>
+    <p id="musicPlayerStatus" class="music-status" role="status" aria-live="polite">Lagu tersimpan di browser perangkat ini.</p>
   </section>
-  <div class="anime-search-wrap"><i class="bi bi-search"></i><input id="animeSearchInput" type="search" placeholder="Cari katalog anime yang disimpan..." aria-label="Cari katalog anime" oninput="renderAnimeCatalog()"></div>
-  <div class="anime-section-head"><div><small>KOLEKSI PILIHANMU</small><h2>Katalog Anime</h2></div><span class="anime-count" id="animeCount">0 judul</span></div>
-  <div id="animeCatalog" class="anime-grid"><div class="anime-empty comic-panel"><i class="bi bi-collection-play"></i><h3>Belum ada anime</h3><p>Tambahkan judul anime dan tautan layanan resminya. Data katalog ini tersimpan di perangkat yang kamu gunakan.</p></div></div>
-  <details class="anime-add-panel comic-panel"><summary><i class="bi bi-plus-circle-fill"></i> Tambahkan anime ke katalog</summary>
-    <form id="animeAddForm" class="anime-form">
-      <label>Judul anime<input id="animeTitleInput" required maxlength="100" placeholder="Contoh: Judul anime"></label>
-      <label>URL poster (opsional)<input id="animePosterInput" type="url" placeholder="https://.../poster.jpg"></label>
-      <label>Tautan halaman resmi anime<input id="animeOfficialInput" type="url" required placeholder="https://layanan-resmi.example/anime"></label>
-      <label>Deskripsi singkat<textarea id="animeDescInput" maxlength="400" rows="2" placeholder="Ringkasan anime..."></textarea></label>
-      <button class="anime-primary-btn" type="submit"><i class="bi bi-plus-lg"></i> Simpan anime</button>
+
+  <section class="music-library comic-panel" aria-labelledby="musicLibraryTitle">
+    <div class="music-section-head">
+      <div><small>KOLEKSI PRIBADI</small><h2 id="musicLibraryTitle">Daftar Lagu</h2></div>
+      <span class="music-count" id="musicCount">0 lagu</span>
+    </div>
+    <label class="music-search"><i class="bi bi-search"></i><input id="musicSearchInput" type="search" placeholder="Cari judul atau artis..." autocomplete="off" aria-label="Cari lagu"></label>
+    <div id="musicTrackList" class="music-track-list">
+      <div class="music-empty-state"><i class="bi bi-music-note-list"></i><strong>Belum ada lagu</strong><p>Tambahkan URL MP3 di bawah untuk membuat daftar putar.</p></div>
+    </div>
+  </section>
+
+  <details class="music-add-card comic-panel" open>
+    <summary><i class="bi bi-plus-circle-fill"></i> Tambahkan lagu</summary>
+    <form id="musicAddForm" class="music-add-form">
+      <label>Judul lagu<input id="musicTitleInput" required maxlength="100" placeholder="Contoh: Lagu Favorit"></label>
+      <label>Nama artis<input id="musicArtistInput" maxlength="100" placeholder="Nama penyanyi (opsional)"></label>
+      <label>URL audio MP3<input id="musicUrlInput" type="url" required placeholder="https://situsmu.com/audio.mp3"></label>
+      <button type="submit" class="music-add-button"><i class="bi bi-plus-lg"></i> Simpan ke daftar lagu</button>
     </form>
+    <p class="music-note"><i class="bi bi-info-circle"></i> Gunakan URL audio langsung yang bisa diakses, misalnya file MP3 di hosting milikmu. Tautan halaman Spotify atau YouTube bukan URL MP3.</p>
   </details>
-  <div id="animeDetailPanel" class="anime-detail-panel d-none">
-    <button type="button" class="anime-back-btn" onclick="closeAnimeDetail()"><i class="bi bi-arrow-left"></i> Kembali ke katalog</button>
-    <div id="animeDetailContent"></div>
-  </div>
-  <p class="anime-disclaimer"><i class="bi bi-shield-check"></i> DA•OFFICIAL tidak meng-host atau menyediakan salinan episode. Gunakan layanan resmi dan tautan yang memang kamu berhak bagikan.</p>
+  <a class="music-spotify-link" href="https://open.spotify.com/search/" target="_blank" rel="noopener noreferrer"><i class="bi bi-spotify"></i> Cari musik di Spotify</a>
 </section>
 
 <section id="sadPage" class="feature-page d-none">  
@@ -1081,7 +1080,7 @@ html[data-mode="dark"] #settingsPanel { background:var(--card); color:var(--ink)
 </main>    <nav class="bottom-nav" aria-label="Navigasi utama">  
     <button class="nav-item active" data-page="home" onclick="showPage('home')"><span class="nav-icon"><i class="bi bi-house-fill"></i></span>BERANDA</button>  
     <button class="nav-item" data-page="apps" onclick="showPage('apps')"><span class="nav-icon"><i class="bi bi-grid-fill"></i></span>MENU APK</button>  
-    <button class="nav-item" data-page="spotify" onclick="showPage('spotify')"><span class="nav-icon"><i class="bi bi-play-btn-fill"></i></span>ANIME</button>  
+    <button class="nav-item" data-page="spotify" onclick="showPage('spotify')"><span class="nav-icon"><i class="bi bi-music-note-beamed"></i></span>DA•MUSIC</button>  
     <button class="nav-item" data-page="sad" onclick="showPage('sad')"><span class="nav-icon"><i class="bi bi-heartbreak-fill"></i></span>KATA SAD</button>  
     <button class="nav-item" data-page="theme" onclick="showPage('theme')"><span class="nav-icon"><i class="bi bi-palette-fill"></i></span>TEMA</button>  
   </nav>    <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>    <script src="./supabase.js"></script>    <script>  
@@ -2005,8 +2004,8 @@ window.addEventListener("load", function () {
   refreshThemeIcon();
   themeBtn?.addEventListener('click',()=>{root.dataset.mode=root.dataset.mode==='dark'?'light':'dark';try{localStorage.setItem('apkda-mode',root.dataset.mode)}catch(e){}refreshThemeIcon();});
   const translations={
-    id:{nav:['BERANDA','MENU APK','ANIME','KATA SAD','TEMA'],lang:'ID'},
-    en:{nav:['HOME','APK MENU','ANIME','SAD QUOTES','THEMES'],lang:'EN'}
+    id:{nav:['BERANDA','MENU APK','DA•MUSIC','KATA SAD','TEMA'],lang:'ID'},
+    en:{nav:['HOME','APK MENU','DA•MUSIC','SAD QUOTES','THEMES'],lang:'EN'}
   };
   function setLanguage(next){lang=next;const t=translations[lang];document.querySelectorAll('.nav-item').forEach((el,i)=>{if(t.nav[i]){const icon=el.querySelector('.nav-icon');el.textContent=t.nav[i];if(icon)el.prepend(icon)}});if(languageLabel)languageLabel.textContent=t.lang;document.documentElement.lang=lang;try{localStorage.setItem('apkda-lang',lang)}catch(e){}}
   try{lang=localStorage.getItem('apkda-lang')==='en'?'en':'id'}catch(e){}
@@ -2057,160 +2056,82 @@ window.addEventListener("load", function () {
 
 
 <script>
-/* Senplay API: Samehadaku, Otakudesu, Animasu terbaru, dan genre Kusonime. */
+/* DA•MUSIC: daftar putar MP3 lokal per browser */
 (function(){
-  const BASE='https://api.senplay.web.id/api';
-  const results=document.getElementById('jikanResults');
-  const status=document.getElementById('jikanStatus');
-  const form=document.getElementById('jikanSearchForm');
-  const input=document.getElementById('jikanSearchInput');
-  const reloadBtn=document.getElementById('jikanTopBtn');
-  const genreBox=document.getElementById('senplayGenres');
-  const sourceButtons=[...document.querySelectorAll('[data-anime-source]')];
-  if(!results||!status||!form||!input||!reloadBtn)return;
-
-  let busy=false;
-  let currentPage=1;
-  let currentItems=[];
-  let source='otakudesu';
-  const endpoints={
-    samehadaku:page=>BASE+'/samehadaku/anime?page='+page,
-    otakudesu:page=>BASE+'/otakudesu/anime?page='+page,
-    animasu:()=>BASE+'/animasu/anime/latest',
-    genres:()=>BASE+'/kusonime/anime/genres'
-  };
-  const sourceNames={samehadaku:'Samehadaku',otakudesu:'Otakudesu',animasu:'Animasu terbaru',genres:'Genre Kusonime'};
-  const escapeHTML=value=>String(value??'').replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
-  const safeURL=value=>{try{const u=new URL(value);return u.protocol==='https:'?u.href:''}catch(_){return ''}};
-  function setStatus(message){status.textContent=message}
-  function normalize(a){
-    return {
-      title:a.title||a.name||'Anime tanpa judul',
-      image:a.image||a.thumbnail||a.poster||'',
-      url:a.url||'',
-      type:a.type||'Anime',
-      status:a.status||'—',
-      episode:a.episode??a.episodeCount??null,
-      day:a.day||'',
-      date:a.date||'',
-      synopsis:a.synopsis||a.description||'',
-      score:a.score??null,
-      genres:Array.isArray(a.genres)?a.genres.map(g=>typeof g==='string'?g:(g.name||'')).filter(Boolean):[]
-    };
+  const KEY='daofficial_music_playlist_v1';
+  const audio=document.getElementById('daMusicAudio');
+  const form=document.getElementById('musicAddForm');
+  const list=document.getElementById('musicTrackList');
+  const search=document.getElementById('musicSearchInput');
+  const count=document.getElementById('musicCount');
+  const nowTitle=document.getElementById('musicNowTitle');
+  const nowArtist=document.getElementById('musicNowArtist');
+  const status=document.getElementById('musicPlayerStatus');
+  if(!audio||!form||!list) return;
+  let currentId=null;
+  function loadTracks(){try{const data=JSON.parse(localStorage.getItem(KEY)||'[]');return Array.isArray(data)?data:[]}catch(e){return []}}
+  function saveTracks(tracks){try{localStorage.setItem(KEY,JSON.stringify(tracks));return true}catch(e){status.textContent='Daftar lagu tidak dapat disimpan. Periksa penyimpanan browser.';return false}}
+  function safeAudioUrl(value){
+    try{const u=new URL(String(value||''));return ['https:','http:'].includes(u.protocol)?u.href:''}catch(e){return ''}
   }
-  function render(items){
-    if(!Array.isArray(items)||!items.length){
-      results.innerHTML='<div class="anime-empty comic-panel"><h3>Anime tidak ditemukan</h3><p>Coba kata kunci lain atau pilih sumber anime yang berbeda.</p></div>';
+  function esc(value){return String(value??'').replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]))}
+  function render(){
+    const all=loadTracks(), query=(search?.value||'').trim().toLowerCase();
+    const tracks=all.filter(t=>(t.title+' '+t.artist).toLowerCase().includes(query));
+    if(count)count.textContent=all.length+' lagu';
+    if(!tracks.length){
+      list.innerHTML='<div class="music-empty-state"><i class="bi bi-music-note-list"></i><strong>'+(query?'Lagu tidak ditemukan':'Belum ada lagu')+'</strong><p>'+(query?'Coba kata pencarian lain.':'Tambahkan URL MP3 untuk membuat daftar putar.')+'</p></div>';
       return;
     }
-    results.innerHTML=items.map(raw=>{
-      const a=normalize(raw), title=a.title;
-      const image=safeURL(a.image), url=safeURL(a.url);
-      const synopsis=(a.synopsis||'Informasi tambahan belum tersedia.').slice(0,230)+(a.synopsis&&a.synopsis.length>230?'…':'');
-      const score=Number.isFinite(Number(a.score))&&a.score?Number(a.score).toFixed(1):'Belum ada';
-      const genreLine=a.genres.length?'<p><strong>Genre:</strong> '+escapeHTML(a.genres.join(', '))+'</p>':'';
-      const poster=image?'<img src="'+escapeHTML(image)+'" alt="Poster '+escapeHTML(title)+'" loading="lazy" referrerpolicy="no-referrer">':'<i class="bi bi-stars" aria-hidden="true"></i>';
-      const link=url?'<a class="anime-primary-btn" href="'+escapeHTML(url)+'" target="_blank" rel="noopener noreferrer">Lihat sumber ↗</a>':'';
-      let meta='<p><strong>Tipe:</strong> '+escapeHTML(a.type)+' · <strong>Status:</strong> '+escapeHTML(a.status)+'</p>';
-      if(a.episode!==null)meta+='<p><strong>Episode:</strong> '+escapeHTML(a.episode)+'</p>';
-      if(a.day||a.date)meta+='<p><strong>Jadwal:</strong> '+escapeHTML([a.day,a.date].filter(Boolean).join(' · '))+'</p>';
-      return '<article class="anime-card"><div class="anime-card-poster">'+poster+'</div><div class="anime-card-body"><h3>'+escapeHTML(title)+'</h3>'+meta+'<p><strong>Skor:</strong> '+score+'</p>'+genreLine+'<p>'+escapeHTML(synopsis)+'</p><div class="anime-card-actions">'+link+'</div></div></article>';
-    }).join('');
+    list.innerHTML=tracks.map(t=>`<article class="music-track-row ${t.id===currentId?'current':''}">
+      <div class="music-track-icon"><i class="bi bi-music-note-beamed"></i></div>
+      <div class="music-track-copy"><strong>${esc(t.title)}</strong><small>${esc(t.artist||'Artis tidak dicantumkan')}</small></div>
+      <div class="music-track-actions">
+        <button type="button" data-play="${esc(t.id)}" aria-label="Putar ${esc(t.title)}"><i class="bi bi-play-fill"></i> Putar</button>
+        <button type="button" class="music-delete" data-delete="${esc(t.id)}" aria-label="Hapus ${esc(t.title)}"><i class="bi bi-trash"></i></button>
+      </div>
+    </article>`).join('');
   }
-  function renderGenres(items){
-    if(!Array.isArray(items)||!items.length){genreBox.innerHTML='<p>Daftar genre belum tersedia.</p>';return}
-    genreBox.innerHTML='<p><strong>Genre Kusonime ('+items.length+')</strong></p><div class="anime-genre-chips">'+items.map(g=>{
-      const url=safeURL(g.url);
-      return url?'<a class="anime-secondary-btn" href="'+escapeHTML(url)+'" target="_blank" rel="noopener noreferrer">'+escapeHTML(g.name)+'</a>':'<span class="anime-secondary-btn">'+escapeHTML(g.name)+'</span>';
-    }).join('')+'</div>';
+  function playTrack(id){
+    const track=loadTracks().find(t=>t.id===id); if(!track)return;
+    const url=safeAudioUrl(track.url); if(!url){status.textContent='URL audio tidak valid. Gunakan tautan HTTP atau HTTPS.';return}
+    currentId=id; audio.src=url; nowTitle.textContent=track.title; nowArtist.textContent=track.artist||'Artis tidak dicantumkan';
+    status.textContent='Memuat audio...';
+    const p=audio.play();
+    if(p&&typeof p.catch==='function')p.catch(()=>{status.textContent='Audio belum bisa diputar. Pastikan URL mengarah langsung ke file audio dan server mengizinkan akses.'});
+    render();
   }
-  function setSource(next){
-    source=next;
-    sourceButtons.forEach(button=>{
-      const active=button.dataset.animeSource===source;
-      button.setAttribute('aria-pressed',String(active));
-      button.classList.toggle('anime-primary-btn',active);
-      button.classList.toggle('anime-secondary-btn',!active);
-    });
-    genreBox.hidden=source!=='genres';
-    form.hidden=source==='genres';
-    reloadBtn.hidden=source==='genres';
-    if(source==='animasu')reloadBtn.textContent='Muat ulang terbaru';
-    else reloadBtn.textContent='Muat ulang daftar';
-    input.value='';
-    request(source==='animasu'||source==='genres'?1:currentPage);
-  }
-  async function request(page){
-    if(busy)return;
-    busy=true;currentPage=page;reloadBtn.disabled=true;
-    const submit=form.querySelector('button[type="submit"]');
-    if(submit)submit.disabled=true;
-    setStatus('Memuat data '+sourceNames[source]+'...');
-    results.innerHTML='<div class="anime-empty comic-panel">Mengambil data dari Senplay API...</div>';
-    try{
-      const response=await fetch(endpoints[source](page),{headers:{Accept:'application/json'}});
-      if(response.status===429)throw new Error('Batas permintaan tercapai. Tunggu sebentar lalu coba lagi.');
-      if(!response.ok)throw new Error('Server merespons dengan status HTTP '+response.status+'.');
-      const payload=await response.json();
-      if(payload.ok===false||payload.statusCode>=400)throw new Error(payload.message||'Layanan API mengembalikan kesalahan.');
-      const data=payload.data||{};
-      if(source==='genres'){
-        const genres=Array.isArray(data.genres)?data.genres:[];
-        renderGenres(genres);
-        results.innerHTML='<div class="anime-empty comic-panel">Pilih genre di atas untuk membuka daftar genre pada situs sumber.</div>';
-        setStatus(genres.length+' genre dimuat dari Kusonime.');
-      }else{
-        currentItems=Array.isArray(data.results)?data.results:[];
-        applySearch();
-        const pageLabel=source==='animasu'?'daftar terbaru':('halaman '+(data.page||page));
-        setStatus(currentItems.length+' anime dimuat dari '+sourceNames[source]+' · '+pageLabel+'.');
-      }
-    }catch(error){
-      const message=error instanceof TypeError
-        ?'Tidak dapat menghubungi server. Periksa koneksi internet atau akses API, lalu coba lagi.'
-        :(error.message||'Periksa koneksi internet, lalu coba lagi.');
-      results.innerHTML='<div class="anime-empty comic-panel"><h3>Data belum bisa dimuat</h3><p>'+escapeHTML(message)+'</p><button class="anime-primary-btn" type="button" onclick="document.getElementById(\'jikanTopBtn\').click()">Coba lagi</button></div>';
-      setStatus('Koneksi ke '+sourceNames[source]+' gagal.');
-      if(source==='genres')genreBox.innerHTML='';
-    }finally{busy=false;reloadBtn.disabled=false;if(submit)submit.disabled=false}
-  }
-  function applySearch(){
-    const query=input.value.trim().toLocaleLowerCase();
-    const filtered=query?currentItems.filter(a=>String(a.title||'').toLocaleLowerCase().includes(query)):currentItems;
-    render(filtered);
-    if(query)setStatus(filtered.length+' hasil cocok di daftar '+sourceNames[source]+'. Pencarian menyaring data yang sudah dimuat.');
-  }
-  form.addEventListener('submit',event=>{
-    event.preventDefault();
-    if(!currentItems.length){request(currentPage);return}
-    applySearch();
+  form.addEventListener('submit',e=>{
+    e.preventDefault();
+    const title=document.getElementById('musicTitleInput').value.trim();
+    const artist=document.getElementById('musicArtistInput').value.trim();
+    const url=safeAudioUrl(document.getElementById('musicUrlInput').value.trim());
+    if(!title||!url){status.textContent='Isi judul lagu dan URL audio HTTP/HTTPS yang valid.';return}
+    const tracks=loadTracks(); tracks.unshift({id:'track-'+Date.now().toString(36)+'-'+Math.random().toString(36).slice(2,7),title,artist,url});
+    if(saveTracks(tracks)){form.reset();render();status.textContent='Lagu ditambahkan ke daftar putar.'}
   });
-  reloadBtn.addEventListener('click',()=>{input.value='';request(source==='animasu'?1:currentPage)});
-  sourceButtons.forEach(button=>button.addEventListener('click',()=>setSource(button.dataset.animeSource)));
-  setSource('otakudesu');
+  list.addEventListener('click',e=>{
+    const play=e.target.closest('[data-play]'); const del=e.target.closest('[data-delete]');
+    if(play){playTrack(play.dataset.play);return}
+    if(del){
+      const id=del.dataset.delete; const tracks=loadTracks().filter(t=>t.id!==id);
+      if(id===currentId){audio.pause();audio.removeAttribute('src');audio.load();currentId=null;nowTitle.textContent='Belum ada lagu';nowArtist.textContent='Tambahkan lagu MP3 untuk mulai mendengarkan.';status.textContent='Lagu dihapus dari daftar putar.'}
+      saveTracks(tracks);render();
+    }
+  });
+  search?.addEventListener('input',render);
+  audio.addEventListener('playing',()=>{status.textContent='Sedang memutar lagu.'});
+  audio.addEventListener('ended',()=>{
+    const tracks=loadTracks(), idx=tracks.findIndex(t=>t.id===currentId);
+    if(idx>=0&&tracks[idx+1])playTrack(tracks[idx+1].id);
+    else status.textContent='Lagu selesai diputar.';
+  });
+  audio.addEventListener('error',()=>{if(audio.src)status.textContent='Audio gagal dimuat. Periksa URL MP3, izin server, dan format audio.'});
+  render();
 })();
 </script>
 
-<script>
-(function(){
- const STORAGE_KEY='daofficial_anime_catalog_v1';
- let currentAnimeId=null;
- function loadAnime(){try{const d=JSON.parse(localStorage.getItem(STORAGE_KEY)||'[]');return Array.isArray(d)?d:[]}catch(e){return []}}
- function saveAnime(items){try{localStorage.setItem(STORAGE_KEY,JSON.stringify(items));return true}catch(e){alert('Katalog tidak dapat disimpan di perangkat ini.');return false}}
- function esc(s){return String(s||'').replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]))}
- function safeHttps(v){try{const u=new URL(v);return u.protocol==='https:'?u.href:''}catch(e){return ''}}
- function posterHTML(a){const p=safeHttps(a.poster);return p?'<img src="'+esc(p)+'" alt="Poster '+esc(a.title)+'" loading="lazy" referrerpolicy="no-referrer" onerror="this.remove()">':'<i class="bi bi-stars" aria-hidden="true"></i>'}
- window.renderAnimeCatalog=function(){const items=loadAnime(),q=(document.getElementById('animeSearchInput')?.value||'').trim().toLowerCase();const shown=items.filter(a=>(a.title+' '+(a.description||'')).toLowerCase().includes(q));const count=document.getElementById('animeCount');if(count)count.textContent=shown.length+' judul';const target=document.getElementById('animeCatalog');if(!target)return;if(!shown.length){target.innerHTML='<div class="anime-empty comic-panel"><i class="bi bi-collection-play"></i><h3>'+(items.length?'Anime tidak ditemukan':'Belum ada anime')+'</h3><p>'+(items.length?'Coba kata pencarian lain.':'Tambahkan judul anime dan tautan layanan resminya melalui formulir di bawah.')+'</p></div>';return}target.innerHTML=shown.map(a=>'<article class="anime-card"><div class="anime-card-poster">'+posterHTML(a)+'</div><div class="anime-card-body"><h3>'+esc(a.title)+'</h3><p>'+esc(a.description||'Buka halaman layanan resmi untuk informasi anime ini.')+'</p><div class="anime-card-actions"><button class="anime-primary-btn" type="button" onclick="openAnimeDetail(\''+esc(a.id)+'\')"><i class="bi bi-play-fill"></i> Detail & episode</button><a class="anime-secondary-btn" href="'+esc(a.officialUrl)+'" target="_blank" rel="noopener noreferrer">Situs resmi ↗</a></div></div></article>').join('')};
- window.openAnimeDetail=function(id){const a=loadAnime().find(x=>x.id===id);if(!a)return;currentAnimeId=id;document.getElementById('animeCatalog').classList.add('d-none');document.querySelector('.anime-search-wrap')?.classList.add('d-none');document.querySelector('.anime-section-head')?.classList.add('d-none');document.querySelector('.anime-add-panel')?.classList.add('d-none');const panel=document.getElementById('animeDetailPanel');panel.classList.remove('d-none');renderAnimeDetail(a);panel.scrollIntoView({behavior:'smooth',block:'start'})};
- function renderAnimeDetail(a){const host=document.getElementById('animeDetailContent');const episodes=Array.isArray(a.episodes)?a.episodes:[];host.innerHTML='<div class="anime-detail-head"><div class="anime-card-poster anime-detail-poster">'+posterHTML(a)+'</div><div><h2>'+esc(a.title)+'</h2><p>'+esc(a.description||'Informasi tambahan belum tersedia.')+'</p><a class="anime-primary-btn" href="'+esc(a.officialUrl)+'" target="_blank" rel="noopener noreferrer">Buka layanan resmi ↗</a></div></div><div id="animePlayerWrap" class="d-none anime-detail-section"><h3 id="animeNowPlaying">Pemutar episode</h3><iframe id="animePlayerFrame" class="anime-player-frame" title="Pemutar episode anime" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" allowfullscreen loading="lazy" referrerpolicy="strict-origin-when-cross-origin"></iframe><p class="anime-disclaimer">Jika pemutaran ditolak oleh penyedia, gunakan tombol buka episode di layanan resmi.</p></div><div class="anime-detail-section"><h3><i class="bi bi-collection-play"></i> Daftar episode</h3><div class="anime-episode-list">'+(episodes.length?episodes.map((e,i)=>'<div class="anime-episode-row"><strong>'+esc(e.title)+'</strong><div class="anime-card-actions"><button class="anime-primary-btn" type="button" onclick="playAnimeEpisode('+i+')">Putar</button><a class="anime-secondary-btn" href="'+esc(e.watchUrl)+'" target="_blank" rel="noopener noreferrer">Buka sumber ↗</a></div></div>').join(''):'<p>Belum ada episode yang ditambahkan. Masukkan URL episode resmi yang menyediakan sematan video.</p>')+'</div></div><details class="anime-add-panel"><summary><i class="bi bi-plus-circle-fill"></i> Tambahkan episode resmi</summary><form id="animeEpisodeForm" class="anime-form anime-episode-form"><label>Nama episode<input id="animeEpisodeTitle" required maxlength="100" placeholder="Episode 1"></label><label>URL episode di layanan resmi<input id="animeEpisodeWatch" type="url" required placeholder="https://..."></label><label>URL sematan video (opsional)<input id="animeEpisodeEmbed" type="url" placeholder="URL embed resmi, jika tersedia"></label><button class="anime-primary-btn" type="submit">Simpan episode</button></form></details>';
- const form=document.getElementById('animeEpisodeForm');form.addEventListener('submit',e=>{e.preventDefault();const items=loadAnime(),idx=items.findIndex(x=>x.id===currentAnimeId);if(idx<0)return;const watchUrl=safeHttps(document.getElementById('animeEpisodeWatch').value);if(!watchUrl){alert('Gunakan tautan HTTPS yang valid.');return}const rawEmbed=document.getElementById('animeEpisodeEmbed').value.trim();let embedUrl='';if(rawEmbed){embedUrl=validEmbed(rawEmbed);if(!embedUrl){alert('URL sematan harus berasal dari domain yang didukung, misalnya youtube.com, youtube-nocookie.com, atau bilibili.tv. Jika tidak ada, kosongkan kolom ini dan buka episode di layanan resmi.');return}}items[idx].episodes=items[idx].episodes||[];items[idx].episodes.push({title:document.getElementById('animeEpisodeTitle').value.trim(),watchUrl,embedUrl});if(saveAnime(items))renderAnimeDetail(items[idx])})}
- function validEmbed(v){const u=safeHttps(v);if(!u)return '';try{const host=new URL(u).hostname.toLowerCase();if(host==='youtube.com'||host.endsWith('.youtube.com')||host==='youtube-nocookie.com'||host.endsWith('.youtube-nocookie.com')||host==='bilibili.tv'||host.endsWith('.bilibili.tv'))return u;return ''}catch(e){return ''}}
- window.playAnimeEpisode=function(i){const a=loadAnime().find(x=>x.id===currentAnimeId),e=a?.episodes?.[i];if(!e)return;const embed=validEmbed(e.embedUrl||'');const wrap=document.getElementById('animePlayerWrap');document.getElementById('animeNowPlaying').textContent=e.title;wrap.classList.remove('d-none');const frame=document.getElementById('animePlayerFrame');if(embed){frame.src=embed;frame.classList.remove('d-none')}else{frame.removeAttribute('src');frame.classList.add('d-none');alert('Episode ini tidak memiliki URL sematan yang didukung. Episode akan dibuka di layanan resminya.');window.open(e.watchUrl,'_blank','noopener,noreferrer')}wrap.scrollIntoView({behavior:'smooth',block:'start'})};
- window.closeAnimeDetail=function(){document.getElementById('animeDetailPanel').classList.add('d-none');document.getElementById('animeCatalog').classList.remove('d-none');document.querySelector('.anime-search-wrap')?.classList.remove('d-none');document.querySelector('.anime-section-head')?.classList.remove('d-none');document.querySelector('.anime-add-panel')?.classList.remove('d-none');currentAnimeId=null;renderAnimeCatalog()};
- document.getElementById('animeAddForm')?.addEventListener('submit',e=>{e.preventDefault();const title=document.getElementById('animeTitleInput').value.trim(),officialUrl=safeHttps(document.getElementById('animeOfficialInput').value);if(!officialUrl){alert('Tautan halaman resmi harus menggunakan HTTPS.');return}const poster=safeHttps(document.getElementById('animePosterInput').value);const items=loadAnime();items.unshift({id:'anime-'+Date.now().toString(36)+'-'+Math.random().toString(36).slice(2,7),title,poster,officialUrl,description:document.getElementById('animeDescInput').value.trim(),episodes:[]});if(saveAnime(items)){e.target.reset();renderAnimeCatalog()}});
- document.addEventListener('DOMContentLoaded',renderAnimeCatalog);renderAnimeCatalog();
-})();
-</script>
+
 
 
 

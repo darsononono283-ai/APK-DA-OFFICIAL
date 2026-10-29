@@ -180,7 +180,7 @@ body {
 .stats-fill { height:100%; background:var(--blue); }
 .stats-count { min-width:32px; text-align:right; font-weight:1000; }
 @media(max-width:600px){ .stats-grid { grid-template-columns:repeat(2,minmax(0,1fr)); margin:22px 8px; } .stats-panel { margin:18px 8px; padding:14px; } .tabs { grid-template-columns:repeat(2,minmax(0,1fr)); } }
-#adminPanel,#quotePanel { display:none; }
+#adminPanel,#quotePanel { display:none; }\n#musicPanel { display:none; }
 #loginPanel { display:block; }
 #quoteStatus,#status,#loginStatus { margin-top:15px; }
 @media(max-width:500px) {
@@ -246,6 +246,9 @@ body {
 </button>
       <button class="tab-btn" id="statsTab" type="button" onclick="showSection('stats')">
         <i class="bi bi-bar-chart-fill"></i> STATISTIK
+      </button>
+      <button class="tab-btn" id="musicTab" type="button" onclick="showSection('music')">
+        <i class="bi bi-music-note-beamed"></i> ADMIN MUSIC
       </button>
       
     </div>
@@ -398,6 +401,46 @@ body {
       </div>
     </section>
 
+    <!-- PANEL ADMIN MUSIC: fitur tambahan, panel lama tetap dipertahankan -->
+    <section id="musicPanel" style="display:none">
+      <div class="admin-box comic">
+        <div class="comic-heading">
+          <i class="bi bi-music-note-list"></i>
+          <h2 id="musicFormTitle">Tambah Musik!</h2>
+          <p>Kelola koleksi lagu DA•OFFICIAL melalui URL MP3</p>
+        </div>
+        <form id="adminMusicForm">
+          <div class="mb-3">
+            <label class="form-label" for="musicTitle">Judul lagu</label>
+            <input id="musicTitle" class="form-control" maxlength="150" required placeholder="Contoh: Lagu Favorit">
+          </div>
+          <div class="mb-3">
+            <label class="form-label" for="musicArtist">Nama artis</label>
+            <input id="musicArtist" class="form-control" maxlength="150" placeholder="Contoh: DA•OFFICIAL">
+          </div>
+          <div class="mb-3">
+            <label class="form-label" for="musicUrl">URL MP3</label>
+            <input id="musicUrl" type="url" class="form-control" required placeholder="https://contoh.com/lagu.mp3">
+            <small class="text-muted">Masukkan tautan langsung ke file audio yang bisa diputar.</small>
+          </div>
+          <div class="mb-3">
+            <label class="form-label" for="musicCover">URL sampul (opsional)</label>
+            <input id="musicCover" type="url" class="form-control" placeholder="https://contoh.com/sampul.jpg">
+          </div>
+          <button type="submit" id="musicSaveBtn" class="btn-comic btn-blue">
+            <i class="bi bi-plus-circle"></i> TAMBAHKAN LAGU
+          </button>
+          <button type="button" id="musicCancelBtn" class="btn-comic btn-dark-comic mt-3" style="display:none">BATAL EDIT</button>
+        </form>
+        <div id="musicAdminStatus"></div>
+      </div>
+      <div class="item-list">
+        <h4>🎵 DAFTAR MUSIK</h4>
+        <div class="mb-3"><a href="music.html" class="back-btn" target="_blank" rel="noopener"><i class="bi bi-box-arrow-up-right"></i> Buka halaman Music</a></div>
+        <div id="adminMusicList"><div class="empty">Pilih menu Admin Music untuk memuat lagu.</div></div>
+      </div>
+    </section>
+
     <!-- DASHBOARD STATISTIK ADMIN -->
     <section id="statsPanel" style="display:none">
       <div class="container">
@@ -515,6 +558,7 @@ async function showAdmin() {
       <button onclick="logout()" class="logout-btn"><i class="bi bi-box-arrow-right"></i> Keluar</button>
     </div>`;
   await loadApps();
+  await loadAdminMusic();
 }
 async function checkSession() {
   if (!clientReady()) return;
@@ -537,17 +581,21 @@ function showSection(section) {
   const quotes = section === "quotes";
   const announcements = section === "announcements";
   const stats = section === "stats";
-  $("apkPanel").style.display = (!quotes && !announcements && !stats) ? "block" : "none";
+  const music = section === "music";
+  $("apkPanel").style.display = (!quotes && !announcements && !stats && !music) ? "block" : "none";
   $("quotePanel").style.display = quotes ? "block" : "none";
   $("announcementPanel").style.display = announcements ? "block" : "none";
   $("statsPanel").style.display = stats ? "block" : "none";
-  $("apkTab").classList.toggle("active", !quotes && !announcements && !stats);
+  $("musicPanel").style.display = music ? "block" : "none";
+  $("apkTab").classList.toggle("active", !quotes && !announcements && !stats && !music);
   $("quoteTab").classList.toggle("active", quotes);
   $("announcementTab").classList.toggle("active", announcements);
   $("statsTab").classList.toggle("active", stats);
+  $("musicTab").classList.toggle("active", music);
   if (quotes) loadQuotes();
   if (announcements) loadAnnouncements();
   if (stats) loadDashboardStats();
+  if (music) loadAdminMusic();
 }
 
 /* TAMBAH / EDIT APK */
@@ -817,6 +865,116 @@ async function loadDashboardStats() {
   $("statsRecent").innerHTML = downloads ? (recent.length ? recent.map(item => `<div class="item-card"><div class="item-name">${escapeHTML(appNames.get(String(item.app_id)) || item.app_id || "APK tidak dikenal")}</div><div class="item-info">${escapeHTML(item.created_at ? new Date(item.created_at).toLocaleString("id-ID") : "Waktu tidak tersedia")}</div></div>`).join("") : '<div class="empty">Belum ada aktivitas unduhan.</div>') : '<div class="empty">Data aktivitas tidak dapat dimuat.</div>';
   status.innerHTML = errors.length ? `<div class="alert alert-warning">Statistik dimuat sebagian. Periksa tabel atau izin RLS:<br>${errors.map(escapeHTML).join("<br>")}</div>` : '<div class="alert alert-success">Statistik berhasil diperbarui.</div>';
 }
+
+/* ADMIN MUSIC: CRUD lagu memakai Supabase client dan sesi admin yang sama */
+let editingMusicId = null;
+const adminMusicForm = document.getElementById("adminMusicForm");
+function isValidWebUrl(value) {
+  try { const u = new URL(value); return u.protocol === "https:" || u.protocol === "http:"; }
+  catch { return false; }
+}
+if (adminMusicForm) {
+  adminMusicForm.addEventListener("submit", async event => {
+    event.preventDefault();
+    const client = window.supabaseClient;
+    if (!client) return showMessage("musicAdminStatus", "Supabase belum terhubung. Periksa supabase.js.");
+    const { data: sessionData, error: sessionError } = await client.auth.getSession();
+    if (sessionError || !sessionData?.session) return showMessage("musicAdminStatus", "Sesi admin tidak ditemukan. Silakan login kembali.");
+    const title = $("musicTitle").value.trim();
+    const artist = $("musicArtist").value.trim();
+    const audio_url = $("musicUrl").value.trim();
+    const cover_url = $("musicCover").value.trim();
+    if (!title || !isValidWebUrl(audio_url) || (cover_url && !isValidWebUrl(cover_url))) {
+      return showMessage("musicAdminStatus", "Judul wajib diisi. URL MP3 dan sampul harus berupa tautan HTTP/HTTPS yang valid.");
+    }
+    const btn = $("musicSaveBtn");
+    btn.disabled = true;
+    btn.textContent = "MENYIMPAN...";
+    try {
+      const payload = { title, artist: artist || null, audio_url, cover_url: cover_url || null };
+      const result = editingMusicId !== null
+        ? await client.from("music_tracks").update(payload).eq("id", editingMusicId).select("id").maybeSingle()
+        : await client.from("music_tracks").insert([payload]).select("id").maybeSingle();
+      if (result.error) throw result.error;
+      if (editingMusicId !== null && !result.data) throw new Error("Tidak ada baris yang diperbarui. Periksa ID lagu dan izin UPDATE/RLS.");
+      showMessage("musicAdminStatus", editingMusicId !== null ? "Lagu berhasil diperbarui." : "Lagu berhasil ditambahkan.", "success");
+      resetAdminMusicForm();
+      await loadAdminMusic();
+    } catch (error) {
+      showMessage("musicAdminStatus", "Gagal menyimpan lagu: " + (error?.message || "Kesalahan tidak diketahui."));
+    } finally {
+      btn.disabled = false;
+      updateAdminMusicButton();
+    }
+  });
+}
+async function loadAdminMusic() {
+  const list = $("adminMusicList");
+  if (!list || !window.supabaseClient) return;
+  list.innerHTML = '<div class="empty">Memuat daftar musik...</div>';
+  const { data, error } = await window.supabaseClient.from("music_tracks").select("*").order("created_at", { ascending: false });
+  if (error) {
+    list.innerHTML = `<div class="empty">Gagal memuat musik: ${escapeHTML(error.message)}. Pastikan tabel music_tracks dibuat di Supabase.</div>`;
+    return;
+  }
+  if (!data?.length) {
+    list.innerHTML = '<div class="empty">Belum ada lagu. Tambahkan lagu pertama melalui formulir di atas.</div>';
+    return;
+  }
+  list.innerHTML = data.map(track => {
+    const cover = safeImage(track.cover_url) || "https://placehold.co/100x100?text=Music";
+    const audio = safeImage(track.audio_url);
+    return `<div class="item-card">
+      <div class="d-flex align-items-center gap-3">
+        <img src="${escapeHTML(cover)}" class="app-icon" alt="" onerror="this.onerror=null;this.src='https://placehold.co/100x100?text=Music'">
+        <div class="flex-grow-1">
+          <div class="item-name">${escapeHTML(track.title)}</div>
+          <div class="item-info">${escapeHTML(track.artist || "Artis tidak dicantumkan")}</div>
+          ${audio ? `<audio controls preload="none" style="width:100%;margin-top:8px" src="${escapeHTML(audio)}"></audio>` : ""}
+        </div>
+      </div>
+      <div class="d-flex gap-2 mt-3">
+        <button type="button" class="small-comic btn-edit" onclick="editAdminMusic('${escapeHTML(track.id)}')"><i class="bi bi-pencil"></i> Edit</button>
+        <button type="button" class="small-comic btn-delete" onclick="deleteAdminMusic('${escapeHTML(track.id)}')"><i class="bi bi-trash"></i> Hapus</button>
+      </div>
+    </div>`;
+  }).join("");
+}
+async function editAdminMusic(id) {
+  const { data, error } = await window.supabaseClient.from("music_tracks").select("*").eq("id", id).single();
+  if (error) return alert("Gagal membuka lagu: " + error.message);
+  editingMusicId = id;
+  $("musicTitle").value = data.title || "";
+  $("musicArtist").value = data.artist || "";
+  $("musicUrl").value = data.audio_url || "";
+  $("musicCover").value = data.cover_url || "";
+  $("musicFormTitle").textContent = "Edit Musik!";
+  $("musicCancelBtn").style.display = "block";
+  updateAdminMusicButton();
+  window.scrollTo({ top: 0, behavior: "smooth" });
+}
+async function deleteAdminMusic(id) {
+  if (!confirm("Yakin ingin menghapus lagu ini?")) return;
+  const { error } = await window.supabaseClient.from("music_tracks").delete().eq("id", id);
+  if (error) return alert("Gagal menghapus lagu: " + error.message);
+  await loadAdminMusic();
+}
+function resetAdminMusicForm() {
+  editingMusicId = null;
+  adminMusicForm.reset();
+  $("musicFormTitle").textContent = "Tambah Musik!";
+  $("musicCancelBtn").style.display = "none";
+  updateAdminMusicButton();
+}
+function updateAdminMusicButton() {
+  $("musicSaveBtn").innerHTML = editingMusicId !== null
+    ? '<i class="bi bi-save"></i> SIMPAN PERUBAHAN'
+    : '<i class="bi bi-plus-circle"></i> TAMBAHKAN LAGU';
+}
+$("musicCancelBtn").addEventListener("click", () => {
+  resetAdminMusicForm();
+  $("musicAdminStatus").innerHTML = "";
+});
 
 async function loadAnnouncements() {
   const list = document.getElementById("announcementList");
