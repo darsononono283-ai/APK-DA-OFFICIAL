@@ -1,100 +1,63 @@
 <!DOCTYPE html>
 <html lang="id">
 <head>
-<meta charset="UTF-8"><meta name="viewport" content="width=device-width, initial-scale=1"><meta name="theme-color" content="#ffe34d">
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<meta name="theme-color" content="#f8dede">
+<meta name="description" content="Cari dan putar musik di DA•MUSIC, fitur APK DA•OFFICIAL.">
 <title>DA•MUSIC - APK DA•OFFICIAL</title>
-<link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
-<link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.css" rel="stylesheet">
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css">
 <style>
-:root{--yellow:#ffe34d;--red:#ff514b;--blue:#52d9ff;--black:#171717;--paper:#fffdf4}
-*{box-sizing:border-box}body{margin:0;color:var(--black);font-family:Arial,sans-serif;font-weight:700;background:var(--yellow);background-image:radial-gradient(#171717 1px,transparent 1.5px);background-size:12px 12px;padding-bottom:40px}
-.navbar{background:var(--paper);border-bottom:4px solid var(--black);box-shadow:0 5px 0 var(--black)}.logo{font-size:19px;font-weight:1000}.logo span{color:var(--red)}
-.wrap{max-width:850px;margin:28px auto;padding:0 12px}.comic{background:var(--paper);border:4px solid var(--black);border-radius:18px;box-shadow:7px 7px 0 var(--black);padding:20px;margin-bottom:24px}
-h1,h2{font-weight:1000}.hero{background:var(--red);color:white;text-align:center}.search{border:3px solid var(--black);border-radius:10px;padding:12px;width:100%;font-weight:700}
-.track{display:flex;align-items:center;gap:12px;border:3px solid var(--black);border-radius:14px;padding:12px;margin:12px 0;background:white;box-shadow:3px 3px 0 var(--black)}
-.cover{width:62px;height:62px;border:3px solid var(--black);border-radius:10px;object-fit:cover;background:var(--blue);flex-shrink:0}.track-info{flex:1;min-width:0}.track-info strong{display:block;overflow-wrap:anywhere}.track-info small{color:#555}
-.track-actions{display:flex;flex-wrap:wrap;gap:6px;justify-content:flex-end}.play,.action-btn{border:3px solid var(--black);border-radius:9px;background:var(--blue);padding:7px 9px;font-weight:1000;color:var(--black);text-decoration:none;white-space:nowrap}.action-btn{background:#fff}.action-btn.active{background:var(--red);color:white}.section-head{display:flex;justify-content:space-between;align-items:center;gap:10px;flex-wrap:wrap}.count{background:var(--yellow);border:2px solid var(--black);border-radius:20px;padding:3px 9px}.empty{padding:22px;text-align:center;border:3px dashed var(--black);border-radius:12px;background:white}audio{width:100%;margin-top:8px}.back-btn{border:3px solid var(--black);border-radius:9px;padding:7px 10px;color:var(--black);background:var(--blue);text-decoration:none;font-weight:900}
-@media(max-width:480px){.track{gap:8px;padding:8px;align-items:flex-start}.cover{width:50px;height:50px}.track-actions{max-width:112px}.play,.action-btn{padding:6px;font-size:12px}.track-info{padding-top:3px}}
-</style></head>
+:root{--bg:#f8dede;--search:#f5baba;--ink:#242424;--muted:#746667;--red:#e63830;--line:#262323}
+*{box-sizing:border-box}body{margin:0;background:var(--bg);color:var(--ink);font-family:system-ui,-apple-system,"Segoe UI",sans-serif;padding-bottom:24px}
+.top{max-width:900px;margin:auto;padding:22px 18px 0}.searchbox{display:flex;align-items:center;gap:16px;border:6px solid var(--line);border-radius:17px;background:var(--search);padding:0 22px;min-height:88px}.searchbox i{font-size:30px;color:#555}.searchbox input{width:100%;min-width:0;border:0;outline:0;background:transparent;font:600 1.2rem system-ui;color:var(--ink)}.searchbox input::placeholder{color:#62595a}
+.tabs{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:4px;margin:20px -18px 0;padding:0 12px 14px;border-bottom:6px solid var(--line)}.tab{display:flex;align-items:center;justify-content:center;flex-direction:column;gap:6px;border:0;background:transparent;color:#555;padding:6px 1px;font-weight:1000;cursor:pointer}.tab i{font-size:27px}.tab span{font-size:clamp(.65rem,2.6vw,.95rem);font-weight:1000;font-style:italic;white-space:nowrap}.tab.active{color:var(--red)}
+main{max-width:850px;margin:0 auto;padding:18px}.panel{display:none}.panel.active{display:block}.results{display:grid;gap:10px}.track{display:flex;align-items:center;gap:12px;padding:12px;background:#fff3f2;border:2px solid #d8b9b9;border-radius:14px}.cover{width:54px;height:54px;flex:0 0 54px;border-radius:10px;background:#f0c4c4;display:grid;place-items:center;font-size:23px;overflow:hidden}.cover img{width:100%;height:100%;object-fit:cover}.meta{flex:1;min-width:0}.meta strong,.meta small{display:block;overflow-wrap:anywhere}.meta small{color:var(--muted);margin-top:3px}.actions{display:flex;gap:7px;align-items:center}.iconbtn{border:0;background:transparent;color:#555;font-size:22px;padding:7px;cursor:pointer}.iconbtn.active{color:var(--red)}.empty{text-align:center;padding:90px 15px;color:var(--muted)}.empty i{font-size:78px;color:#b7a2a3;display:block;margin-bottom:24px}.empty h1{font-size:1.6rem;color:var(--ink);margin:0 0 12px}.empty p{font-size:1.05rem;margin:0}.player{position:sticky;bottom:0;z-index:5;background:#f4caca;border-top:2px solid #cba9a9;padding:10px 14px;display:none}.player.show{display:block}.player-title{font-weight:800}.player small{display:block;color:var(--muted)}audio{width:100%;height:38px;margin-top:5px}.status{font-size:.83rem;color:var(--muted);padding:8px 2px}.back{display:inline-flex;align-items:center;gap:7px;margin-top:12px;color:var(--ink);font-weight:800;text-decoration:none}.back i{font-size:20px}
+@media(max-width:480px){.top{padding:16px 12px 0}.searchbox{min-height:72px;border-width:5px;padding:0 15px;gap:12px}.searchbox input{font-size:1rem}.tabs{margin-top:15px;margin-left:-12px;margin-right:-12px;padding-left:5px;padding-right:5px}.tab i{font-size:24px}main{padding:12px}.track{gap:8px;padding:8px}.cover{width:44px;height:44px;flex-basis:44px}.iconbtn{font-size:20px;padding:4px}.empty{padding-top:75px}}
+</style>
+</head>
 <body>
-<nav class="navbar"><div class="container py-3 d-flex justify-content-between align-items-center gap-2"><div class="logo"><i class="bi bi-lightning-charge-fill"></i> APK <span>DA•OFFICIAL</span></div><a href="index.html" class="back-btn"><i class="bi bi-house"></i> Beranda</a></div></nav>
-<main class="wrap">
-<section class="comic hero"><h1><i class="bi bi-music-note-beamed"></i> DA•MUSIC</h1><p class="mb-0">Koleksi musik pilihan DA•OFFICIAL</p></section>
-<section class="comic"><h2 class="h5">🎧 Pemutar Musik</h2><div id="nowTitle">Pilih lagu untuk mulai memutar</div><div id="nowArtist" class="text-secondary small"></div><audio id="audioPlayer" controls preload="metadata" style="display:none"></audio><div id="playerStatus" class="small mt-2">Memuat daftar lagu...</div></section>
-<section class="comic">
-<div class="section-head mb-3"><h2 class="h5 mb-0">🔎 Cari Musik</h2><span id="resultCount" class="count">0 lagu</span></div>
-<input id="musicSearch" class="search mb-3" type="search" placeholder="Cari judul lagu atau artis...">
-<div id="trackList"><div class="empty">Memuat musik...</div></div>
-</section>
-<section class="comic">
-<div class="section-head"><h2 class="h5 mb-0">❤️ Lagu Favorit</h2><span id="favoriteCount" class="count">0 lagu</span></div>
-<div id="favoriteList" class="mt-2"><div class="empty">Belum ada lagu favorit.</div></div>
-</section>
-<section class="comic">
-<div class="section-head"><h2 class="h5 mb-0">📃 Playlist Saya</h2><span id="playlistCount" class="count">0 lagu</span></div>
-<p class="small text-secondary mt-2 mb-2">Tambahkan lagu dengan tombol Playlist. Daftar ini tersimpan di perangkat ini.</p>
-<div id="playlistList"><div class="empty">Playlist masih kosong.</div></div>
-</section>
+<header class="top">
+  <label class="searchbox"><i class="bi bi-search" aria-hidden="true"></i><input id="search" type="search" placeholder="Search songs, artists..." aria-label="Cari lagu atau artis" autocomplete="off"></label>
+  <nav class="tabs" aria-label="Menu musik">
+    <button class="tab active" data-tab="search"><i class="bi bi-search"></i><span>SEARCH</span></button>
+    <button class="tab" data-tab="playlist"><i class="bi bi-music-note-list"></i><span>PLAYLIST</span></button>
+    <button class="tab" data-tab="favorites"><i class="bi bi-heart-fill"></i><span>FAVORITES</span></button>
+    <button class="tab" data-tab="downloads"><i class="bi bi-download"></i><span>DOWNLOADS</span></button>
+  </nav>
+  <a class="back" href="./index.html"><i class="bi bi-arrow-left-circle"></i> Kembali ke APK DA•OFFICIAL</a>
+</header>
+<main>
+  <section class="panel active" id="searchPanel"><div id="searchResults" class="results"></div><div id="searchEmpty" class="empty"><i class="bi bi-search"></i><h1>Search for music</h1><p>Find songs, artists, or albums</p></div></section>
+  <section class="panel" id="playlistPanel"><div id="playlistResults" class="results"></div><div id="playlistEmpty" class="empty"><i class="bi bi-music-note-list"></i><h1>Your playlist</h1><p>Tambahkan lagu ke playlist dengan ikon daftar.</p></div></section>
+  <section class="panel" id="favoritesPanel"><div id="favoritesResults" class="results"></div><div id="favoritesEmpty" class="empty"><i class="bi bi-heart"></i><h1>Your favorites</h1><p>Lagu yang kamu tandai akan muncul di sini.</p></div></section>
+  <section class="panel" id="downloadsPanel"><div id="downloadsResults" class="results"></div><div id="downloadsEmpty" class="empty"><i class="bi bi-download"></i><h1>Your downloads</h1><p>Riwayat unduhan lagu akan muncul di sini.</p></div></section>
+  <p id="status" class="status" role="status">Menghubungkan daftar lagu...</p>
 </main>
-<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script><script src="supabase.js"></script>
+<div class="player" id="player"><div class="player-title" id="nowTitle">Pilih lagu</div><small id="nowArtist"></small><audio id="audio" controls preload="none"></audio></div>
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+<script src="./supabase.js"></script>
 <script>
 (()=> {
-const $=id=>document.getElementById(id),player=$("audioPlayer"),list=$("trackList"),status=$("playerStatus");
-let tracks=[],currentIndex=-1;
-const KEY_FAV="da_official_music_favorites_v1",KEY_PLAY="da_official_music_playlist_v1";
-const readStore=key=>{try{const v=JSON.parse(localStorage.getItem(key)||"[]");return Array.isArray(v)?v:[]}catch{return []}};
-const writeStore=(key,value)=>{try{localStorage.setItem(key,JSON.stringify(value))}catch{}};
-let favorites=readStore(KEY_FAV),playlist=readStore(KEY_PLAY);
-const esc=v=>String(v??"").replace(/[&<>"']/g,c=>({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;","'":"&#039;"}[c]));
-const safeUrl=v=>{try{const u=new URL(v);return ["http:","https:"].includes(u.protocol)?u.href:""}catch{return ""}};
-const isFavorite=id=>favorites.includes(String(id));
-const inPlaylist=id=>playlist.includes(String(id));
-const getTrack=id=>tracks.find(t=>String(t.id)===String(id));
-function updateCounts(){
-$("favoriteCount").textContent=favorites.filter(id=>getTrack(id)).length+" lagu";
-$("playlistCount").textContent=playlist.filter(id=>getTrack(id)).length+" lagu";
-}
-function trackCard(t,where="main"){
-const cover=safeUrl(t.cover_url)||"https://placehold.co/100x100?text=Music";
-const fav=isFavorite(t.id),queued=inPlaylist(t.id),downloadUrl=safeUrl(t.audio_url);
-const fileName=(t.title||"lagu").replace(/[^a-z0-9 _.-]/gi,"").trim()||"lagu";
-return `<article class="track">
-<img class="cover" src="${esc(cover)}" alt="" loading="lazy" onerror="this.onerror=null;this.src='https://placehold.co/100x100?text=Music'">
-<div class="track-info"><strong>${esc(t.title)}</strong><small>${esc(t.artist||"Artis tidak dicantumkan")}</small></div>
-<div class="track-actions">
-<button class="play" data-play="${esc(t.id)}" type="button" title="Putar lagu"><i class="bi bi-play-fill"></i> Putar</button>
-<button class="action-btn ${fav?'active':''}" data-fav="${esc(t.id)}" type="button" title="Favorit"><i class="bi bi-heart${fav?'-fill':''}"></i></button>
-<button class="action-btn ${queued?'active':''}" data-queue="${esc(t.id)}" type="button" title="Playlist"><i class="bi bi-music-note-list"></i></button>
-<a class="action-btn" href="${esc(downloadUrl)}" download="${esc(fileName)}.mp3" target="_blank" rel="noopener" title="Download lagu"><i class="bi bi-download"></i></a>
-${where!=="main"?`<button class="action-btn" data-remove="${esc(t.id)}" data-from="${where}" type="button" title="Hapus dari daftar"><i class="bi bi-trash"></i></button>`:""}
-</div></article>`;
-}
-function bindActions(root){
-root.querySelectorAll("[data-play]").forEach(b=>b.addEventListener("click",()=>{const i=tracks.findIndex(t=>String(t.id)===b.dataset.play);playTrack(i)}));
-root.querySelectorAll("[data-fav]").forEach(b=>b.addEventListener("click",()=>{const id=String(b.dataset.fav);favorites=isFavorite(id)?favorites.filter(x=>x!==id):[...favorites,id];writeStore(KEY_FAV,favorites);renderAll()}));
-root.querySelectorAll("[data-queue]").forEach(b=>b.addEventListener("click",()=>{const id=String(b.dataset.queue);playlist=inPlaylist(id)?playlist.filter(x=>x!==id):[...playlist,id];writeStore(KEY_PLAY,playlist);renderAll();status.textContent=inPlaylist(id)?"Lagu ditambahkan ke playlist.":"Lagu dihapus dari playlist."}));
-root.querySelectorAll("[data-remove]").forEach(b=>b.addEventListener("click",()=>{const id=String(b.dataset.remove);if(b.dataset.from==="favorite")favorites=favorites.filter(x=>x!==id);else playlist=playlist.filter(x=>x!==id);writeStore(KEY_FAV,favorites);writeStore(KEY_PLAY,playlist);renderAll()}));
-}
-function render(){
-const q=$("musicSearch").value.trim().toLowerCase();
-const filtered=tracks.filter(t=>(t.title+" "+(t.artist||"")).toLowerCase().includes(q));
-$("resultCount").textContent=filtered.length+" lagu";
-list.innerHTML=filtered.length?filtered.map(t=>trackCard(t)).join(""):'<div class="empty">'+(q?'Lagu tidak ditemukan.':'Belum ada lagu yang ditambahkan admin.')+'</div>';
-bindActions(list);
-}
-function renderFavorites(){const items=favorites.map(getTrack).filter(Boolean);const root=$("favoriteList");root.innerHTML=items.length?items.map(t=>trackCard(t,"favorite")).join(""):'<div class="empty">Belum ada lagu favorit. Tekan ikon hati pada lagu pilihanmu.</div>';bindActions(root)}
-function renderPlaylist(){const items=playlist.map(getTrack).filter(Boolean);const root=$("playlistList");root.innerHTML=items.length?items.map(t=>trackCard(t,"playlist")).join(""):'<div class="empty">Playlist masih kosong. Tekan ikon daftar pada lagu untuk menambahkannya.</div>';bindActions(root)}
-function renderAll(){render();renderFavorites();renderPlaylist();updateCounts()}
-function playTrack(i){const t=tracks[i];if(!t)return;const url=safeUrl(t.audio_url);if(!url){status.textContent="URL audio tidak valid.";return}currentIndex=i;player.src=url;player.style.display="block";$("nowTitle").textContent=t.title;$("nowArtist").textContent=t.artist||"Artis tidak dicantumkan";status.textContent="Memutar: "+t.title;player.play().catch(()=>status.textContent="Tekan tombol putar di pemutar audio.")}
-player.addEventListener("ended",()=>{if(currentIndex>=0&&currentIndex+1<tracks.length)playTrack(currentIndex+1)});
-$("musicSearch").addEventListener("input",render);
-async function loadTracks(){
-if(!window.supabaseClient){status.textContent="Supabase belum terhubung. Periksa supabase.js.";list.innerHTML='<div class="empty">Client Supabase tidak ditemukan.</div>';return}
-const {data,error}=await window.supabaseClient.from("music_tracks").select("id,title,artist,audio_url,cover_url,created_at").order("created_at",{ascending:false});
-if(error){status.textContent="Gagal memuat lagu. Periksa tabel music_tracks dan izin SELECT.";list.innerHTML='<div class="empty">'+esc(error.message)+'</div>';return}
-tracks=data||[];favorites=favorites.filter(id=>tracks.some(t=>String(t.id)===id));playlist=playlist.filter(id=>tracks.some(t=>String(t.id)===id));writeStore(KEY_FAV,favorites);writeStore(KEY_PLAY,playlist);
-status.textContent=tracks.length?"Pilih lagu, simpan favorit, atau susun playlist.":"Belum ada lagu di koleksi.";renderAll();
-}
-loadTracks();
+'use strict';
+const $=id=>document.getElementById(id), KEY='da_music_v2_', state={tracks:[],tab:'search'};
+const read=k=>{try{const v=JSON.parse(localStorage.getItem(KEY+k)||'[]');return Array.isArray(v)?v:[]}catch{return []}};
+const write=(k,v)=>{try{localStorage.setItem(KEY+k,JSON.stringify(v))}catch{}};
+const esc=v=>String(v??'').replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
+const url=v=>{try{const u=new URL(v);return ['https:','http:'].includes(u.protocol)?u.href:''}catch{return ''}};
+const ids=k=>read(k).map(String);
+function trackCard(t){const id=String(t.id),fav=ids('favorites').includes(id),queued=ids('playlist').includes(id),audioUrl=url(t.audio_url||t.url),cover=url(t.cover_url||t.cover_url);
+return `<article class="track"><div class="cover">${cover?`<img src="${esc(cover)}" alt="" loading="lazy">`:'<i class="bi bi-music-note-beamed"></i>'}</div><div class="meta"><strong>${esc(t.title||'Lagu tanpa judul')}</strong><small>${esc(t.artist||'Artis tidak dicantumkan')}</small></div><div class="actions"><button class="iconbtn" data-play="${esc(id)}" aria-label="Putar lagu"><i class="bi bi-play-circle-fill"></i></button><button class="iconbtn ${fav?'active':''}" data-fav="${esc(id)}" aria-label="Favorit"><i class="bi bi-heart${fav?'-fill':''}"></i></button><button class="iconbtn ${queued?'active':''}" data-queue="${esc(id)}" aria-label="Playlist"><i class="bi bi-music-note-list"></i></button><a class="iconbtn" href="${esc(audioUrl||'#')}" ${audioUrl?'download target="_blank" rel="noopener" data-download="'+esc(id)+'"':'aria-disabled="true"'} aria-label="Unduh lagu"><i class="bi bi-download"></i></a></div></article>`}
+function setList(kind,items){const root=$(kind+'Results'),empty=$(kind+'Empty');root.innerHTML=items.map(trackCard).join('');empty.style.display=items.length?'none':'block'}
+function render(){const q=$('search').value.trim().toLowerCase();setList('search',state.tracks.filter(t=>(String(t.title)+' '+String(t.artist||'')).toLowerCase().includes(q)));setList('playlist',state.tracks.filter(t=>ids('playlist').includes(String(t.id))));setList('favorites',state.tracks.filter(t=>ids('favorites').includes(String(t.id))));setList('downloads',state.tracks.filter(t=>ids('downloads').includes(String(t.id))))}
+function tab(name){state.tab=name;document.querySelectorAll('.tab').forEach(b=>b.classList.toggle('active',b.dataset.tab===name));document.querySelectorAll('.panel').forEach(p=>p.classList.toggle('active',p.id===name+'Panel'));render()}
+function play(id){const t=state.tracks.find(x=>String(x.id)===String(id));if(!t)return;const src=url(t.audio_url||t.url);if(!src){$('status').textContent='URL audio lagu ini belum valid.';return}$('player').classList.add('show');$('nowTitle').textContent=t.title||'Lagu';$('nowArtist').textContent=t.artist||'';$('audio').src=src;$('audio').play().catch(()=>{$('status').textContent='Audio belum dapat diputar. Periksa URL MP3 dan izin server.'});}
+document.querySelectorAll('.tab').forEach(b=>b.addEventListener('click',()=>tab(b.dataset.tab)));
+$('search').addEventListener('input',render);
+document.body.addEventListener('click',e=>{const b=e.target.closest('button[data-play],button[data-fav],button[data-queue]'),dl=e.target.closest('[data-download]');if(b){const id=String(b.dataset.play||b.dataset.fav||b.dataset.queue);if(b.dataset.play)play(id);else {const key=b.dataset.fav?'favorites':'playlist',list=ids(key),next=list.includes(id)?list.filter(x=>x!==id):[...list,id];write(key,next);render()} }if(dl){const id=String(dl.dataset.download);write('downloads',[id,...ids('downloads').filter(x=>x!==id)].slice(0,100));render()}});
+async function load(){try{if(!window.supabaseClient){$('status').textContent='Koneksi Supabase belum tersedia. Periksa file supabase.js.';return}const {data,error}=await window.supabaseClient.from('music_tracks').select('*').order('created_at',{ascending:false});if(error)throw error;state.tracks=(data||[]).filter(t=>url(t.audio_url||t.url));$('status').textContent=state.tracks.length?state.tracks.length+' lagu tersedia.':'Belum ada lagu. Admin dapat menambahkan lagu melalui panel admin.';render()}catch(e){$('status').textContent='Gagal memuat musik: '+(e.message||'Periksa tabel music_tracks di Supabase.');render()}}
+load();
 })();
-</script></body></html>
+</script>
+</body>
+</html>
