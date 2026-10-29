@@ -553,35 +553,68 @@ function showSection(section) {
 /* TAMBAH / EDIT APK */
 form.addEventListener("submit", async e => {
   e.preventDefault();
-  const {data:{session}} = await supabaseClient.auth.getSession();
-  if (!session) {
-    showMessage("status","Sesi admin berakhir. Login kembali.");
+
+  if (!window.supabaseClient) {
+    showMessage("status","Koneksi Supabase belum tersedia. Periksa supabase.js.");
     return;
   }
 
-  const appData = {
-    name:$("name").value.trim(),
-    description:$("description").value.trim(),
-    version:$("version").value.trim(),
-    size:$("size").value.trim(),
-    category:$("category").value,
-    icon:$("icon").value.trim(),
-    download_url:$("download_url").value.trim()
-  };
   saveBtn.disabled = true;
-  saveBtn.textContent = "MENYIMPAN...";
+  saveBtn.innerHTML = '<i class="bi bi-hourglass-split"></i> MENYIMPAN...';
 
   try {
-    const result = editingId
-      ? await supabaseClient.from("apps").update(appData).eq("id",editingId)
-      : await supabaseClient.from("apps").insert([appData]);
-    if (result.error) throw result.error;
+    const { data: sessionData, error: sessionError } = await window.supabaseClient.auth.getSession();
+    if (sessionError) throw sessionError;
+    if (!sessionData?.session) {
+      showMessage("status","Sesi admin berakhir. Login kembali.");
+      return;
+    }
 
-    showMessage("status",editingId ? "APK berhasil diperbarui!" : "APK berhasil ditambahkan!","success");
+    const appData = {
+      name:$("name").value.trim(),
+      description:$("description").value.trim(),
+      version:$("version").value.trim(),
+      size:$("size").value.trim(),
+      category:$("category").value,
+      icon:$("icon").value.trim(),
+      download_url:$("download_url").value.trim()
+    };
+
+    if (!appData.name || !appData.download_url) {
+      showMessage("status","Nama aplikasi dan URL download wajib diisi.");
+      return;
+    }
+
+    if (editingId !== null && editingId !== undefined) {
+      // select() memastikan kita mengetahui apakah baris benar-benar diperbarui.
+      const { data, error } = await window.supabaseClient
+        .from("apps")
+        .update(appData)
+        .eq("id", editingId)
+        .select("id")
+        .maybeSingle();
+
+      if (error) throw error;
+
+      if (!data) {
+        throw new Error("Tidak ada data APK yang diperbarui. ID mungkin tidak cocok atau izin UPDATE/RLS Supabase menolak perubahan.");
+      }
+
+      showMessage("status","APK berhasil diperbarui!","success");
+    } else {
+      const { error } = await window.supabaseClient
+        .from("apps")
+        .insert([appData]);
+
+      if (error) throw error;
+      showMessage("status","APK berhasil ditambahkan!","success");
+    }
+
     resetAppForm();
     await loadApps();
   } catch(error) {
-    showMessage("status","Gagal menyimpan APK: " + error.message);
+    console.error("Gagal menyimpan APK:", error);
+    showMessage("status","Gagal menyimpan APK: " + (error?.message || "Kesalahan tidak diketahui."));
   } finally {
     saveBtn.disabled = false;
     updateAppButton();
