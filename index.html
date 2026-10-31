@@ -827,6 +827,166 @@ html[data-mode="dark"] #settingsPanel { background:var(--card); color:var(--ink)
 .anime-api-panel .anime-section-head{margin-bottom:8px}
 @media(max-width:560px){.anime-api-search-form{grid-template-columns:1fr 1fr}.anime-api-search-form input{grid-column:1/-1}.anime-api-search-form .anime-primary-btn,.anime-api-search-form .anime-secondary-btn{width:100%;justify-content:center}}
 
+
+    /* BACKGROUND VIDEO: lapisan visual di belakang seluruh konten */
+    html { min-height:100%; background:#071321; }
+    body {
+      position:relative;
+      isolation:isolate;
+      background:transparent !important;
+      min-height:100vh;
+    }
+    .site-video-background {
+      position:fixed;
+      inset:0;
+      z-index:-1;
+      overflow:hidden;
+      pointer-events:none;
+      background:
+        radial-gradient(ellipse at 20% 20%, rgba(20,105,160,.38), transparent 48%),
+        linear-gradient(135deg,#071321 0%,#101b31 55%,#080e1b 100%);
+    }
+    .site-video-background video {
+      position:absolute;
+      inset:0;
+      width:100%;
+      height:100%;
+      object-fit:cover;
+      object-position:center;
+      opacity:.52;
+      filter:saturate(.9) contrast(1.05);
+    }
+    .site-video-overlay {
+      position:absolute;
+      inset:0;
+      background:
+        linear-gradient(180deg,rgba(5,12,25,.58),rgba(5,12,25,.72)),
+        radial-gradient(ellipse at center,transparent 15%,rgba(3,8,18,.32) 100%);
+    }
+    /* Panel dibuat sedikit transparan agar video tampak tanpa mengorbankan keterbacaan. */
+    .comic-panel,.app-card,.feature-tile,.search-box {
+      backdrop-filter:blur(5px);
+      -webkit-backdrop-filter:blur(5px);
+    }
+    @media (max-width:600px) {
+      .site-video-background video { opacity:.38; }
+      .site-video-overlay {
+        background:linear-gradient(180deg,rgba(5,12,25,.68),rgba(5,12,25,.78));
+      }
+    }
+    @media (prefers-reduced-motion:reduce) {
+      .site-video-background video { display:none; }
+      .site-video-background { background:#0b1728; }
+    }
+
+
+    /* VIDEO LOADING ONE PIECE: berada di belakang panel loader */
+    #loading { overflow:hidden; isolation:isolate; background:#061321; }
+    #loading .loader-video {
+      position:absolute; inset:0; z-index:-2;
+      width:100%; height:100%; object-fit:cover; object-position:center;
+      opacity:.72; pointer-events:none;
+    }
+    #loading .loader-video-overlay {
+      position:absolute; inset:0; z-index:-1; pointer-events:none;
+      background:linear-gradient(180deg,rgba(3,12,25,.48),rgba(3,12,25,.76)),
+                 radial-gradient(ellipse at center,transparent 0%,rgba(2,8,18,.35) 100%);
+    }
+    #loading .loader-content {
+      background:rgba(8,20,36,.78) !important;
+      color:#fff !important;
+      border:1px solid rgba(160,210,255,.28) !important;
+      border-radius:22px !important;
+      box-shadow:0 18px 55px rgba(0,0,0,.38) !important;
+      backdrop-filter:blur(12px);
+      -webkit-backdrop-filter:blur(12px);
+    }
+    #loading .loader-subtitle,
+    #loading .loader-status,
+    #loading .loader-footer { color:#eaf4ff !important; }
+    #loading .loader-message { color:#c9d9eb !important; }
+    #loading .loader-welcome {
+      color:#fff !important;
+      text-shadow:0 2px 18px rgba(50,160,255,.5) !important;
+    }
+    @media (max-width:600px) {
+      #loading .loader-video { opacity:.58; }
+      #loading .loader-content { width:min(340px,90vw); padding:22px 17px 18px; }
+    }
+    @media (prefers-reduced-motion:reduce) {
+      #loading .loader-video { display:none; }
+    }
+
+
+/* LOADING VIDEO + DESAIN PREMIUM */
+#loading{
+  position:fixed!important;inset:0!important;z-index:99999!important;
+  display:flex!important;align-items:center!important;justify-content:center!important;
+  padding:22px!important;overflow:hidden!important;isolation:isolate;
+  background:#061321!important;color:#fff!important;
+}
+#loading .loader-video{
+  position:absolute;inset:0;z-index:-2;width:100%;height:100%;
+  object-fit:cover;object-position:center;opacity:.88;pointer-events:none;
+}
+#loading .loader-video-overlay{
+  position:absolute;inset:0;z-index:-1;pointer-events:none;
+  background:linear-gradient(180deg,rgba(3,10,24,.28),rgba(3,10,24,.62)),
+    radial-gradient(ellipse at center,rgba(6,28,49,.05),rgba(2,8,18,.42));
+}
+#loading .loader-content{
+  position:relative;z-index:2;width:min(370px,92vw);
+  padding:25px 22px 22px;text-align:center;color:#f5f9ff!important;
+  background:linear-gradient(145deg,rgba(7,25,45,.82),rgba(8,17,32,.72))!important;
+  border:1px solid rgba(177,220,255,.36)!important;border-radius:26px!important;
+  box-shadow:0 20px 65px rgba(0,0,0,.42),inset 0 1px 0 rgba(255,255,255,.16)!important;
+  backdrop-filter:blur(14px);-webkit-backdrop-filter:blur(14px);
+}
+#loading .loader-ring{
+  width:124px;height:124px;margin:0 auto 19px;padding:6px;
+  border:2px solid rgba(172,220,255,.75)!important;
+  background:conic-gradient(#5bd5ff,#2875bd,#a6e8ff,#5bd5ff)!important;
+  box-shadow:0 0 28px rgba(57,174,255,.32)!important;
+}
+#loading .loader-logo{
+  width:102px;height:102px;border:2px solid rgba(255,255,255,.7)!important;
+  background:linear-gradient(145deg,#102d4c,#07182b)!important;
+  color:#fff!important;box-shadow:inset 0 0 20px rgba(74,183,255,.2)!important;
+}
+#loading .loader-logo strong,#loading .loader-crown,#loading .loader-brand{
+  color:#fff!important;text-shadow:0 0 12px rgba(91,213,255,.55)!important;
+}
+#loading .loader-ribbon{
+  background:#17679b!important;color:#fff!important;border:1px solid #8cddff!important;
+  letter-spacing:1px;
+}
+#loading .loader-welcome{
+  color:#fff!important;font-size:clamp(20px,5.5vw,27px);
+  text-shadow:0 2px 18px rgba(54,177,255,.6)!important;
+}
+#loading .loader-subtitle{color:#a9ddff!important;letter-spacing:2.5px}
+#loading .loader-message{color:#e1edf8!important}
+#loading .loader-track{
+  height:12px;padding:2px;border:1px solid rgba(199,230,255,.5)!important;
+  background:rgba(255,255,255,.16)!important;box-shadow:none!important;
+}
+#loading .loader-progress{
+  background:linear-gradient(90deg,#36a9f5,#a5ecff)!important;
+  box-shadow:0 0 12px rgba(91,213,255,.65);
+}
+#loading #loaderPercent{color:#a9e6ff!important}
+#loading .loader-status,#loading .loader-footer{color:#d4eaff!important}
+#loading.hide{opacity:0!important;visibility:hidden!important;pointer-events:none!important}
+@media(max-height:650px){
+  #loading .loader-content{padding:16px;width:min(340px,92vw)}
+  #loading .loader-ring{width:96px;height:96px;margin-bottom:12px}
+  #loading .loader-logo{width:78px;height:78px}
+  #loading .loader-logo strong{font-size:23px}
+  #loading .loader-message{margin:12px 0 9px}
+  #loading .loader-footer{margin-top:12px}
+}
+@media(prefers-reduced-motion:reduce){#loading .loader-video{display:none}}
+
 </style>  
   <script data-cfasync="false" src="https://accountut.com/1/e65196dc30ce7366edb273c1025596f5"></script>
   <link rel="manifest" href="./manifest.json">
@@ -857,10 +1017,34 @@ html[data-mode="dark"] #settingsPanel { background:var(--card); color:var(--ink)
   #apkdaCaptchaMessage{min-height:1.3em;margin-top:10px;font-size:.84rem;font-weight:800;color:#c62828}
   @keyframes apkdaCaptchaPop{from{opacity:0;transform:translateY(12px) scale(.97)}to{opacity:1;transform:translateY(0) scale(1)}}
   @media(prefers-reduced-motion:reduce){.apkda-captcha-card{animation:none}}
+
+/* Perbaikan fokus kolom pencarian: hilangkan kotak biru bawaan browser */
+#searchInput,
+#searchInput:focus,
+#searchInput:focus-visible {
+  outline: none !important;
+  box-shadow: none !important;
+}
+#searchInput::-webkit-search-cancel-button {
+  cursor: pointer;
+}
+
 </style>
 
 </head>  
-<body>  
+<body>
+
+<!-- BACKGROUND VIDEO ANIME
+     Simpan video MP4 yang kamu punya hak untuk gunakan dengan nama:
+     background-one-piece.mp4 di folder yang sama dengan index.html.
+-->
+<div class="site-video-background" id="siteVideoBackground" aria-hidden="true">
+  <video id="siteBackgroundVideo" autoplay muted loop playsinline preload="metadata">
+    <source src="./background-one-piece.mp4" type="video/mp4">
+  </video>
+  <div class="site-video-overlay"></div>
+</div>
+  
 
 <div id="apkdaCaptchaGate" role="dialog" aria-modal="true" aria-labelledby="apkdaCaptchaTitle" aria-describedby="apkdaCaptchaDescription">
   <form class="apkda-captcha-card" id="apkdaCaptchaForm" autocomplete="off">
@@ -878,33 +1062,29 @@ html[data-mode="dark"] #settingsPanel { background:var(--card); color:var(--ink)
 </div>
 
 <div id="loading" role="status" aria-label="Memuat website">
-  <div class="loader-bg-effects"></div>
-
+  <video class="loader-video" id="loaderVideo" autoplay muted loop playsinline preload="auto" aria-hidden="true">
+    <source src="./loading-one-piece.mp4" type="video/mp4">
+  </video>
+  <div class="loader-video-overlay"></div>
   <div class="loader-content">
     <div class="loader-ring">
       <div class="loader-logo">
         <span class="loader-crown">♛</span>
         <strong>APK</strong>
         <span class="loader-brand">DA•OFFICIAL</span>
-        <span class="loader-ribbon">DOWNLOAD APK</span>
+        <span class="loader-ribbon">GRAND LINE</span>
       </div>
     </div>
-
     <div class="loader-welcome">SELAMAT DATANG</div>
     <div class="loader-subtitle">DI APK DA•OFFICIAL</div>
-
-    <p class="loader-message">Menyiapkan sesuatu yang keren...</p>
-
-    <div class="loader-track">
-      <div id="loaderProgress" class="loader-progress"></div>
-    </div>
-
+    <p class="loader-message">Menyiapkan petualangan digitalmu...</p>
+    <div class="loader-track"><div id="loaderProgress" class="loader-progress"></div></div>
     <div id="loaderPercent">0%</div>
     <div class="loader-status">MEMUAT WEBSITE...</div>
     <div class="loader-footer">★ MOHON TUNGGU SEBENTAR ★</div>
   </div>
 </div>
-  <header class="comic-header">  
+<header class="comic-header">  
     <div class="container main-width py-3 d-flex align-items-center gap-3">  
       <a class="brand" href="#" onclick="showPage('home');return false;"><i class="bi bi-box-seam-fill"></i> APK<span>DA•OFFICIAL</span></a>  
       <div class="ms-auto d-flex align-items-center gap-3">  
@@ -1656,6 +1836,59 @@ window.addEventListener("load", function () {
   });
   if(document.readyState==='loading')document.addEventListener('DOMContentLoaded',openGate,{once:true});
   else openGate();
+})();
+</script>
+
+
+<script>
+(() => {
+  const video = document.getElementById("siteBackgroundVideo");
+  if (!video) return;
+
+  const reduceMotion = window.matchMedia &&
+    window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+
+  if (reduceMotion) {
+    video.pause();
+    return;
+  }
+
+  // Autoplay can be blocked by some browsers; the rest of the website still works.
+  const tryPlay = () => {
+    const result = video.play();
+    if (result && typeof result.catch === "function") {
+      result.catch(() => {
+        // Video stays as a background fallback; no popup or blocking behavior.
+      });
+    }
+  };
+
+  tryPlay();
+  document.addEventListener("visibilitychange", () => {
+    if (document.hidden) video.pause();
+    else tryPlay();
+  });
+})();
+</script>
+
+
+<script>
+(() => {
+  const video = document.getElementById("loaderVideo");
+  if (!video) return;
+  const reduceMotion = window.matchMedia &&
+    window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+  if (reduceMotion) return;
+  const play = () => {
+    if (document.hidden) return;
+    const attempt = video.play();
+    if (attempt && typeof attempt.catch === "function") attempt.catch(() => {});
+  };
+  document.addEventListener("visibilitychange", () => {
+    if (document.hidden) video.pause();
+    else play();
+  });
+  play();
 })();
 </script>
 
