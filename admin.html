@@ -5,6 +5,8 @@
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <meta name="theme-color" content="#ffe34d">
 <title>Admin - APK DA•OFFICIAL</title>
+<meta name="robots" content="noindex,nofollow">
+<link rel="icon" type="image/svg+xml" href="./icon.svg">
 
 <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
 <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.css" rel="stylesheet">
@@ -180,7 +182,8 @@ body {
 .stats-fill { height:100%; background:var(--blue); }
 .stats-count { min-width:32px; text-align:right; font-weight:1000; }
 @media(max-width:600px){ .stats-grid { grid-template-columns:repeat(2,minmax(0,1fr)); margin:22px 8px; } .stats-panel { margin:18px 8px; padding:14px; } .tabs { grid-template-columns:repeat(2,minmax(0,1fr)); } }
-#adminPanel,#quotePanel { display:none; }\n#musicPanel { display:none; }
+#adminPanel,#quotePanel { display:none; }
+#musicPanel { display:none; }
 #loginPanel { display:block; }
 #quoteStatus,#status,#loginStatus { margin-top:15px; }
 @media(max-width:500px) {
@@ -189,6 +192,40 @@ body {
   .logo { font-size:15px; }
 }
 </style>
+
+<style id="da-admin-professional-refresh">
+  body { font-family: Inter, ui-sans-serif, system-ui, -apple-system, "Segoe UI", sans-serif; background:linear-gradient(135deg,#f4f7fb,#edf2f8); color:#182230; font-weight:500; }
+  .navbar { background:rgba(255,255,255,.94); border-bottom:1px solid #e3e9f1; box-shadow:0 8px 24px rgba(18,35,60,.08); }
+  .logo { font-weight:850; letter-spacing:-.3px; }
+  .comic { background:#fff; border:1px solid #e2e8f0; border-radius:20px; box-shadow:0 16px 42px rgba(18,35,60,.09); }
+  .admin-box,.login-box { padding:clamp(18px,3vw,30px); }
+  .comic-heading i { background:#edf4ff; border:1px solid #d6e4f8; border-radius:18px; box-shadow:none; transform:none; color:#2456a6; }
+  .comic-heading h2 { color:#182230; text-shadow:none; text-transform:none; font-size:clamp(24px,5vw,31px); letter-spacing:-.7px; }
+  .comic-heading p { color:#647184; font-weight:500; }
+  .form-label { font-weight:700; color:#344256; }
+  .form-control,.form-select { border:1px solid #d7dee8; border-radius:12px; padding:12px 13px; color:#182230; font-weight:500; background:#fbfcfe; }
+  .form-control:focus,.form-select:focus { border-color:#4b83d2; box-shadow:0 0 0 4px rgba(37,99,235,.12); }
+  .btn-comic,.btn-comic:focus { border:0; border-radius:12px; box-shadow:0 5px 14px rgba(26,45,75,.12); font-weight:750; }
+  .btn-comic:active { transform:translateY(1px); box-shadow:0 2px 7px rgba(26,45,75,.12); }
+  .btn-red { background:#d94343; }
+  .btn-blue { background:#eaf2ff; color:#1b4f91; }
+  .btn-dark-comic { background:#1e293b; }
+  .logout-btn,.back-btn { border:1px solid #d7e0ea; border-radius:10px; box-shadow:none; padding:8px 12px; }
+  .logout-btn { background:#fff0f0; color:#b42318; }
+  .back-btn { background:#eef4ff; color:#1d4d88; }
+  .tabs { gap:9px; }
+  .tab-btn { border:1px solid #dce4ee; border-radius:13px; box-shadow:none; background:#fff; color:#40516a; transition:.18s ease; }
+  .tab-btn.active { background:#eaf2ff; color:#1b4f91; border-color:#b9d1f2; }
+  .item-card,.stats-card { background:#fff; border:1px solid #e2e8f0; border-radius:15px; box-shadow:0 8px 20px rgba(18,35,60,.06); }
+  .app-icon { border:1px solid #e1e7ef; border-radius:14px; }
+  .small-comic { border:1px solid #d8e1ed; border-radius:9px; box-shadow:none; padding:8px 12px; }
+  .btn-edit { background:#eaf2ff; color:#1b4f91; }
+  .btn-delete { background:#fff0f0; color:#b42318; }
+  .empty { border:1px dashed #cbd5e1; background:#f8fafc; border-radius:14px; color:#647184; }
+  @media(max-width:600px) { .tabs { gap:8px; } .tab-btn { font-size:.82rem; } }
+  @media(prefers-reduced-motion:reduce) { *,*::before,*::after { transition:none !important; animation:none !important; } }
+</style>
+
 </head>
 
 <body>
@@ -670,7 +707,14 @@ form.addEventListener("submit", async e => {
 });
 
 async function loadApps() {
-  const {data,error} = await supabaseClient.from("apps").select("*").order("created_at",{ascending:false});
+  appList.innerHTML = '<div class="empty">Memuat daftar APK...</div>';
+  let data, error;
+  try {
+    ({data,error} = await supabaseClient.from("apps").select("*").order("created_at",{ascending:false}));
+  } catch (requestError) {
+    appList.innerHTML = `<div class="empty">Koneksi gagal: ${escapeHTML(requestError.message || "Periksa internet")}</div>`;
+    return;
+  }
   if (error) {
     appList.innerHTML = `<div class="empty">Gagal memuat APK: ${escapeHTML(error.message)}</div>`;
     return;
@@ -691,11 +735,17 @@ async function loadApps() {
           </div>
         </div>
         <div class="d-flex gap-2 mt-3">
-          <button class="small-comic btn-edit" onclick="editApp('${escapeHTML(app.id)}')"><i class="bi bi-pencil"></i> Edit</button>
-          <button class="small-comic btn-delete" onclick="deleteApp('${escapeHTML(app.id)}')"><i class="bi bi-trash"></i> Hapus</button>
+          <button type="button" class="small-comic btn-edit" data-edit-app="${escapeHTML(String(app.id))}"><i class="bi bi-pencil"></i> Edit</button>
+          <button type="button" class="small-comic btn-delete" data-delete-app="${escapeHTML(String(app.id))}"><i class="bi bi-trash"></i> Hapus</button>
         </div>
       </div>`;
   }).join("");
+  appList.querySelectorAll("[data-edit-app]").forEach(button => {
+    button.addEventListener("click", () => editApp(button.dataset.editApp));
+  });
+  appList.querySelectorAll("[data-delete-app]").forEach(button => {
+    button.addEventListener("click", () => deleteApp(button.dataset.deleteApp));
+  });
 }
 async function editApp(id) {
   const {data,error} = await supabaseClient.from("apps").select("*").eq("id",id).single();
@@ -723,7 +773,7 @@ function resetAppForm() {
   updateAppButton();
 }
 function updateAppButton() {
-  saveBtn.innerHTML = editingId
+  saveBtn.innerHTML = editingId !== null && editingId !== undefined
     ? '<i class="bi bi-save"></i> SIMPAN PERUBAHAN'
     : '<i class="bi bi-plus-circle"></i> TAMBAHKAN APK';
 }
@@ -756,9 +806,14 @@ if (!quote) {
   ? await supabaseClient.from("sad_quotes")
       .update({quote, author})
       .eq("id", editingQuoteId)
+      .select("id")
+      .maybeSingle()
   : await supabaseClient.from("sad_quotes")
       .insert([{quote, author}]);
     if (result.error) throw result.error;
+    if (editingQuoteId !== null && !result.data) {
+      throw new Error("Kata tidak diperbarui. Periksa ID dan izin UPDATE/RLS Supabase.");
+    }
 
     showMessage("quoteStatus",editingQuoteId ? "Kata berhasil diperbarui!" : "Kata berhasil ditambahkan!","success");
     resetQuoteForm();
@@ -790,10 +845,16 @@ async function loadQuotes() {
       <div class="quote-text">💔 ${escapeHTML(item.quote)}</div>
 <div class="item-info mt-2">✍️ ${escapeHTML(item.author || "Tanpa nama")}</div>
       <div class="d-flex gap-2 mt-3">
-        <button class="small-comic btn-edit" onclick="editQuote('${escapeHTML(item.id)}')"><i class="bi bi-pencil"></i> Edit</button>
-        <button class="small-comic btn-delete" onclick="deleteQuote('${escapeHTML(item.id)}')"><i class="bi bi-trash"></i> Hapus</button>
+        <button type="button" class="small-comic btn-edit" data-edit-quote="${escapeHTML(String(item.id))}"><i class="bi bi-pencil"></i> Edit</button>
+        <button type="button" class="small-comic btn-delete" data-delete-quote="${escapeHTML(String(item.id))}"><i class="bi bi-trash"></i> Hapus</button>
       </div>
     </div>`).join("");
+  $("quoteList").querySelectorAll("[data-edit-quote]").forEach(button => {
+    button.addEventListener("click", () => editQuote(button.dataset.editQuote));
+  });
+  $("quoteList").querySelectorAll("[data-delete-quote]").forEach(button => {
+    button.addEventListener("click", () => deleteQuote(button.dataset.deleteQuote));
+  });
 }
 async function editQuote(id) {
   const {data,error} = await supabaseClient.from("sad_quotes").select("*").eq("id",id).single();
@@ -1013,11 +1074,14 @@ async function loadAnnouncements() {
       <small>${new Date(item.created_at).toLocaleString("id-ID")}</small>
       <br>
       <button type="button" class="btn-comic btn-red"
-        onclick="deleteAnnouncement(${Number(item.id)})">
+        data-delete-announcement="${Number(item.id)}">
         <i class="bi bi-trash-fill"></i> HAPUS
       </button>
     </div>
   `).join("");
+  document.getElementById("announcementList").querySelectorAll("[data-delete-announcement]").forEach(button => {
+    button.addEventListener("click", () => deleteAnnouncement(Number(button.dataset.deleteAnnouncement)));
+  });
 }
 
 async function deleteAnnouncement(id) {

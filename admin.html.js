@@ -1,4 +1,3 @@
-
 let editingId = null;
 let editingQuoteId = null;
 
@@ -200,7 +199,14 @@ form.addEventListener("submit", async e => {
 });
 
 async function loadApps() {
-  const {data,error} = await supabaseClient.from("apps").select("*").order("created_at",{ascending:false});
+  appList.innerHTML = '<div class="empty">Memuat daftar APK...</div>';
+  let data, error;
+  try {
+    ({data,error} = await supabaseClient.from("apps").select("*").order("created_at",{ascending:false}));
+  } catch (requestError) {
+    appList.innerHTML = `<div class="empty">Koneksi gagal: ${escapeHTML(requestError.message || "Periksa internet")}</div>`;
+    return;
+  }
   if (error) {
     appList.innerHTML = `<div class="empty">Gagal memuat APK: ${escapeHTML(error.message)}</div>`;
     return;
@@ -221,11 +227,17 @@ async function loadApps() {
           </div>
         </div>
         <div class="d-flex gap-2 mt-3">
-          <button class="small-comic btn-edit" onclick="editApp('${escapeHTML(app.id)}')"><i class="bi bi-pencil"></i> Edit</button>
-          <button class="small-comic btn-delete" onclick="deleteApp('${escapeHTML(app.id)}')"><i class="bi bi-trash"></i> Hapus</button>
+          <button type="button" class="small-comic btn-edit" data-edit-app="${escapeHTML(String(app.id))}"><i class="bi bi-pencil"></i> Edit</button>
+          <button type="button" class="small-comic btn-delete" data-delete-app="${escapeHTML(String(app.id))}"><i class="bi bi-trash"></i> Hapus</button>
         </div>
       </div>`;
   }).join("");
+  appList.querySelectorAll("[data-edit-app]").forEach(button => {
+    button.addEventListener("click", () => editApp(button.dataset.editApp));
+  });
+  appList.querySelectorAll("[data-delete-app]").forEach(button => {
+    button.addEventListener("click", () => deleteApp(button.dataset.deleteApp));
+  });
 }
 async function editApp(id) {
   const {data,error} = await supabaseClient.from("apps").select("*").eq("id",id).single();
@@ -253,7 +265,7 @@ function resetAppForm() {
   updateAppButton();
 }
 function updateAppButton() {
-  saveBtn.innerHTML = editingId
+  saveBtn.innerHTML = editingId !== null && editingId !== undefined
     ? '<i class="bi bi-save"></i> SIMPAN PERUBAHAN'
     : '<i class="bi bi-plus-circle"></i> TAMBAHKAN APK';
 }
@@ -286,9 +298,14 @@ if (!quote) {
   ? await supabaseClient.from("sad_quotes")
       .update({quote, author})
       .eq("id", editingQuoteId)
+      .select("id")
+      .maybeSingle()
   : await supabaseClient.from("sad_quotes")
       .insert([{quote, author}]);
     if (result.error) throw result.error;
+    if (editingQuoteId !== null && !result.data) {
+      throw new Error("Kata tidak diperbarui. Periksa ID dan izin UPDATE/RLS Supabase.");
+    }
 
     showMessage("quoteStatus",editingQuoteId ? "Kata berhasil diperbarui!" : "Kata berhasil ditambahkan!","success");
     resetQuoteForm();
@@ -320,10 +337,16 @@ async function loadQuotes() {
       <div class="quote-text">💔 ${escapeHTML(item.quote)}</div>
 <div class="item-info mt-2">✍️ ${escapeHTML(item.author || "Tanpa nama")}</div>
       <div class="d-flex gap-2 mt-3">
-        <button class="small-comic btn-edit" onclick="editQuote('${escapeHTML(item.id)}')"><i class="bi bi-pencil"></i> Edit</button>
-        <button class="small-comic btn-delete" onclick="deleteQuote('${escapeHTML(item.id)}')"><i class="bi bi-trash"></i> Hapus</button>
+        <button type="button" class="small-comic btn-edit" data-edit-quote="${escapeHTML(String(item.id))}"><i class="bi bi-pencil"></i> Edit</button>
+        <button type="button" class="small-comic btn-delete" data-delete-quote="${escapeHTML(String(item.id))}"><i class="bi bi-trash"></i> Hapus</button>
       </div>
     </div>`).join("");
+  $("quoteList").querySelectorAll("[data-edit-quote]").forEach(button => {
+    button.addEventListener("click", () => editQuote(button.dataset.editQuote));
+  });
+  $("quoteList").querySelectorAll("[data-delete-quote]").forEach(button => {
+    button.addEventListener("click", () => deleteQuote(button.dataset.deleteQuote));
+  });
 }
 async function editQuote(id) {
   const {data,error} = await supabaseClient.from("sad_quotes").select("*").eq("id",id).single();
@@ -543,11 +566,14 @@ async function loadAnnouncements() {
       <small>${new Date(item.created_at).toLocaleString("id-ID")}</small>
       <br>
       <button type="button" class="btn-comic btn-red"
-        onclick="deleteAnnouncement(${Number(item.id)})">
+        data-delete-announcement="${Number(item.id)}">
         <i class="bi bi-trash-fill"></i> HAPUS
       </button>
     </div>
   `).join("");
+  document.getElementById("announcementList").querySelectorAll("[data-delete-announcement]").forEach(button => {
+    button.addEventListener("click", () => deleteAnnouncement(Number(button.dataset.deleteAnnouncement)));
+  });
 }
 
 async function deleteAnnouncement(id) {
@@ -626,4 +652,3 @@ if (announcementForm) {
     await loadAnnouncements();
   });
 }
-  

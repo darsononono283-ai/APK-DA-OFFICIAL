@@ -28,7 +28,11 @@ for (const app of rows) {
     }
     ok = r.ok || status === 206;
     note = ok ? "OK" : `HTTP ${status}`;
-  } catch (e) { note = e.name === "TimeoutError" ? "TIMEOUT" : String(e.message || e); }
+  } catch (e) {
+    note = e.name === "TimeoutError" || e.name === "AbortError"
+      ? "TIMEOUT"
+      : String(e.message || e);
+  }
   console.log(`${ok ? "OK" : "CHECK"} | ${app.name || app.id} | ${note} | ${app.download_url}`);
   if (!ok) dead++;
 }
