@@ -1,5 +1,4 @@
 let editingId = null;
-let editingMode = "add"; // add | edit | update
 let editingQuoteId = null;
 
 const $ = id => document.getElementById(id);
@@ -164,27 +163,21 @@ form.addEventListener("submit", async e => {
     }
 
     if (editingId !== null && editingId !== undefined) {
-      // select() memastikan kita mengetahui apakah baris benar-benar diperbarui.
-      const { data, error } = await window.supabaseClient
+      // Hitung baris yang terkena update tanpa meminta SELECT atas baris tersebut.
+      // Ini menghindari hasil kosong palsu ketika kebijakan SELECT lebih ketat daripada UPDATE.
+      const targetId = editingId;
+      const { error, count } = await window.supabaseClient
         .from("apps")
-        .update(appData)
-        .eq("id", editingId)
-        .select("id")
-        .maybeSingle();
+        .update(appData, { count: "exact" })
+        .eq("id", targetId);
 
       if (error) throw error;
 
-      if (!data) {
-        throw new Error("Tidak ada data APK yang diperbarui. ID mungkin tidak cocok atau izin UPDATE/RLS Supabase menolak perubahan.");
+      if (count === 0) {
+        throw new Error("Tidak ada APK yang berubah. Periksa ID APK serta kebijakan UPDATE dan USING/WITH CHECK pada RLS tabel apps di Supabase.");
       }
 
-      showMessage(
-        "status",
-        editingMode === "update"
-          ? "Update APK berhasil disimpan! Data aplikasi diperbarui pada ID yang sama."
-          : "APK berhasil diperbarui!",
-        "success"
-      );
+      showMessage("status","APK berhasil diperbarui tanpa menghapus data lama!","success");
     } else {
       const { error } = await window.supabaseClient
         .from("apps")
@@ -233,9 +226,8 @@ async function loadApps() {
             <div class="item-info">${escapeHTML(app.category || "Lainnya")}${app.version ? " • Versi "+escapeHTML(app.version):""}${app.size ? " • "+escapeHTML(app.size):""}</div>
           </div>
         </div>
-        <div class="d-flex flex-wrap gap-2 mt-3">
-          <button type="button" class="small-comic btn-edit" data-edit-app="${escapeHTML(String(app.id))}"><i class="bi bi-pencil"></i> Edit</button>
-          <button type="button" class="small-comic btn-update" data-update-app="${escapeHTML(String(app.id))}"><i class="bi bi-arrow-repeat"></i> Update APK</button>
+        <div class="d-flex gap-2 mt-3">
+          <button type="button" class="small-comic btn-edit" data-edit-app="${escapeHTML(String(app.id))}"><i class="bi bi-arrow-repeat"></i> UPDATE APK</button>
           <button type="button" class="small-comic btn-delete" data-delete-app="${escapeHTML(String(app.id))}"><i class="bi bi-trash"></i> Hapus</button>
         </div>
       </div>`;
@@ -243,52 +235,44 @@ async function loadApps() {
   appList.querySelectorAll("[data-edit-app]").forEach(button => {
     button.addEventListener("click", () => editApp(button.dataset.editApp));
   });
-  appList.querySelectorAll("[data-update-app]").forEach(button => {
-    button.addEventListener("click", () => updateApp(button.dataset.updateApp));
-  });
   appList.querySelectorAll("[data-delete-app]").forEach(button => {
     button.addEventListener("click", () => deleteApp(button.dataset.deleteApp));
   });
 }
 async function editApp(id) {
-  try {
-    const {data,error} = await supabaseClient.from("apps").select("*").eq("id",id).single();
-    if (error) throw error;
-    editingId = id;
-    editingMode = "edit";
-    ["name","description","version","size","category","icon","download_url"].forEach(key => {
-      $(key).value = data[key] ?? (key === "category" ? "Lainnya" : "");
-    });
-    formTitle.textContent = "Edit APK!";
-    cancelBtn.style.display = "block";
-    updateAppButton();
-    window.scrollTo({top:0,behavior:"smooth"});
-  } catch (error) {
-    alert("Gagal membuka data APK: " + (error.message || error));
+  const client = window.supabaseClient;
+  if (!client) {
+    showMessage("status", "Supabase belum terhubung. Periksa supabase.js.");
+    return;
   }
-}
 
-async function updateApp(id) {
   try {
-    const {data,error} = await supabaseClient.from("apps").select("*").eq("id",id).single();
+    const { data, error } = await client
+      .from("apps")
+      .select("*")
+      .eq("id", id)
+      .maybeSingle();
+
     if (error) throw error;
-    editingId = id;
-    editingMode = "update";
-    ["name","description","version","size","category","icon","download_url"].forEach(key => {
+    if (!data) throw new Error("Data APK tidak ditemukan atau akun admin tidak memiliki izin membaca data ini.");
+
+    editingId = data.id;
+    ["name", "description", "version", "size", "category", "icon", "download_url"].forEach(key => {
       $(key).value = data[key] ?? (key === "category" ? "Lainnya" : "");
     });
-    formTitle.textContent = "Update APK: " + (data.name || "Aplikasi");
+
+    formTitle.textContent = "Perbarui APK!";
+    const notice = $("appEditNotice");
+    if (notice) {
+      notice.style.display = "block";
+      notice.textContent = `Mode update aktif untuk: ${data.name || "APK tanpa nama"}. Ubah data lalu tekan Simpan Perubahan. APK lama tidak perlu dihapus.`;
+    }
     cancelBtn.style.display = "block";
+    statusBox.innerHTML = "";
     updateAppButton();
-    showMessage(
-      "status",
-      "Mode Update aktif. Ganti versi, ukuran, URL download, ikon, atau deskripsi. Data akan diperbarui pada ID aplikasi yang sama, tanpa menghapus dan menambahkan ulang.",
-      "info"
-    );
-    window.scrollTo({top:0,behavior:"smooth"});
-    $("version").focus();
+    window.scrollTo({ top: 0, behavior: "smooth" });
   } catch (error) {
-    alert("Gagal membuka data untuk update: " + (error.message || error));
+    showMessage("status", "Gagal membuka APK untuk diperbarui: " + (error?.message || "Kesalahan tidak diketahui."));
   }
 }
 async function deleteApp(id) {
@@ -299,20 +283,17 @@ async function deleteApp(id) {
 }
 function resetAppForm() {
   editingId = null;
-  editingMode = "add";
   form.reset();
   formTitle.textContent = "Tambah APK!";
+  const notice = $("appEditNotice");
+  if (notice) notice.style.display = "none";
   cancelBtn.style.display = "none";
   updateAppButton();
 }
 function updateAppButton() {
-  if (editingMode === "update" && editingId !== null && editingId !== undefined) {
-    saveBtn.innerHTML = '<i class="bi bi-arrow-repeat"></i> SIMPAN UPDATE APK';
-  } else if (editingId !== null && editingId !== undefined) {
-    saveBtn.innerHTML = '<i class="bi bi-save"></i> SIMPAN PERUBAHAN';
-  } else {
-    saveBtn.innerHTML = '<i class="bi bi-plus-circle"></i> TAMBAHKAN APK';
-  }
+  saveBtn.innerHTML = editingId !== null && editingId !== undefined
+    ? '<i class="bi bi-save"></i> SIMPAN UPDATE APK'
+    : '<i class="bi bi-plus-circle"></i> TAMBAHKAN APK';
 }
 cancelBtn.addEventListener("click",() => {
   resetAppForm();

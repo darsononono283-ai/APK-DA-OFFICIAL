@@ -181,21 +181,6 @@ body {
 .stats-track { flex:2; height:12px; background:#e5e5e5; border:2px solid var(--black); border-radius:7px; overflow:hidden; }
 .stats-fill { height:100%; background:var(--blue); }
 .stats-count { min-width:32px; text-align:right; font-weight:1000; }
-
-.stats-chart-wrap { max-width:1000px; margin:18px auto; padding:18px; }
-.stats-chart-head { display:flex; justify-content:space-between; align-items:center; gap:12px; flex-wrap:wrap; margin-bottom:12px; }
-.stats-chart-title { font-size:18px; font-weight:850; margin:0; color:#182230; }
-.stats-chart-subtitle { color:#647184; font-size:12px; margin-top:4px; }
-.stats-chart-canvas { width:100%; overflow:hidden; }
-.stats-chart-canvas svg { display:block; width:100%; height:auto; min-height:190px; }
-.stats-chart-grid { stroke:#e6edf5; stroke-width:1; }
-.stats-chart-line { fill:none; stroke:#3478d4; stroke-width:3.5; stroke-linecap:round; stroke-linejoin:round; }
-.stats-chart-area { fill:url(#statsChartGradient); }
-.stats-chart-point { fill:#fff; stroke:#3478d4; stroke-width:3; }
-.stats-chart-label { fill:#718096; font-size:11px; }
-.stats-chart-value { fill:#244b7b; font-size:11px; font-weight:800; }
-@media(max-width:600px){ .stats-chart-wrap { margin:14px 8px; padding:14px; } .stats-chart-title { font-size:16px; } }
-
 @media(max-width:600px){ .stats-grid { grid-template-columns:repeat(2,minmax(0,1fr)); margin:22px 8px; } .stats-panel { margin:18px 8px; padding:14px; } .tabs { grid-template-columns:repeat(2,minmax(0,1fr)); } }
 #adminPanel,#quotePanel { display:none; }
 #musicPanel { display:none; }
@@ -312,6 +297,10 @@ body {
           <i class="bi bi-cloud-arrow-up-fill"></i>
           <h2 id="formTitle">Tambah APK!</h2>
           <p>Kelola aplikasi di website</p>
+          <div id="appEditNotice" class="alert alert-primary mt-3 mb-0" style="display:none" role="status">
+            <i class="bi bi-pencil-square"></i>
+            <strong>Mode update aktif.</strong> Ubah informasi APK lalu tekan Simpan Perubahan. APK lama akan diperbarui, bukan dihapus.
+          </div>
         </div>
 
         <form id="addAppForm">
@@ -510,18 +499,6 @@ body {
           <div class="stats-card"><div class="stats-label">TOTAL ULASAN</div><div class="stats-value" id="statsReviews">—</div></div>
           <div class="stats-card"><div class="stats-label">TOTAL PENILAIAN</div><div class="stats-value" id="statsRatings">—</div></div>
         </div>
-        <div class="admin-box comic stats-chart-wrap">
-          <div class="stats-chart-head">
-            <div>
-              <h3 class="stats-chart-title"><i class="bi bi-graph-up-arrow"></i> Grafik Unduhan</h3>
-              <div class="stats-chart-subtitle">Aktivitas klik unduhan selama 7 hari terakhir berdasarkan data Supabase</div>
-            </div>
-            <span class="badge text-bg-light border">7 hari</span>
-          </div>
-          <div id="statsDownloadsChart" class="stats-chart-canvas">
-            <div class="empty">Grafik akan muncul setelah statistik dimuat.</div>
-          </div>
-        </div>
         <div class="admin-box comic stats-panel"><h4>🔥 APK TERPOPULER</h4><div id="statsPopular"><div class="empty">Tekan menu Statistik untuk memuat data.</div></div></div>
         <div class="admin-box comic stats-panel"><h4>🆕 APK TERBARU</h4><div id="statsLatest"><div class="empty">Memuat data...</div></div></div>
         <div class="admin-box comic stats-panel"><h4>⬇️ AKTIVITAS UNDUHAN TERBARU</h4><div id="statsRecent"><div class="empty">Memuat data...</div></div><p class="item-info mt-3">Angka unduhan menghitung catatan klik yang tersimpan, bukan bukti file selesai diunduh. Statistik ulasan/rating memerlukan tabel terkait dan izin baca admin di Supabase.</p></div>
@@ -698,21 +675,21 @@ form.addEventListener("submit", async e => {
     }
 
     if (editingId !== null && editingId !== undefined) {
-      // select() memastikan kita mengetahui apakah baris benar-benar diperbarui.
-      const { data, error } = await window.supabaseClient
+      // Hitung baris yang terkena update tanpa meminta SELECT atas baris tersebut.
+      // Ini menghindari hasil kosong palsu ketika kebijakan SELECT lebih ketat daripada UPDATE.
+      const targetId = editingId;
+      const { error, count } = await window.supabaseClient
         .from("apps")
-        .update(appData)
-        .eq("id", editingId)
-        .select("id")
-        .maybeSingle();
+        .update(appData, { count: "exact" })
+        .eq("id", targetId);
 
       if (error) throw error;
 
-      if (!data) {
-        throw new Error("Tidak ada data APK yang diperbarui. ID mungkin tidak cocok atau izin UPDATE/RLS Supabase menolak perubahan.");
+      if (count === 0) {
+        throw new Error("Tidak ada APK yang berubah. Periksa ID APK serta kebijakan UPDATE dan USING/WITH CHECK pada RLS tabel apps di Supabase.");
       }
 
-      showMessage("status","APK berhasil diperbarui!","success");
+      showMessage("status","APK berhasil diperbarui tanpa menghapus data lama!","success");
     } else {
       const { error } = await window.supabaseClient
         .from("apps")
@@ -762,7 +739,7 @@ async function loadApps() {
           </div>
         </div>
         <div class="d-flex gap-2 mt-3">
-          <button type="button" class="small-comic btn-edit" data-edit-app="${escapeHTML(String(app.id))}"><i class="bi bi-pencil"></i> Edit</button>
+          <button type="button" class="small-comic btn-edit" data-edit-app="${escapeHTML(String(app.id))}"><i class="bi bi-arrow-repeat"></i> UPDATE APK</button>
           <button type="button" class="small-comic btn-delete" data-delete-app="${escapeHTML(String(app.id))}"><i class="bi bi-trash"></i> Hapus</button>
         </div>
       </div>`;
@@ -775,16 +752,40 @@ async function loadApps() {
   });
 }
 async function editApp(id) {
-  const {data,error} = await supabaseClient.from("apps").select("*").eq("id",id).single();
-  if (error) return alert(error.message);
-  editingId = id;
-  ["name","description","version","size","category","icon","download_url"].forEach(key => {
-    $(key).value = data[key] || (key === "category" ? "Lainnya" : "");
-  });
-  formTitle.textContent = "Edit APK!";
-  cancelBtn.style.display = "block";
-  updateAppButton();
-  window.scrollTo({top:0,behavior:"smooth"});
+  const client = window.supabaseClient;
+  if (!client) {
+    showMessage("status", "Supabase belum terhubung. Periksa supabase.js.");
+    return;
+  }
+
+  try {
+    const { data, error } = await client
+      .from("apps")
+      .select("*")
+      .eq("id", id)
+      .maybeSingle();
+
+    if (error) throw error;
+    if (!data) throw new Error("Data APK tidak ditemukan atau akun admin tidak memiliki izin membaca data ini.");
+
+    editingId = data.id;
+    ["name", "description", "version", "size", "category", "icon", "download_url"].forEach(key => {
+      $(key).value = data[key] ?? (key === "category" ? "Lainnya" : "");
+    });
+
+    formTitle.textContent = "Perbarui APK!";
+    const notice = $("appEditNotice");
+    if (notice) {
+      notice.style.display = "block";
+      notice.textContent = `Mode update aktif untuk: ${data.name || "APK tanpa nama"}. Ubah data lalu tekan Simpan Perubahan. APK lama tidak perlu dihapus.`;
+    }
+    cancelBtn.style.display = "block";
+    statusBox.innerHTML = "";
+    updateAppButton();
+    window.scrollTo({ top: 0, behavior: "smooth" });
+  } catch (error) {
+    showMessage("status", "Gagal membuka APK untuk diperbarui: " + (error?.message || "Kesalahan tidak diketahui."));
+  }
 }
 async function deleteApp(id) {
   if (!confirm("Yakin ingin menghapus APK ini?")) return;
@@ -796,12 +797,14 @@ function resetAppForm() {
   editingId = null;
   form.reset();
   formTitle.textContent = "Tambah APK!";
+  const notice = $("appEditNotice");
+  if (notice) notice.style.display = "none";
   cancelBtn.style.display = "none";
   updateAppButton();
 }
 function updateAppButton() {
   saveBtn.innerHTML = editingId !== null && editingId !== undefined
-    ? '<i class="bi bi-save"></i> SIMPAN PERUBAHAN'
+    ? '<i class="bi bi-save"></i> SIMPAN UPDATE APK'
     : '<i class="bi bi-plus-circle"></i> TAMBAHKAN APK';
 }
 cancelBtn.addEventListener("click",() => {
@@ -918,100 +921,6 @@ $("quoteCancelBtn").addEventListener("click",() => {
 });
 
   
-/* GRAFIK UNDuhan 7 HARI BERDASARKAN DATA SUPABASE */
-function renderDownloadChart(downloads) {
-  const target = $("statsDownloadsChart");
-  if (!target) return;
-
-  const now = new Date();
-  const days = [];
-  const dayMap = new Map();
-
-  for (let offset = 6; offset >= 0; offset--) {
-    const date = new Date(now);
-    date.setHours(0, 0, 0, 0);
-    date.setDate(date.getDate() - offset);
-    const key = [
-      date.getFullYear(),
-      String(date.getMonth() + 1).padStart(2, "0"),
-      String(date.getDate()).padStart(2, "0")
-    ].join("-");
-    const item = {
-      key,
-      label: date.toLocaleDateString("id-ID", { day: "2-digit", month: "short" }),
-      count: 0
-    };
-    days.push(item);
-    dayMap.set(key, item);
-  }
-
-  let datedRows = 0;
-  (downloads || []).forEach(row => {
-    if (!row.created_at) return;
-    const date = new Date(row.created_at);
-    if (Number.isNaN(date.getTime())) return;
-    const key = [
-      date.getFullYear(),
-      String(date.getMonth() + 1).padStart(2, "0"),
-      String(date.getDate()).padStart(2, "0")
-    ].join("-");
-    const day = dayMap.get(key);
-    if (day) {
-      day.count += 1;
-      datedRows += 1;
-    }
-  });
-
-  if (!downloads) {
-    target.innerHTML = '<div class="empty">Data unduhan tidak dapat dibaca dari Supabase.</div>';
-    return;
-  }
-  if (!datedRows) {
-    target.innerHTML = '<div class="empty">Belum ada aktivitas unduhan bertanggal dalam 7 hari terakhir.</div>';
-    return;
-  }
-
-  const width = 720;
-  const height = 250;
-  const left = 42;
-  const right = 18;
-  const top = 24;
-  const bottom = 42;
-  const plotWidth = width - left - right;
-  const plotHeight = height - top - bottom;
-  const maxValue = Math.max(1, ...days.map(day => day.count));
-  const ceiling = Math.max(4, Math.ceil(maxValue / 4) * 4);
-  const x = index => left + (days.length === 1 ? plotWidth / 2 : index * plotWidth / (days.length - 1));
-  const y = value => top + plotHeight - (value / ceiling) * plotHeight;
-  const points = days.map((day, index) => `${x(index)},${y(day.count)}`).join(" ");
-  const area = `${left},${top + plotHeight} ${points} ${left + plotWidth},${top + plotHeight}`;
-  const grid = Array.from({length: 5}, (_, index) => {
-    const value = ceiling - (ceiling / 4) * index;
-    const yy = y(value);
-    return `<g><line class="stats-chart-grid" x1="${left}" y1="${yy}" x2="${width-right}" y2="${yy}"></line><text class="stats-chart-label" x="${left-10}" y="${yy+4}" text-anchor="end">${Math.round(value)}</text></g>`;
-  }).join("");
-  const labels = days.map((day, index) =>
-    `<text class="stats-chart-label" x="${x(index)}" y="${height-12}" text-anchor="middle">${escapeHTML(day.label)}</text>`
-  ).join("");
-  const dots = days.map((day, index) =>
-    `<g><circle class="stats-chart-point" cx="${x(index)}" cy="${y(day.count)}" r="5"></circle><text class="stats-chart-value" x="${x(index)}" y="${Math.max(14, y(day.count)-12)}" text-anchor="middle">${day.count}</text></g>`
-  ).join("");
-
-  target.innerHTML = `
-    <svg viewBox="0 0 ${width} ${height}" role="img" aria-label="Grafik klik unduhan selama tujuh hari terakhir">
-      <defs><linearGradient id="statsChartGradient" x1="0" x2="0" y1="0" y2="1"><stop offset="0%" stop-color="#3478d4" stop-opacity=".24"></stop><stop offset="100%" stop-color="#3478d4" stop-opacity=".02"></stop></linearGradient></defs>
-      ${grid}
-      <polygon class="stats-chart-area" points="${area}"></polygon>
-      <polyline class="stats-chart-line" points="${points}"></polyline>
-      ${dots}
-      ${labels}
-    </svg>
-    <div class="d-flex justify-content-between align-items-center mt-2 small text-muted">
-      <span><i class="bi bi-circle-fill" style="color:#3478d4;font-size:8px"></i> Klik unduhan tercatat</span>
-      <strong>${Number(days.reduce((sum, day) => sum + day.count, 0)).toLocaleString("id-ID")} klik</strong>
-    </div>`;
-}
-
 /* DASHBOARD STATISTIK ADMIN */
 async function loadDashboardStats() {
   const client = window.supabaseClient;
@@ -1033,7 +942,6 @@ async function loadDashboardStats() {
   $("statsDownloads").textContent = downloads ? fmt(downloads.length) : "—";
   $("statsReviews").textContent = reviews ? fmt(reviews.length) : "—";
   $("statsRatings").textContent = ratings ? fmt(ratings.length) : "—";
-  renderDownloadChart(downloads);
   const appNames = new Map((apps || []).map(app => [String(app.id), app.name || app.title || String(app.id)]));
   const counts = new Map();
   (downloads || []).forEach(item => { const id = String(item.app_id ?? ""); if (id) counts.set(id, (counts.get(id) || 0) + 1); });
