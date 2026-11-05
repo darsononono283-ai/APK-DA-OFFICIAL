@@ -410,6 +410,47 @@ $("quoteCancelBtn").addEventListener("click",() => {
 
   
 /* DASHBOARD STATISTIK ADMIN */
+
+function renderDownloadsChart(downloads) {
+  const target = $("statsDownloadsChart");
+  const totalNode = $("statsChartTotal");
+  if (!target || !totalNode) return;
+  const days = [];
+  const now = new Date();
+  for (let offset = 6; offset >= 0; offset--) {
+    const date = new Date(now.getFullYear(), now.getMonth(), now.getDate() - offset);
+    const key = `${date.getFullYear()}-${String(date.getMonth()+1).padStart(2,"0")}-${String(date.getDate()).padStart(2,"0")}`;
+    days.push({ key, label: date.toLocaleDateString("id-ID", { weekday:"short" }), count:0 });
+  }
+  const dayMap = new Map(days.map(day => [day.key, day]));
+  (downloads || []).forEach(item => {
+    if (!item.created_at) return;
+    const date = new Date(item.created_at);
+    if (Number.isNaN(date.getTime())) return;
+    const key = `${date.getFullYear()}-${String(date.getMonth()+1).padStart(2,"0")}-${String(date.getDate()).padStart(2,"0")}`;
+    const day = dayMap.get(key);
+    if (day) day.count++;
+  });
+  const total = days.reduce((sum, day) => sum + day.count, 0);
+  totalNode.textContent = total.toLocaleString("id-ID");
+  if (!days.some(day => day.count > 0)) {
+    target.innerHTML = '<div class="empty">Belum ada catatan klik unduhan bertanggal dalam 7 hari terakhir.</div>';
+    return;
+  }
+  const max = Math.max(1, ...days.map(day => day.count));
+  const points = days.map((day, index) => ({...day, x:44 + index*91, y:184 - (day.count/max)*132}));
+  const line = points.map((point,index) => `${index ? "L" : "M"} ${point.x} ${point.y}`).join(" ");
+  const area = `${line} L ${points[6].x} 190 L ${points[0].x} 190 Z`;
+  const grid = [52,96,140,184].map(y => `<line class="stats-chart-grid" x1="35" y1="${y}" x2="600" y2="${y}"></line>`).join("");
+  const labels = points.map(point => `<text class="stats-chart-label" x="${point.x}" y="218" text-anchor="middle">${escapeHTML(point.label)}</text>`).join("");
+  const values = points.map(point => point.count ? `<text class="stats-chart-value" x="${point.x}" y="${Math.max(28,point.y-12)}" text-anchor="middle">${point.count.toLocaleString("id-ID")}</text>` : "").join("");
+  const dots = points.map(point => `<circle class="stats-chart-dot" cx="${point.x}" cy="${point.y}" r="5"></circle>`).join("");
+  target.innerHTML = `<svg class="stats-chart-svg" viewBox="0 0 640 235" role="img" aria-label="Jumlah klik unduhan per hari: ${points.map(p => `${p.label} ${p.count}`).join(", ")}">
+    <defs><linearGradient id="statsChartFill" x1="0" x2="0" y1="0" y2="1"><stop offset="0%" stop-color="#2457a6" stop-opacity=".22"></stop><stop offset="100%" stop-color="#2457a6" stop-opacity="0"></stop></linearGradient></defs>
+    ${grid}<path class="stats-chart-area" d="${area}"></path><path class="stats-chart-line" d="${line}"></path>${dots}${values}${labels}
+  </svg>`;
+}
+
 async function loadDashboardStats() {
   const client = window.supabaseClient;
   const status = $("statsStatus");
@@ -425,6 +466,7 @@ async function loadDashboardStats() {
   const [apps, downloads, reviews, ratings] = await Promise.all([
     readTable("apps"), readTable("app_downloads"), readTable("app_reviews"), readTable("app_ratings")
   ]);
+  renderDownloadsChart(downloads);
   const fmt = n => Number(n || 0).toLocaleString("id-ID");
   $("statsApps").textContent = apps ? fmt(apps.length) : "—";
   $("statsDownloads").textContent = downloads ? fmt(downloads.length) : "—";
