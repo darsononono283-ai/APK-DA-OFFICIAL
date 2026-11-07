@@ -67,20 +67,46 @@ async function init(){
   showLogin();
   $("loginForm").addEventListener("submit",async e=>{
     e.preventDefault();
-    const btn=$("loginBtn");
-    const emailInput=$("email") || $("adminEmail") || $("loginEmail") || $("loginForm").querySelector('input[type="email"]');
-    const passwordInput=$("password") || $("adminPassword") || $("loginPassword") || $("loginForm").querySelector('input[type="password"]');
-    if(!emailInput || !passwordInput){
-      msg("loginStatus","Kolom email atau kata sandi tidak ditemukan. File admin.html dan admin.html.js tidak cocok. Unggah ulang kedua file dari paket perbaikan yang sama.");
+    const form = $("loginForm");
+    const btn = $("loginBtn");
+    const emailInput = form?.elements?.namedItem("email");
+    const passwordInput = form?.elements?.namedItem("password");
+
+    if (!emailInput || !passwordInput) {
+      msg("loginStatus","Kolom email/kata sandi tidak ditemukan. Pastikan admin.html dan admin.html.js berasal dari paket yang sama.");
       return;
     }
-    btn.disabled=true;msg("loginStatus","Menghubungkan ke Supabase...");
-    try{
-      if(!client)throw Error("Supabase belum terbaca. Periksa supabase.js dan koneksi internet.");
-      const {error}=await client.auth.signInWithPassword({email:emailInput.value.trim(),password:passwordInput.value});
-      if(error)throw error;showAdmin();msg("loginStatus","");await loadAdmin();
-    }catch(err){showLogin();msg("loginStatus","Login gagal: "+err.message);}
-    finally{btn.disabled=false;}
+
+    if (!client) {
+      msg("loginStatus","Supabase belum terbaca. Periksa supabase.js dan koneksi internet.");
+      return;
+    }
+
+    btn.disabled = true;
+    msg("loginStatus","Menghubungkan ke Supabase...");
+    try {
+      const {data,error} = await client.auth.signInWithPassword({
+        email: emailInput.value.trim(),
+        password: passwordInput.value
+      });
+      if (error) throw error;
+      if (!data?.session) throw new Error("Login belum menghasilkan sesi. Periksa akun dan konfigurasi Supabase.");
+
+      showAdmin();
+      msg("loginStatus","");
+      try {
+        await loadAdmin();
+      } catch (loadError) {
+        msg("formStatus","Login berhasil, tetapi data admin gagal dimuat: " + (loadError?.message || loadError));
+      }
+    } catch(err) {
+      showLogin();
+      const detail = err?.message || String(err);
+      msg("loginStatus","Login gagal: " + detail);
+      console.error("Admin login error:", err);
+    } finally {
+      btn.disabled = false;
+    }
   });
   $("logout").addEventListener("click",async()=>{try{if(client)await client.auth.signOut();}finally{showLogin();msg("loginStatus","Kamu sudah keluar.");}});
   $("cancelBtn").addEventListener("click",()=>{resetForm();msg("formStatus","");});
