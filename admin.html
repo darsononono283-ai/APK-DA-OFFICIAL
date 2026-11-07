@@ -50,6 +50,9 @@ a{color:#9dc2ff;text-decoration:none}
 .btn-edit{background:#1d3760;color:#dbeafe}.btn-delete{background:#3a2029;color:#ffc7ce}
 .empty{padding:24px;text-align:center;background:var(--surface);border:1px dashed #395071;border-radius:14px;color:#b5c7df}
 #statsPanel{display:none}
+#adminPanel{display:block;width:100%}
+#apkPanel,#announcementPanel,#statsPanel{width:100%;min-height:120px}
+#apkPanel[hidden],#announcementPanel[hidden],#statsPanel[hidden]{display:none!important}
 .stats-grid{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:12px;margin:25px auto 18px;max-width:1000px}
 .stats-card{min-width:0;margin:0;padding:17px}
 .stats-label{font-size:12px;color:var(--muted);font-weight:700}
@@ -124,14 +127,14 @@ a{color:#9dc2ff;text-decoration:none}
 <div id="adminPanel">
   <div class="container">
     <div class="tabs">
-      <button class="tab-btn active" id="apkTab" type="button" onclick="showSection('apk')">
+      <button class="tab-btn active" id="apkTab" type="button" data-admin-section="apk">
         <i class="bi bi-phone-fill"></i> KELOLA APK
       </button>
 <button class="tab-btn" id="announcementTab" type="button"
-  onclick="showSection('announcements')">
+  data-admin-section="announcements">
   <i class="bi bi-megaphone-fill"></i> PENGUMUMAN
 </button>
-      <button class="tab-btn" id="statsTab" type="button" onclick="showSection('stats')">
+      <button class="tab-btn" id="statsTab" type="button" data-admin-section="stats">
         <i class="bi bi-bar-chart-fill"></i> STATISTIK
       </button>
 </div>

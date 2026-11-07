@@ -84,6 +84,7 @@ async function showAdmin() {
       <a href="index.html" class="back-btn"><i class="bi bi-house"></i> Beranda</a>
       <button onclick="logout()" class="logout-btn"><i class="bi bi-box-arrow-right"></i> Keluar</button>
     </div>`;
+  showSection("apk");
   await loadApps();
 }
 async function checkSession() {
@@ -104,17 +105,38 @@ checkSession();
 /* PINDAH MENU */
 
 function showSection(section) {
-  const announcements = section === "announcements";
-  const stats = section === "stats";
-  $("apkPanel").style.display = (!announcements && !stats) ? "block" : "none";
-  $("announcementPanel").style.display = announcements ? "block" : "none";
-  $("statsPanel").style.display = stats ? "block" : "none";
-  $("apkTab").classList.toggle("active", !announcements && !stats);
-  $("announcementTab").classList.toggle("active", announcements);
-  $("statsTab").classList.toggle("active", stats);
-  if (announcements) loadAnnouncements();
-  if (stats) loadDashboardStats();
+  const selected = ["apk", "announcements", "stats"].includes(section) ? section : "apk";
+  const panels = {
+    apk: $("apkPanel"),
+    announcements: $("announcementPanel"),
+    stats: $("statsPanel")
+  };
+  const tabs = {
+    apk: $("apkTab"),
+    announcements: $("announcementTab"),
+    stats: $("statsTab")
+  };
+
+  Object.entries(panels).forEach(([name, panel]) => {
+    if (!panel) return;
+    const visible = name === selected;
+    panel.hidden = !visible;
+    panel.style.display = visible ? "block" : "none";
+  });
+  Object.entries(tabs).forEach(([name, tab]) => {
+    if (tab) tab.classList.toggle("active", name === selected);
+  });
+
+  if (selected === "announcements") loadAnnouncements();
+  if (selected === "stats") loadDashboardStats();
 }
+
+// Jadikan fungsi tersedia secara global dan pasang klik langsung agar menu
+// tetap bekerja meskipun atribut onclick dibatasi oleh browser/kebijakan halaman.
+window.showSection = showSection;
+document.querySelectorAll("[data-admin-section]").forEach(button => {
+  button.addEventListener("click", () => showSection(button.dataset.adminSection));
+});
 
 /* TAMBAH / EDIT APK */
 form.addEventListener("submit", async e => {
@@ -395,10 +417,17 @@ async function loadAnnouncements() {
     return;
   }
 
-  const { data, error } = await window.supabaseClient
-    .from("notifications")
-    .select("id, title, message, created_at")
-    .order("created_at", { ascending: false });
+  let data, error;
+  try {
+    ({ data, error } = await window.supabaseClient
+      .from("notifications")
+      .select("id, title, message, created_at")
+      .order("created_at", { ascending: false }));
+  } catch (requestError) {
+    console.error("Koneksi pengumuman gagal:", requestError);
+    list.innerHTML = `<div class="empty">Koneksi pengumuman gagal: ${escapeHTML(requestError.message || "Periksa internet")}</div>`;
+    return;
+  }
 
   if (error) {
     console.error("Gagal memuat pengumuman:", error);
@@ -504,3 +533,8 @@ if (announcementForm) {
     await loadAnnouncements();
   });
 }
+
+
+// Fungsi penting tersedia untuk pemeriksaan dan pemanggilan dari antarmuka.
+window.loadAnnouncements = loadAnnouncements;
+window.loadDashboardStats = loadDashboardStats;
