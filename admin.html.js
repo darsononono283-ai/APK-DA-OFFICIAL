@@ -1,5 +1,4 @@
 let editingId = null;
-
 const $ = id => document.getElementById(id);
 const loginForm = $("loginForm");
 const loginPanel = $("loginPanel");
@@ -335,13 +334,16 @@ function renderDownloadsChart(downloads) {
 async function loadDashboardStats() {
   const client = window.supabaseClient;
   const status = $("statsStatus");
-  if (!client) { status.innerHTML = '<div class="alert alert-danger">Supabase belum terhubung.</div>'; return; }
+  if (!client) {
+    status.innerHTML = '<div class="alert alert-danger">Supabase belum terhubung.</div>';
+    return;
+  }
   status.innerHTML = '<div class="alert alert-info">Memuat statistik...</div>';
   ["statsApps","statsDownloads","statsReviews","statsRatings"].forEach(id => $(id).textContent = "…");
   const errors = [];
   async function readTable(table) {
     try {
-      const {data,error} = await client.from(table).select("*");
+      const { data, error } = await client.from(table).select("*");
       if (error) { errors.push(table + ": " + error.message); return null; }
       return data || [];
     } catch (error) {
@@ -349,28 +351,36 @@ async function loadDashboardStats() {
       return null;
     }
   }
-  const [apps, downloads, reviews, ratings] = await Promise.all([
-    readTable("apps"), readTable("app_downloads"), readTable("app_reviews"), readTable("app_ratings")
-  ]);
-  renderDownloadsChart(downloads);
-  const fmt = n => Number(n || 0).toLocaleString("id-ID");
-  $("statsApps").textContent = apps ? fmt(apps.length) : "—";
-  $("statsDownloads").textContent = downloads ? fmt(downloads.length) : "—";
-  $("statsReviews").textContent = reviews ? fmt(reviews.length) : "—";
-  $("statsRatings").textContent = ratings ? fmt(ratings.length) : "—";
-  const appNames = new Map((apps || []).map(app => [String(app.id), app.name || app.title || String(app.id)]));
-  const counts = new Map();
-  (downloads || []).forEach(item => { const id = String(item.app_id ?? ""); if (id) counts.set(id, (counts.get(id) || 0) + 1); });
-  const popular = [...counts.entries()].map(([id,count]) => ({name:appNames.get(id) || ("APK ID " + id),count})).sort((a,b)=>b.count-a.count).slice(0,7);
-  $("statsPopular").innerHTML = popular.length ? popular.map(item => {
-    const max = Math.max(1, ...popular.map(x => x.count));
-    return `<div class="stats-row"><div class="stats-row-name">${escapeHTML(item.name)}</div><div class="stats-track"><div class="stats-fill" style="width:${Math.round(item.count/max*100)}%"></div></div><div class="stats-count">${fmt(item.count)}</div></div>`;
-  }).join("") : `<div class="empty">${downloads ? "Belum ada catatan klik unduhan." : "Data unduhan tidak dapat dibaca."}</div>`;
-  const latest = [...(apps || [])].sort((a,b)=>new Date(b.created_at || 0)-new Date(a.created_at || 0)).slice(0,7);
-  $("statsLatest").innerHTML = apps ? (latest.length ? latest.map(app => `<div class="item-card"><div class="item-name">${escapeHTML(app.name || app.title || "APK tanpa nama")}</div><div class="item-info">${escapeHTML(app.version || "Versi tidak dicantumkan")} · ${escapeHTML(app.created_at ? new Date(app.created_at).toLocaleString("id-ID") : "Tanggal tidak tersedia")}</div></div>`).join("") : '<div class="empty">Belum ada APK.</div>') : '<div class="empty">Data aplikasi gagal dimuat.</div>';
-  const recent = [...(downloads || [])].sort((a,b)=>new Date(b.created_at || 0)-new Date(a.created_at || 0)).slice(0,10);
-  $("statsRecent").innerHTML = downloads ? (recent.length ? recent.map(item => `<div class="item-card"><div class="item-name">${escapeHTML(appNames.get(String(item.app_id)) || item.app_id || "APK tidak dikenal")}</div><div class="item-info">${escapeHTML(item.created_at ? new Date(item.created_at).toLocaleString("id-ID") : "Waktu tidak tersedia")}</div></div>`).join("") : '<div class="empty">Belum ada aktivitas unduhan.</div>') : '<div class="empty">Data aktivitas tidak dapat dimuat.</div>';
-  status.innerHTML = errors.length ? `<div class="alert alert-warning">Statistik dimuat sebagian. Periksa tabel atau izin RLS:<br>${errors.map(escapeHTML).join("<br>")}</div>` : '<div class="alert alert-success">Statistik berhasil diperbarui.</div>';
+  try {
+    const [apps, downloads, reviews, ratings] = await Promise.all([
+      readTable("apps"), readTable("app_downloads"), readTable("app_reviews"), readTable("app_ratings")
+    ]);
+    renderDownloadsChart(downloads);
+    const fmt = n => Number(n || 0).toLocaleString("id-ID");
+    $("statsApps").textContent = apps ? fmt(apps.length) : "—";
+    $("statsDownloads").textContent = downloads ? fmt(downloads.length) : "—";
+    $("statsReviews").textContent = reviews ? fmt(reviews.length) : "—";
+    $("statsRatings").textContent = ratings ? fmt(ratings.length) : "—";
+    const appNames = new Map((apps || []).map(app => [String(app.id), app.name || app.title || String(app.id)]));
+    const counts = new Map();
+    (downloads || []).forEach(item => {
+      const id = String(item.app_id ?? "");
+      if (id) counts.set(id, (counts.get(id) || 0) + 1);
+    });
+    const popular = [...counts.entries()].map(([id,count]) => ({name:appNames.get(id) || ("APK ID " + id),count})).sort((a,b)=>b.count-a.count).slice(0,7);
+    $("statsPopular").innerHTML = popular.length ? popular.map(item => {
+      const max = Math.max(1, ...popular.map(x => x.count));
+      return `<div class="stats-row"><div class="stats-row-name">${escapeHTML(item.name)}</div><div class="stats-track"><div class="stats-fill" style="width:${Math.round(item.count/max*100)}%"></div></div><div class="stats-count">${fmt(item.count)}</div></div>`;
+    }).join("") : `<div class="empty">${downloads ? "Belum ada catatan klik unduhan." : "Data unduhan tidak dapat dibaca."}</div>`;
+    const latest = [...(apps || [])].sort((a,b)=>new Date(b.created_at || 0)-new Date(a.created_at || 0)).slice(0,7);
+    $("statsLatest").innerHTML = apps ? (latest.length ? latest.map(app => `<div class="item-card"><div class="item-name">${escapeHTML(app.name || app.title || "APK tanpa nama")}</div><div class="item-info">${escapeHTML(app.version || "Versi tidak dicantumkan")} · ${escapeHTML(app.created_at ? new Date(app.created_at).toLocaleString("id-ID") : "Tanggal tidak tersedia")}</div></div>`).join("") : '<div class="empty">Belum ada APK.</div>') : '<div class="empty">Data aplikasi gagal dimuat.</div>';
+    const recent = [...(downloads || [])].sort((a,b)=>new Date(b.created_at || 0)-new Date(a.created_at || 0)).slice(0,10);
+    $("statsRecent").innerHTML = downloads ? (recent.length ? recent.map(item => `<div class="item-card"><div class="item-name">${escapeHTML(appNames.get(String(item.app_id)) || item.app_id || "APK tidak dikenal")}</div><div class="item-info">${escapeHTML(item.created_at ? new Date(item.created_at).toLocaleString("id-ID") : "Waktu tidak tersedia")}</div></div>`).join("") : '<div class="empty">Belum ada aktivitas unduhan.</div>') : '<div class="empty">Data aktivitas tidak dapat dimuat.</div>';
+    status.innerHTML = errors.length ? `<div class="alert alert-warning">Sebagian statistik tidak dapat dibaca. Detail: ${errors.map(escapeHTML).join(" | ")}</div>` : '<div class="alert alert-success">Statistik berhasil diperbarui.</div>';
+  } catch (error) {
+    console.error("Gagal memuat dashboard statistik:", error);
+    status.innerHTML = `<div class="alert alert-danger">Statistik gagal dimuat: ${escapeHTML(error?.message || "Kesalahan tidak diketahui")}</div>`;
+  }
 }
 
 async function loadAnnouncements() {
@@ -392,8 +402,7 @@ async function loadAnnouncements() {
 
   if (error) {
     console.error("Gagal memuat pengumuman:", error);
-    list.innerHTML =
-      `<div class="empty">Gagal memuat pengumuman: ${escapeHTML(error.message)}. Pastikan tabel notifications dan izin SELECT tersedia.</div>`;
+    list.innerHTML = `<div class="empty">Gagal memuat pengumuman: ${escapeHTML(error.message || "Kesalahan Supabase")}</div>`;
     return;
   }
 
@@ -437,7 +446,7 @@ async function deleteAnnouncement(id) {
 
   if (error) {
     console.error("Gagal menghapus pengumuman:", error);
-    alert("Pengumuman gagal dihapus: " + error.message);
+    alert("Pengumuman gagal dihapus. Periksa izin admin di Supabase.");
     return;
   }
 
@@ -486,8 +495,7 @@ if (announcementForm) {
 
     if (error) {
       console.error("Gagal menerbitkan pengumuman:", error);
-      status.textContent =
-        "Gagal menerbitkan: " + error.message;
+      status.textContent = "Gagal menerbitkan: " + (error.message || "Periksa izin INSERT/RLS tabel notifications.");
       return;
     }
 
