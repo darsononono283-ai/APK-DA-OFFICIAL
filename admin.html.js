@@ -66,10 +66,18 @@ async function init(){
   // Tampilkan form login lebih dulu; jangan biarkan kegagalan JS mengosongkan halaman.
   showLogin();
   $("loginForm").addEventListener("submit",async e=>{
-    e.preventDefault();const btn=$("loginBtn");btn.disabled=true;msg("loginStatus","Menghubungkan ke Supabase...");
+    e.preventDefault();
+    const btn=$("loginBtn");
+    const emailInput=$("email") || $("adminEmail") || $("loginEmail") || $("loginForm").querySelector('input[type="email"]');
+    const passwordInput=$("password") || $("adminPassword") || $("loginPassword") || $("loginForm").querySelector('input[type="password"]');
+    if(!emailInput || !passwordInput){
+      msg("loginStatus","Kolom email atau kata sandi tidak ditemukan. File admin.html dan admin.html.js tidak cocok. Unggah ulang kedua file dari paket perbaikan yang sama.");
+      return;
+    }
+    btn.disabled=true;msg("loginStatus","Menghubungkan ke Supabase...");
     try{
       if(!client)throw Error("Supabase belum terbaca. Periksa supabase.js dan koneksi internet.");
-      const {error}=await client.auth.signInWithPassword({email:$("email").value.trim(),password:$("password").value});
+      const {error}=await client.auth.signInWithPassword({email:emailInput.value.trim(),password:passwordInput.value});
       if(error)throw error;showAdmin();msg("loginStatus","");await loadAdmin();
     }catch(err){showLogin();msg("loginStatus","Login gagal: "+err.message);}
     finally{btn.disabled=false;}
