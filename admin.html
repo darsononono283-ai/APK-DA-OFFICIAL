@@ -1,35 +1,507 @@
 <!DOCTYPE html>
 <html lang="id">
 <head>
-<meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
-<meta name="robots" content="noindex,nofollow"><meta name="theme-color" content="#0b1220">
-<title>Admin APK | DA•OFFICIAL</title><link rel="icon" href="./icon.svg">
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="theme-color" content="#0b1220">
+<title>Admin - APK DA•OFFICIAL</title>
+<meta name="robots" content="noindex,nofollow">
+<link rel="icon" type="image/svg+xml" href="./icon.svg">
+
+<link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
+<link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.css" rel="stylesheet">
+
 <style>
-*{box-sizing:border-box}body{margin:0;min-height:100vh;background:#0b1220;color:#edf3ff;font:15px/1.6 system-ui,sans-serif}a{color:#9dc2ff;text-decoration:none}
-header{border-bottom:1px solid #26364e;background:#121d30;padding:17px 20px}.top{max-width:980px;margin:auto;display:flex;justify-content:space-between;gap:10px;align-items:center}.top strong{font-size:19px}
-main{display:block!important;visibility:visible!important;max-width:980px;margin:30px auto;padding:0 16px 40px}.panel{display:block;background:#142136;border:1px solid #2c405d;border-radius:19px;padding:clamp(18px,4vw,28px);margin-bottom:22px}
-h1,h2{margin:0 0 14px;line-height:1.2}h1{font-size:25px}h2{font-size:20px}.muted{color:#9baec8;font-size:13px}
-label{display:block;margin:14px 0 5px;font-weight:700;font-size:13px}input,textarea,select{display:block;width:100%;background:#0d1727;color:#f1f6ff;border:1px solid #3a4b66;border-radius:10px;padding:12px;outline:none}input:focus,textarea:focus,select:focus{border-color:#76a9ff}textarea{resize:vertical}
-button{border:0;border-radius:10px;padding:11px 17px;font:inherit;font-weight:750;cursor:pointer;color:#fff;background:#2868dc}button:disabled{opacity:.5;cursor:wait}.secondary{background:#344761}.danger{background:#a83b49}
-.actions{display:flex;gap:9px;flex-wrap:wrap;margin-top:17px}.grid{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:0 16px}
-.item{border:1px solid #30435e;background:#101b2c;border-radius:13px;padding:14px;margin-top:12px;display:flex;align-items:center;justify-content:space-between;gap:12px}.item strong,.item small{display:block}.item small{color:#9baec8;overflow-wrap:anywhere}.item .actions{margin:0;flex-shrink:0}
-.status{margin-top:13px;color:#a9d5ff;white-space:pre-wrap;overflow-wrap:anywhere}.hidden{display:none!important}
-@media(max-width:600px){.grid{grid-template-columns:1fr}.item{align-items:start;flex-direction:column}.item .actions{width:100%}.top{align-items:flex-start}.top strong{font-size:17px}}
-</style></head><body>
-<header><div class="top"><strong>APK DA•OFFICIAL <span class="muted">/ Admin</span></strong><a href="./index.html">← Lihat website</a></div></header>
-<main>
-<section class="panel" id="loginPanel"><h1>Login Admin</h1><p class="muted">Masuk menggunakan akun Supabase yang berwenang mengelola APK.</p>
-<form id="loginForm"><label for="email">Email</label><input id="email" type="email" autocomplete="username" required><label for="password">Kata sandi</label><input id="password" type="password" autocomplete="current-password" required><div class="actions"><button id="loginBtn" type="submit">Masuk</button></div></form><div id="loginStatus" class="status" role="status" aria-live="polite"></div></section>
-<div id="adminArea" class="hidden"><div class="actions" style="justify-content:space-between;align-items:center;margin:0 0 18px"><h1 style="margin:0">Kelola APK</h1><button id="logout" type="button" class="secondary">Keluar</button></div>
-<section class="panel"><h2 id="formTitle">Tambah APK Baru</h2><form id="appForm"><div class="grid">
-<div><label for="name">Nama aplikasi *</label><input id="name" maxlength="150" required></div><div><label for="category">Kategori</label><select id="category"><option>Game</option><option>Sosial</option><option>Tools</option><option>Media</option><option>Lainnya</option></select></div>
-<div><label for="version">Versi</label><input id="version" maxlength="60" placeholder="Contoh: 2.0"></div><div><label for="size">Ukuran</label><input id="size" maxlength="60" placeholder="Contoh: 45 MB"></div>
-<div><label for="icon">URL ikon</label><input id="icon" type="url" placeholder="https://..."></div><div><label for="download_url">URL unduhan *</label><input id="download_url" type="url" required placeholder="https://..."></div>
-</div><label for="description">Deskripsi</label><textarea id="description" rows="4"></textarea><div class="actions"><button id="saveBtn" type="submit">Simpan APK</button><button id="cancelBtn" type="button" class="secondary hidden">Batal Edit</button></div></form><div id="formStatus" class="status" role="status"></div></section>
-<section class="panel"><h2>Daftar APK</h2><p class="muted">Edit atau hapus aplikasi yang sudah tersimpan.</p><div id="list">Memuat...</div></section>
-<section class="panel"><h2>Kelola Notifikasi</h2><p class="muted">Buat pengumuman yang akan tampil pada menu Notifikasi pengunjung.</p><form id="noticeForm"><label for="noticeTitle">Judul pengumuman *</label><input id="noticeTitle" maxlength="150" required><label for="noticeMessage">Isi pengumuman *</label><textarea id="noticeMessage" rows="4" required></textarea><div class="actions"><button id="noticeSave" type="submit">Terbitkan Notifikasi</button></div></form><div id="noticeStatus" class="status" role="status"></div><div id="noticeList">Memuat notifikasi...</div></section>
-</div></main>
+:root {
+  --yellow:#ffe34d;
+  --red:#ff514b;
+  --blue:#52d9ff;
+  --black:#171717;
+  --paper:#fffdf4;
+}
+* { box-sizing:border-box; }
+body {
+  margin:0;
+  color:var(--black);
+  font-family:Arial,sans-serif;
+  font-weight:700;
+  background-color:var(--yellow);
+  background-image:radial-gradient(#171717 1px,transparent 1.5px);
+  background-size:12px 12px;
+}
+.navbar {
+  background:var(--paper);
+  border-bottom:4px solid var(--black);
+  box-shadow:0 5px 0 var(--black);
+}
+.logo { font-size:19px;font-weight:1000; }
+.logo span { color:var(--red); }
+.comic {
+  background:var(--paper);
+  border:4px solid var(--black);
+  border-radius:18px;
+  box-shadow:7px 7px 0 var(--black);
+}
+.login-box {
+  max-width:440px;
+  margin:65px auto;
+  padding:26px;
+}
+.admin-box {
+  max-width:760px;
+  margin:30px auto;
+  padding:22px;
+}
+.comic-heading {
+  text-align:center;
+  margin-bottom:22px;
+}
+.comic-heading i {
+  display:inline-flex;
+  justify-content:center;
+  align-items:center;
+  width:76px;height:76px;
+  background:var(--blue);
+  border:4px solid var(--black);
+  border-radius:18px;
+  font-size:38px;
+  box-shadow:4px 4px 0 var(--black);
+  transform:rotate(-4deg);
+}
+.comic-heading h2 {
+  font-size:clamp(25px,6vw,35px);
+  font-weight:1000;
+  text-transform:uppercase;
+  margin-top:18px;
+  text-shadow:2px 2px 0 var(--yellow);
+}
+.form-label { font-weight:900; }
+.form-control,.form-select {
+  border:3px solid var(--black);
+  border-radius:10px;
+  padding:11px;
+  background:#fff;
+  color:var(--black);
+  font-weight:600;
+}
+.form-control:focus,.form-select:focus {
+  border-color:var(--red);
+  box-shadow:3px 3px 0 var(--black);
+}
+.btn-comic {
+  width:100%;
+  padding:12px;
+  border:3px solid var(--black);
+  border-radius:11px;
+  background:var(--yellow);
+  color:var(--black);
+  font-size:16px;
+  font-weight:1000;
+  box-shadow:4px 4px 0 var(--black);
+  transition:transform .12s,box-shadow .12s;
+}
+.btn-comic:active {
+  transform:translate(3px,3px);
+  box-shadow:1px 1px 0 var(--black);
+}
+.btn-comic:disabled { opacity:.6; }
+.btn-red { background:var(--red);color:#fff; }
+.btn-blue { background:var(--blue); }
+.btn-dark-comic { background:var(--black);color:#fff; }
+.logout-btn,.back-btn {
+  border:3px solid var(--black);
+  border-radius:9px;
+  padding:7px 10px;
+  color:var(--black);
+  background:var(--blue);
+  text-decoration:none;
+  font-weight:900;
+}
+.logout-btn { background:var(--red);color:white; }
+.tabs {
+  display: grid;
+  grid-template-columns: repeat(3, 
+  minmax(0, 1fr));
+  gap:10px;
+  max-width:760px;
+  margin:30px auto 0;
+}
+.tab-btn {
+  padding:13px 5px;
+  border:3px solid var(--black);
+  border-radius:12px;
+  background:var(--paper);
+  font-weight:1000;
+  box-shadow:4px 4px 0 var(--black);
+}
+.tab-btn.active { background:var(--blue); }
+.item-list { max-width:760px;margin:25px auto 60px; }
+.item-card {
+  background:var(--paper);
+  border:3px solid var(--black);
+  border-radius:14px;
+  padding:14px;
+  margin-bottom:15px;
+  box-shadow:4px 4px 0 var(--black);
+  overflow-wrap:anywhere;
+}
+.app-icon {
+  width:58px;height:58px;
+  object-fit:cover;
+  border:3px solid var(--black);
+  border-radius:12px;
+  background:white;
+}
+.item-name { font-size:17px;font-weight:1000; }
+.item-info { font-size:13px;color:#555; }
+.quote-text { font-size:16px;white-space:pre-wrap; }
+.small-comic {
+  border:2px solid var(--black);
+  border-radius:8px;
+  padding:7px 10px;
+  font-weight:900;
+}
+.btn-edit { background:var(--blue); }
+.btn-delete { background:var(--red);color:white; }
+.empty {
+  text-align:center;
+  padding:24px;
+  background:var(--paper);
+  border:3px dashed var(--black);
+  border-radius:14px;
+}
+#statsPanel { display:none; }
+.stats-grid { display:grid; grid-template-columns:repeat(4,minmax(0,1fr)); gap:12px; margin:28px auto 18px; max-width:1000px; }
+.stats-card { background:var(--paper); border:3px solid var(--black); border-radius:14px; padding:15px; box-shadow:4px 4px 0 var(--black); min-width:0; }
+.stats-label { font-size:12px; color:#555; }
+.stats-value { font-size:clamp(23px,4vw,34px); font-weight:1000; overflow-wrap:anywhere; }
+.stats-panel { max-width:1000px; margin:18px auto; padding:18px; }
+.stats-row { display:flex; align-items:center; gap:10px; margin:12px 0; }
+.stats-row-name { min-width:0; flex:1; overflow-wrap:anywhere; font-size:13px; }
+.stats-track { flex:2; height:12px; background:#e5e5e5; border:2px solid var(--black); border-radius:7px; overflow:hidden; }
+.stats-fill { height:100%; background:var(--blue); }
+.stats-count { min-width:32px; text-align:right; font-weight:1000; }
+@media(max-width:600px){ .stats-grid { grid-template-columns:repeat(2,minmax(0,1fr)); margin:22px 8px; } .stats-panel { margin:18px 8px; padding:14px; } .tabs { grid-template-columns:repeat(2,minmax(0,1fr)); } }
+#adminPanel,#quotePanel { display:none; }
+#musicPanel { display:none; }
+#loginPanel { display:block; }
+#quoteStatus,#status,#loginStatus { margin-top:15px; }
+@media(max-width:500px) {
+  .admin-box { margin:22px 8px;padding:17px; }
+  .login-box { margin:45px 8px;padding:20px; }
+  .logo { font-size:15px; }
+}
+</style>
+
+<style id="da-admin-professional-refresh">
+  body { font-family: Inter, ui-sans-serif, system-ui, -apple-system, "Segoe UI", sans-serif; background:linear-gradient(135deg,#f4f7fb,#edf2f8); color:#182230; font-weight:500; }
+  .navbar { background:rgba(255,255,255,.94); border-bottom:1px solid #e3e9f1; box-shadow:0 8px 24px rgba(18,35,60,.08); }
+  .logo { font-weight:850; letter-spacing:-.3px; }
+  .comic { background:#fff; border:1px solid #e2e8f0; border-radius:20px; box-shadow:0 16px 42px rgba(18,35,60,.09); }
+  .admin-box,.login-box { padding:clamp(18px,3vw,30px); }
+  .comic-heading i { background:#edf4ff; border:1px solid #d6e4f8; border-radius:18px; box-shadow:none; transform:none; color:#2456a6; }
+  .comic-heading h2 { color:#182230; text-shadow:none; text-transform:none; font-size:clamp(24px,5vw,31px); letter-spacing:-.7px; }
+  .comic-heading p { color:#647184; font-weight:500; }
+  .form-label { font-weight:700; color:#344256; }
+  .form-control,.form-select { border:1px solid #d7dee8; border-radius:12px; padding:12px 13px; color:#182230; font-weight:500; background:#fbfcfe; }
+  .form-control:focus,.form-select:focus { border-color:#4b83d2; box-shadow:0 0 0 4px rgba(37,99,235,.12); }
+  .btn-comic,.btn-comic:focus { border:0; border-radius:12px; box-shadow:0 5px 14px rgba(26,45,75,.12); font-weight:750; }
+  .btn-comic:active { transform:translateY(1px); box-shadow:0 2px 7px rgba(26,45,75,.12); }
+  .btn-red { background:#d94343; }
+  .btn-blue { background:#eaf2ff; color:#1b4f91; }
+  .btn-dark-comic { background:#1e293b; }
+  .logout-btn,.back-btn { border:1px solid #d7e0ea; border-radius:10px; box-shadow:none; padding:8px 12px; }
+  .logout-btn { background:#fff0f0; color:#b42318; }
+  .back-btn { background:#eef4ff; color:#1d4d88; }
+  .tabs { gap:9px; }
+  .tab-btn { border:1px solid #dce4ee; border-radius:13px; box-shadow:none; background:#fff; color:#40516a; transition:.18s ease; }
+  .tab-btn.active { background:#eaf2ff; color:#1b4f91; border-color:#b9d1f2; }
+  .item-card,.stats-card { background:#fff; border:1px solid #e2e8f0; border-radius:15px; box-shadow:0 8px 20px rgba(18,35,60,.06); }
+  .app-icon { border:1px solid #e1e7ef; border-radius:14px; }
+  .small-comic { border:1px solid #d8e1ed; border-radius:9px; box-shadow:none; padding:8px 12px; }
+  .btn-edit { background:#eaf2ff; color:#1b4f91; }
+  .btn-delete { background:#fff0f0; color:#b42318; }
+  .empty { border:1px dashed #cbd5e1; background:#f8fafc; border-radius:14px; color:#647184; }
+  @media(max-width:600px) { .tabs { gap:8px; } .tab-btn { font-size:.82rem; } }
+  @media(prefers-reduced-motion:reduce) { *,*::before,*::after { transition:none !important; animation:none !important; } }
+</style>
+
+
+<style id="da-official-premium-theme">
+:root{--yellow:#eaf2ff;--red:#d94343;--blue:#eaf2ff;--black:#17243a;--paper:#fff}
+body{background:linear-gradient(135deg,#f3f6fb,#edf2f8)!important;color:#17243a!important;font-family:Inter,ui-sans-serif,system-ui,-apple-system,"Segoe UI",sans-serif!important}
+.navbar{background:rgba(255,255,255,.96)!important;border:0!important;border-bottom:1px solid #e2e9f2!important;box-shadow:0 8px 24px rgba(15,23,42,.07)!important;backdrop-filter:blur(14px)}
+.logo{color:#17243a!important}.logo span{color:#2457a6!important}
+.comic{background:#fff!important;border:1px solid #e2e8f0!important;border-radius:20px!important;box-shadow:0 16px 42px rgba(18,35,60,.08)!important}
+.comic-heading i{background:#edf4ff!important;color:#2457a6!important;border:1px solid #d6e4f8!important;box-shadow:none!important;transform:none!important}
+.comic-heading h2{color:#17243a!important;text-shadow:none!important;text-transform:none!important;font-weight:850!important;letter-spacing:-.6px!important}
+.comic-heading p{color:#64748b!important}
+.form-control,.form-select{background:#fbfcfe!important;border:1px solid #d7dee8!important;border-radius:12px!important;color:#17243a!important;box-shadow:none!important}
+.form-control:focus,.form-select:focus{border-color:#4b83d2!important;box-shadow:0 0 0 4px rgba(37,99,235,.12)!important}
+.btn-comic,.btn-comic:focus{border:0!important;border-radius:12px!important;box-shadow:0 5px 14px rgba(26,45,75,.12)!important;font-weight:750!important}
+.btn-blue{background:#eaf2ff!important;color:#1b4f91!important}.btn-red{background:#d94343!important;color:#fff!important}.btn-dark-comic{background:#1e293b!important;color:#fff!important}
+.back-btn{background:#eef4ff!important;color:#1d4d88!important;border:1px solid #d7e0ea!important;box-shadow:none!important}
+.logout-btn{background:#fff0f0!important;color:#b42318!important;border:1px solid #f4d3d3!important;box-shadow:none!important}
+.tab-btn{background:#fff!important;color:#40516a!important;border:1px solid #dce4ee!important;border-radius:13px!important;box-shadow:none!important}
+.tab-btn.active{background:#eaf2ff!important;color:#1b4f91!important;border-color:#b9d1f2!important}
+.item-card,.stats-card{background:#fff!important;border:1px solid #e2e8f0!important;border-radius:15px!important;box-shadow:0 8px 20px rgba(18,35,60,.06)!important}
+.app-icon{border:1px solid #e1e7ef!important;border-radius:14px!important}
+.small-comic{border:1px solid #d8e1ed!important;border-radius:9px!important;box-shadow:none!important}
+.btn-edit{background:#eaf2ff!important;color:#1b4f91!important}.btn-delete{background:#fff0f0!important;color:#b42318!important}
+.empty{border:1px dashed #cbd5e1!important;background:#f8fafc!important;border-radius:14px!important;color:#647184!important}
+.stats-fill{background:linear-gradient(90deg,#2457a6,#69a2eb)!important;border-radius:99px}
+.stats-chart-card{max-width:1000px;margin:18px auto;padding:clamp(15px,3vw,22px)}
+.stats-chart-head{display:flex;align-items:flex-start;justify-content:space-between;gap:12px;flex-wrap:wrap}
+.stats-chart-title{font-weight:850;color:#17243a;margin:0}
+.stats-chart-subtitle{color:#748197;font-size:13px;margin:4px 0 0}
+.stats-chart-total{font-size:24px;font-weight:850;color:#2457a6;white-space:nowrap}
+.stats-chart-wrap{width:100%;overflow:hidden;margin-top:12px}
+.stats-chart-svg{display:block;width:100%;height:auto;min-height:160px}
+.stats-chart-grid{stroke:#e8edf4;stroke-width:1}
+.stats-chart-line{fill:none;stroke:#2457a6;stroke-width:4;stroke-linecap:round;stroke-linejoin:round}
+.stats-chart-area{fill:url(#statsChartFill)}
+.stats-chart-dot{fill:#fff;stroke:#2457a6;stroke-width:3}
+.stats-chart-label{fill:#718096;font-size:11px;font-weight:600}
+.stats-chart-value{fill:#244e82;font-size:11px;font-weight:800}
+@media(max-width:600px){.stats-chart-card{margin:14px 8px;padding:14px}.stats-chart-total{font-size:21px}}
+</style>
+
+
+<style id="da-official-current-dark-theme">
+:root{color-scheme:dark;--bg:#0b1220;--surface:#121d30;--surface2:#19263b;--line:#26364e;--text:#f2f6ff;--muted:#9aaec7;--accent:#4f8cff}
+html,body{background:var(--bg)!important;color:var(--text)!important;font-family:system-ui,-apple-system,"Segoe UI",sans-serif!important}
+body{min-height:100vh;background:radial-gradient(ellipse at 85% 0%,rgba(55,109,226,.18),transparent 48%),var(--bg)!important}
+.navbar{position:sticky;top:0;z-index:20;background:rgba(11,18,32,.94)!important;border:0!important;border-bottom:1px solid var(--line)!important;box-shadow:0 8px 24px rgba(0,0,0,.18)!important;backdrop-filter:blur(18px)}
+.logo,.logo span{color:#f2f6ff!important}.logo small{color:#91baff!important}
+.comic,.admin-box,.login-box{background:linear-gradient(160deg,var(--surface),#101b2d)!important;color:var(--text)!important;border:1px solid var(--line)!important;border-radius:19px!important;box-shadow:0 14px 36px rgba(0,0,0,.22)!important}
+.comic-heading h2,.comic-heading h2 *{color:#f2f6ff!important;text-shadow:none!important}.comic-heading p,.item-info,.stats-label,.stats-chart-subtitle{color:var(--muted)!important}
+.comic-heading i{background:#1c3762!important;color:#91baff!important;border:1px solid #345987!important;box-shadow:none!important}
+.form-label{color:#dce8fa!important;font-weight:700!important}
+.form-control,.form-select{background:#0d1727!important;color:#f1f6ff!important;border:1px solid #344967!important;border-radius:12px!important}
+.form-control::placeholder{color:#7f93af!important}.form-control:focus,.form-select:focus{background:#0d1727!important;color:#fff!important;border-color:#579bff!important;box-shadow:0 0 0 3px rgba(79,140,255,.18)!important}
+.form-select option{background:#0d1727;color:#fff}
+.btn-comic,.btn-comic:focus,.small-comic{border:0!important;border-radius:11px!important;box-shadow:none!important;font-weight:750!important}
+.btn-red{background:#2868dc!important;color:#fff!important}.btn-blue,.btn-edit{background:#1d3558!important;color:#b9d4ff!important}.btn-dark-comic,.back-btn{background:#1b2a40!important;color:#dce8fa!important;border:1px solid #344967!important}.logout-btn,.btn-delete{background:#48232d!important;color:#ffb7c0!important;border:1px solid #713441!important}
+.tabs{display:grid!important;grid-template-columns:repeat(3,minmax(0,1fr));gap:10px!important;margin:24px auto!important}
+.tab-btn{background:var(--surface)!important;color:#b7c8e0!important;border:1px solid var(--line)!important;border-radius:13px!important;box-shadow:none!important;padding:13px 10px!important;font-weight:750!important}
+.tab-btn.active,.tab-btn:hover{background:#244d8b!important;color:#fff!important;border-color:#447bd0!important}
+.item-card,.stats-card,.stats-panel{background:var(--surface)!important;color:var(--text)!important;border:1px solid var(--line)!important;border-radius:15px!important;box-shadow:0 8px 22px rgba(0,0,0,.18)!important}
+.app-icon{border:1px solid #344967!important;border-radius:13px!important;background:#1c2b43!important}.empty{background:#101b2d!important;color:var(--muted)!important;border:1px dashed #395071!important;border-radius:14px!important}
+.stats-track{background:#1c2b43!important;border:1px solid #395071!important}.stats-fill{background:linear-gradient(90deg,#2868dc,#75a7ff)!important}
+.alert{border-radius:12px!important}.text-muted{color:var(--muted)!important}
+@media(max-width:600px){.tabs{grid-template-columns:1fr!important}.admin-box,.login-box{margin-left:8px;margin-right:8px}.tab-btn{text-align:left}}
+</style>
+
+</head>
+
+<body>
+<nav class="navbar">
+  <div class="container py-3 d-flex justify-content-between align-items-center gap-2">
+    <div class="logo">
+      <i class="bi bi-lightning-charge-fill"></i>
+      APK <span>DA•OFFICIAL</span>
+      <small>ADMIN</small>
+    </div>
+    <div id="navRight">
+      <a href="index.html" class="back-btn"><i class="bi bi-house"></i> Beranda</a>
+    </div>
+  </div>
+</nav>
+
+<!-- LOGIN -->
+<div id="loginPanel" class="container">
+  <div class="login-box comic">
+    <div class="comic-heading">
+      <i class="bi bi-shield-lock-fill"></i>
+      <h2>Admin Login!</h2>
+      <p>Masuk untuk mengelola website</p>
+    </div>
+    <form id="loginForm">
+      <div class="mb-3">
+        <label class="form-label">Email admin</label>
+        <input type="email" id="loginEmail" class="form-control" required autocomplete="username">
+      </div>
+      <div class="mb-4">
+        <label class="form-label">Password</label>
+        <input type="password" id="loginPassword" class="form-control" required autocomplete="current-password">
+      </div>
+      <button type="submit" id="loginBtn" class="btn-comic btn-red">
+        <i class="bi bi-box-arrow-in-right"></i> LOGIN
+      </button>
+    </form>
+    <div id="loginStatus"></div>
+  </div>
+</div>
+
+<!-- PANEL ADMIN -->
+<div id="adminPanel">
+  <div class="container">
+    <div class="tabs">
+      <button class="tab-btn active" id="apkTab" type="button" onclick="showSection('apk')">
+        <i class="bi bi-phone-fill"></i> KELOLA APK
+      </button>
+<button class="tab-btn" id="announcementTab" type="button"
+  onclick="showSection('announcements')">
+  <i class="bi bi-megaphone-fill"></i> PENGUMUMAN
+</button>
+      <button class="tab-btn" id="statsTab" type="button" onclick="showSection('stats')">
+        <i class="bi bi-bar-chart-fill"></i> STATISTIK
+      </button>
+</div>
+
+    <!-- KELOLA APK -->
+    <section id="apkPanel">
+      <div class="admin-box comic">
+        <div class="comic-heading">
+          <i class="bi bi-cloud-arrow-up-fill"></i>
+          <h2 id="formTitle">Tambah APK!</h2>
+          <p>Kelola aplikasi di website</p>
+          <div id="appEditNotice" class="alert alert-primary mt-3 mb-0" style="display:none" role="status">
+            <i class="bi bi-pencil-square"></i>
+            <strong>Mode update aktif.</strong> Ubah informasi APK lalu tekan Simpan Perubahan. APK lama akan diperbarui, bukan dihapus.
+          </div>
+        </div>
+
+        <form id="addAppForm">
+          <div class="mb-3">
+            <label class="form-label">Nama aplikasi</label>
+            <input type="text" id="name" class="form-control" required>
+          </div>
+          <div class="mb-3">
+            <label class="form-label">Deskripsi</label>
+            <textarea id="description" class="form-control" rows="3"></textarea>
+          </div>
+          <div class="row">
+            <div class="col-6 mb-3">
+              <label class="form-label">Versi</label>
+              <input type="text" id="version" class="form-control">
+            </div>
+            <div class="col-6 mb-3">
+              <label class="form-label">Ukuran APK</label>
+              <input type="text" id="size" class="form-control">
+            </div>
+          </div>
+          <div class="mb-3">
+            <label class="form-label">Kategori</label>
+            <select id="category" class="form-select">
+              <option>Game</option>
+              <option>Sosial</option>
+              <option>Tools</option>
+              <option>Media</option>
+              <option>Lainnya</option>
+            </select>
+          </div>
+          <div class="mb-3">
+            <label class="form-label">URL icon APK</label>
+            <input type="url" id="icon" class="form-control" placeholder="https://contoh.com/icon.png">
+          </div>
+          <div class="mb-4">
+            <label class="form-label">URL download APK</label>
+            <input type="url" id="download_url" class="form-control" required placeholder="https://contoh.com/aplikasi.apk">
+          </div>
+          <button type="submit" id="saveBtn" class="btn-comic">
+            <i class="bi bi-plus-circle"></i> TAMBAHKAN APK
+          </button>
+          <button type="button" id="cancelBtn" class="btn-comic btn-dark-comic mt-3" style="display:none">
+            BATAL EDIT
+          </button>
+        </form>
+        <div id="status"></div>
+      </div>
+
+      <div class="item-list">
+        <h4>💥 DAFTAR APK</h4>
+        <div id="appList"><div class="empty">Memuat APK...</div></div>
+      </div>
+    </section>
+<!-- PANEL PENGUMUMAN ADMIN -->
+    <section id="announcementPanel" style="display:none">
+      <div class="admin-box comic">
+        <div class="comic-heading">
+          <i class="bi bi-megaphone-fill"></i>
+          <h2>Pengumuman Admin!</h2>
+          <p>Kirim informasi terbaru kepada pengunjung</p>
+        </div>
+
+        <form id="announcementForm">
+          <div class="mb-3">
+            <label class="form-label" for="announcementTitle">
+              Judul Pengumuman
+            </label>
+            <input id="announcementTitle" class="form-control"
+              maxlength="150" required
+              placeholder="Contoh: Update APK DA•OFFICIAL">
+          </div>
+
+          <div class="mb-3">
+            <label class="form-label" for="announcementMessage">
+              Isi Pengumuman
+            </label>
+            <textarea id="announcementMessage" class="form-control"
+              rows="4" maxlength="2000" required
+              placeholder="Tulis pengumuman di sini..."></textarea>
+          </div>
+
+          <button type="submit" id="announcementSaveBtn"
+            class="btn-comic btn-red">
+            <i class="bi bi-send-fill"></i> TERBITKAN PENGUMUMAN
+          </button>
+        </form>
+
+        <div id="announcementStatus"></div>
+      </div>
+
+      <div class="item-list">
+        <h4>📢 DAFTAR PENGUMUMAN</h4>
+        <div id="announcementList">
+          <div class="empty">Memuat pengumuman...</div>
+        </div>
+      </div>
+    </section>
+<!-- DASHBOARD STATISTIK ADMIN -->
+    <section id="statsPanel" style="display:none">
+      <div class="container">
+        <div class="comic-heading mt-4">
+          <h2>Dashboard Statistik!</h2>
+          <p>Ringkasan data APK DA•OFFICIAL dari Supabase</p>
+          <button type="button" class="btn-comic btn-blue" style="max-width:260px" onclick="loadDashboardStats()">
+            <i class="bi bi-arrow-clockwise"></i> PERBARUI STATISTIK
+          </button>
+          <div id="statsStatus" class="mt-3"></div>
+        </div>
+        <div class="stats-grid">
+          <div class="stats-card"><div class="stats-label">TOTAL APLIKASI</div><div class="stats-value" id="statsApps">—</div></div>
+          <div class="stats-card"><div class="stats-label">KLIK UNDUHAN TERCATAT</div><div class="stats-value" id="statsDownloads">—</div></div>
+          <div class="stats-card"><div class="stats-label">TOTAL ULASAN</div><div class="stats-value" id="statsReviews">—</div></div>
+          <div class="stats-card"><div class="stats-label">TOTAL PENILAIAN</div><div class="stats-value" id="statsRatings">—</div></div>
+        </div>
+
+        <div class="admin-box comic stats-chart-card">
+          <div class="stats-chart-head">
+            <div>
+              <h4 class="stats-chart-title"><i class="bi bi-graph-up-arrow"></i> Tren unduhan 7 hari</h4>
+              <p class="stats-chart-subtitle">Berdasarkan catatan klik unduhan yang tersimpan di Supabase</p>
+            </div>
+            <div class="text-end">
+              <div class="stats-chart-total" id="statsChartTotal">—</div>
+              <div class="stats-chart-subtitle">Klik dalam 7 hari</div>
+            </div>
+          </div>
+          <div id="statsDownloadsChart" class="stats-chart-wrap" role="img" aria-label="Grafik aktivitas klik unduhan tujuh hari terakhir">
+            <div class="empty">Memuat grafik unduhan...</div>
+          </div>
+        </div>
+
+        <div class="admin-box comic stats-panel"><h4>🔥 APK TERPOPULER</h4><div id="statsPopular"><div class="empty">Tekan menu Statistik untuk memuat data.</div></div></div>
+        <div class="admin-box comic stats-panel"><h4>🆕 APK TERBARU</h4><div id="statsLatest"><div class="empty">Memuat data...</div></div></div>
+        <div class="admin-box comic stats-panel"><h4>⬇️ AKTIVITAS UNDUHAN TERBARU</h4><div id="statsRecent"><div class="empty">Memuat data...</div></div><p class="item-info mt-3">Angka unduhan menghitung catatan klik yang tersimpan, bukan bukti file selesai diunduh. Statistik ulasan/rating memerlukan tabel terkait dan izin baca admin di Supabase.</p></div>
+      </div>
+    </section>
+  </div>
+</div>
+
 <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
-<script src="./supabase.js"></script>
+<script src="supabase.js"></script>
 <script src="./admin.html.js"></script>
-</body></html>
+</body>
+</html>
