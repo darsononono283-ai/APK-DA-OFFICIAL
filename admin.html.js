@@ -63,18 +63,9 @@ loginForm.addEventListener("submit", async e => {
   $("loginStatus").innerHTML = "";
 
   try {
-    // Kompatibel dengan ID formulir admin lama dan versi baru.
-    const emailInput = $("loginEmail") || $("email") || loginForm.querySelector('input[type="email"]');
-    const passwordInput = $("loginPassword") || $("password") || loginForm.querySelector('input[type="password"]');
-
-    if (!emailInput || !passwordInput) {
-      showMessage("loginStatus", "Kolom email atau password tidak ditemukan. Pastikan admin.html dan admin.html.js berasal dari pasangan file yang sama.");
-      return;
-    }
-
-    const {error} = await window.supabaseClient.auth.signInWithPassword({
-      email: emailInput.value.trim(),
-      password: passwordInput.value
+    const {error} = await supabaseClient.auth.signInWithPassword({
+      email:$("loginEmail").value.trim(),
+      password:$("loginPassword").value
     });
     if (error) throw error;
     await showAdmin();

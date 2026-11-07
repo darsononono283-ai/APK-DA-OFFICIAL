@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
-<meta name="theme-color" content="#0b1220">
+<meta name="theme-color" content="#17243a">
 <title>Admin - APK DA•OFFICIAL</title>
 <meta name="robots" content="noindex,nofollow">
 <link rel="icon" type="image/svg+xml" href="./icon.svg">
@@ -182,10 +182,9 @@ body {
 .stats-fill { height:100%; background:var(--blue); }
 .stats-count { min-width:32px; text-align:right; font-weight:1000; }
 @media(max-width:600px){ .stats-grid { grid-template-columns:repeat(2,minmax(0,1fr)); margin:22px 8px; } .stats-panel { margin:18px 8px; padding:14px; } .tabs { grid-template-columns:repeat(2,minmax(0,1fr)); } }
-#adminPanel,#quotePanel { display:none; }
-#musicPanel { display:none; }
+#adminPanel { display:none; }
 #loginPanel { display:block; }
-#quoteStatus,#status,#loginStatus { margin-top:15px; }
+#status,#loginStatus,#announcementStatus { margin-top:15px; }
 @media(max-width:500px) {
   .admin-box { margin:22px 8px;padding:17px; }
   .login-box { margin:45px 8px;padding:20px; }
@@ -267,29 +266,34 @@ body{background:linear-gradient(135deg,#f3f6fb,#edf2f8)!important;color:#17243a!
 </style>
 
 
-<style id="da-official-current-dark-theme">
-:root{color-scheme:dark;--bg:#0b1220;--surface:#121d30;--surface2:#19263b;--line:#26364e;--text:#f2f6ff;--muted:#9aaec7;--accent:#4f8cff}
-html,body{background:var(--bg)!important;color:var(--text)!important;font-family:system-ui,-apple-system,"Segoe UI",sans-serif!important}
-body{min-height:100vh;background:radial-gradient(ellipse at 85% 0%,rgba(55,109,226,.18),transparent 48%),var(--bg)!important}
-.navbar{position:sticky;top:0;z-index:20;background:rgba(11,18,32,.94)!important;border:0!important;border-bottom:1px solid var(--line)!important;box-shadow:0 8px 24px rgba(0,0,0,.18)!important;backdrop-filter:blur(18px)}
-.logo,.logo span{color:#f2f6ff!important}.logo small{color:#91baff!important}
-.comic,.admin-box,.login-box{background:linear-gradient(160deg,var(--surface),#101b2d)!important;color:var(--text)!important;border:1px solid var(--line)!important;border-radius:19px!important;box-shadow:0 14px 36px rgba(0,0,0,.22)!important}
-.comic-heading h2,.comic-heading h2 *{color:#f2f6ff!important;text-shadow:none!important}.comic-heading p,.item-info,.stats-label,.stats-chart-subtitle{color:var(--muted)!important}
-.comic-heading i{background:#1c3762!important;color:#91baff!important;border:1px solid #345987!important;box-shadow:none!important}
-.form-label{color:#dce8fa!important;font-weight:700!important}
-.form-control,.form-select{background:#0d1727!important;color:#f1f6ff!important;border:1px solid #344967!important;border-radius:12px!important}
-.form-control::placeholder{color:#7f93af!important}.form-control:focus,.form-select:focus{background:#0d1727!important;color:#fff!important;border-color:#579bff!important;box-shadow:0 0 0 3px rgba(79,140,255,.18)!important}
-.form-select option{background:#0d1727;color:#fff}
-.btn-comic,.btn-comic:focus,.small-comic{border:0!important;border-radius:11px!important;box-shadow:none!important;font-weight:750!important}
-.btn-red{background:#2868dc!important;color:#fff!important}.btn-blue,.btn-edit{background:#1d3558!important;color:#b9d4ff!important}.btn-dark-comic,.back-btn{background:#1b2a40!important;color:#dce8fa!important;border:1px solid #344967!important}.logout-btn,.btn-delete{background:#48232d!important;color:#ffb7c0!important;border:1px solid #713441!important}
-.tabs{display:grid!important;grid-template-columns:repeat(3,minmax(0,1fr));gap:10px!important;margin:24px auto!important}
-.tab-btn{background:var(--surface)!important;color:#b7c8e0!important;border:1px solid var(--line)!important;border-radius:13px!important;box-shadow:none!important;padding:13px 10px!important;font-weight:750!important}
-.tab-btn.active,.tab-btn:hover{background:#244d8b!important;color:#fff!important;border-color:#447bd0!important}
-.item-card,.stats-card,.stats-panel{background:var(--surface)!important;color:var(--text)!important;border:1px solid var(--line)!important;border-radius:15px!important;box-shadow:0 8px 22px rgba(0,0,0,.18)!important}
-.app-icon{border:1px solid #344967!important;border-radius:13px!important;background:#1c2b43!important}.empty{background:#101b2d!important;color:var(--muted)!important;border:1px dashed #395071!important;border-radius:14px!important}
-.stats-track{background:#1c2b43!important;border:1px solid #395071!important}.stats-fill{background:linear-gradient(90deg,#2868dc,#75a7ff)!important}
-.alert{border-radius:12px!important}.text-muted{color:var(--muted)!important}
-@media(max-width:600px){.tabs{grid-template-columns:1fr!important}.admin-box,.login-box{margin-left:8px;margin-right:8px}.tab-btn{text-align:left}}
+<style id="da-admin-clean-dashboard">
+  body { background:linear-gradient(145deg,#f5f8fc 0%,#eaf0f8 100%)!important; }
+  .navbar { position:sticky;top:0;z-index:20; }
+  .navbar .container { max-width:1120px; }
+  #adminPanel > .container { max-width:1120px; padding-bottom:48px; }
+  .tabs { max-width:100%; grid-template-columns:repeat(3,minmax(0,1fr)); margin:26px auto 22px; }
+  .tab-btn { min-height:52px; font-size:.9rem; }
+  #apkPanel,#announcementPanel,#statsPanel { animation:adminFade .22s ease both; }
+  .admin-box { max-width:900px; margin:26px auto; }
+  .item-list { max-width:900px; }
+  .stats-grid { max-width:100%; }
+  .stats-panel,.stats-chart-card { border-radius:18px; }
+  .comic-heading { margin-bottom:24px; }
+  .comic-heading i { width:64px;height:64px;font-size:30px; }
+  .btn-comic { min-height:46px; }
+  .item-card { transition:transform .18s ease,box-shadow .18s ease; }
+  .item-card:hover { transform:translateY(-2px);box-shadow:0 12px 26px rgba(18,35,60,.09)!important; }
+  @keyframes adminFade { from {opacity:0;transform:translateY(6px)} to {opacity:1;transform:translateY(0)} }
+  @media(max-width:600px) {
+    .tabs { grid-template-columns:1fr; margin:18px 8px; }
+    .tab-btn { min-height:46px; }
+    .admin-box { margin:18px 8px; }
+    .item-list { margin:20px 8px 42px; }
+    .stats-grid { grid-template-columns:repeat(2,minmax(0,1fr)); }
+  }
+  @media(min-width:601px) and (max-width:850px) {
+    .tabs { grid-template-columns:repeat(3,minmax(0,1fr)); }
+  }
 </style>
 
 </head>
