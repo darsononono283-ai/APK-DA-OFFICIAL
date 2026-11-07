@@ -1,30 +1,35 @@
-<!DOCTYPE html><html lang="id"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
-<meta name="robots" content="noindex,nofollow"><meta name="theme-color" content="#0b1220"><title>Admin APK | DA•OFFICIAL</title><link rel="icon" href="./icon.svg">
+<!DOCTYPE html>
+<html lang="id">
+<head>
+<meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+<meta name="robots" content="noindex,nofollow"><meta name="theme-color" content="#0b1220">
+<title>Admin APK | DA•OFFICIAL</title><link rel="icon" href="./icon.svg">
 <style>
-*{box-sizing:border-box}body{margin:0;background:#0b1220;color:#edf3ff;font:15px/1.6 system-ui,sans-serif}a{color:#9dc2ff;text-decoration:none}
+*{box-sizing:border-box}body{margin:0;min-height:100vh;background:#0b1220;color:#edf3ff;font:15px/1.6 system-ui,sans-serif}a{color:#9dc2ff;text-decoration:none}
 header{border-bottom:1px solid #26364e;background:#121d30;padding:17px 20px}.top{max-width:980px;margin:auto;display:flex;justify-content:space-between;gap:10px;align-items:center}.top strong{font-size:19px}
-main{max-width:980px;margin:30px auto;padding:0 16px}.panel{background:#142136;border:1px solid #2c405d;border-radius:19px;padding:clamp(18px,4vw,28px);margin-bottom:22px}
+main{display:block!important;visibility:visible!important;max-width:980px;margin:30px auto;padding:0 16px 40px}.panel{display:block;background:#142136;border:1px solid #2c405d;border-radius:19px;padding:clamp(18px,4vw,28px);margin-bottom:22px}
 h1,h2{margin:0 0 14px;line-height:1.2}h1{font-size:25px}h2{font-size:20px}.muted{color:#9baec8;font-size:13px}
-label{display:block;margin:14px 0 5px;font-weight:700;font-size:13px}input,textarea,select{width:100%;background:#0d1727;color:#f1f6ff;border:1px solid #3a4b66;border-radius:10px;padding:12px;outline:none}input:focus,textarea:focus,select:focus{border-color:#76a9ff}textarea{resize:vertical}
-button{border:0;border-radius:10px;padding:11px 17px;font:inherit;font-weight:750;cursor:pointer;color:#fff;background:#2868dc}button:disabled{opacity:.5;cursor:wait}.secondary{background:#344761}.danger{background:#a83b49}.actions{display:flex;gap:9px;flex-wrap:wrap;margin-top:17px}.grid{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:0 16px}.item{border:1px solid #30435e;background:#101b2c;border-radius:13px;padding:14px;margin-top:12px;display:flex;align-items:center;justify-content:space-between;gap:12px}.item strong{display:block}.item small{color:#9baec8}.item .actions{margin:0;flex-shrink:0}.status{margin-top:13px;color:#a9d5ff;white-space:pre-wrap}.hidden{display:none!important}
-@media(max-width:600px){.grid{grid-template-columns:1fr}.item{align-items:start;flex-direction:column}.item .actions{width:100%}}
-</style></head><body><header><div class="top"><strong>APK DA•OFFICIAL <span class="muted">/ Admin</span></strong><a href="./index.html">← Lihat website</a></div></header>
-<main><section class="panel" id="loginPanel"><h1>Login Admin</h1><p class="muted">Masuk menggunakan akun Supabase yang berwenang mengelola APK.</p><form id="loginForm"><label for="email">Email</label><input id="email" type="email" autocomplete="username" required><label for="password">Kata sandi</label><input id="password" type="password" autocomplete="current-password" required><div class="actions"><button id="loginBtn">Masuk</button></div></form><div id="loginStatus" class="status" role="status"></div></section>
-<div id="adminArea" class="hidden"><div class="actions" style="justify-content:space-between;align-items:center;margin:0 0 18px"><h1 style="margin:0">Kelola APK</h1><button id="logout" class="secondary">Keluar</button></div>
+label{display:block;margin:14px 0 5px;font-weight:700;font-size:13px}input,textarea,select{display:block;width:100%;background:#0d1727;color:#f1f6ff;border:1px solid #3a4b66;border-radius:10px;padding:12px;outline:none}input:focus,textarea:focus,select:focus{border-color:#76a9ff}textarea{resize:vertical}
+button{border:0;border-radius:10px;padding:11px 17px;font:inherit;font-weight:750;cursor:pointer;color:#fff;background:#2868dc}button:disabled{opacity:.5;cursor:wait}.secondary{background:#344761}.danger{background:#a83b49}
+.actions{display:flex;gap:9px;flex-wrap:wrap;margin-top:17px}.grid{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:0 16px}
+.item{border:1px solid #30435e;background:#101b2c;border-radius:13px;padding:14px;margin-top:12px;display:flex;align-items:center;justify-content:space-between;gap:12px}.item strong,.item small{display:block}.item small{color:#9baec8;overflow-wrap:anywhere}.item .actions{margin:0;flex-shrink:0}
+.status{margin-top:13px;color:#a9d5ff;white-space:pre-wrap;overflow-wrap:anywhere}.hidden{display:none!important}
+@media(max-width:600px){.grid{grid-template-columns:1fr}.item{align-items:start;flex-direction:column}.item .actions{width:100%}.top{align-items:flex-start}.top strong{font-size:17px}}
+</style></head><body>
+<header><div class="top"><strong>APK DA•OFFICIAL <span class="muted">/ Admin</span></strong><a href="./index.html">← Lihat website</a></div></header>
+<main>
+<section class="panel" id="loginPanel"><h1>Login Admin</h1><p class="muted">Masuk menggunakan akun Supabase yang berwenang mengelola APK.</p>
+<form id="loginForm"><label for="email">Email</label><input id="email" type="email" autocomplete="username" required><label for="password">Kata sandi</label><input id="password" type="password" autocomplete="current-password" required><div class="actions"><button id="loginBtn" type="submit">Masuk</button></div></form><div id="loginStatus" class="status" role="status" aria-live="polite"></div></section>
+<div id="adminArea" class="hidden"><div class="actions" style="justify-content:space-between;align-items:center;margin:0 0 18px"><h1 style="margin:0">Kelola APK</h1><button id="logout" type="button" class="secondary">Keluar</button></div>
 <section class="panel"><h2 id="formTitle">Tambah APK Baru</h2><form id="appForm"><div class="grid">
-<div><label for="name">Nama aplikasi *</label><input id="name" maxlength="150" required></div>
-<div><label for="category">Kategori</label><select id="category"><option>Game</option><option>Sosial</option><option>Tools</option><option>Media</option><option>Lainnya</option></select></div>
-<div><label for="version">Versi</label><input id="version" maxlength="60" placeholder="Contoh: 2.0"></div>
-<div><label for="size">Ukuran</label><input id="size" maxlength="60" placeholder="Contoh: 45 MB"></div>
-<div><label for="icon">URL ikon</label><input id="icon" type="url" placeholder="https://..."></div>
-<div><label for="download_url">URL unduhan *</label><input id="download_url" type="url" required placeholder="https://..."></div>
-</div><label for="description">Deskripsi</label><textarea id="description" rows="4"></textarea>
-<div class="actions"><button id="saveBtn">Simpan APK</button><button id="cancelBtn" type="button" class="secondary hidden">Batal Edit</button></div></form><div id="formStatus" class="status" role="status"></div></section>
+<div><label for="name">Nama aplikasi *</label><input id="name" maxlength="150" required></div><div><label for="category">Kategori</label><select id="category"><option>Game</option><option>Sosial</option><option>Tools</option><option>Media</option><option>Lainnya</option></select></div>
+<div><label for="version">Versi</label><input id="version" maxlength="60" placeholder="Contoh: 2.0"></div><div><label for="size">Ukuran</label><input id="size" maxlength="60" placeholder="Contoh: 45 MB"></div>
+<div><label for="icon">URL ikon</label><input id="icon" type="url" placeholder="https://..."></div><div><label for="download_url">URL unduhan *</label><input id="download_url" type="url" required placeholder="https://..."></div>
+</div><label for="description">Deskripsi</label><textarea id="description" rows="4"></textarea><div class="actions"><button id="saveBtn" type="submit">Simpan APK</button><button id="cancelBtn" type="button" class="secondary hidden">Batal Edit</button></div></form><div id="formStatus" class="status" role="status"></div></section>
 <section class="panel"><h2>Daftar APK</h2><p class="muted">Edit atau hapus aplikasi yang sudah tersimpan.</p><div id="list">Memuat...</div></section>
-<section class="panel"><h2>Kelola Notifikasi</h2><p class="muted">Buat pengumuman yang akan tampil pada menu Notifikasi pengunjung.</p>
-<form id="noticeForm"><label for="noticeTitle">Judul pengumuman *</label><input id="noticeTitle" maxlength="150" required>
-<label for="noticeMessage">Isi pengumuman *</label><textarea id="noticeMessage" rows="4" required></textarea>
-<div class="actions"><button id="noticeSave">Terbitkan Notifikasi</button></div></form><div id="noticeStatus" class="status" role="status"></div>
-<div id="noticeList">Memuat notifikasi...</div></section></div></main>
-<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script><script src="./supabase.js"></script><script src="./admin.html.js"></script>
+<section class="panel"><h2>Kelola Notifikasi</h2><p class="muted">Buat pengumuman yang akan tampil pada menu Notifikasi pengunjung.</p><form id="noticeForm"><label for="noticeTitle">Judul pengumuman *</label><input id="noticeTitle" maxlength="150" required><label for="noticeMessage">Isi pengumuman *</label><textarea id="noticeMessage" rows="4" required></textarea><div class="actions"><button id="noticeSave" type="submit">Terbitkan Notifikasi</button></div></form><div id="noticeStatus" class="status" role="status"></div><div id="noticeList">Memuat notifikasi...</div></section>
+</div></main>
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+<script src="./supabase.js"></script>
+<script src="./admin.html.js"></script>
 </body></html>
