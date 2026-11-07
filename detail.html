@@ -742,7 +742,89 @@ body{background:#eef3fa!important;background-image:none!important;color:#17243a!
 .info-box:nth-child(n){background:#f8fafc!important}
 .back-btn{background:#eaf2ff!important;color:#2457a6!important;border:1px solid #dce5f0!important;box-shadow:none!important}
 button,a{transition:filter .15s}button:hover,a:hover{filter:brightness(.96)}
-@media(prefers-reduced-motion:reduce){*,*::before,*::after{animation:none!important;transition:none!important}}\n</style></head>
+@media(prefers-reduced-motion:reduce){*,*::before,*::after{animation:none!important;transition:none!important}}\n
+/* ===== Samakan tampilan detail APK dengan beranda APK DA•OFFICIAL ===== */
+:root{
+  color-scheme:dark;
+  --bg:#0b1220;--surface:#121d30;--surface2:#19263b;--line:#26364e;
+  --text:#f2f6ff;--muted:#9aaec7;--accent:#4f8cff;--green:#34d399;
+  --yellow:#4f8cff;--red:#2868dc;--blue:#19263b;--black:#f2f6ff;--white:#121d30;
+}
+html{scroll-behavior:smooth}
+body,body[data-theme]{background:#0b1220!important;background-image:radial-gradient(ellipse at 85% 5%,rgba(55,109,226,.18),transparent 50%)!important;color:#f2f6ff!important;font-family:system-ui,-apple-system,"Segoe UI",sans-serif!important}
+.navbar-custom{position:sticky;top:0;z-index:100;background:rgba(11,18,32,.94)!important;border:0!important;border-bottom:1px solid #26364e!important;box-shadow:none!important;backdrop-filter:blur(18px)}
+.navbar-custom .container{max-width:1160px}
+.logo{color:#f2f6ff!important;font-size:18px;letter-spacing:-.5px}
+.logo span{color:#75a7ff!important}
+.back-btn{display:inline-flex;align-items:center;gap:8px;padding:9px 14px;background:#19263b!important;color:#d7e5ff!important;border:1px solid #304663!important;border-radius:11px!important;box-shadow:none!important;font-size:13px;font-weight:750;transform:none!important}
+.back-btn:hover{background:#243957!important;color:#fff!important}
+.detail-container{width:min(900px,100%);max-width:900px;margin:32px auto;padding:0 18px 55px}
+.comic-title{display:block;width:max-content;max-width:100%;margin:0 0 20px;padding:0;background:transparent!important;color:#f2f6ff!important;border:0!important;border-radius:0!important;box-shadow:none!important;text-shadow:none!important;transform:none!important;font-size:clamp(23px,4vw,32px);font-weight:850;letter-spacing:-.8px}
+.comic-title i{color:#75a7ff}
+.detail-card{overflow:hidden;background:linear-gradient(160deg,#121d30,#101b2d)!important;border:1px solid #26364e!important;border-radius:20px!important;padding:24px!important;box-shadow:0 18px 45px rgba(0,0,0,.2)!important;animation:none!important}
+.comic-banner{margin:-24px -24px 24px!important;padding:17px 20px!important;text-align:left!important;background:linear-gradient(110deg,#172f53,#2457a6)!important;background-image:none!important;border:0!important;border-bottom:1px solid #34547d!important}
+.comic-banner:after{display:none!important}
+.banner-label{padding:0!important;background:transparent!important;color:#dbeafe!important;border:0!important;border-radius:0!important;box-shadow:none!important;text-shadow:none!important;transform:none!important;font-size:12px;letter-spacing:1px;font-weight:850}
+.app-header{gap:17px!important;align-items:center!important}
+.app-icon-wrap{width:94px!important;height:94px!important;padding:4px!important;background:#19263b!important;border:1px solid #304663!important;border-radius:18px!important;box-shadow:none!important;transform:none!important}
+.app-icon{border:0!important;border-radius:14px!important;background:#263650!important}
+.app-name{color:#f2f6ff!important;font-size:clamp(21px,4vw,30px)!important;font-weight:850!important;letter-spacing:-.7px!important;text-shadow:none!important}
+.category{margin-top:9px!important;padding:5px 10px!important;background:#1c3761!important;color:#a9c8ff!important;border:1px solid #31558a!important;border-radius:8px!important;box-shadow:none!important;font-size:11px!important}
+.section-title{display:flex!important;align-items:center;gap:8px;margin:25px 0 14px!important;padding:0!important;background:transparent!important;color:#eaf1ff!important;border:0!important;border-radius:0!important;box-shadow:none!important;font-size:16px!important;font-weight:800!important}
+.section-title i{color:#75a7ff}
+.info-grid{gap:10px!important}
+.info-box,.description,#ratingSection,#reviewsSection{background:#0f1a2b!important;color:#eaf1ff!important;border:1px solid #26364e!important;border-radius:14px!important;box-shadow:none!important}
+.info-box{padding:15px 10px!important}
+.info-box:nth-child(n){background:#0f1a2b!important}
+.info-box i{color:#75a7ff!important}
+.info-label{color:#9aaec7!important}
+.info-value{color:#f2f6ff!important}
+.description{padding:18px!important}
+.description h5,.description p{color:#eaf1ff!important}
+.description h5{border-bottom:1px solid #26364e!important}
+.description h5 i{color:#75a7ff}
+.comic-btn{border-radius:11px!important;box-shadow:none!important}
+.comic-btn.light{background:#19263b!important;color:#dbeafe!important;border:1px solid #304663!important}
+.download-stats{background:#0f1a2b!important;border:1px solid #26364e!important;border-radius:14px!important}
+.download-stats-icon{background:#1c3761!important;color:#91baff!important}
+.download-stats-label,.download-stats-note{color:#9aaec7!important}
+#downloadCount{color:#f2f6ff!important}
+#reviewsSection{padding:20px!important}
+#reviewsSection h5,#ratingSection h5{color:#f2f6ff!important;border-color:#26364e!important}
+#reviewsSection h5 i{color:#75a7ff!important}
+.reviews-subtitle,.rating-intro,.rating-prompt{color:#aebed4!important}
+.review-field{background:#0b1220!important;color:#f2f6ff!important;border:1px solid #304663!important;border-radius:10px!important}
+.review-field::placeholder{color:#8194af!important}
+.review-submit{background:#2868dc!important;border-radius:10px!important}
+.review-item,.reviews-empty{background:#121d30!important;color:#dce8fa!important;border:1px solid #26364e!important}
+.review-author,.review-text{color:#eaf1ff!important}
+.review-date,.review-helpful{color:#9aaec7!important}
+.rating-big-score{color:#f2f6ff!important}
+.rating-total,.rating-bar-row{color:#9aaec7!important}
+.rating-bar-track{background:#26364e!important}
+.rating-bar-fill{background:#f5bd4f!important}
+#ratingSummary,#ratingMessage{color:#aebed4!important}
+.rating-stars button,.review-rating-picker button{background:#19263b!important;color:#dbeafe!important;border:1px solid #304663!important;border-radius:9px!important;box-shadow:none!important}
+.rating-stars button .star-icon,.review-rating-picker button.selected,.review-rating-picker button:hover{color:#f5bd4f!important}
+.download-btn{display:flex!important;align-items:center;justify-content:center;gap:10px;margin-top:24px!important;padding:15px!important;background:#2868dc!important;color:#fff!important;border:0!important;border-radius:12px!important;box-shadow:0 8px 20px rgba(40,104,220,.2)!important;text-shadow:none!important;font-size:15px!important;letter-spacing:0!important}
+.download-btn:hover{background:#367af7!important;transform:translateY(-2px)!important;box-shadow:0 10px 24px rgba(40,104,220,.25)!important}
+.download-btn:disabled{background:#344761!important}
+.comic-footer{margin-top:22px!important;padding-top:18px!important;border-top:1px solid #26364e!important;color:#9aaec7!important;font-weight:650!important;letter-spacing:.5px!important}
+.loading,.error{background:#121d30!important;color:#eaf1ff!important;border:1px solid #26364e!important;border-radius:16px!important;box-shadow:none!important}
+.error i{color:#ff8585!important}
+.error .btn{background:#2868dc!important;color:#fff!important;border:0!important;box-shadow:none!important}
+@media(max-width:560px){
+ .detail-container{margin:22px auto;padding:0 12px 40px}
+ .detail-card{padding:17px!important;border-radius:16px!important}
+ .comic-banner{margin:-17px -17px 20px!important}
+ .app-icon-wrap{width:76px!important;height:76px!important}
+ .info-grid{grid-template-columns:repeat(3,minmax(0,1fr))!important}
+ .info-box{padding:12px 4px!important}
+ #reviewsSection,#ratingSection{padding:15px!important}
+}
+@media(prefers-reduced-motion:reduce){.detail-card,.comic-title{animation:none!important}}
+
+</style></head>
 
 <body>
 <script>
