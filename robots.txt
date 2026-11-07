@@ -1,3 +1,0 @@
-User-agent: *
-Allow: /
-Sitemap: https://darsononono283-ai.github.io/apk-da-official/sitemap.xml
