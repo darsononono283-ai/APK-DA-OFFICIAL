@@ -100,8 +100,10 @@ async function init(){
   });
   client=window.supabaseClient||null;
   if(!client){msg("loginStatus","Form login tersedia, tetapi konfigurasi Supabase belum terbaca. Pastikan supabase.js ada di folder yang sama.");return;}
-  try{if(await getSession()){showAdmin();await loadAdmin();}}
-  catch(err){showLogin();msg("loginStatus","Koneksi Supabase bermasalah: "+err.message);}
+  // Mulai selalu dari formulir login agar sesi lama/cache tidak menyembunyikan panel.
+  // Panel admin ditampilkan setelah login berhasil.
+  showLogin();
+  msg("loginStatus","Silakan masuk menggunakan akun admin.");
 }
 document.addEventListener("DOMContentLoaded",init);
 })();
