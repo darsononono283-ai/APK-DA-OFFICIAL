@@ -4,7 +4,7 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <meta name="theme-color" content="#17243a">
-<meta name="description" content="Informasi detail APK Android, versi, ukuran, rating, ulasan, dan tautan unduh di APK DA•OFFICIAL.">
+<meta name="description" content="Detail download APK Android: versi, ukuran, deskripsi, rating, ulasan dan tautan unduh di APK DA•OFFICIAL.">
 <meta name="robots" content="index,follow,max-image-preview:large">
 <meta property="og:type" content="article">
 <title>Detail APK - APK DA•OFFICIAL</title>
@@ -669,9 +669,7 @@ body[data-theme="sakura"]{--theme-bg:#ffe4f0;--theme-surface:#fff7fb;--theme-tex
 body[data-theme="lime"]{--theme-bg:#efffc7;--theme-surface:#fbffef;--theme-text:#293b0b;--theme-primary:#5b8c00;--theme-accent:#b7ef4a;--theme-border:#293b0b;--theme-dot:rgba(41,59,11,.28)}
 body[data-theme="royal"]{--theme-bg:#e4e7ff;--theme-surface:#f8f8ff;--theme-text:#1e2455;--theme-primary:#4f46e5;--theme-accent:#818cf8;--theme-border:#1e2455;--theme-dot:rgba(30,36,85,.3)}
 body[data-theme="coffee"]{--theme-bg:#ead8c5;--theme-surface:#fff8ee;--theme-text:#3e2b20;--theme-primary:#8d5524;--theme-accent:#c9a27e;--theme-border:#3e2b20;--theme-dot:rgba(62,43,32,.28)}
-@media(prefers-reduced-motion:reduce){.detail-card,.comic-title{animation:none!important}}
-
-</style>
+@media(prefers-reduced-motion:reduce){.detail-card,.comic-title{animation:none!important}}\n</style>
 <style id="da-detail-professional-refresh">
   body { background:linear-gradient(135deg,#f4f7fb,#edf2f8); font-family:Inter,ui-sans-serif,system-ui,-apple-system,"Segoe UI",sans-serif; color:#182230; }
   .navbar-custom { background:rgba(255,255,255,.95); border-bottom:1px solid #e1e8f0; box-shadow:0 8px 24px rgba(18,35,60,.08); }
@@ -726,7 +724,25 @@ body{background:#f3f6fb!important;background-image:none!important;color:#17243a!
 @media(max-width:560px){.detail-container{margin:14px auto!important;padding:10px!important}.app-header{gap:14px!important}.app-icon-wrap{width:88px!important;height:88px!important}}
 </style>
 
-</head>
+<style id="apk-only-detail-theme">
+:root{--yellow:#eaf2ff;--red:#2868dc;--blue:#eaf2ff;--black:#17243a;--white:#fff}
+body{background:#eef3fa!important;background-image:none!important;color:#17243a!important;font-family:system-ui,-apple-system,"Segoe UI",sans-serif!important}
+.navbar-custom{background:#0b1220!important;border-bottom:1px solid #273a57!important;box-shadow:none!important;color:#fff!important}
+.navbar-custom .logo,.navbar-custom .logo span{color:#fff!important}
+.detail-container{width:min(850px,100%)!important;margin:28px auto!important}
+.detail-card{border:1px solid #dce5f0!important;box-shadow:0 16px 45px rgba(25,48,80,.08)!important;border-radius:20px!important;background:#fff!important}
+.comic-title{background:#eaf2ff!important;color:#1b4e94!important;border:0!important;border-radius:12px!important;box-shadow:none!important;text-shadow:none!important;transform:none!important}
+.comic-banner{background:#eaf2ff!important;background-image:none!important;border-bottom:1px solid #dce5f0!important}
+.banner-label{background:#fff!important;border:1px solid #dce5f0!important;box-shadow:none!important;transform:none!important;color:#2359a2!important}
+.app-icon-wrap{background:#fff!important;border:1px solid #dce5f0!important;box-shadow:none!important;transform:none!important}
+.app-icon{border:0!important}.app-name{text-shadow:none!important;color:#17243a!important}
+.category{background:#eaf2ff!important;color:#2457a6!important;border:0!important;box-shadow:none!important;border-radius:99px!important}
+.section-title{background:#eef4ff!important;color:#2457a6!important;border:0!important;box-shadow:none!important}
+.info-box,.description{background:#f8fafc!important;border:1px solid #e2e8f0!important;box-shadow:none!important}
+.info-box:nth-child(n){background:#f8fafc!important}
+.back-btn{background:#eaf2ff!important;color:#2457a6!important;border:1px solid #dce5f0!important;box-shadow:none!important}
+button,a{transition:filter .15s}button:hover,a:hover{filter:brightness(.96)}
+@media(prefers-reduced-motion:reduce){*,*::before,*::after{animation:none!important;transition:none!important}}\n</style></head>
 
 <body>
 <script>
@@ -1303,6 +1319,7 @@ async function loadDetail(){
 ${
                     downloadURL
                     ? `
+                        
                         <a
                             href="${escapeHTML(downloadURL)}"
                             target="_blank"
