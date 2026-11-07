@@ -340,9 +340,14 @@ async function loadDashboardStats() {
   ["statsApps","statsDownloads","statsReviews","statsRatings"].forEach(id => $(id).textContent = "…");
   const errors = [];
   async function readTable(table) {
-    const {data,error} = await client.from(table).select("*");
-    if (error) { errors.push(table + ": " + error.message); return null; }
-    return data || [];
+    try {
+      const {data,error} = await client.from(table).select("*");
+      if (error) { errors.push(table + ": " + error.message); return null; }
+      return data || [];
+    } catch (error) {
+      errors.push(table + ": " + (error?.message || "Koneksi gagal"));
+      return null;
+    }
   }
   const [apps, downloads, reviews, ratings] = await Promise.all([
     readTable("apps"), readTable("app_downloads"), readTable("app_reviews"), readTable("app_ratings")
@@ -381,14 +386,14 @@ async function loadAnnouncements() {
   }
 
   const { data, error } = await window.supabaseClient
-    .from("site_notifications")
+    .from("notifications")
     .select("id, title, message, created_at")
     .order("created_at", { ascending: false });
 
   if (error) {
     console.error("Gagal memuat pengumuman:", error);
     list.innerHTML =
-      '<div class="empty">Gagal memuat pengumuman. Periksa izin Supabase.</div>';
+      `<div class="empty">Gagal memuat pengumuman: ${escapeHTML(error.message)}. Pastikan tabel notifications dan izin SELECT tersedia.</div>`;
     return;
   }
 
@@ -426,13 +431,13 @@ async function deleteAnnouncement(id) {
   }
 
   const { error } = await client
-    .from("site_notifications")
+    .from("notifications")
     .delete()
     .eq("id", id);
 
   if (error) {
     console.error("Gagal menghapus pengumuman:", error);
-    alert("Pengumuman gagal dihapus. Periksa izin admin di Supabase.");
+    alert("Pengumuman gagal dihapus: " + error.message);
     return;
   }
 
@@ -474,15 +479,15 @@ if (announcementForm) {
     status.textContent = "Menerbitkan pengumuman...";
 
     const { error } = await client
-      .from("site_notifications")
-      .insert([{ title, message, active: true }]);
+      .from("notifications")
+      .insert([{ title, message }]);
 
     saveButton.disabled = false;
 
     if (error) {
       console.error("Gagal menerbitkan pengumuman:", error);
       status.textContent =
-        "Gagal menerbitkan. Periksa izin INSERT di Supabase.";
+        "Gagal menerbitkan: " + error.message;
       return;
     }
 
