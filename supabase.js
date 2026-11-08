@@ -1,7 +1,25 @@
-const SUPABASE_URL = "https://xwwzpwiwlegjtxneoohe.supabase.co";
-const SUPABASE_KEY = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6Inh3d3pwd2l3bGVnanR4bmVvb2hlIiwicm9sZSI6ImFub24iLCJpYXQiOjE3OTQwNDk0MzAsImV4cCI6MjEwOTYyNTQzMH0.xPlXU7j36_7pc34J0fIJpzoldgoVbU-RanOgRI47Ym4";
+// ==================================
+// APK DA•OFFICIAL V3
+// KONFIGURASI SUPABASE
+// ==================================
 
-const db = window.supabase.createClient(
-  SUPABASE_URL,
-  SUPABASE_KEY
+const SUPABASE_URL =
+"https://xwwzpwiwlegjtxneoohe.supabase.co";
+
+const SUPABASE_KEY =
+"eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6Inh3d3pwd2l3bGVnanR4bmVvb2hlIiwicm9sZSI6ImFub24iLCJpYXQiOjE3OTQwNDk0MzAsImV4cCI6MjEwOTYyNTQzMH0.xPlXU7j36_7pc34J0fIJpzoldgoVbU-RanOgRI47Ym4";
+
+// Periksa pustaka Supabase
+if (!window.supabase) {
+    window.supabaseConfigError =
+        "Library Supabase belum berhasil dimuat.";
+    throw new Error(window.supabaseConfigError);
+}
+
+// Buat koneksi
+window.db = window.supabase.createClient(
+    SUPABASE_URL,
+    SUPABASE_KEY
 );
+
+console.log("Supabase berhasil diinisialisasi.");
