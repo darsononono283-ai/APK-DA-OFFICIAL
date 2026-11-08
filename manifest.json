@@ -1,0 +1,21 @@
+{
+  "name": "APK DA•OFFICIAL",
+  "short_name": "APK DA",
+  "description": "Katalog aplikasi Android, game, musik, dan panduan Android.",
+  "start_url": "./",
+  "scope": "./",
+  "display": "standalone",
+  "background_color": "#f3f6fb",
+  "theme_color": "#17243a",
+  "lang": "id",
+  "icons": [
+    {
+      "src": "./icon.svg",
+      "sizes": "any",
+      "type": "image/svg+xml",
+      "purpose": "any maskable"
+    }
+  ],
+  "id": "./",
+  "orientation": "portrait-primary"
+}
