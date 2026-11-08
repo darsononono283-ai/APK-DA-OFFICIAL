@@ -1,69 +1,199 @@
-
-<!DOCTYPE html>
+<!doctype html>
 <html lang="id">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <meta name="theme-color" content="#0b1020">
-  <title>APK DA•OFFICIAL V3</title>
-
-  <link rel="stylesheet" href="style.css">
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+  <meta name="theme-color" content="#17243a">
+  <meta name="description" content="Katalog download aplikasi dan game Android APK DA•OFFICIAL.">
+  <meta name="robots" content="index,follow,max-image-preview:large">
+  <link rel="canonical" href="https://darsononono283-ai.github.io/APK-DA-OFFICIAL/">
+  <meta property="og:type" content="website">
+  <meta property="og:title" content="APK DA•OFFICIAL | Download APK Android">
+  <meta property="og:description" content="Temukan aplikasi dan game Android di APK DA•OFFICIAL.">
+  <link rel="icon" type="image/svg+xml" href="./icon.svg">
+  <link rel="manifest" href="./manifest.json">
+  <link rel="preconnect" href="https://cdn.jsdelivr.net" crossorigin>
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css" rel="stylesheet">
+  <title>APK DA•OFFICIAL | Download APK Android</title>
+  <style>
+    :root{color-scheme:light;--bg:#f6f8fc;--paper:#fff;--ink:#17243a;--muted:#68778d;--primary:#2457a6;--primary2:#3479d1;--line:#e1e8f1;--soft:#edf4ff;--shadow:0 16px 38px rgba(21,43,74,.08)}
+    *{box-sizing:border-box}html{scroll-behavior:smooth}body{margin:0;background:radial-gradient(circle at 8% 0%,#e6efff 0,transparent 32%),var(--bg);color:var(--ink);font:15px/1.55 Inter,system-ui,-apple-system,"Segoe UI",sans-serif}
+    button,input{font:inherit}.container{width:min(1080px,calc(100% - 28px));margin:auto}
+    .topbar{position:sticky;top:0;z-index:20;background:rgba(255,255,255,.88);backdrop-filter:blur(18px);border-bottom:1px solid rgba(220,229,240,.9)}.topbar-inner{height:72px;display:flex;align-items:center;justify-content:space-between;gap:14px}
+    .brand{display:flex;align-items:center;gap:11px;color:var(--ink);text-decoration:none;font-weight:900;letter-spacing:-.5px}.brand-mark{display:grid;place-items:center;width:43px;height:43px;border-radius:14px;color:#fff;background:linear-gradient(135deg,#356fbe,#172f53);box-shadow:0 7px 18px rgba(36,87,166,.25);font-weight:900}.brand small{display:block;color:var(--muted);font-size:10px;letter-spacing:1.5px;font-weight:750}.top-link{display:inline-flex;align-items:center;gap:8px;padding:9px 13px;border:1px solid var(--line);border-radius:12px;background:#fff;color:#294c79;text-decoration:none;font-size:13px;font-weight:750}
+    .hero{position:relative;overflow:hidden;margin:28px 0 22px;padding:clamp(25px,5vw,48px);border-radius:26px;color:#fff;background:linear-gradient(120deg,#142b4b,#2457a6 72%,#4e8bd3);box-shadow:0 20px 44px rgba(25,63,115,.17)}.hero:after{content:"DA";position:absolute;right:4%;top:50%;transform:translateY(-52%) rotate(-9deg);font-size:clamp(95px,19vw,190px);font-weight:1000;color:rgba(255,255,255,.075);letter-spacing:-12px;pointer-events:none}.hero-content{position:relative;z-index:1;max-width:650px}.eyebrow{display:inline-flex;align-items:center;gap:7px;padding:6px 11px;border:1px solid rgba(255,255,255,.22);border-radius:999px;background:rgba(255,255,255,.1);font-size:10px;letter-spacing:1.6px;font-weight:850}.hero h1{margin:18px 0 10px;font-size:clamp(32px,6vw,55px);line-height:1.08;letter-spacing:-1.9px;font-weight:900}.hero h1 span{color:#d7e7ff}.hero p{max-width:490px;margin:0;color:#e1eafa;font-size:14px}
+    .catalog{padding:clamp(17px,3vw,27px);background:rgba(255,255,255,.88);border:1px solid var(--line);border-radius:23px;box-shadow:var(--shadow)}.section-top{display:flex;align-items:end;justify-content:space-between;gap:12px;margin-bottom:17px}.section-top h2{margin:2px 0 0;font-size:clamp(21px,4vw,28px);letter-spacing:-.7px}.section-top p{margin:0;color:var(--muted);font-size:12px}.counter{white-space:nowrap;padding:7px 11px;border-radius:999px;background:var(--soft);color:#2457a6;font-size:12px;font-weight:850}
+    .search-box{display:flex;align-items:center;gap:11px;margin:17px 0 14px;padding:0 15px;height:52px;border:1px solid #dbe4ef;border-radius:14px;background:#f9fbfe;color:#67809f}.search-box i{font-size:18px}.search-box input{width:100%;min-width:0;border:0;outline:0;background:transparent;color:var(--ink);font-size:14px}.search-box input::placeholder{color:#92a0b3}
+    .toolbar{display:flex;align-items:center;justify-content:space-between;gap:10px;flex-wrap:wrap}.categories{display:flex;gap:8px;overflow-x:auto;padding:2px 2px 10px;scrollbar-width:none}.categories::-webkit-scrollbar{display:none}.chip,.view-btn{flex:0 0 auto;padding:8px 13px;border:1px solid var(--line);border-radius:999px;background:#fff;color:#52637b;font-size:12px;font-weight:800;cursor:pointer;transition:.18s}.chip.active,.view-btn.active{border-color:#b9d0f1;background:#eaf2ff;color:#1c5598;box-shadow:0 4px 10px rgba(36,87,166,.08)}.view-switch{display:flex;gap:7px}
+    .status{margin:10px 0 14px;padding:11px 13px;border-radius:12px;background:#f1f6fd;color:#536982;font-size:12px}.status.error{background:#fff1f0;color:#a22e29}.status.success{background:#eefaf2;color:#23673b}
+    .app-grid{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:13px}.app-card{min-width:0;padding:14px;border:1px solid var(--line);border-radius:17px;background:#fff;box-shadow:0 7px 18px rgba(28,48,75,.045);transition:transform .18s,border-color .18s,box-shadow .18s}.app-card:hover{transform:translateY(-3px);border-color:#cbdcf1;box-shadow:0 14px 26px rgba(28,48,75,.09)}.app-head{display:flex;align-items:center;gap:11px;min-width:0}.app-icon{width:58px;height:58px;flex:0 0 58px;object-fit:cover;border-radius:15px;border:1px solid #e5ebf3;background:#f2f5fa}.app-heading{min-width:0}.app-name{margin:0;color:#1c2c43;font-size:14px;font-weight:850;line-height:1.3;overflow-wrap:anywhere}.app-category{display:inline-block;margin-top:5px;padding:3px 7px;border-radius:999px;background:#eef4fc;color:#42668f;font-size:10px;font-weight:800}.app-description{min-height:38px;margin:12px 0 10px;color:#738197;font-size:11px;line-height:1.5;display:-webkit-box;-webkit-line-clamp:2;-webkit-box-orient:vertical;overflow:hidden}.app-meta{display:flex;gap:8px;flex-wrap:wrap;color:#8793a4;font-size:10px;margin-bottom:12px}.app-actions{display:grid;grid-template-columns:1fr 1fr;gap:7px}.action{display:inline-flex;align-items:center;justify-content:center;gap:6px;min-width:0;padding:9px 7px;border:1px solid #dbe4ef;border-radius:10px;background:#fff;color:#365878;text-decoration:none;font-size:11px;font-weight:800;cursor:pointer}.action.primary{border-color:#2457a6;background:#2457a6;color:#fff}.action.favorite.is-active{border-color:#f3c4ce;background:#fff0f3;color:#ad3450}.empty{grid-column:1/-1;padding:32px 16px;text-align:center;border:1px dashed #d2dce9;border-radius:15px;color:#718198;background:#fafcff;font-size:13px}.footer{margin:23px 0 0;padding:22px 5px 32px;color:#8793a4;font-size:11px;text-align:center}.footer strong{display:block;color:#42536b;font-size:13px;margin-bottom:4px}
+    @media(min-width:650px){.app-grid{grid-template-columns:repeat(3,minmax(0,1fr))}.app-card{padding:16px}.app-icon{width:64px;height:64px;flex-basis:64px}}
+    @media(min-width:900px){.app-grid{grid-template-columns:repeat(4,minmax(0,1fr))}}
+    @media(max-width:420px){.topbar-inner{height:64px}.brand{font-size:13px}.top-link{padding:8px 10px;font-size:11px}.app-card{padding:11px}.app-icon{width:50px;height:50px;flex-basis:50px}.app-actions{grid-template-columns:1fr}.action{padding:8px}}
+  </style>
 </head>
 <body>
-
-  <header class="navbar">
-    <div class="logo">APK DA<span>•</span>OFFICIAL</div>
-    <button class="menu-btn" aria-label="Menu">☰</button>
+  <header class="topbar">
+    <div class="container topbar-inner">
+      <a class="brand" href="./index.html"><span class="brand-mark">DA</span><span>APK DA•OFFICIAL<small>ANDROID DOWNLOAD CENTER</small></span></a>
+      <a class="top-link" href="./bantuan.html"><i class="bi bi-life-preserver"></i> Bantuan</a>
+    </div>
   </header>
 
   <main class="container">
-
     <section class="hero">
-      <span class="tag">ANDROID APPLICATION STORE</span>
-      <h1>Temukan Aplikasi <span>Favoritmu.</span></h1>
-      <p>
-        Jelajahi berbagai aplikasi dan game Android
-        dalam satu tempat.
-      </p>
-    </section>
-
-    <section class="search-box">
-      <span>⌕</span>
-      <input
-        type="search"
-        id="searchInput"
-        placeholder="Cari aplikasi atau game..."
-      >
-    </section>
-
-    <section class="category-section">
-      <h2>Kategori</h2>
-
-      <div class="categories" id="categories">
-        <button class="category active" data-category="Semua">Semua</button>
-        <button class="category" data-category="Game">Game</button>
-        <button class="category" data-category="Sosial">Sosial</button>
-        <button class="category" data-category="Media">Media</button>
-        <button class="category" data-category="Tools">Tools</button>
+      <div class="hero-content">
+        <span class="eyebrow"><i class="bi bi-grid-1x2-fill"></i> KOLEKSI APLIKASI ANDROID</span>
+        <h1>Temukan APK <span>favoritmu.</span></h1>
+        <p>Jelajahi katalog aplikasi dan game Android. Buka detail untuk melihat informasi dan tautan unduhan.</p>
       </div>
     </section>
 
-    <section class="apps-section">
-      <div class="section-heading">
-        <h2>Aplikasi Populer</h2>
-        <span id="appCount">0 aplikasi</span>
+    <section class="catalog" id="katalog" aria-labelledby="catalogTitle">
+      <div class="section-top">
+        <div><p>KATALOG DOWNLOAD</p><h2 id="catalogTitle">Daftar aplikasi</h2></div>
+        <span class="counter" id="appCount">0 aplikasi</span>
       </div>
-
-      <div class="app-grid" id="appList"></div>
+      <label class="search-box" for="searchInput"><i class="bi bi-search"></i><input id="searchInput" type="search" placeholder="Cari nama aplikasi atau game..." autocomplete="off"></label>
+      <div class="toolbar">
+        <div class="categories" id="categories" aria-label="Filter kategori">
+          <button class="chip active" type="button" data-category="Semua" aria-pressed="true">Semua</button>
+          <button class="chip" type="button" data-category="Game" aria-pressed="false">Game</button>
+          <button class="chip" type="button" data-category="Sosial" aria-pressed="false">Sosial</button>
+          <button class="chip" type="button" data-category="Tools" aria-pressed="false">Tools</button>
+          <button class="chip" type="button" data-category="Media" aria-pressed="false">Media</button>
+          <button class="chip" type="button" data-category="Lainnya" aria-pressed="false">Lainnya</button>
+        </div>
+        <div class="view-switch" role="group" aria-label="Tampilan katalog">
+          <button class="view-btn active" type="button" data-view="all">Semua APK</button>
+          <button class="view-btn" type="button" data-view="favorites"><i class="bi bi-heart-fill"></i> Favorit</button>
+        </div>
+      </div>
+      <div id="pageStatus" class="status" role="status" aria-live="polite">Menghubungkan ke katalog APK...</div>
+      <div id="appGrid" class="app-grid" aria-live="polite"><div class="empty">Memuat aplikasi...</div></div>
     </section>
-
   </main>
 
-  <footer>
-    <p>© 2026 APK DA•OFFICIAL V3</p>
-    <small>Platform berbagi aplikasi Android.</small>
-  </footer>
+  <footer class="container footer"><strong>APK DA•OFFICIAL</strong>Unduh aplikasi hanya dari sumber yang tepercaya dan pastikan kamu memiliki izin untuk membagikannya.</footer>
 
-  <script src="script.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+  <script src="./supabase.js"></script>
+  <script>
+    (() => {
+      'use strict';
+      const $ = id => document.getElementById(id);
+      const grid = $('appGrid');
+      const statusBox = $('pageStatus');
+      const searchInput = $('searchInput');
+      let apps = [];
+      let selectedCategory = 'Semua';
+      let currentView = 'all';
+
+      function escapeHTML(value) {
+        return String(value ?? '').replace(/[&<>"']/g, ch => ({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#039;'}[ch]));
+      }
+      function safeURL(value) {
+        const raw = String(value || '').trim();
+        if (!raw) return '';
+        try { const u = new URL(raw, location.href); return ['https:','http:'].includes(u.protocol) ? u.href : ''; }
+        catch { return ''; }
+      }
+      function getFavorites() {
+        try { const value = JSON.parse(localStorage.getItem('da_official_favorites') || '[]'); return Array.isArray(value) ? value.map(String) : []; }
+        catch { return []; }
+      }
+      function toggleFavorite(id) {
+        const key = String(id);
+        const favorites = getFavorites();
+        const next = favorites.includes(key) ? favorites.filter(item => item !== key) : [...favorites, key];
+        try { localStorage.setItem('da_official_favorites', JSON.stringify(next)); } catch {}
+        renderApps();
+      }
+      function shareApp(id) {
+        const app = apps.find(item => String(item.id) === String(id));
+        if (!app) return;
+        const url = new URL('detail.html?id=' + encodeURIComponent(app.id), location.href).href;
+        if (navigator.share) {
+          navigator.share({title: app.name || 'APK DA•OFFICIAL', text: 'Lihat aplikasi ini di APK DA•OFFICIAL', url}).catch(() => {});
+        } else if (navigator.clipboard?.writeText) {
+          navigator.clipboard.writeText(url).then(() => setStatus('Tautan detail berhasil disalin.', 'success')).catch(() => alert(url));
+        } else { alert(url); }
+      }
+      function setStatus(message, type='') {
+        statusBox.textContent = message;
+        statusBox.className = 'status' + (type ? ' ' + type : '');
+      }
+      function appCard(app) {
+        const id = String(app.id);
+        const name = escapeHTML(app.name || 'Aplikasi tanpa nama');
+        const description = escapeHTML(app.description || 'Informasi aplikasi belum tersedia.');
+        const icon = safeURL(app.icon || app.icon_url) || 'https://placehold.co/120x120/eaf2ff/2457a6?text=APK';
+        const category = escapeHTML(app.category || 'Lainnya');
+        const version = escapeHTML(app.version || 'Versi tidak dicantumkan');
+        const size = escapeHTML(app.size || 'Ukuran tidak dicantumkan');
+        const favorite = getFavorites().includes(id);
+        return `<article class="app-card">
+          <div class="app-head"><img class="app-icon" src="${escapeHTML(icon)}" alt="Ikon ${name}" loading="lazy" onerror="this.onerror=null;this.src='https://placehold.co/120x120/eaf2ff/2457a6?text=APK'"><div class="app-heading"><h3 class="app-name">${name}</h3><span class="app-category">${category}</span></div></div>
+          <p class="app-description">${description}</p>
+          <div class="app-meta"><span>${version}</span><span>•</span><span>${size}</span></div>
+          <div class="app-actions">
+            <a class="action primary" href="detail.html?id=${encodeURIComponent(id)}"><i class="bi bi-info-circle"></i> Detail APK</a>
+            <button class="action" type="button" data-share="${escapeHTML(id)}"><i class="bi bi-share"></i> Bagikan</button>
+            <button class="action favorite ${favorite ? 'is-active' : ''}" type="button" data-favorite="${escapeHTML(id)}" aria-pressed="${favorite}"><i class="bi ${favorite ? 'bi-heart-fill' : 'bi-heart'}"></i> ${favorite ? 'Tersimpan' : 'Favorit'}</button>
+          </div>
+        </article>`;
+      }
+      function renderApps() {
+        const query = searchInput.value.trim().toLocaleLowerCase('id');
+        const favorites = getFavorites();
+        const filtered = apps.filter(app => {
+          const categoryMatch = selectedCategory === 'Semua' || String(app.category || 'Lainnya').toLowerCase() === selectedCategory.toLowerCase();
+          const searchMatch = !query || `${app.name || ''} ${app.description || ''} ${app.category || ''}`.toLocaleLowerCase('id').includes(query);
+          const favoriteMatch = currentView !== 'favorites' || favorites.includes(String(app.id));
+          return categoryMatch && searchMatch && favoriteMatch;
+        });
+        $('appCount').textContent = `${filtered.length} aplikasi`;
+        grid.innerHTML = filtered.length ? filtered.map(appCard).join('') : `<div class="empty">${currentView === 'favorites' ? 'Belum ada APK favorit. Tekan tombol Favorit pada kartu aplikasi.' : 'Aplikasi tidak ditemukan. Coba kata kunci atau kategori lain.'}</div>`;
+        grid.querySelectorAll('[data-favorite]').forEach(button => button.addEventListener('click', () => toggleFavorite(button.dataset.favorite)));
+        grid.querySelectorAll('[data-share]').forEach(button => button.addEventListener('click', () => shareApp(button.dataset.share)));
+      }
+      async function loadApps() {
+        grid.innerHTML = '<div class="empty">Mengambil daftar APK dari database...</div>';
+        try {
+          const client = await window.supabaseReady;
+          const {data, error} = await client.from('apps').select('*').order('created_at', {ascending:false});
+          if (error) throw error;
+          apps = data || [];
+          setStatus(apps.length ? 'Katalog berhasil dimuat.' : 'Database sudah terhubung. Belum ada APK yang ditambahkan admin.', apps.length ? 'success' : '');
+          renderApps();
+        } catch (error) {
+          console.error('Gagal memuat katalog APK:', error);
+          const detail = error?.message || window.supabaseConfigError || 'Periksa koneksi dan kebijakan akses tabel apps.';
+          setStatus('Katalog belum dapat dimuat: ' + detail, 'error');
+          grid.innerHTML = '<div class="empty">Belum dapat menampilkan APK. Periksa koneksi Supabase atau coba muat ulang halaman.</div>';
+          $('appCount').textContent = '0 aplikasi';
+        }
+      }
+
+      searchInput.addEventListener('input', renderApps);
+      $('categories').addEventListener('click', event => {
+        const button = event.target.closest('[data-category]');
+        if (!button) return;
+        selectedCategory = button.dataset.category;
+        $('categories').querySelectorAll('[data-category]').forEach(item => {
+          const active = item === button;
+          item.classList.toggle('active', active);
+          item.setAttribute('aria-pressed', String(active));
+        });
+        renderApps();
+      });
+      document.querySelectorAll('[data-view]').forEach(button => button.addEventListener('click', () => {
+        currentView = button.dataset.view;
+        document.querySelectorAll('[data-view]').forEach(item => item.classList.toggle('active', item === button));
+        renderApps();
+      }));
+      loadApps();
+    })();
+  </script>
 </body>
 </html>

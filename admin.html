@@ -1,48 +1,77 @@
-<!doctype html><html lang="id"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>Admin | APK DA•OFFICIAL</title><style>body{margin:0;background:#090b13;color:#f5f6fc;font:14px Arial}.wrap{max-width:950px;margin:25px auto;padding:12px}.panel{background:#151a29;border:1px solid #ffffff20;border-radius:17px;padding:20px;margin:15px 0}h1,h2{font-size:20px}input,select,textarea{width:100%;box-sizing:border-box;padding:12px;margin:6px 0 13px;background:#0b1020;color:white;border:1px solid #ffffff25;border-radius:9px}button{padding:11px 15px;border:0;border-radius:9px;background:#8059d8;color:white;font-weight:bold;margin:4px;cursor:pointer}.danger{background:#9a4050}.secondary{background:#343c50}.grid{display:grid;grid-template-columns:1fr 1fr;gap:10px}.hidden{display:none}table{width:100%;border-collapse:collapse}td,th{text-align:left;padding:10px;border-bottom:1px solid #ffffff20}small,.msg{color:#b5bdd0}@media(max-width:600px){.grid{grid-template-columns:1fr}.panel{padding:14px}.table{overflow:auto}}</style></head><body><main class="wrap"><p><a href="index.html" style="color:#c4b5ff">← Lihat website</a></p><section class="panel" id="login"><h1>Login administrator</h1><small>Buat akun admin melalui Supabase Authentication terlebih dahulu.</small><input id="email" type="email" placeholder="Email"><input id="password" type="password" placeholder="Password"><button id="signIn">Masuk</button><p class="msg" id="loginMsg"></p></section><div id="dash" class="hidden"><section class="panel"><h2>Tambah / Edit aplikasi</h2><form id="form"><input id="id" type="hidden"><div class="grid"><label>Nama<input id="name" required></label><label>Slug<input id="slug" required pattern="[a-z0-9-]+"></label><label>Kategori<select id="category"><option>Game</option><option>Sosial</option><option>Media</option><option>Tools</option><option>Lainnya</option></select></label><label>Pengembang<input id="developer"></label><label>Versi<input id="version"></label><label>Ukuran<input id="size"></label><label>Foto / ikon aplikasi<input id="iconFile" type="file" accept="image/png,image/jpeg,image/webp,image/gif"></label><label>Link unduh APK<input id="downloadUrl" type="url" placeholder="https://contoh.com/aplikasi.apk" required></label></div><label>Deskripsi<textarea id="description"></textarea></label><label><input id="published" type="checkbox" checked style="width:auto"> Terbitkan di website</label><button type="submit">Simpan</button><button type="button" class="secondary" id="reset">Kosongkan</button><p id="formMsg" class="msg"></p></form></section><section class="panel"><h2>Daftar aplikasi</h2><div style="overflow:auto"><table><thead><tr><th>Nama</th><th>Kategori</th><th>Versi</th><th>Aksi</th></tr></thead><tbody id="rows"></tbody></table></div><button class="secondary" id="logout">Keluar</button></section></div></main>
-<script>
-// Pemuat mandiri: halaman admin tidak bergantung pada file supabase.js eksternal.
-window.db = null;
-window.supabaseConfigError = null;
-window.supabaseReady = (async () => {
-  const sources = [
-    "https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2",
-    "https://unpkg.com/@supabase/supabase-js@2"
-  ];
-  if (!window.supabase?.createClient) {
-    let lastError;
-    for (const src of sources) {
-      try {
-        await new Promise((resolve, reject) => {
-          const script = document.createElement("script");
-          script.src = src;
-          script.onload = resolve;
-          script.onerror = () => reject(new Error("Gagal memuat pustaka dari " + src));
-          document.head.appendChild(script);
-        });
-        if (window.supabase?.createClient) break;
-      } catch (error) { lastError = error; }
-    }
-  }
-  if (!window.supabase?.createClient) {
-    throw new Error("Pustaka Supabase gagal dimuat. Periksa koneksi internet atau akses CDN. " + (lastError?.message || ""));
-  }
-  window.db = window.supabase.createClient(
-    "https://xwwzpwiwlegjtxneoohe.supabase.co",
-    "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6Inh3d3pwd2l3bGVnanR4bmVvb2hlIiwicm9sZSI6ImFub24iLCJpYXQiOjE3OTQwNDk0MzAsImV4cCI6MjEwOTYyNTQzMH0.xPlXU7j36_7pc34J0fIJpzoldgoVbU-RanOgRI47Ym4"
-  );
-  return window.db;
-})().catch(error => {
-  window.supabaseConfigError = error.message || String(error);
-  console.error("Supabase gagal dimulai:", error);
-  throw error;
-});
-</script><script>
-let db=null;async function getDb(){if(!db){if(!window.supabaseReady)throw new Error("File supabase.js belum termuat. Periksa nama file dan foldernya.");db=await window.supabaseReady;}if(!db||!db.auth)throw new Error("Objek Supabase tidak valid. Muat ulang halaman.");return db;}const ICON_BUCKET="app-icons";let apps=[];const $=id=>document.getElementById(id);const esc=s=>String(s??"").replace(/[&<>"\']/g,c=>({"&":"&amp;","<":"&lt;",">":"&gt;","\"":"&quot;","\'":"&#39;"}[c]));const msg=(id,s)=>$(id).textContent=s;
-async function load(){db=await getDb();let {data,error}=await db.from("apps").select("*").order("created_at",{ascending:false});if(error)throw error;apps=data||[];$("rows").innerHTML=apps.map(a=>`<tr><td>${esc(a.name)}</td><td>${esc(a.category)}</td><td>${esc(a.version||"-")}</td><td><button data-edit="${a.id}">Edit</button><button class="danger" data-del="${a.id}">Hapus</button></td></tr>`).join("")}
-async function enter(){db=await getDb();let {data:{user}}=await db.auth.getUser();if(!user)throw Error("Sesi login tidak ditemukan. Silakan masuk kembali.");let {data:admin,error}=await db.from("admin_users").select("user_id").eq("user_id",user.id).maybeSingle();if(error)throw error;if(!admin)throw Error("Akun belum didaftarkan sebagai admin di tabel admin_users.");$("login").classList.add("hidden");$("dash").classList.remove("hidden");await load()}
-$("signIn").onclick=async()=>{try{db=await getDb();let {error}=await db.auth.signInWithPassword({email:$("email").value,password:$("password").value});if(error)throw error;await enter()}catch(e){msg("loginMsg",e.message)}};
-$("name").addEventListener("input",()=>{if(!$("id").value&&!$("slug").dataset.touched)$("slug").value=$("name").value.toLowerCase().trim().replace(/[^a-z0-9]+/g,"-").replace(/^-|-$/g,"")});$("slug").addEventListener("input",()=>{$("slug").dataset.touched="1"});$("form").onsubmit=async e=>{e.preventDefault();try{db=await getDb();let user=(await db.auth.getUser()).data.user;if(!user)throw Error("Sesi login berakhir. Silakan masuk kembali.");let id=$("id").value,p={name:$("name").value.trim(),slug:$("slug").value.trim(),category:$("category").value,developer:$("developer").value,version:$("version").value,size:$("size").value,download_url:$("downloadUrl").value.trim(),description:$("description").value,is_published:$("published").checked,updated_at:new Date().toISOString()};let img=$("iconFile").files[0];if(img){if(!["image/png","image/jpeg","image/webp","image/gif"].includes(img.type)||img.size>5*1024*1024)throw Error("Pilih foto PNG, JPG, WEBP, atau GIF maksimal 5 MB.");let ext=(img.name.split(".").pop()||"jpg").toLowerCase().replace(/[^a-z0-9]/g,"");let path=user.id+"/"+crypto.randomUUID()+"."+ext;let {error:uploadError}=await db.storage.from(ICON_BUCKET).upload(path,img,{upsert:false,contentType:img.type});if(uploadError)throw uploadError;p.icon_url=db.storage.from(ICON_BUCKET).getPublicUrl(path).data.publicUrl}let r=id?await db.from("apps").update(p).eq("id",id):await db.from("apps").insert(p);if(r.error)throw r.error;msg("formMsg","Berhasil disimpan.");$("form").reset();$("id").value="";$("slug").dataset.touched="";await load()}catch(e){msg("formMsg",e.message)}};
-$("rows").onclick=async e=>{try{db=await getDb();let a=apps.find(x=>x.id===e.target.dataset.edit);if(a){$("id").value=a.id;$("name").value=a.name;$("slug").value=a.slug;$("category").value=a.category;$("developer").value=a.developer||"";$("version").value=a.version||"";$("size").value=a.size||"";$("downloadUrl").value=a.download_url||"";$("iconFile").value="";$("description").value=a.description||"";$("published").checked=a.is_published;window.scrollTo(0,0)}let del=e.target.dataset.del;if(del&&confirm("Hapus aplikasi?")){let {error}=await db.from("apps").delete().eq("id",del);if(error)alert(error.message);else await load()}}catch(err){alert(err.message)}};
-$("reset").onclick=()=>{$("form").reset();$("id").value="";msg("formMsg","")};$("logout").onclick=async()=>{try{db=await getDb();await db.auth.signOut();location.reload()}catch(e){msg("loginMsg",e.message)}};
-(async()=>{try{db=await getDb();let {data:{session},error}=await db.auth.getSession();if(error)throw error;if(session)await enter()}catch(e){msg("loginMsg",e.message)}})();
-</script></body></html>
+<!doctype html>
+<html lang="id">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+  <meta name="robots" content="noindex,nofollow">
+  <meta name="theme-color" content="#17243a">
+  <link rel="icon" type="image/svg+xml" href="./icon.svg">
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css" rel="stylesheet">
+  <title>Admin APK | DA•OFFICIAL</title>
+  <style>
+    :root{--ink:#17243a;--muted:#64748b;--primary:#2457a6;--line:#e2e8f0;--paper:#fff;--bg:#f3f6fb}
+    *{box-sizing:border-box}body{margin:0;background:linear-gradient(135deg,#f5f8fd,#edf2f8);color:var(--ink);font:15px/1.55 Inter,system-ui,-apple-system,"Segoe UI",sans-serif}
+    .navbar{background:rgba(255,255,255,.94);border-bottom:1px solid var(--line);box-shadow:0 8px 24px rgba(18,35,60,.06)}.logo{font-weight:900;letter-spacing:-.4px}.logo span{color:var(--primary)}.back-btn,.logout-btn{border:1px solid var(--line);border-radius:10px;padding:8px 12px;text-decoration:none;font-weight:750;font-size:13px}.back-btn{background:#eef4ff;color:#1d4d88}.logout-btn{background:#fff0f0;color:#b42318}
+    .login-box,.admin-box{width:min(760px,calc(100% - 24px));margin:28px auto;padding:clamp(18px,3vw,30px);background:#fff;border:1px solid var(--line);border-radius:20px;box-shadow:0 16px 42px rgba(18,35,60,.08)}.login-box{max-width:440px;margin-top:60px}.heading{text-align:center;margin-bottom:22px}.heading-icon{width:70px;height:70px;display:grid;place-items:center;margin:auto;border-radius:19px;background:#edf4ff;color:var(--primary);font-size:32px}.heading h1,.heading h2{margin:15px 0 6px;font-weight:900;letter-spacing:-.6px}.heading p{color:var(--muted);margin:0;font-size:13px}
+    .form-label{font-weight:750;color:#344256}.form-control,.form-select{border:1px solid #d7dee8;border-radius:12px;padding:12px 13px;background:#fbfcfe}.form-control:focus,.form-select:focus{border-color:#4b83d2;box-shadow:0 0 0 4px rgba(37,99,235,.12)}.primary-btn,.secondary-btn,.danger-btn{border:0;border-radius:12px;padding:11px 15px;font-weight:800}.primary-btn{background:linear-gradient(135deg,#2457a6,#3479d1);color:#fff;box-shadow:0 6px 14px rgba(36,87,166,.16)}.secondary-btn{background:#eaf2ff;color:#1b4f91}.danger-btn{background:#fff0f0;color:#b42318}.primary-btn:disabled{opacity:.6}
+    .tabs{display:flex;gap:8px;flex-wrap:wrap;justify-content:center;margin:26px auto 16px}.tab-btn{border:1px solid #dce4ee;border-radius:12px;padding:10px 15px;background:#fff;color:#52637b;font-weight:800}.tab-btn.active{background:#eaf2ff;color:#1b4f91;border-color:#b9d1f2}.item-list{width:min(760px,calc(100% - 24px));margin:18px auto 50px}.item-card{display:flex;align-items:center;gap:12px;padding:13px;margin:10px 0;background:#fff;border:1px solid var(--line);border-radius:15px;box-shadow:0 7px 18px rgba(18,35,60,.05)}.app-icon{width:54px;height:54px;flex:0 0 54px;object-fit:cover;border-radius:13px;border:1px solid var(--line);background:#f3f6fb}.item-name{font-weight:850;overflow-wrap:anywhere}.item-info{color:var(--muted);font-size:12px;overflow-wrap:anywhere}.item-actions{display:flex;gap:7px;flex-wrap:wrap;margin-left:auto}.empty{padding:22px;text-align:center;color:var(--muted);background:#f8fafc;border:1px dashed #cbd5e1;border-radius:13px}.review-text{margin:9px 0;color:#3f5068;white-space:pre-wrap;overflow-wrap:anywhere}.review-status{display:inline-block;padding:4px 8px;border-radius:99px;background:#fff7e6;color:#8a5a11;font-size:11px;font-weight:800}
+    @media(max-width:520px){.item-card{align-items:flex-start;flex-wrap:wrap}.item-actions{width:100%;margin-left:66px}.tabs{padding:0 12px}.tab-btn{flex:1}}
+  </style>
+</head>
+<body>
+  <nav class="navbar">
+    <div class="container py-3 d-flex justify-content-between align-items-center gap-2">
+      <div class="logo"><i class="bi bi-shield-lock-fill"></i> APK <span>DA•OFFICIAL</span> <small>ADMIN</small></div>
+      <div id="navRight"><a href="./index.html" class="back-btn"><i class="bi bi-house"></i> Beranda</a></div>
+    </div>
+  </nav>
+
+  <section id="loginPanel" class="login-box">
+    <div class="heading"><div class="heading-icon"><i class="bi bi-shield-lock-fill"></i></div><h1>Login Admin</h1><p>Masuk untuk mengelola katalog APK.</p></div>
+    <form id="loginForm">
+      <div class="mb-3"><label for="loginEmail" class="form-label">Email admin</label><input id="loginEmail" class="form-control" type="email" required autocomplete="username"></div>
+      <div class="mb-4"><label for="loginPassword" class="form-label">Password</label><input id="loginPassword" class="form-control" type="password" required autocomplete="current-password"></div>
+      <button id="loginBtn" class="primary-btn w-100" type="submit"><i class="bi bi-box-arrow-in-right"></i> Masuk</button>
+    </form>
+    <div id="loginStatus" class="mt-3" role="status" aria-live="polite"></div>
+  </section>
+
+  <main id="adminPanel" style="display:none">
+    <div class="tabs" role="tablist" aria-label="Menu admin">
+      <button class="tab-btn active" type="button" data-section="apps"><i class="bi bi-phone-fill"></i> Kelola APK</button>
+      <button class="tab-btn" type="button" data-section="reviews"><i class="bi bi-chat-square-text-fill"></i> Moderasi ulasan</button>
+    </div>
+
+    <section id="appsPanel">
+      <div class="admin-box">
+        <div class="heading"><div class="heading-icon"><i class="bi bi-cloud-arrow-up-fill"></i></div><h2 id="formTitle">Tambah APK</h2><p>Isi informasi aplikasi dan tautan unduhnya.</p></div>
+        <div id="appEditNotice" class="alert alert-primary" style="display:none"></div>
+        <form id="addAppForm">
+          <div class="mb-3"><label for="name" class="form-label">Nama aplikasi *</label><input id="name" class="form-control" type="text" maxlength="150" required></div>
+          <div class="mb-3"><label for="description" class="form-label">Deskripsi</label><textarea id="description" class="form-control" rows="3" maxlength="3000"></textarea></div>
+          <div class="row">
+            <div class="col-6 mb-3"><label for="version" class="form-label">Versi</label><input id="version" class="form-control" type="text" maxlength="50"></div>
+            <div class="col-6 mb-3"><label for="size" class="form-label">Ukuran APK</label><input id="size" class="form-control" type="text" maxlength="30" placeholder="Contoh: 85 MB"></div>
+          </div>
+          <div class="mb-3"><label for="category" class="form-label">Kategori</label><select id="category" class="form-select"><option>Game</option><option>Sosial</option><option>Tools</option><option>Media</option><option>Lainnya</option></select></div>
+          <div class="mb-3"><label for="icon" class="form-label">URL ikon aplikasi</label><input id="icon" class="form-control" type="url" placeholder="https://contoh.com/icon.png"></div>
+          <div class="mb-4"><label for="download_url" class="form-label">URL unduhan APK *</label><input id="download_url" class="form-control" type="url" required placeholder="https://contoh.com/aplikasi.apk"><div class="form-text">Masukkan tautan langsung atau tautan unduhan dari penyedia file.</div></div>
+          <button id="saveBtn" class="primary-btn w-100" type="submit"><i class="bi bi-plus-circle"></i> Tambahkan APK</button>
+          <button id="cancelBtn" class="secondary-btn w-100 mt-2" type="button" style="display:none">Batal edit</button>
+        </form>
+        <div id="status" class="mt-3" role="status" aria-live="polite"></div>
+      </div>
+      <div class="item-list"><h4 class="fw-bold fs-5">Daftar APK</h4><div id="appList"><div class="empty">Memuat daftar APK...</div></div></div>
+    </section>
+
+    <section id="reviewsPanel" style="display:none">
+      <div class="admin-box"><div class="heading"><div class="heading-icon"><i class="bi bi-chat-square-check-fill"></i></div><h2>Moderasi ulasan</h2><p>Ulasan baru menunggu persetujuan sebelum ditampilkan di halaman detail APK.</p></div><div id="reviewStatus" role="status" aria-live="polite"></div><div id="reviewList"><div class="empty">Memuat ulasan...</div></div></div>
+    </section>
+  </main>
+
+  <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+  <script src="./supabase.js"></script>
+  <script src="./admin.html.js"></script>
+</body>
+</html>

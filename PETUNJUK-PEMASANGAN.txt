@@ -1,0 +1,51 @@
+APK DA•OFFICIAL | VERSI KHUSUS DOWNLOAD APK
+
+ISI BERKAS
+- index.html           : katalog, pencarian, kategori, favorit, bagikan.
+- detail.html          : detail aplikasi, tombol unduh, statistik klik, rating, ulasan.
+- admin.html           : login admin, kelola APK, moderasi ulasan.
+- admin.html.js        : fungsi admin.
+- supabase.js          : satu koneksi Supabase bersama (window.supabaseClient dan window.db).
+- bantuan.html         : panduan download APK.
+- database-apk-only.sql: tabel, hak akses RLS, rating, review, dan unduhan.
+- manifest.json        : metadata aplikasi web.
+- icon.svg             : ikon situs.
+
+YANG SUDAH DIHILANGKAN DARI HALAMAN PENGUNJUNG
+DA•MUSIC, Kata Sad, Tema, anime, video latar One Piece, CAPTCHA pintu masuk,
+notifikasi/pengumuman, dan menu hiburan lainnya. Beranda sekarang hanya katalog APK.
+
+LANGKAH PEMASANGAN
+1. Cadangkan repositori GitHub lama sebelum mengganti file.
+2. Di root repositori GitHub, ganti file berikut dengan versi dari folder ini:
+   index.html, detail.html, admin.html, admin.html.js, supabase.js,
+   bantuan.html, manifest.json, dan icon.svg.
+3. Buka supabase.js dan pastikan SUPABASE_URL serta SUPABASE_KEY adalah
+   Project URL dan publishable/anon public key dari proyek Supabase yang benar.
+   Jangan pernah memakai service_role/secret key pada website.
+4. Di Supabase, buka SQL Editor. Cadangkan database terlebih dahulu, lalu
+   jalankan database-apk-only.sql. Script menambahkan kolom yang dibutuhkan
+   dan menyiapkan policy RLS; script tidak menghapus tabel apps.
+5. Buat akun admin melalui Supabase > Authentication > Users.
+6. Salin UUID akun admin tersebut, lalu jalankan perintah ini di SQL Editor,
+   dengan mengganti UUID-USER-ADMIN:
+
+   insert into public.admin_users(user_id)
+   values ('UUID-USER-ADMIN')
+   on conflict (user_id) do nothing;
+
+7. Commit perubahan ke GitHub dan tunggu GitHub Pages menerbitkan versi terbaru.
+8. Uji situs utama, buka detail aplikasi, lakukan login melalui /admin.html,
+   tambahkan satu APK uji, periksa apakah APK muncul di katalog, lalu coba unduh.
+9. Uji satu ulasan. Ulasan baru harus menunggu persetujuan admin di tab Moderasi Ulasan.
+
+PENTING
+- Halaman admin tidak ditautkan dari menu pengunjung. Alamatnya tetap /admin.html.
+- Form admin memakai URL ikon dan URL unduhan. File APK tetap dihosting di
+  penyedia file yang kamu pilih; masukkan tautan unduhnya ke formulir admin.
+- File script.js lama yang berisi data contoh tidak lagi dipanggil oleh index.html.
+  music.html.js, music.html, background-one-piece.mp4, dan video loader juga
+  tidak lagi diperlukan untuk halaman utama khusus APK. Hapus dari repositori
+  hanya jika memang tidak digunakan halaman lain.
+- Jangan bagikan password admin, OTP, atau service_role/secret key.
+- Bagikan hanya APK yang kamu miliki atau punya izin untuk didistribusikan.
