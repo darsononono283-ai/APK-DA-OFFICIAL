@@ -1,0 +1,255 @@
+
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+body {
+  background:
+    radial-gradient(circle at top right, #50358a55, transparent 35%),
+    #0b1020;
+  color: #f5f5ff;
+  font-family: Arial, sans-serif;
+}
+
+.navbar {
+  height: 70px;
+  padding: 0 7%;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  background: #11182acc;
+  border-bottom: 1px solid #ffffff18;
+  backdrop-filter: blur(20px);
+}
+
+.logo {
+  font-size: 19px;
+  font-weight: bold;
+}
+
+.logo span {
+  color: #a78bfa;
+}
+
+.menu-btn {
+  background: #ffffff10;
+  color: white;
+  border: 1px solid #ffffff20;
+  border-radius: 10px;
+  padding: 9px 13px;
+}
+
+.container {
+  width: 90%;
+  max-width: 1100px;
+  margin: auto;
+}
+
+.hero {
+  margin-top: 35px;
+  padding: 45px 35px;
+  border: 1px solid #ffffff20;
+  border-radius: 25px;
+  background: linear-gradient(135deg, #302052, #172b43);
+  box-shadow: 0 15px 45px #0005;
+}
+
+.tag {
+  color: #c4b5fd;
+  font-size: 11px;
+  letter-spacing: 2px;
+}
+
+.hero h1 {
+  font-size: clamp(30px, 6vw, 48px);
+  margin: 18px 0;
+  max-width: 600px;
+}
+
+.hero h1 span {
+  color: #9cecf5;
+}
+
+.hero p {
+  color: #c4c9d8;
+  line-height: 1.7;
+}
+
+.search-box {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  margin: 25px 0;
+  padding: 14px 17px;
+  background: #ffffff0d;
+  border: 1px solid #ffffff20;
+  border-radius: 14px;
+  backdrop-filter: blur(15px);
+}
+
+.search-box span {
+  font-size: 25px;
+  color: #bba5ff;
+}
+
+.search-box input {
+  width: 100%;
+  border: none;
+  outline: none;
+  color: white;
+  background: transparent;
+  font-size: 14px;
+}
+
+.category-section h2,
+.apps-section h2 {
+  font-size: 19px;
+  margin-bottom: 15px;
+}
+
+.categories {
+  display: flex;
+  gap: 10px;
+  overflow-x: auto;
+  padding-bottom: 8px;
+}
+
+.category {
+  padding: 11px 17px;
+  border: 1px solid #ffffff20;
+  border-radius: 12px;
+  color: #cbd0df;
+  background: #ffffff0c;
+  white-space: nowrap;
+}
+
+.category.active {
+  background: #8059d8;
+  color: white;
+  border-color: #a78bfa;
+}
+
+.apps-section {
+  margin-top: 30px;
+  margin-bottom: 50px;
+}
+
+.section-heading {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.section-heading span {
+  color: #a9b0c2;
+  font-size: 12px;
+}
+
+.app-grid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 15px;
+}
+
+.app-card {
+  padding: 17px;
+  border: 1px solid #ffffff20;
+  border-radius: 18px;
+  background: linear-gradient(145deg, #ffffff12, #ffffff05);
+  backdrop-filter: blur(15px);
+  transition: 0.25s;
+}
+
+.app-card:hover {
+  transform: translateY(-5px);
+  border-color: #a78bfa88;
+}
+
+.app-icon {
+  width: 58px;
+  height: 58px;
+  border-radius: 15px;
+  display: grid;
+  place-items: center;
+  font-size: 25px;
+  background: #49366f;
+  margin-bottom: 14px;
+}
+
+.app-card h3 {
+  font-size: 15px;
+  margin-bottom: 7px;
+}
+
+.app-card p {
+  font-size: 12px;
+  color: #aeb5c7;
+  line-height: 1.5;
+}
+
+.app-card button {
+  width: 100%;
+  margin-top: 15px;
+  padding: 10px;
+  border: 1px solid #a78bfa55;
+  border-radius: 10px;
+  background: #8059d822;
+  color: #d8caff;
+}
+
+.empty {
+  grid-column: 1 / -1;
+  text-align: center;
+  color: #aeb5c7;
+  padding: 30px;
+}
+
+footer {
+  text-align: center;
+  padding: 25px;
+  border-top: 1px solid #ffffff18;
+  color: #aeb5c7;
+  font-size: 12px;
+  line-height: 1.8;
+}
+
+@media (max-width: 650px) {
+  .navbar {
+    padding: 0 5%;
+  }
+
+  .hero {
+    padding: 30px 22px;
+  }
+
+  .app-grid {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: 10px;
+  }
+
+  .app-card {
+    padding: 12px;
+  }
+}
+
+
+.detail-link {
+  display: block;
+  width: 100%;
+  margin-top: 15px;
+  padding: 11px;
+  text-align: center;
+  text-decoration: none;
+  color: #e0d5ff;
+  background: #8059d822;
+  border: 1px solid #a78bfa55;
+  border-radius: 10px;
+  font-size: 12px;
+  font-weight: bold;
+}
+
+.detail-link:hover {
+  background: #8059d855;
+}
