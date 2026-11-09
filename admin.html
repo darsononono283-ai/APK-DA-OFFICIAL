@@ -15,8 +15,30 @@
     .navbar{background:rgba(255,255,255,.94);border-bottom:1px solid var(--line);box-shadow:0 8px 24px rgba(18,35,60,.06)}.logo{font-weight:900;letter-spacing:-.4px}.logo span{color:var(--primary)}.back-btn,.logout-btn{border:1px solid var(--line);border-radius:10px;padding:8px 12px;text-decoration:none;font-weight:750;font-size:13px}.back-btn{background:#eef4ff;color:#1d4d88}.logout-btn{background:#fff0f0;color:#b42318}
     .login-box,.admin-box{width:min(760px,calc(100% - 24px));margin:28px auto;padding:clamp(18px,3vw,30px);background:#fff;border:1px solid var(--line);border-radius:20px;box-shadow:0 16px 42px rgba(18,35,60,.08)}.login-box{max-width:440px;margin-top:60px}.heading{text-align:center;margin-bottom:22px}.heading-icon{width:70px;height:70px;display:grid;place-items:center;margin:auto;border-radius:19px;background:#edf4ff;color:var(--primary);font-size:32px}.heading h1,.heading h2{margin:15px 0 6px;font-weight:900;letter-spacing:-.6px}.heading p{color:var(--muted);margin:0;font-size:13px}
     .form-label{font-weight:750;color:#344256}.form-control,.form-select{border:1px solid #d7dee8;border-radius:12px;padding:12px 13px;background:#fbfcfe}.form-control:focus,.form-select:focus{border-color:#4b83d2;box-shadow:0 0 0 4px rgba(37,99,235,.12)}.primary-btn,.secondary-btn,.danger-btn{border:0;border-radius:12px;padding:11px 15px;font-weight:800}.primary-btn{background:linear-gradient(135deg,#2457a6,#3479d1);color:#fff;box-shadow:0 6px 14px rgba(36,87,166,.16)}.secondary-btn{background:#eaf2ff;color:#1b4f91}.danger-btn{background:#fff0f0;color:#b42318}.primary-btn:disabled{opacity:.6}
-    .tabs{display:flex;gap:8px;flex-wrap:wrap;justify-content:center;margin:26px auto 16px}.tab-btn{border:1px solid #dce4ee;border-radius:12px;padding:10px 15px;background:#fff;color:#52637b;font-weight:800}.tab-btn.active{background:#eaf2ff;color:#1b4f91;border-color:#b9d1f2}.item-list{width:min(760px,calc(100% - 24px));margin:18px auto 50px}.item-card{display:flex;align-items:center;gap:12px;padding:13px;margin:10px 0;background:#fff;border:1px solid var(--line);border-radius:15px;box-shadow:0 7px 18px rgba(18,35,60,.05)}.app-icon{width:54px;height:54px;flex:0 0 54px;object-fit:cover;border-radius:13px;border:1px solid var(--line);background:#f3f6fb}.item-name{font-weight:850;overflow-wrap:anywhere}.item-info{color:var(--muted);font-size:12px;overflow-wrap:anywhere}.item-actions{display:flex;gap:7px;flex-wrap:wrap;margin-left:auto}.empty{padding:22px;text-align:center;color:var(--muted);background:#f8fafc;border:1px dashed #cbd5e1;border-radius:13px}.review-text{margin:9px 0;color:#3f5068;white-space:pre-wrap;overflow-wrap:anywhere}.review-status{display:inline-block;padding:4px 8px;border-radius:99px;background:#fff7e6;color:#8a5a11;font-size:11px;font-weight:800}
-    @media(max-width:520px){.item-card{align-items:flex-start;flex-wrap:wrap}.item-actions{width:100%;margin-left:66px}.tabs{padding:0 12px}.tab-btn{flex:1}}
+    .tabs{display:flex;gap:8px;flex-wrap:wrap;justify-content:center;margin:26px auto 16px}.tab-btn{border:1px solid #dce4ee;border-radius:12px;padding:10px 15px;background:#fff;color:#52637b;font-weight:800}.tab-btn.active{background:#eaf2ff;color:#1b4f91;border-color:#b9d1f2}.item-list{width:min(760px,calc(100% - 24px));margin:18px auto 50px}.item-card{display:flex;align-items:center;gap:12px;padding:13px;margin:10px 0;background:#fff;border:1px solid var(--line);border-radius:15px;box-shadow:0 7px 18px rgba(18,35,60,.05)}.app-icon{width:54px;height:54px;flex:0 0 54px;object-fit:cover;border-radius:13px;border:1px solid var(--line);background:#f3f6fb}.item-name{font-weight:850;overflow-wrap:anywhere}.item-info{color:var(--muted);font-size:12px;overflow-wrap:anywhere}.item-actions{display:flex;gap:7px;flex-wrap:wrap;margin-left:auto}.empty{padding:22px;text-align:center;color:var(--muted);background:#f8fafc;border:1px dashed #cbd5e1;border-radius:13px}.review-text{margin:9px 0;color:#3f5068;white-space:pre-wrap;overflow-wrap:anywhere}.review-status{display:inline-block;padding:4px 8px;border-radius:99px;background:#fff7e6;color:#8a5a11;font-size:11px;font-weight:800}.published-state{display:inline-block;padding:3px 8px;border-radius:99px;font-size:10px;font-weight:850;margin-top:5px}.published-state.is-live{background:#eaf8ef;color:#237044}.published-state.is-draft{background:#fff4df;color:#94621a}
+    .dashboard-wrap{width:min(1100px,calc(100% - 24px));margin:18px auto 50px}
+    .dashboard-box{width:100%;max-width:none;margin:0 auto 18px}
+    .dash-head{display:flex;align-items:center;justify-content:space-between;gap:12px;flex-wrap:wrap;margin-bottom:18px}
+    .dash-grid{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:12px}
+    .dash-card{min-width:0;padding:17px;border:1px solid var(--line);border-radius:16px;background:linear-gradient(145deg,#fff,#f8fbff);box-shadow:0 7px 18px rgba(18,35,60,.045)}
+    .dash-card .dash-label{color:var(--muted);font-size:12px;font-weight:750}
+    .dash-card .dash-value{display:block;margin-top:7px;font-size:clamp(25px,4vw,34px);font-weight:900;letter-spacing:-1px;color:var(--ink);font-variant-numeric:tabular-nums}
+    .dash-card .dash-icon{display:inline-grid;place-items:center;width:36px;height:36px;border-radius:11px;background:#eaf2ff;color:var(--primary);font-size:17px;margin-bottom:11px}
+    .dash-columns{display:grid;grid-template-columns:1fr 1fr;gap:16px}
+    .dash-subpanel{min-width:0;padding:18px;border:1px solid var(--line);border-radius:16px;background:#fff}
+    .dash-subpanel h3{font-size:15px;font-weight:850;margin:0 0 15px}
+    .dash-list{display:grid;gap:11px}.dash-row{display:flex;align-items:center;justify-content:space-between;gap:12px;padding-bottom:10px;border-bottom:1px solid #edf1f6}.dash-row:last-child{padding-bottom:0;border-bottom:0}
+    .dash-row-name{font-size:13px;font-weight:800;overflow-wrap:anywhere}.dash-row-meta{font-size:11px;color:var(--muted);margin-top:3px}.dash-pill{padding:5px 9px;border-radius:99px;background:#edf4ff;color:#2457a6;font-size:11px;font-weight:850;white-space:nowrap}
+    .chart-bars{height:190px;display:grid;grid-template-columns:repeat(7,minmax(0,1fr));gap:10px;align-items:end;padding-top:12px}
+    .chart-day{height:100%;display:flex;flex-direction:column;justify-content:flex-end;align-items:center;gap:7px;min-width:0}
+    .chart-value{font-size:10px;color:#64748b;font-weight:800;font-variant-numeric:tabular-nums}
+    .chart-bar{width:min(100%,34px);min-height:4px;border-radius:8px 8px 3px 3px;background:linear-gradient(180deg,#5b92dc,#2457a6);box-shadow:0 5px 12px rgba(36,87,166,.15)}
+    .chart-label{font-size:10px;color:#64748b;font-weight:750}
+    .dash-table-wrap{overflow:auto} .dash-table{width:100%;border-collapse:collapse;font-size:12px}.dash-table th,.dash-table td{padding:10px 8px;text-align:left;border-bottom:1px solid #edf1f6}.dash-table th{color:#64748b;font-weight:800;white-space:nowrap}.dash-table td:first-child{font-weight:750}
+    .dash-note{font-size:11px;color:var(--muted);margin-top:12px;line-height:1.55}
+    .refresh-btn{border:1px solid #cbdcf2;border-radius:11px;background:#edf4ff;color:#1b4f91;padding:9px 13px;font-size:12px;font-weight:850}
+    @media(max-width:720px){.dash-grid{grid-template-columns:repeat(2,minmax(0,1fr))}.dash-columns{grid-template-columns:1fr}}
+    @media(max-width:520px){.item-card{align-items:flex-start;flex-wrap:wrap}.item-actions{width:100%;margin-left:66px}.tabs{padding:0 12px}.tab-btn{flex:1;font-size:12px;padding:9px 7px}.dash-grid{gap:8px}.dash-card{padding:13px}.dash-card .dash-value{font-size:25px}.dashboard-wrap{width:calc(100% - 16px)}.chart-bars{gap:6px}}
   </style>
 </head>
 <body>
@@ -41,6 +63,7 @@
     <div class="tabs" role="tablist" aria-label="Menu admin">
       <button class="tab-btn active" type="button" data-section="apps"><i class="bi bi-phone-fill"></i> Kelola APK</button>
       <button class="tab-btn" type="button" data-section="reviews"><i class="bi bi-chat-square-text-fill"></i> Moderasi ulasan</button>
+      <button class="tab-btn" type="button" data-section="stats"><i class="bi bi-graph-up-arrow"></i> Statistik</button>
     </div>
 
     <section id="appsPanel">
@@ -56,7 +79,8 @@
           </div>
           <div class="mb-3"><label for="category" class="form-label">Kategori</label><select id="category" class="form-select"><option>Game</option><option>Sosial</option><option>Tools</option><option>Media</option><option>Lainnya</option></select></div>
           <div class="mb-3"><label for="icon" class="form-label">URL ikon aplikasi</label><input id="icon" class="form-control" type="url" placeholder="https://contoh.com/icon.png"></div>
-          <div class="mb-4"><label for="download_url" class="form-label">URL unduhan APK *</label><input id="download_url" class="form-control" type="url" required placeholder="https://contoh.com/aplikasi.apk"><div class="form-text">Masukkan tautan langsung atau tautan unduhan dari penyedia file.</div></div>
+          <div class="mb-3"><label for="download_url" class="form-label">URL unduhan APK *</label><input id="download_url" class="form-control" type="url" required placeholder="https://contoh.com/aplikasi.apk"><div class="form-text">Masukkan tautan langsung atau tautan unduhan dari penyedia file.</div></div>
+          <div class="form-check form-switch mb-4"><input class="form-check-input" type="checkbox" role="switch" id="published" checked><label class="form-check-label fw-bold" for="published">Publikasikan ke katalog pengunjung</label><div class="form-text">Matikan untuk menyimpan APK sebagai draft yang hanya terlihat oleh admin.</div></div>
           <button id="saveBtn" class="primary-btn w-100" type="submit"><i class="bi bi-plus-circle"></i> Tambahkan APK</button>
           <button id="cancelBtn" class="secondary-btn w-100 mt-2" type="button" style="display:none">Batal edit</button>
         </form>
@@ -67,6 +91,34 @@
 
     <section id="reviewsPanel" style="display:none">
       <div class="admin-box"><div class="heading"><div class="heading-icon"><i class="bi bi-chat-square-check-fill"></i></div><h2>Moderasi ulasan</h2><p>Ulasan baru menunggu persetujuan sebelum ditampilkan di halaman detail APK.</p></div><div id="reviewStatus" role="status" aria-live="polite"></div><div id="reviewList"><div class="empty">Memuat ulasan...</div></div></div>
+    </section>
+
+    <section id="statsPanel" style="display:none">
+      <div class="dashboard-wrap">
+        <div class="admin-box dashboard-box">
+          <div class="dash-head">
+            <div><h2 class="fw-bold fs-4 mb-1">Dashboard Statistik</h2><p class="text-secondary small mb-0">Ringkasan katalog dan aktivitas pengunjung dari Supabase.</p></div>
+            <button type="button" class="refresh-btn" id="refreshStatsBtn"><i class="bi bi-arrow-clockwise"></i> Perbarui data</button>
+          </div>
+          <div id="statsStatus" role="status" aria-live="polite" class="small text-secondary mb-3">Menyiapkan statistik...</div>
+          <div class="dash-grid">
+            <article class="dash-card"><span class="dash-icon"><i class="bi bi-phone-fill"></i></span><div class="dash-label">Total APK</div><strong class="dash-value" id="statApps">—</strong></article>
+            <article class="dash-card"><span class="dash-icon"><i class="bi bi-cloud-download-fill"></i></span><div class="dash-label">Klik unduhan</div><strong class="dash-value" id="statDownloads">—</strong></article>
+            <article class="dash-card"><span class="dash-icon"><i class="bi bi-star-fill"></i></span><div class="dash-label">Total rating</div><strong class="dash-value" id="statRatings">—</strong></article>
+            <article class="dash-card"><span class="dash-icon"><i class="bi bi-chat-square-text-fill"></i></span><div class="dash-label">Total ulasan</div><strong class="dash-value" id="statReviews">—</strong></article>
+            <article class="dash-card"><span class="dash-icon"><i class="bi bi-hourglass-split"></i></span><div class="dash-label">Ulasan menunggu</div><strong class="dash-value" id="statPending">—</strong></article>
+            <article class="dash-card"><span class="dash-icon"><i class="bi bi-check-circle-fill"></i></span><div class="dash-label">APK dipublikasikan</div><strong class="dash-value" id="statPublished">—</strong></article>
+          </div>
+        </div>
+        <div class="dash-columns">
+          <section class="dash-subpanel"><h3><i class="bi bi-bar-chart-line"></i> Klik unduhan 7 hari terakhir</h3><div id="downloadsChart" class="chart-bars"><div class="empty">Memuat grafik...</div></div><p class="dash-note">Grafik merangkum maksimal 1.000 catatan klik terbaru. Ini bukan konfirmasi bahwa file selesai diunduh.</p></section>
+          <section class="dash-subpanel"><h3><i class="bi bi-trophy"></i> APK paling populer</h3><div id="popularAppsList" class="dash-list"><div class="empty">Memuat data...</div></div><p class="dash-note">Peringkat dihitung dari maksimal 1.000 catatan klik terbaru yang dapat dibaca.</p></section>
+        </div>
+        <div class="dash-columns mt-3">
+          <section class="dash-subpanel"><h3><i class="bi bi-clock-history"></i> APK terbaru</h3><div id="latestAppsList" class="dash-list"><div class="empty">Memuat data...</div></div></section>
+          <section class="dash-subpanel"><h3><i class="bi bi-activity"></i> Aktivitas unduhan terbaru</h3><div class="dash-table-wrap"><table class="dash-table"><thead><tr><th>Nama APK</th><th>Waktu klik</th></tr></thead><tbody id="activityRows"><tr><td colspan="2">Memuat data...</td></tr></tbody></table></div></section>
+        </div>
+      </div>
     </section>
   </main>
 

@@ -726,22 +726,29 @@ body{background:#f3f6fb!important;background-image:none!important;color:#17243a!
 @media(max-width:560px){.detail-container{margin:14px auto!important;padding:10px!important}.app-header{gap:14px!important}.app-icon-wrap{width:88px!important;height:88px!important}}
 </style>
 
+
+<style id="da-v3-detail-final-polish">
+  :root{color-scheme:light}
+  .detail-container{width:min(900px,100%);padding:clamp(12px,2.5vw,22px)!important}
+  .comic-title{font-size:clamp(22px,4vw,30px)!important;margin-bottom:18px!important}
+  .detail-card{overflow:hidden}
+  .app-header{align-items:center}
+  .app-header>div:last-child{min-width:0}
+  .app-name{overflow-wrap:anywhere}
+  .info-grid{grid-template-columns:repeat(3,minmax(0,1fr))}
+  .info-box{padding:17px 10px}
+  .info-value{overflow-wrap:anywhere}
+  #reviewsSection,#ratingSection{margin-top:20px}
+  #reviewsSection h5,#ratingSection h5{font-size:16px;font-weight:850;color:#17243a}
+  .review-field:focus{outline:none;border-color:#5b91d4!important;box-shadow:0 0 0 4px rgba(36,87,166,.10)}
+  .download-btn{display:flex;align-items:center;justify-content:center;gap:10px;text-decoration:none;text-align:center;min-height:54px;padding:14px 18px}
+  .download-btn:focus-visible,.back-btn:focus-visible,#detailFavoriteButton:focus-visible{outline:3px solid #8bb8ef;outline-offset:3px}
+  .comic-footer{padding-top:18px;text-align:center;font-size:12px}
+  @media(max-width:560px){.detail-card{padding:17px!important;border-radius:17px!important}.comic-banner{margin:0 0 19px!important}.app-icon-wrap{width:82px!important;height:82px!important;flex-basis:82px}.info-grid{gap:8px}.info-box{padding:13px 5px}.info-value{font-size:12px}}
+</style>
 </head>
 
 <body>
-<script>
-(function(){
-  const allowed=["classic","cyber","dark","mint","ocean","sunset","sakura","lime","royal","coffee"];
-  let theme="classic";
-  try{theme=localStorage.getItem("apkda-theme")||"classic"}catch(_){}
-  if(!allowed.includes(theme))theme="classic";
-  document.body.dataset.theme=theme;
-  const meta=document.querySelector('meta[name="theme-color"]');
-  const colors={classic:"#ffe34d",cyber:"#080b1c",dark:"#101318",mint:"#d8fff0",ocean:"#d9f2ff",sunset:"#ffdfcc",sakura:"#ffe4f0",lime:"#efffc7",royal:"#e4e7ff",coffee:"#ead8c5"};
-  if(meta)meta.content=colors[theme]||colors.classic;
-})();
-</script>
-
 <nav class="navbar-custom">
     <div class="container py-3">
         <div class="d-flex justify-content-between align-items-center gap-2">
@@ -850,18 +857,21 @@ async function initAppRating(appId){
         message.textContent = "";
         try {
             // Hindari indikator memuat selamanya jika koneksi tidak merespons.
-            const request = client
-                .from("app_ratings")
-                .select("rating")
-                .eq("app_id", String(appId));
-            const timeout = new Promise((_, reject) =>
-                setTimeout(() => reject(new Error("Koneksi ke Supabase terlalu lama. Periksa internet, URL, dan anon key di supabase.js.")), 12000)
-            );
-            const { data, error } = await Promise.race([request, timeout]);
-
-            if(error) throw error;
-
-            const ratings = (data || []).map(row => Number(row.rating)).filter(n => Number.isFinite(n) && n >= 1 && n <= 5);
+            const ratings = [];
+            for (let from = 0; ; from += 1000) {
+                const request = client.from("app_ratings")
+                    .select("rating")
+                    .eq("app_id", String(appId))
+                    .range(from, from + 999);
+                const timeout = new Promise((_, reject) =>
+                    setTimeout(() => reject(new Error("Koneksi ke Supabase terlalu lama. Periksa internet, URL, dan anon key di supabase.js.")), 12000)
+                );
+                const { data, error } = await Promise.race([request, timeout]);
+                if (error) throw error;
+                const batch = data || [];
+                ratings.push(...batch.map(row => Number(row.rating)).filter(n => Number.isFinite(n) && n >= 1 && n <= 5));
+                if (batch.length < 1000) break;
+            }
             const averageEl = document.getElementById("ratingAverage");
             const totalEl = document.getElementById("ratingTotal");
             const bars = [1,2,3,4,5].map(n => ({n,count:ratings.filter(r=>r===n).length}));
@@ -984,10 +994,11 @@ function initDownloadTracking(appId){
         if(downloadTab) downloadTab.opener = null;
         try{
             const record = client.from("app_downloads").insert({app_id:String(appId)});
-            await Promise.race([
+            const result = await Promise.race([
                 record,
-                new Promise(resolve => setTimeout(resolve,1200))
+                new Promise(resolve => setTimeout(() => resolve({ timedOut:true }),1200))
             ]);
+            if (result?.error) throw result.error;
         }catch(error){
             console.error("Gagal mencatat klik unduhan:",error);
         }finally{
@@ -1139,6 +1150,7 @@ async function loadDetail(){
             .from("apps")
             .select("*")
             .eq("id",id)
+            .eq("is_published", true)
             .single();
 
         if(error || !data){

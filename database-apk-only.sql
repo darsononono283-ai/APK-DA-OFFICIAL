@@ -71,13 +71,18 @@ drop policy if exists "Admins read own membership" on public.admin_users;
 create policy "Admins read own membership"
 on public.admin_users for select to authenticated
 using (user_id = (select auth.uid()));
+revoke all on public.admin_users from anon, authenticated;
 grant select on public.admin_users to authenticated;
 
 drop policy if exists "Public reads published apps" on public.apps;
 drop policy if exists "Public reads apps" on public.apps;
-create policy "Public reads apps"
+drop policy if exists "Admins read all apps" on public.apps;
+create policy "Public reads published apps"
 on public.apps for select to anon, authenticated
-using (true);
+using (is_published = true);
+create policy "Admins read all apps"
+on public.apps for select to authenticated
+using (public.is_site_admin());
 
 drop policy if exists "Admins insert apps" on public.apps;
 create policy "Admins insert apps"
@@ -94,6 +99,7 @@ create policy "Admins delete apps"
 on public.apps for delete to authenticated
 using (public.is_site_admin());
 
+revoke all on public.apps from anon, authenticated;
 grant select on public.apps to anon, authenticated;
 grant insert, update, delete on public.apps to authenticated;
 
@@ -107,8 +113,12 @@ alter table public.app_downloads enable row level security;
 drop policy if exists "Public read download counts" on public.app_downloads;
 create policy "Public read download counts" on public.app_downloads for select to anon, authenticated using (true);
 drop policy if exists "Public record download clicks" on public.app_downloads;
-create policy "Public record download clicks" on public.app_downloads for insert to anon, authenticated with check (true);
-grant select, insert on public.app_downloads to anon, authenticated;
+create policy "Public record download clicks" on public.app_downloads for insert to anon, authenticated
+with check (exists (select 1 from public.apps a where a.id = app_downloads.app_id and a.is_published = true));
+create index if not exists app_downloads_app_created_idx on public.app_downloads(app_id, created_at desc);
+revoke all on public.app_downloads from anon, authenticated;
+grant select (id, app_id, created_at) on public.app_downloads to anon, authenticated;
+grant insert (app_id) on public.app_downloads to anon, authenticated;
 
 -- Rating bintang dari pengunjung.
 create table if not exists public.app_ratings (
@@ -123,8 +133,12 @@ alter table public.app_ratings enable row level security;
 drop policy if exists "Public read app ratings" on public.app_ratings;
 create policy "Public read app ratings" on public.app_ratings for select to anon, authenticated using (true);
 drop policy if exists "Public submit app ratings" on public.app_ratings;
-create policy "Public submit app ratings" on public.app_ratings for insert to anon, authenticated with check (rating between 1 and 5 and length(voter_id) between 1 and 100);
-grant select, insert on public.app_ratings to anon, authenticated;
+create policy "Public submit app ratings" on public.app_ratings for insert to anon, authenticated
+with check (rating between 1 and 5 and length(voter_id) between 1 and 100 and exists (select 1 from public.apps a where a.id = app_ratings.app_id and a.is_published = true));
+create index if not exists app_ratings_app_created_idx on public.app_ratings(app_id, created_at desc);
+revoke all on public.app_ratings from anon, authenticated;
+grant select (id, app_id, rating, created_at) on public.app_ratings to anon, authenticated;
+grant insert (app_id, rating, voter_id) on public.app_ratings to anon, authenticated;
 
 -- Ulasan pengunjung. Status awal pending sehingga harus disetujui admin.
 create table if not exists public.app_reviews (
@@ -143,13 +157,18 @@ create policy "Public reads approved reviews" on public.app_reviews for select t
 drop policy if exists "Admins read all reviews" on public.app_reviews;
 create policy "Admins read all reviews" on public.app_reviews for select to authenticated using (public.is_site_admin());
 drop policy if exists "Visitors submit pending reviews" on public.app_reviews;
-create policy "Visitors submit pending reviews" on public.app_reviews for insert to anon, authenticated with check (status = 'pending' and rating between 1 and 5 and length(review_text) between 1 and 800);
+create policy "Visitors submit pending reviews" on public.app_reviews for insert to anon, authenticated
+with check (status = 'pending' and rating between 1 and 5 and length(review_text) between 1 and 800 and exists (select 1 from public.apps a where a.id = app_reviews.app_id and a.is_published = true));
 drop policy if exists "Admins moderate reviews" on public.app_reviews;
 create policy "Admins moderate reviews" on public.app_reviews for update to authenticated using (public.is_site_admin()) with check (public.is_site_admin());
 drop policy if exists "Admins delete reviews" on public.app_reviews;
 create policy "Admins delete reviews" on public.app_reviews for delete to authenticated using (public.is_site_admin());
-grant select, insert on public.app_reviews to anon, authenticated;
-grant update, delete on public.app_reviews to authenticated;
+create index if not exists app_reviews_app_created_idx on public.app_reviews(app_id, created_at desc);
+create index if not exists app_reviews_status_created_idx on public.app_reviews(status, created_at desc);
+revoke all on public.app_reviews from anon, authenticated;
+grant select (id, app_id, display_name, review_text, rating, status, created_at) on public.app_reviews to anon, authenticated;
+grant insert (app_id, display_name, review_text, rating) on public.app_reviews to anon, authenticated;
+grant update (status), delete on public.app_reviews to authenticated;
 
 -- Setelah membuat user admin lewat Authentication > Users, jalankan satu kali:
 -- insert into public.admin_users(user_id) values ('UUID-USER-ADMIN');
