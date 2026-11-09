@@ -2,9 +2,9 @@
 (function () {
   'use strict';
 
-  // Konfigurasi proyek Supabase APK DA•OFFICIAL yang baru.
+  // Proyek APKZONE yang ditunjukkan pada dashboard Supabase.
   const SUPABASE_URL = 'https://hqfqowbvpzkomiyfzhdc.supabase.co';
-  // Gunakan anon public key di frontend. Jangan pernah menaruh service_role / secret key di browser.
+  // Anon/public key. Jangan pernah menaruh service_role atau Secret Key di browser.
   const SUPABASE_KEY = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImhxZnFvd2J2cHprb21peWZ6aGRjIiwicm9sZSI6ImFub24iLCJpYXQiOjE3OTEwNjMxNjQsImV4cCI6MjEwNjYzOTE2NH0.yKKi630Jxq8RDLQ_RukC5HzQk5fSvL2-cWdHsXqmQiI';
 
   function loadSDK(url) {
@@ -51,12 +51,10 @@
     }
 
     const client = window.supabase.createClient(SUPABASE_URL, SUPABASE_KEY);
-
-    // Alias yang dipakai oleh halaman website.
     window.supabaseClient = client;
     window.db = client;
     window.supabaseConfigError = null;
-    console.info('Supabase client siap digunakan.');
+    console.info('Supabase client siap digunakan:', SUPABASE_URL);
     return client;
   }
 
