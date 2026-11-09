@@ -237,7 +237,7 @@
         category: $('category').value,
         icon: iconURL,
         download_url: downloadURL,
-        is_published: true, // Semua APK yang disimpan otomatis tampil di katalog publik.
+        is_published: $('published').checked,
         updated_at: new Date().toISOString()
       };
       let result;
@@ -287,7 +287,7 @@
     $('category').value = app.category || 'Lainnya';
     $('icon').value = app.icon || app.icon_url || '';
     $('download_url').value = app.download_url || app.download_path || '';
-    $('published').checked = true;
+    $('published').checked = app.is_published !== false;
     $('formTitle').textContent = 'Perbarui APK';
     $('appEditNotice').textContent = 'Mode edit aktif untuk ' + (app.name || 'APK ini') + '. Ubah informasi lalu tekan Simpan Perubahan.';
     $('appEditNotice').style.display = 'block';

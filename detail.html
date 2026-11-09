@@ -778,7 +778,7 @@ body{background:#f3f6fb!important;background-image:none!important;color:#17243a!
 </main>
 
 <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
-<script src="./supabase.js"></script>
+<script src="./supabase.js?v=detail-fix-20261109"></script>
 
 <script>
 function escapeHTML(value){
@@ -1139,23 +1139,38 @@ async function loadDetail(){
             return;
         }
 
-        const client=window.supabaseClient;
+        // Gunakan client yang dibuat oleh supabase.js; tunggu inisialisasi selesai.
+        const client = window.supabaseClient || window.db;
 
         if(!client){
-            showError("Koneksi Supabase belum tersedia. Periksa supabase.js.");
+            const reason = window.supabaseConfigError || "Koneksi Supabase belum tersedia.";
+            console.error("Client Supabase tidak tersedia:", reason);
+            showError("KONEKSI DATABASE GAGAL: " + reason);
             return;
         }
 
+        // Cari berdasarkan ID saja. Status publikasi diperiksa setelah data ditemukan,
+        // sehingga error pencarian tidak disamarkan sebagai APK yang tidak ada.
         const {data,error}=await client
             .from("apps")
             .select("*")
             .eq("id",id)
-            .eq("is_published", true)
-            .single();
+            .maybeSingle();
 
-        if(error || !data){
-            console.error("Gagal memuat detail APK:",error);
-            showError("DATA APK TIDAK DITEMUKAN!");
+        if(error){
+            console.error("Gagal memuat detail APK dari Supabase:",error);
+            showError("GAGAL MEMUAT DETAIL: " + (error.message || "Kesalahan Supabase tidak diketahui."));
+            return;
+        }
+
+        if(!data){
+            console.warn("ID APK tidak ditemukan atau tidak dapat dibaca:", id);
+            showError("DATA APK TIDAK DITEMUKAN. Pastikan ID APK benar dan aturan baca Supabase mengizinkan pengunjung melihatnya.");
+            return;
+        }
+
+        if(data.is_published === false){
+            showError("APK INI BELUM DIPUBLIKASIKAN.");
             return;
         }
 
