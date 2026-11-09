@@ -1,5 +1,5 @@
 -- APK DA•OFFICIAL | Database katalog APK, unduhan, rating, ulasan, dan admin
--- Jalankan di Supabase SQL Editor. Script ini bersifat aditif untuk kolom apps.
+-- Jalankan di Supabase SQL Editor. Script ini bersifat aditif untuk kolom apps.\n-- Semua baris APK dapat dibaca publik agar seluruh katalog tampil di website.
 
 create extension if not exists pgcrypto;
 
@@ -79,7 +79,7 @@ drop policy if exists "Public reads apps" on public.apps;
 drop policy if exists "Admins read all apps" on public.apps;
 create policy "Public reads published apps"
 on public.apps for select to anon, authenticated
-using (is_published = true);
+using (true);
 create policy "Admins read all apps"
 on public.apps for select to authenticated
 using (public.is_site_admin());

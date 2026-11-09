@@ -171,7 +171,7 @@
         grid.innerHTML = '<div class="empty">Mengambil daftar APK dari database...</div>';
         try {
           const client = await window.supabaseReady;
-          const {data, error} = await client.from('apps').select('*').eq('is_published', true).order('created_at', {ascending:false});
+          const {data, error} = await client.from('apps').select('*').order('created_at', {ascending:false});
           if (error) throw error;
           apps = data || [];
           setStatus(apps.length ? 'Katalog berhasil dimuat.' : 'Database sudah terhubung. Belum ada APK yang ditambahkan admin.', apps.length ? 'success' : '');
