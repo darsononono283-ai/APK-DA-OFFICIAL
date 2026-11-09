@@ -237,17 +237,25 @@
         category: $('category').value,
         icon: iconURL,
         download_url: downloadURL,
-        is_published: $('published').checked,
+        // APK baru otomatis dipublikasikan. Checkbox hanya mengatur status saat mengedit.
+        is_published: editingId !== null ? $('published').checked : true,
         updated_at: new Date().toISOString()
       };
       let result;
       if (editingId !== null) {
-        result = await client.from('apps').update(payload).eq('id', editingId);
+        result = await client.from('apps').update(payload).eq('id', editingId).select('id,name,is_published').single();
       } else {
-        result = await client.from('apps').insert([payload]);
+        result = await client.from('apps').insert([payload]).select('id,name,is_published').single();
       }
       if (result.error) throw result.error;
-      showMessage(statusBox, editingId !== null ? 'Informasi APK berhasil diperbarui.' : 'APK berhasil ditambahkan ke katalog.', 'success');
+      if (!result.data) throw new Error('Supabase tidak mengembalikan data APK setelah penyimpanan.');
+      showMessage(
+        statusBox,
+        editingId !== null
+          ? 'Informasi APK berhasil diperbarui.'
+          : `APK ${result.data.name} berhasil ditambahkan dan dipublikasikan.`,
+        'success'
+      );
       resetForm();
       await loadApps();
     } catch (error) {
