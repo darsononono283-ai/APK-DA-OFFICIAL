@@ -1,5 +1,5 @@
 -- APK DA•OFFICIAL | Database katalog APK, unduhan, rating, ulasan, dan admin
--- Jalankan di Supabase SQL Editor. Script ini bersifat aditif untuk kolom apps.\n-- Semua baris APK dapat dibaca publik agar seluruh katalog tampil di website.
+-- Jalankan di Supabase SQL Editor. Script ini bersifat aditif untuk kolom apps.
 
 create extension if not exists pgcrypto;
 
@@ -39,6 +39,9 @@ alter table public.apps add column if not exists is_published boolean not null d
 alter table public.apps add column if not exists created_at timestamptz not null default now();
 alter table public.apps add column if not exists updated_at timestamptz not null default now();
 
+-- Semua APK lama yang sebelumnya berstatus draft ikut dipublikasikan.
+update public.apps set is_published = true where is_published is distinct from true;
+
 -- Kolom icon_url dan download_path dari skema lama tetap dibiarkan; halaman detail mendukung keduanya.
 
 -- Buat slug yang belum ada. Slug baru dari admin juga diberi akhiran unik.
@@ -76,8 +79,9 @@ grant select on public.admin_users to authenticated;
 
 drop policy if exists "Public reads published apps" on public.apps;
 drop policy if exists "Public reads apps" on public.apps;
+drop policy if exists "Public reads all apps" on public.apps;
 drop policy if exists "Admins read all apps" on public.apps;
-create policy "Public reads published apps"
+create policy "Public reads all apps"
 on public.apps for select to anon, authenticated
 using (true);
 create policy "Admins read all apps"

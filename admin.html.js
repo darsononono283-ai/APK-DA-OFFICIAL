@@ -237,7 +237,7 @@
         category: $('category').value,
         icon: iconURL,
         download_url: downloadURL,
-        is_published: true,
+        is_published: true, // Semua APK yang disimpan otomatis tampil di katalog publik.
         updated_at: new Date().toISOString()
       };
       let result;
