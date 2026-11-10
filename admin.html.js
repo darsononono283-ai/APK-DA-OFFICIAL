@@ -224,6 +224,7 @@
     if (!downloadURL) return showMessage(statusBox, 'URL unduhan wajib berupa alamat HTTP atau HTTPS yang valid.');
     if ($('icon').value.trim() && !iconURL) return showMessage(statusBox, 'URL ikon harus berupa alamat HTTP atau HTTPS yang valid.');
 
+    const wasEditing = editingId !== null;
     saveBtn.disabled = true;
     saveBtn.textContent = 'Menyimpan APK...';
     try {
@@ -241,19 +242,38 @@
         is_published: editingId !== null ? $('published').checked : true,
         updated_at: new Date().toISOString()
       };
+      const isEditing = editingId !== null;
       let result;
-      if (editingId !== null) {
+      if (isEditing) {
         result = await client.from('apps').update(payload).eq('id', editingId).select('id,name,is_published').single();
       } else {
-        result = await client.from('apps').insert([payload]).select('id,name,is_published').single();
+        // Selalu minta Supabase menyimpan APK baru dalam status tayang.
+        result = await client.from('apps').insert([{...payload, is_published:true}]).select('id,name,is_published').single();
       }
       if (result.error) throw result.error;
       if (!result.data) throw new Error('Supabase tidak mengembalikan data APK setelah penyimpanan.');
+
+      // Verifikasi nilai yang benar-benar tersimpan, bukan hanya menganggap insert berhasil.
+      if (!isEditing && result.data.is_published !== true) {
+        const publishResult = await client.from('apps')
+          .update({is_published:true, updated_at:new Date().toISOString()})
+          .eq('id', result.data.id)
+          .select('id,name,is_published')
+          .single();
+        if (publishResult.error) {
+          throw new Error('APK tersimpan, tetapi gagal diterbitkan otomatis: ' + publishResult.error.message);
+        }
+        if (!publishResult.data || publishResult.data.is_published !== true) {
+          throw new Error('APK tersimpan, tetapi Supabase masih mengembalikan is_published bukan true. Periksa trigger atau kebijakan database.');
+        }
+        result = publishResult;
+      }
+
       showMessage(
         statusBox,
-        editingId !== null
+        isEditing
           ? 'Informasi APK berhasil diperbarui.'
-          : `APK ${result.data.name} berhasil ditambahkan dan dipublikasikan.`,
+          : `APK ${result.data.name} berhasil ditambahkan. Status publikasi: TAYANG.`,
         'success'
       );
       resetForm();
@@ -263,7 +283,7 @@
       showMessage(statusBox, 'Gagal menyimpan APK: ' + (error?.message || 'Kesalahan tidak diketahui.'));
     } finally {
       saveBtn.disabled = false;
-      if (editingId === null) saveBtn.innerHTML = '<i class="bi bi-plus-circle"></i> Tambahkan APK';
+      if (!wasEditing) saveBtn.innerHTML = '<i class="bi bi-plus-circle"></i> Tambahkan APK';
       else saveBtn.innerHTML = '<i class="bi bi-save"></i> Simpan perubahan';
     }
   });
