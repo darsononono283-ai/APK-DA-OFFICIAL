@@ -61,18 +61,6 @@ html{background:#050506!important;color-scheme:dark}body{background:radial-gradi
 @media(max-width:520px){.hero{background:radial-gradient(circle at 84% 50%,rgba(255,38,49,.2),transparent 31%),linear-gradient(130deg,#17171a,#09090c 65%,#1b090c)!important}}
 </style>
 
-/* Banner video animasi merah-hitam */
-.hero-video-banner{min-height:clamp(250px,34vw,390px)!important;padding:clamp(25px,5vw,54px)!important;isolation:isolate;background:#050506!important}
-.hero-video-banner .hero-video{position:absolute;inset:0;width:100%;height:100%;object-fit:cover;object-position:center 50%;z-index:-3;opacity:.92}
-.hero-video-banner .hero-shade{position:absolute;inset:0;z-index:-2;background:linear-gradient(90deg,rgba(3,3,5,.96) 0%,rgba(5,5,7,.83) 40%,rgba(5,5,7,.22) 100%),linear-gradient(0deg,rgba(4,4,6,.58),transparent 58%)}
-.hero-video-banner:before{content:"";position:absolute;inset:0;z-index:-1;border:1px solid rgba(255,58,68,.45);border-radius:inherit;box-shadow:inset 0 0 55px rgba(255,35,48,.12),0 0 35px rgba(255,35,48,.12);pointer-events:none}
-.hero-video-banner:after{content:none!important}.hero-video-banner .hero-content{max-width:590px}.hero-video-banner h1{font-size:clamp(30px,5.5vw,53px)}.hero-video-banner h1 span{color:#ff424d!important}.hero-video-banner p{color:#e0dfe2!important}
-.hero-video-banner .hero-cta{display:inline-flex;align-items:center;gap:9px;margin-top:22px;padding:11px 17px;border-radius:12px;text-decoration:none;color:#fff;font-size:13px;font-weight:850;background:linear-gradient(135deg,#ff515b,#bd101c);border:1px solid rgba(255,150,155,.65);box-shadow:inset 0 1px rgba(255,255,255,.25),0 8px 22px rgba(230,20,35,.3);transition:transform .2s,box-shadow .2s}
-.hero-video-banner .hero-cta:hover{transform:translateY(-2px);box-shadow:0 12px 28px rgba(230,20,35,.4)}
-.banner-tag{position:absolute;right:18px;bottom:16px;z-index:2;padding:7px 10px;border:1px solid rgba(255,80,90,.35);border-radius:8px;background:rgba(5,5,7,.65);color:#ff747b;font-size:9px;font-weight:900;letter-spacing:1.8px;backdrop-filter:blur(8px)}
-@media(max-width:520px){.hero-video-banner{min-height:260px!important;padding:25px 20px!important}.hero-video-banner .hero-shade{background:linear-gradient(90deg,rgba(3,3,5,.9),rgba(3,3,5,.46)),linear-gradient(0deg,rgba(3,3,5,.55),transparent)}.banner-tag{right:12px;bottom:11px;font-size:8px}}
-@media(prefers-reduced-motion:reduce){.hero-video-banner .hero-video{display:none}}
-
 </head>
 <body>
   <header class="topbar">
@@ -83,18 +71,12 @@ html{background:#050506!important;color-scheme:dark}body{background:radial-gradi
   </header>
 
   <main class="container">
-    <section class="hero hero-video-banner" aria-label="Banner APK DA Official">
-      <video class="hero-video" autoplay muted loop playsinline preload="metadata" poster="./banner-red-poster.jpg" aria-hidden="true">
-        <source src="./banner-red.mp4" type="video/mp4">
-      </video>
-      <div class="hero-shade"></div>
+    <section class="hero">
       <div class="hero-content">
-        <span class="eyebrow"><i class="bi bi-lightning-charge-fill"></i> APK DA•OFFICIAL</span>
+        <span class="eyebrow"><i class="bi bi-grid-1x2-fill"></i> KOLEKSI APLIKASI ANDROID</span>
         <h1>Temukan APK <span>favoritmu.</span></h1>
-        <p>Jelajahi aplikasi dan game Android dalam satu tempat.</p>
-        <a class="hero-cta" href="#katalog"><i class="bi bi-grid-fill"></i> Jelajahi Katalog</a>
+        <p>Jelajahi katalog aplikasi dan game Android. Buka detail untuk melihat informasi dan tautan unduhan.</p>
       </div>
-      <span class="banner-tag">RED BLACK EDITION</span>
     </section>
 
     <section class="catalog" id="katalog" aria-labelledby="catalogTitle">
