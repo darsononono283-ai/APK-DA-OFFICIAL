@@ -757,18 +757,159 @@ html,body{min-height:100%;background:#090a0d!important;color:#f4ead2!important;f
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Audiowide&family=Rajdhani:wght@400;500;600;700&display=swap" rel="stylesheet">
 
-<style id="da-font-only-update">
-/* Perubahan tipografi saja: tidak mengubah warna, ukuran, jarak, atau tata letak. */
-body, input, select, textarea {
-  font-family: 'Rajdhani', sans-serif !important;
+
+<style id="da-detail-red-black-theme">
+/* Penyelarasan warna halaman detail dengan katalog APK DA•OFFICIAL.
+   Struktur, fungsi, ukuran, dan tata letak tidak diubah. */
+:root{
+  color-scheme:dark;
+  --yellow:#ff343d;
+  --red:#ff343d;
+  --blue:#ff6268;
+  --black:#f4f4f5;
+  --white:#17171b;
 }
-h1, h2, h3, h4, h5, h6,
-.brand, .logo, .hero h1, .eyebrow,
-button, .btn, .action, .top-link, .back,
-.main-button, .secondary-button, .social-title,
-.social-link, .download-btn, .section-title,
-.comic-title, .banner-label {
-  font-family: 'Audiowide', sans-serif !important;
+html,body{
+  background:#050506!important;
+  color:#f4f4f5!important;
+  font-family:'Rajdhani',sans-serif!important;
+}
+body{
+  background-image:
+    radial-gradient(ellipse at 50% -20%,rgba(255,45,55,.13),transparent 48%),
+    radial-gradient(circle at 90% 35%,rgba(255,45,55,.06),transparent 28%)!important;
+  background-attachment:fixed;
+}
+.navbar-custom{
+  background:rgba(5,5,6,.9)!important;
+  border:0!important;
+  border-bottom:1px solid rgba(255,58,68,.24)!important;
+  box-shadow:0 12px 32px rgba(0,0,0,.55)!important;
+  backdrop-filter:blur(22px);
+}
+.logo,.logo a{color:#fff!important}
+.logo span{color:#ff454e!important}
+.back-btn{
+  color:#fff!important;
+  background:linear-gradient(145deg,#ff5b63,#c91520)!important;
+  border:1px solid rgba(255,129,135,.7)!important;
+  box-shadow:inset 0 1px rgba(255,255,255,.22),0 6px 16px rgba(255,35,48,.2)!important;
+}
+.back-btn:hover{color:#fff!important}
+.comic-title{
+  color:#fff!important;
+  background:linear-gradient(145deg,#ff5b63,#c91520)!important;
+  border:1px solid rgba(255,129,135,.7)!important;
+  box-shadow:0 8px 24px rgba(255,35,48,.18)!important;
+  text-shadow:0 2px 12px rgba(0,0,0,.35)!important;
+}
+.detail-card{
+  color:#f4f4f5!important;
+  background:linear-gradient(145deg,rgba(27,27,31,.97),rgba(12,12,15,.99))!important;
+  border:1px solid rgba(255,65,74,.25)!important;
+  box-shadow:inset 0 1px rgba(255,255,255,.07),0 22px 55px rgba(0,0,0,.52)!important;
+}
+.comic-banner{
+  background:
+    radial-gradient(circle at 50% 50%,rgba(255,55,65,.14),transparent 65%),
+    linear-gradient(130deg,#1d1013,#111114)!important;
+  border-bottom:1px solid rgba(255,65,74,.25)!important;
+}
+.banner-label,.category,.section-title{
+  color:#fff!important;
+  background:linear-gradient(145deg,#ff5b63,#c91520)!important;
+  border:1px solid rgba(255,129,135,.65)!important;
+  box-shadow:0 5px 14px rgba(255,35,48,.16)!important;
+}
+.app-icon-wrap{
+  background:#211114!important;
+  border:1px solid rgba(255,75,84,.55)!important;
+  box-shadow:0 7px 20px rgba(0,0,0,.4),0 0 18px rgba(255,35,48,.1)!important;
+}
+.app-icon{background:#111114!important;border:1px solid rgba(255,255,255,.12)!important}
+.app-name{color:#fff!important;text-shadow:0 2px 14px rgba(255,45,55,.16)!important}
+.info-box,.description,#reviewsSection,.review-item,.loading,.error{
+  color:#f4f4f5!important;
+  background:linear-gradient(145deg,#202024,#111114)!important;
+  border:1px solid rgba(255,65,74,.2)!important;
+  box-shadow:inset 0 1px rgba(255,255,255,.06),0 8px 22px rgba(0,0,0,.3)!important;
+}
+.info-box:nth-child(1),.info-box:nth-child(2),.info-box:nth-child(3){
+  background:linear-gradient(145deg,#222226,#121215)!important;
+}
+.info-label,.download-stats-label,.reviews-subtitle,.review-date,
+.review-helpful,.download-stats-note,.rating-total,.rating-bar-row,
+.review-text,.reviews-empty{color:#aaaab2!important}
+.info-value,.description h5,#reviewsSection h5,.review-author{color:#f5f5f5!important}
+.description p{color:#c9c9ce!important}
+.download-stats{
+  background:linear-gradient(145deg,#202024,#111114)!important;
+  border:1px solid rgba(255,65,74,.22)!important;
+  color:#f4f4f5!important;
+}
+.download-stats-icon{
+  color:#ff626a!important;
+  background:rgba(255,52,61,.13)!important;
+}
+#downloadCount{color:#fff!important}
+#reviewsSection h5 i{color:#ff555e!important}
+.review-field{
+  color:#fff!important;
+  background:#09090c!important;
+  border:1px solid rgba(255,65,74,.28)!important;
+}
+.review-field:focus{
+  outline:3px solid rgba(255,52,61,.16)!important;
+  border-color:#ff454e!important;
+}
+.review-field::placeholder{color:#85858d!important}
+.review-submit{
+  color:#fff!important;
+  background:linear-gradient(145deg,#ff5b63,#c91520)!important;
+  border:1px solid rgba(255,129,135,.55)!important;
+}
+.review-submit:hover{background:linear-gradient(145deg,#ff7077,#d71924)!important}
+#reviewsMessage,.rating-intro,.rating-prompt{color:#bdbdc4!important}
+.review-rating-picker button{color:#777780!important}
+.review-rating-picker button.selected,.review-rating-picker button:hover{color:#ffc34d!important}
+.rating-big-score{color:#fff!important}
+.rating-big-stars,.review-rating,.rating-bar-fill{color:#ffc34d!important}
+.rating-bar-track{background:#303036!important}
+.rating-bar-fill{background:#ff454e!important}
+.review-item{background:#17171b!important}
+.reviews-empty{background:#17171b!important;border-color:rgba(255,65,74,.24)!important}
+.download-btn{
+  color:#fff!important;
+  background:linear-gradient(145deg,#ff5b63,#c91520)!important;
+  border:1px solid rgba(255,129,135,.75)!important;
+  box-shadow:inset 0 1px rgba(255,255,255,.22),0 8px 20px rgba(255,35,48,.2)!important;
+  font-family:'Audiowide',sans-serif!important;
+}
+.download-btn:hover{color:#fff!important;filter:brightness(1.08)}
+.download-btn:disabled{background:#38383e!important;color:#aaa!important}
+.comic-footer{color:#aaaab2!important}
+.rating-stars button{
+  color:#fff!important;
+  background:linear-gradient(145deg,#29292e,#141418)!important;
+  border:1px solid rgba(255,65,74,.28)!important;
+  box-shadow:0 4px 12px rgba(0,0,0,.3)!important;
+}
+.rating-stars button:hover,.rating-stars button:focus{
+  color:#fff!important;
+  background:linear-gradient(145deg,#ff5b63,#c91520)!important;
+}
+.error .btn{
+  color:#fff!important;
+  background:linear-gradient(145deg,#ff5b63,#c91520)!important;
+  border:1px solid rgba(255,129,135,.65)!important;
+  box-shadow:0 5px 14px rgba(255,35,48,.18)!important;
+}
+h1,h2,h3,h4,h5,.logo,.comic-title,.banner-label,.section-title,
+.category,.back-btn,.download-btn,.comic-footer,.info-label{
+  font-family:'Audiowide',sans-serif!important;
+}
+body,button,input,textarea,select,.description p,.review-text{
+  font-family:'Rajdhani',sans-serif!important;
 }
 </style>
 
