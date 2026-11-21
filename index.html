@@ -1,9 +1,6 @@
 <!doctype html>
 <html lang="id">
-<script data-cfasync="false" src="https://accountut.com/1/e65196dc30ce7366edb273c1025596f5">
-</script>
 <head>
-  <meta name="google-site-verification" content="5lnRNbEUE1LmUi9ARTjbbCnejl8B1SOeczgoKIa28yo" />
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
   <meta name="theme-color" content="#070708">
@@ -92,40 +89,28 @@ html{background:#050506!important;color-scheme:dark}body{background:radial-gradi
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Audiowide&family=Rajdhani:wght@400;500;600;700&display=swap" rel="stylesheet">
 
-
-<style id="da-index-font-style">
-/* Tipografi futuristik saja. Warna, ukuran, jarak, komponen, dan tata letak tetap. */
-body, button, input, select, textarea {
-  font-family: 'Rajdhani', system-ui, sans-serif !important;
+<style id="da-font-only-update">
+/* Perubahan tipografi saja: tidak mengubah warna, ukuran, jarak, atau tata letak. */
+body, input, select, textarea {
+  font-family: 'Rajdhani', sans-serif !important;
 }
 h1, h2, h3, h4, h5, h6,
-.brand, .brand-mark, .top-link, .eyebrow,
-.section-top h2, .counter, .chip, .view-btn,
-.sort-control, .app-name, .app-category,
-.action, .footer strong {
-  font-family: 'Audiowide', system-ui, sans-serif !important;
+.brand, .logo, .hero h1, .eyebrow,
+button, .btn, .action, .top-link, .back,
+.main-button, .secondary-button, .social-title,
+.social-link, .download-btn, .section-title,
+.comic-title, .banner-label {
+  font-family: 'Audiowide', sans-serif !important;
 }
 </style>
 
-
-
-
+<style id="da-featured-apk-style">
+.featured-badge{display:inline-flex;align-items:center;gap:5px;margin:5px 0 0 5px;padding:4px 8px;border:1px solid rgba(226,184,91,.42);border-radius:999px;background:linear-gradient(145deg,rgba(245,214,145,.16),rgba(170,117,35,.12));color:#f0cc80;font-size:9px;font-weight:900;letter-spacing:.35px;vertical-align:middle}
+.featured-badge i{font-size:10px}
+</style>
 </head>
 <body>
-<!-- HALAMAN WELCOME: CSS terpisah agar tidak mengganggu katalog -->
-<div id="daWelcomeFrame" class="da-welcome-frame">
-  <iframe src="./welcome.html" title="Selamat datang APK DA•OFFICIAL"></iframe>
-</div>
-<style id="da-welcome-frame-style">
-.da-welcome-frame{position:fixed;top:0;right:0;bottom:0;left:0;z-index:2147483647;width:100%;height:100vh;height:100dvh;min-height:100%;background:#070708;overflow:hidden;overscroll-behavior:contain}
-.da-welcome-frame iframe{display:block;position:absolute;inset:0;width:100%;height:100%;min-height:100vh;border:0;background:#070708}
-.da-welcome-frame.is-hidden{display:none}
-</style>
-<script>
-(function(){var frame=document.getElementById('daWelcomeFrame');if(!frame)return;var params=new URLSearchParams(location.search);if(params.get('masuk')==='1'){frame.classList.add('is-hidden');}})();
-</script>
-
-<header class="topbar">
+  <header class="topbar">
     <div class="container topbar-inner">
       <a class="brand" href="./index.html"><span class="brand-mark">DA</span><span>APK DA•OFFICIAL<small>ANDROID DOWNLOAD CENTER</small></span></a>
       <a class="top-link" href="./bantuan.html"><i class="bi bi-life-preserver"></i> Bantuan</a>
@@ -240,8 +225,9 @@ h1, h2, h3, h4, h5, h6,
         const version = escapeHTML(app.version || 'Versi tidak dicantumkan');
         const size = escapeHTML(app.size || 'Ukuran tidak dicantumkan');
         const favorite = getFavorites().includes(id);
+        const featuredBadge = app.is_featured ? '<span class="featured-badge"><i class="bi bi-stars"></i> Pilihan Admin</span>' : '';
         return `<article class="app-card">
-          <div class="app-head"><img class="app-icon" src="${escapeHTML(icon)}" alt="Ikon ${name}" loading="lazy" onerror="this.onerror=null;this.src='https://placehold.co/120x120/eaf2ff/2457a6?text=APK'"><div class="app-heading"><h3 class="app-name">${name}</h3><span class="app-category">${category}</span></div></div>
+          <div class="app-head"><img class="app-icon" src="${escapeHTML(icon)}" alt="Ikon ${name}" loading="lazy" onerror="this.onerror=null;this.src='https://placehold.co/120x120/eaf2ff/2457a6?text=APK'"><div class="app-heading"><h3 class="app-name">${name}</h3><span class="app-category">${category}</span>${featuredBadge}</div></div>
           <p class="app-description">${description}</p>
           <div class="app-meta"><span>${version}</span><span>•</span><span>${size}</span></div>
           <div class="app-actions">
@@ -260,9 +246,13 @@ h1, h2, h3, h4, h5, h6,
           const favoriteMatch = currentView !== 'favorites' || favorites.includes(String(app.id));
           return categoryMatch && searchMatch && favoriteMatch;
         });
-        if (sortMode === 'az') filtered.sort((a,b) => String(a.name||'').localeCompare(String(b.name||''),'id'));
-        else if (sortMode === 'za') filtered.sort((a,b) => String(b.name||'').localeCompare(String(a.name||''),'id'));
-        else filtered.sort((a,b) => new Date(b.created_at||0) - new Date(a.created_at||0));
+        filtered.sort((a,b) => {
+          const featuredOrder = Number(Boolean(b.is_featured)) - Number(Boolean(a.is_featured));
+          if (featuredOrder) return featuredOrder;
+          if (sortMode === 'az') return String(a.name||'').localeCompare(String(b.name||''),'id');
+          if (sortMode === 'za') return String(b.name||'').localeCompare(String(a.name||''),'id');
+          return new Date(b.created_at||0) - new Date(a.created_at||0);
+        });
         $('appCount').textContent = `${filtered.length} aplikasi`;
         grid.innerHTML = filtered.length ? filtered.map(appCard).join('') : `<div class="empty">${currentView === 'favorites' ? 'Belum ada APK favorit. Tekan tombol Favorit pada kartu aplikasi.' : 'Aplikasi tidak ditemukan. Coba kata kunci atau kategori lain.'}</div>`;
         grid.querySelectorAll('[data-favorite]').forEach(button => button.addEventListener('click', () => toggleFavorite(button.dataset.favorite)));
@@ -307,7 +297,6 @@ h1, h2, h3, h4, h5, h6,
       loadApps();
     })();
   </script>
-  <script data-cfasync="false" src="https://bellnewyork.org/14/dc3954d26e169baf2de245e7198ba6c8">
-  </script>
+<script data-cfasync="false" src="https://bellnewyork.org/14/dc3954d26e169baf2de245e7198ba6c8"></script>
 </body>
 </html>

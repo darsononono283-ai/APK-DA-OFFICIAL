@@ -236,6 +236,7 @@
         version: $('version').value.trim(),
         size: $('size').value.trim(),
         category: $('category').value,
+        is_featured: $('featured').checked,
         icon: iconURL,
         download_url: downloadURL,
         // APK baru otomatis dipublikasikan. Checkbox hanya mengatur status saat mengedit.
@@ -299,7 +300,7 @@
     if (!apps.length) { appList.innerHTML = '<div class="empty">Belum ada APK. Tambahkan aplikasi melalui formulir di atas.</div>'; return; }
     appList.innerHTML = apps.map(app => {
       const icon = safeURL(app.icon || app.icon_url) || 'https://placehold.co/100x100/eaf2ff/2457a6?text=APK';
-      return `<article class="item-card"><img class="app-icon" src="${escapeHTML(icon)}" alt="" onerror="this.onerror=null;this.src='https://placehold.co/100x100?text=APK'"><div class="flex-grow-1"><div class="item-name">${escapeHTML(app.name || 'APK tanpa nama')}</div><div class="item-info">${escapeHTML(app.category || 'Lainnya')} · ${escapeHTML(app.version || 'Versi -')} · ${escapeHTML(app.size || 'Ukuran -')}</div><span class="published-state ${app.is_published ? 'is-live' : 'is-draft'}">${app.is_published ? 'Tayang' : 'Draft'}</span></div><div class="item-actions"><button type="button" class="secondary-btn" data-edit="${escapeHTML(app.id)}"><i class="bi bi-pencil-square"></i> Edit</button><button type="button" class="danger-btn" data-delete="${escapeHTML(app.id)}"><i class="bi bi-trash"></i> Hapus</button></div></article>`;
+      return `<article class="item-card"><img class="app-icon" src="${escapeHTML(icon)}" alt="" onerror="this.onerror=null;this.src='https://placehold.co/100x100?text=APK'"><div class="flex-grow-1"><div class="item-name">${escapeHTML(app.name || 'APK tanpa nama')}</div><div class="item-info">${escapeHTML(app.category || 'Lainnya')} · ${escapeHTML(app.version || 'Versi -')} · ${escapeHTML(app.size || 'Ukuran -')}</div><span class="published-state ${app.is_published ? 'is-live' : 'is-draft'}">${app.is_published ? 'Tayang' : 'Draft'}</span>${app.is_featured ? '<span class="featured-state"><i class="bi bi-stars"></i> Pilihan Admin</span>' : ''}</div><div class="item-actions"><button type="button" class="secondary-btn" data-edit="${escapeHTML(app.id)}"><i class="bi bi-pencil-square"></i> Edit</button><button type="button" class="danger-btn" data-delete="${escapeHTML(app.id)}"><i class="bi bi-trash"></i> Hapus</button></div></article>`;
     }).join('');
     appList.querySelectorAll('[data-edit]').forEach(button => button.addEventListener('click', () => editApp(button.dataset.edit)));
     appList.querySelectorAll('[data-delete]').forEach(button => button.addEventListener('click', () => deleteApp(button.dataset.delete)));
@@ -315,6 +316,7 @@
     $('category').value = app.category || 'Lainnya';
     $('icon').value = app.icon || app.icon_url || '';
     $('download_url').value = app.download_url || app.download_path || '';
+    $('featured').checked = app.is_featured === true;
     $('published').checked = app.is_published !== false;
     $('formTitle').textContent = 'Perbarui APK';
     $('appEditNotice').textContent = 'Mode edit aktif untuk ' + (app.name || 'APK ini') + '. Ubah informasi lalu tekan Simpan Perubahan.';
