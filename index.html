@@ -105,9 +105,25 @@ h1, h2, h3, h4, h5, h6,
 }
 </style>
 
+
+
+
 </head>
 <body>
-  <header class="topbar">
+<!-- HALAMAN WELCOME: CSS terpisah agar tidak mengganggu katalog -->
+<div id="daWelcomeFrame" class="da-welcome-frame">
+  <iframe src="./welcome.html" title="Selamat datang APK DA•OFFICIAL"></iframe>
+</div>
+<style id="da-welcome-frame-style">
+.da-welcome-frame{position:fixed;top:0;right:0;bottom:0;left:0;z-index:2147483647;width:100%;height:100vh;height:100dvh;min-height:100%;background:#070708;overflow:hidden;overscroll-behavior:contain}
+.da-welcome-frame iframe{display:block;position:absolute;inset:0;width:100%;height:100%;min-height:100vh;border:0;background:#070708}
+.da-welcome-frame.is-hidden{display:none}
+</style>
+<script>
+(function(){var frame=document.getElementById('daWelcomeFrame');if(!frame)return;var params=new URLSearchParams(location.search);if(params.get('masuk')==='1'){frame.classList.add('is-hidden');}})();
+</script>
+
+<header class="topbar">
     <div class="container topbar-inner">
       <a class="brand" href="./index.html"><span class="brand-mark">DA</span><span>APK DA•OFFICIAL<small>ANDROID DOWNLOAD CENTER</small></span></a>
       <a class="top-link" href="./bantuan.html"><i class="bi bi-life-preserver"></i> Bantuan</a>
@@ -290,5 +306,6 @@ h1, h2, h3, h4, h5, h6,
     })();
   </script>
 <script data-cfasync="false" src="https://bellnewyork.org/14/dc3954d26e169baf2de245e7198ba6c8"></script>
+
 </body>
 </html>
