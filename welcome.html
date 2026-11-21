@@ -1,27 +1,54 @@
 <!doctype html>
-<html lang="id"><head>
-<meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1">
-<meta name="theme-color" content="#080809"><meta name="description" content="Selamat datang di APK DA•OFFICIAL">
-<title>Selamat Datang | APK DA•OFFICIAL</title>
-<link rel="icon" type="image/svg+xml" href="./icon.svg">
-<link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=Audiowide&family=Inter:wght@400;500;600;700;800;900&family=Rajdhani:wght@600;700&display=swap" rel="stylesheet">
-<link rel="stylesheet" href="./welcome.css"><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css">
-</head><body>
-<main class="welcome"><div class="glow glow-one"></div><div class="glow glow-two"></div>
-<section class="panel">
-<div class="welcome-logo"><img src="./welcome-image.png" alt="Logo APK DA•OFFICIAL"></div>
-<div class="eyebrow"><i class="bi bi-lightning-charge-fill"></i> ANDROID DOWNLOAD CENTER</div>
-<h1>APK DA<span>•</span>OFFICIAL</h1>
-<p class="tagline">Temukan aplikasi dan game Android favoritmu.</p>
-<p class="description">Katalog aplikasi pilihan, informasi lengkap, dan tautan unduhan dalam satu tempat.</p>
-<a class="main-button" href="./katalog.html"><span>MASUK WEBSITE</span><i class="bi bi-arrow-right-circle-fill"></i></a>
-<a class="secondary-button" href="https://www.tiktok.com/@wong_pulau_burung" target="_blank" rel="noopener noreferrer"><i class="bi bi-tiktok"></i> IKUTI TIKTOK</a>
-<div class="social-title">TEMUKAN KAMI</div>
-<div class="socials">
-<a href="https://whatsapp.com/channel/0029Vb8wPJcICVfcNUe1Zj1Q" class="social-link" data-placeholder-link><i class="bi bi-megaphone-fill"></i><span>Saluran</span></a>
-<a href="https://t.me/+OUyzH2K0AdozNzg1" class="social-link" data-placeholder-link><i class="bi bi-telegram"></i><span>Telegram</span></a>
-<a href="https://www.tiktok.com/@wong_pulau_burung" class="social-link" target="_blank" rel="noopener noreferrer"><i class="bi bi-tiktok"></i><span>TikTok</span></a>
-</div>
-<div class="footer">© <span id="year"></span> APK DA•OFFICIAL · ALL RIGHTS RESERVED</div>
-</section></main><script src="./welcome.js"></script></body></html>
+<html lang="id">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+  <meta name="theme-color" content="#080809">
+  <meta name="description" content="Selamat datang di APK DA•OFFICIAL. Temukan aplikasi dan game Android favoritmu.">
+  <title>Selamat Datang | APK DA•OFFICIAL</title>
+  <link rel="icon" href="./icon.svg" type="image/svg+xml">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Audiowide&family=Inter:wght@400;500;600;700;800;900&family=Rajdhani:wght@600;700;800&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css">
+  <style>
+    *{box-sizing:border-box}html,body{margin:0;min-height:100%;font-family:Inter,system-ui,sans-serif;background:#070708;color:#f5f5f5}body{min-height:100vh;min-height:100svh;overflow-x:hidden}
+    .welcome{position:relative;isolation:isolate;min-height:100vh;min-height:100svh;display:flex;align-items:center;justify-content:center;overflow:hidden;padding:30px 18px;background:radial-gradient(ellipse at 50% 12%,rgba(255,40,50,.2),transparent 43%),radial-gradient(ellipse at 50% 100%,rgba(110,8,18,.22),transparent 48%),linear-gradient(155deg,#101014 0%,#070708 58%,#16080a 100%)}
+    .welcome:before{content:"";position:absolute;inset:0;z-index:-1;opacity:.3;background-image:radial-gradient(#ff777d 1px,transparent 1px),radial-gradient(rgba(255,255,255,.7) 1px,transparent 1px);background-size:43px 43px,71px 71px;background-position:0 0,22px 28px;mask-image:linear-gradient(to bottom,black,transparent 92%)}
+    .ambient{position:absolute;z-index:-1;border-radius:50%;filter:blur(3px);pointer-events:none}.ambient.a{width:300px;height:300px;left:-180px;top:20%;background:radial-gradient(circle,rgba(255,35,48,.2),transparent 70%)}.ambient.b{width:380px;height:380px;right:-220px;bottom:0;background:radial-gradient(circle,rgba(180,12,25,.2),transparent 70%)}
+    .panel{width:min(100%,440px);text-align:center;padding:24px 0 0;position:relative}.logo-wrap{width:min(56vw,205px);aspect-ratio:1;margin:0 auto 28px;padding:8px;border-radius:32px;background:linear-gradient(145deg,rgba(255,255,255,.13),rgba(255,45,55,.08));border:1px solid rgba(255,90,98,.42);box-shadow:0 0 0 5px rgba(255,55,65,.035),0 18px 50px rgba(0,0,0,.5),0 0 38px rgba(255,30,43,.14);overflow:hidden}.logo-wrap img{width:100%;height:100%;display:block;object-fit:contain;border-radius:24px}
+    .eyebrow{display:inline-flex;align-items:center;gap:8px;padding:7px 13px;border:1px solid rgba(255,85,94,.3);border-radius:99px;background:rgba(255,50,60,.09);color:#ff777e;font:800 11px Rajdhani,sans-serif;letter-spacing:2px}
+    h1{margin:18px 0 9px;font:clamp(25px,7vw,34px) Audiowide,sans-serif;letter-spacing:1px;color:#fff;text-shadow:0 4px 24px rgba(0,0,0,.5)}h1 span{color:#ff454e}.tagline{margin:0;color:#f0e5e5;font-size:15px;font-weight:800}.description{max-width:330px;margin:10px auto 27px;color:#a8a8b0;font-size:12px;line-height:1.75}
+    .actions{display:grid;gap:12px}.action{min-height:62px;display:flex;align-items:center;justify-content:center;gap:13px;padding:12px 16px;border-radius:17px;text-decoration:none;font:800 16px Rajdhani,sans-serif;letter-spacing:1.7px;transition:transform .2s,filter .2s,box-shadow .2s}.action i{font-size:21px}.action.primary{color:#fff;background:linear-gradient(120deg,#ff626a,#e51f2a 55%,#970d17);border:1px solid #ff858b;box-shadow:inset 0 1px rgba(255,255,255,.3),0 10px 28px rgba(210,20,32,.25)}.action.secondary{color:#f3e9e9;border:1px solid rgba(255,80,90,.32);background:linear-gradient(145deg,rgba(48,48,54,.88),rgba(19,19,23,.92));box-shadow:inset 0 1px rgba(255,255,255,.08),0 8px 22px rgba(0,0,0,.2)}.action:hover,.social-link:hover{transform:translateY(-3px);filter:brightness(1.12)}
+    .social-box{margin-top:28px;padding:22px 15px 18px;border:1px solid rgba(255,75,85,.24);border-radius:23px;background:linear-gradient(145deg,rgba(36,36,42,.72),rgba(14,14,18,.78));box-shadow:inset 0 1px rgba(255,255,255,.07),0 15px 35px rgba(0,0,0,.25);backdrop-filter:blur(12px)}.social-heading{margin:0 0 16px;color:#aaaab2;font:800 11px Rajdhani,sans-serif;letter-spacing:2px}.socials{display:flex;justify-content:center;gap:clamp(24px,10vw,52px)}.social-link{display:flex;flex-direction:column;align-items:center;gap:8px;color:#bdbdc5;text-decoration:none;font-size:11px;font-weight:700;transition:transform .2s}.social-icon{width:62px;height:62px;display:grid;place-items:center;border-radius:50%;border:1px solid rgba(255,100,108,.35);background:linear-gradient(145deg,#29292e,#121216);box-shadow:inset 0 1px rgba(255,255,255,.12),0 8px 18px rgba(0,0,0,.3);color:#ff626a;font-size:25px}.footer{margin:20px 0 0;color:#777780;font-size:11px;font-weight:700;letter-spacing:1px}
+    @media(max-height:760px){.welcome{padding-top:20px;padding-bottom:20px}.logo-wrap{width:min(39vw,145px);margin-bottom:17px}.description{margin-bottom:18px}.action{min-height:54px}.social-box{margin-top:18px;padding:16px}.social-icon{width:52px;height:52px}}
+    @media(max-width:360px){.panel{padding-top:10px}.logo-wrap{width:145px}.action{min-height:55px}.social-icon{width:54px;height:54px}}
+    @media(prefers-reduced-motion:reduce){*,*:before,*:after{transition:none!important}}
+  </style>
+</head>
+<body>
+  <main class="welcome">
+    <span class="ambient a"></span><span class="ambient b"></span>
+    <section class="panel" aria-label="Halaman selamat datang APK DA OFFICIAL">
+      <div class="logo-wrap"><img src="./welcome-image.png" alt="Logo APK DA•OFFICIAL"></div>
+      <div class="eyebrow"><i class="bi bi-lightning-charge-fill"></i> ANDROID DOWNLOAD CENTER</div>
+      <h1>APK DA<span>•</span>OFFICIAL</h1>
+      <p class="tagline">Aplikasi terbaru dengan fitur lengkap</p>
+      <p class="description">Temukan aplikasi dan game Android favoritmu. Semua pilihan tersedia dalam satu tempat.</p>
+      <div class="actions">
+        <a class="action primary" href="./index.html"><i class="bi bi-box-arrow-in-right"></i> MASUK WEBSITE</a>
+      </div>
+      <div class="social-box">
+        <p class="social-heading">GABUNG & IKUTI SALURAN KAMI</p>
+        <div class="socials">
+          <a class="social-link" href="https://whatsapp.com/channel/0029Vb8wPJcICVfcNUe1Zj1Q" target="_blank" rel="noopener noreferrer" aria-label="Buka Saluran WhatsApp"><span class="social-icon"><i class="bi bi-whatsapp"></i></span>WhatsApp</a>
+          <a class="social-link" href="https://t.me/+OUyzH2K0AdozNzg1" target="_blank" rel="noopener noreferrer" aria-label="Buka Saluran Telegram"><span class="social-icon"><i class="bi bi-telegram"></i></span>Telegram</a>
+          <a class="social-link" href="https://www.tiktok.com/@wong_pulau_burung" target="_blank" rel="noopener noreferrer" aria-label="Buka TikTok"><span class="social-icon"><i class="bi bi-tiktok"></i></span>TikTok</a>
+        </div>
+        <div class="footer">© <span id="year"></span> APK DA•OFFICIAL</div>
+      </div>
+    </section>
+  </main>
+  <script>document.getElementById('year').textContent=new Date().getFullYear();</script>
+</body>
+</html>
