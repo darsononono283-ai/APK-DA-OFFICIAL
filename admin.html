@@ -95,7 +95,7 @@ html,body{background:radial-gradient(ellipse at 50% 0%,rgba(255,45,55,.12),trans
             <div class="col-6 mb-3"><label for="version" class="form-label">Versi</label><input id="version" class="form-control" type="text" maxlength="50"></div>
             <div class="col-6 mb-3"><label for="size" class="form-label">Ukuran APK</label><input id="size" class="form-control" type="text" maxlength="30" placeholder="Contoh: 85 MB"></div>
           </div>
-          <div class="mb-3"><label for="category" class="form-label">Kategori</label><select id="category" class="form-select"><option>Game</option><option>Sosial</option><option>Tools</option><option>Media</option><option>Lainnya</option></select></div>
+          <div class="mb-3"><label for="category" class="form-label">Kategori</label><select id="category" class="form-select"><option value="Aplikasi">Aplikasi</option><option value="Game">Game</option></select></div>
           <div class="mb-3"><label for="icon" class="form-label">URL ikon aplikasi</label><input id="icon" class="form-control" type="url" placeholder="https://contoh.com/icon.png"></div>
           <div class="mb-3"><label for="download_url" class="form-label">URL unduhan APK *</label><input id="download_url" class="form-control" type="url" required placeholder="https://contoh.com/aplikasi.apk"><div class="form-text">Masukkan tautan langsung atau tautan unduhan dari penyedia file.</div></div>
           <div class="form-check form-switch mb-3"><input class="form-check-input" type="checkbox" role="switch" id="featured"><label class="form-check-label fw-bold" for="featured">Jadikan APK pilihan admin</label><div class="form-text">APK pilihan admin akan ditampilkan lebih dahulu dan diberi label khusus di katalog.</div></div>
@@ -105,7 +105,7 @@ html,body{background:radial-gradient(ellipse at 50% 0%,rgba(255,45,55,.12),trans
         </form>
         <div id="status" class="mt-3" role="status" aria-live="polite"></div>
       </div>
-      <div class="item-list"><h4 class="fw-bold fs-5">Daftar APK</h4><div id="appList"><div class="empty">Memuat daftar APK...</div></div></div>
+      <div class="item-list"><h4 class="fw-bold fs-5">Daftar APK</h4><div class="mb-3"><label for="adminCategoryFilter" class="form-label">Filter daftar</label><select id="adminCategoryFilter" class="form-select"><option value="Semua">Semua APK</option><option value="Aplikasi">Aplikasi</option><option value="Game">Game</option></select></div><div id="appList"><div class="empty">Memuat daftar APK...</div></div></div>
     </section>
 
     <section id="reviewsPanel" style="display:none">

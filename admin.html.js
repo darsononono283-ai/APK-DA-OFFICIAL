@@ -15,6 +15,7 @@
   let editingId = null;
   let apps = [];
   let client = null;
+  let adminCategoryFilter = 'Semua';
 
   function escapeHTML(value) {
     return String(value ?? '').replace(/[&<>"']/g, ch => ({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#039;'}[ch]));
@@ -298,7 +299,9 @@
     }
     apps = data || [];
     if (!apps.length) { appList.innerHTML = '<div class="empty">Belum ada APK. Tambahkan aplikasi melalui formulir di atas.</div>'; return; }
-    appList.innerHTML = apps.map(app => {
+    const visibleApps = apps.filter(app => adminCategoryFilter === 'Semua' || (adminCategoryFilter === 'Game' ? String(app.category || '').toLowerCase() === 'game' : String(app.category || '').toLowerCase() !== 'game'));
+    if (!visibleApps.length) { appList.innerHTML = '<div class="empty">Tidak ada APK pada kategori ini.</div>'; return; }
+    appList.innerHTML = visibleApps.map(app => {
       const icon = safeURL(app.icon || app.icon_url) || 'https://placehold.co/100x100/eaf2ff/2457a6?text=APK';
       return `<article class="item-card"><img class="app-icon" src="${escapeHTML(icon)}" alt="" onerror="this.onerror=null;this.src='https://placehold.co/100x100?text=APK'"><div class="flex-grow-1"><div class="item-name">${escapeHTML(app.name || 'APK tanpa nama')}</div><div class="item-info">${escapeHTML(app.category || 'Lainnya')} · ${escapeHTML(app.version || 'Versi -')} · ${escapeHTML(app.size || 'Ukuran -')}</div><span class="published-state ${app.is_published ? 'is-live' : 'is-draft'}">${app.is_published ? 'Tayang' : 'Draft'}</span>${app.is_featured ? '<span class="featured-state"><i class="bi bi-stars"></i> Pilihan Admin</span>' : ''}</div><div class="item-actions"><button type="button" class="secondary-btn" data-edit="${escapeHTML(app.id)}"><i class="bi bi-pencil-square"></i> Edit</button><button type="button" class="danger-btn" data-delete="${escapeHTML(app.id)}"><i class="bi bi-trash"></i> Hapus</button></div></article>`;
     }).join('');
@@ -313,7 +316,7 @@
     $('description').value = app.description || '';
     $('version').value = app.version || '';
     $('size').value = app.size || '';
-    $('category').value = app.category || 'Lainnya';
+    $('category').value = String(app.category || '').toLowerCase() === 'game' ? 'Game' : 'Aplikasi';
     $('icon').value = app.icon || app.icon_url || '';
     $('download_url').value = app.download_url || app.download_path || '';
     $('featured').checked = app.is_featured === true;
@@ -381,6 +384,10 @@
     if (section === 'stats') loadStats();
   }));
   $('refreshStatsBtn')?.addEventListener('click', loadStats);
+  $('adminCategoryFilter')?.addEventListener('change', event => {
+    adminCategoryFilter = event.target.value;
+    loadApps();
+  });
 
   checkSession();
 })();
