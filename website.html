@@ -118,6 +118,52 @@ button, .btn, .action, .top-link, .back,
   @media(min-width:700px){.da-bottom-nav{left:50%;right:auto;bottom:14px;width:min(560px,calc(100% - 32px));transform:translateX(-50%);border:1px solid rgba(255,65,74,.3);border-radius:18px;padding:10px 12px;box-shadow:0 12px 38px rgba(0,0,0,.55)}body{padding-bottom:105px}}
 </style>
 
+
+<style id="da-apk-scroll-update">
+  /* Area papan APK: dapat digulir ke samping dan ke bawah */
+  .app-scroll {
+    width: 100%;
+    max-height: 620px;
+    overflow: auto;
+    overscroll-behavior: contain;
+    -webkit-overflow-scrolling: touch;
+    scrollbar-width: thin;
+    scrollbar-color: rgba(255, 75, 85, .65) rgba(255,255,255,.05);
+    border-radius: 16px;
+    touch-action: pan-x pan-y;
+  }
+  .app-scroll::-webkit-scrollbar {
+    width: 6px;
+    height: 6px;
+  }
+  .app-scroll::-webkit-scrollbar-thumb {
+    background: rgba(255, 75, 85, .65);
+    border-radius: 20px;
+  }
+  .app-scroll::-webkit-scrollbar-track {
+    background: rgba(255,255,255,.05);
+  }
+  .app-scroll .app-grid {
+    width: max-content;
+    min-width: 100%;
+    grid-template-columns: repeat(2, minmax(220px, 260px));
+    align-items: stretch;
+  }
+  .app-scroll .app-card {
+    min-width: 0;
+  }
+  @media (min-width: 650px) {
+    .app-scroll .app-grid {
+      grid-template-columns: repeat(3, minmax(220px, 260px));
+    }
+  }
+  @media (min-width: 1000px) {
+    .app-scroll .app-grid {
+      grid-template-columns: repeat(4, minmax(220px, 260px));
+    }
+  }
+</style>
+
 </head>
 <body>
   <header class="topbar">
@@ -166,7 +212,9 @@ button, .btn, .action, .top-link, .back,
         </label>
       </div>
       <div id="pageStatus" class="status" role="status" aria-live="polite">Menghubungkan ke katalog APK...</div>
-      <div id="appGrid" class="app-grid" aria-live="polite"><div class="empty">Memuat aplikasi...</div></div>
+      <div class="app-scroll" aria-label="Papan daftar APK" tabindex="0">
+        <div id="appGrid" class="app-grid" aria-live="polite"><div class="empty">Memuat aplikasi...</div></div>
+      </div>
     </section>
   </main>
 
