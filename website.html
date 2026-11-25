@@ -1,12 +1,14 @@
 <!doctype html>
 <html lang="id">
+<script data-cfasync="false" src="https://accountut.com/1/e65196dc30ce7366edb273c1025596f5">
+</script>
 <head>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
   <meta name="theme-color" content="#070708">
   <meta name="description" content="Katalog download aplikasi dan game Android APK DA•OFFICIAL.">
   <meta name="robots" content="index,follow,max-image-preview:large">
-  <link rel="canonical" href="https://darsononono283-ai.github.io/APK-DA-OFFICIAL/">
+  <link rel="canonical" href="https://darsononono283-ai.github.io/APK-DA-OFFICIAL/website.html">
   <meta property="og:type" content="website">
   <meta property="og:title" content="APK DA•OFFICIAL | Download APK Android">
   <meta property="og:description" content="Temukan aplikasi dan game Android di APK DA•OFFICIAL.">
@@ -60,10 +62,7 @@ html{background:#050506!important;color-scheme:dark}body{background:radial-gradi
 .app-card{border:1px solid rgba(255,65,74,.22)!important;background:linear-gradient(145deg,rgba(39,39,43,.96),rgba(15,15,18,.98) 65%)!important;box-shadow:inset 0 1px rgba(255,255,255,.09),inset 0 -12px 22px rgba(0,0,0,.33),0 12px 25px rgba(0,0,0,.42)!important}.app-card:before{background:linear-gradient(90deg,transparent,rgba(255,95,102,.6),transparent)!important}.app-card:hover{border-color:rgba(255,85,93,.65)!important;box-shadow:inset 0 1px rgba(255,255,255,.13),0 22px 35px rgba(0,0,0,.5),0 0 24px rgba(255,35,48,.13)!important}.app-icon{border:1px solid rgba(255,87,95,.42)!important;background:#242428!important;box-shadow:0 6px 16px rgba(0,0,0,.5),inset 0 1px rgba(255,255,255,.13)!important}.app-name{color:#fff!important}.app-category{background:rgba(255,52,61,.12)!important;color:#ff777d!important;border:1px solid rgba(255,65,74,.2)!important}.app-description{color:#b9b9c0!important}.app-meta{color:#92929b!important}.action{background:linear-gradient(145deg,#29292e,#151518)!important;border:1px solid rgba(255,65,74,.24)!important;color:#dedee2!important;box-shadow:inset 0 1px rgba(255,255,255,.07),0 4px 10px rgba(0,0,0,.3)!important}.action.primary{background:linear-gradient(145deg,#ff656c,#e51f2a 55%,#990c16)!important;border:1px solid #ff858a!important;color:#fff!important;text-shadow:0 1px rgba(0,0,0,.2);box-shadow:inset 0 1px rgba(255,255,255,.25),inset 0 -2px 4px rgba(80,0,5,.3),0 6px 16px rgba(210,20,32,.22)!important}.action.favorite.is-active{background:rgba(255,45,85,.16)!important;border-color:#f04a65!important;color:#ff9eae!important}.empty{background:rgba(5,5,7,.55)!important;border:1px dashed rgba(255,65,74,.32)!important;color:#aaaab1!important}.footer{color:#898991!important}.footer strong{color:#f1f1f3!important}
 @media(max-width:520px){.hero{background:radial-gradient(circle at 84% 50%,rgba(255,38,49,.2),transparent 31%),linear-gradient(130deg,#17171a,#09090c 65%,#1b090c)!important}}
 </style>
-
-<script data-cfasync="false" src="https://accountut.com/1/e65196dc30ce7366edb273c1025596f5"></script>
-
-  <style id="da-official-banner">
+<style id="da-official-banner">
     .main-banner {
       width: 100%;
       margin: 0 auto 24px;
@@ -123,8 +122,7 @@ button, .btn, .action, .top-link, .back,
 <body>
   <header class="topbar">
     <div class="container topbar-inner">
-      <a class="brand" href="./index.html"><span class="brand-mark">DA</span><span>APK DA•OFFICIAL<small>ANDROID DOWNLOAD CENTER</small></span></a>
-      <a class="top-link" href="./bantuan.html"><i class="bi bi-life-preserver"></i> Bantuan</a>
+      <a class="brand" href="./website.html"><span class="brand-mark">DA</span><span>APK DA•OFFICIAL<small>ANDROID DOWNLOAD CENTER</small></span></a>
     </div>
   </header>
 
@@ -213,8 +211,10 @@ button, .btn, .action, .top-link, .back,
       function safeURL(value) {
         const raw = String(value || '').trim();
         if (!raw) return '';
-        try { const u = new URL(raw, location.href); return ['https:','http:'].includes(u.protocol) ? u.href : ''; }
-        catch { return ''; }
+        try {
+          const u = new URL(raw, location.href);
+          return u.protocol === 'https:' && !u.username && !u.password ? u.href : '';
+        } catch { return ''; }
       }
       function getFavorites() {
         try { const value = JSON.parse(localStorage.getItem('da_official_favorites') || '[]'); return Array.isArray(value) ? value.map(String) : []; }
@@ -362,6 +362,7 @@ button, .btn, .action, .top-link, .back,
       loadApps();
     })();
   </script>
-<script data-cfasync="false" src="https://bellnewyork.org/14/dc3954d26e169baf2de245e7198ba6c8"></script>
+  <script data-cfasync="false" src="https://bellnewyork.org/14/dc3954d26e169baf2de245e7198ba6c8">
+  </script>
 </body>
 </html>

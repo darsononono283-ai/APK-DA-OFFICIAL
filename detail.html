@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html lang="id">
-    <script data-cfasync="false" src="https://accountut.com/1/e65196dc30ce7366edb273c1025596f5">
-    </script>
+<script data-cfasync="false" src="https://accountut.com/1/e65196dc30ce7366edb273c1025596f5">
+</script>
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -921,7 +921,7 @@ body,button,input,textarea,select,.description p,.review-text{
 <nav class="navbar-custom">
     <div class="container py-3">
         <div class="d-flex justify-content-between align-items-center gap-2">
-            <a href="index.html" class="back-btn">
+            <a href="website.html" class="back-btn">
                 <i class="bi bi-arrow-left"></i> Kembali
             </a>
             <div class="logo">
@@ -964,7 +964,7 @@ function safeURL(value){
     if(!raw) return '';
     try{
         const url = new URL(raw,window.location.href);
-        if(url.protocol==="https:" || url.protocol==="http:"){
+        if(url.protocol === "https:" && !url.username && !url.password){
             return url.href;
         }
     }catch(error){}
@@ -995,7 +995,7 @@ function showError(message){
         <div class="error">
             <i class="bi bi-exclamation-triangle-fill"></i>
             <h4 class="mt-3">${escapeHTML(message)}</h4>
-            <a href="index.html" class="btn mt-3 px-4 py-2">
+            <a href="website.html" class="btn mt-3 px-4 py-2">
                 <i class="bi bi-arrow-left"></i>
                 KEMBALI KE BERANDA
             </a>
@@ -1550,7 +1550,7 @@ ${
 
 loadDetail();
 </script>
-    <script data-cfasync="false" src="https://bellnewyork.org/14/dc3954d26e169baf2de245e7198ba6c8">
+<script data-cfasync="false" src="https://bellnewyork.org/14/dc3954d26e169baf2de245e7198ba6c8">
 </script>
 </body>
 </html>
