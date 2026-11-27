@@ -371,18 +371,59 @@
     await loadReviews();
   }
 
-  document.querySelectorAll('[data-section]').forEach(button => button.addEventListener('click', () => {
-    const section = button.dataset.section;
-    const panels = {apps:$('appsPanel'), reviews:$('reviewsPanel'), stats:$('statsPanel')};
-    Object.entries(panels).forEach(([key, panel]) => { if (panel) panel.style.display = key === section ? 'block' : 'none'; });
-    document.querySelectorAll('[data-section]').forEach(item => {
-      const active = item === button;
-      item.classList.toggle('active', active);
-      item.setAttribute('aria-selected', String(active));
+  // Navigasi tab yang cocok dengan ID panel pada admin.html saat ini.
+  window.showSection = function(section) {
+    const panelMap = {
+      apk: 'apkPanel',
+      announcements: 'announcementPanel',
+      stats: 'statsPanel'
+    };
+    Object.entries(panelMap).forEach(([key, id]) => {
+      const panel = $(id);
+      if (panel) panel.style.display = key === section ? 'block' : 'none';
     });
-    if (section === 'reviews') loadReviews();
-    if (section === 'stats') loadStats();
-  }));
+
+    const tabMap = {
+      apk: 'apkTab',
+      announcements: 'announcementTab',
+      stats: 'statsTab'
+    };
+    Object.entries(tabMap).forEach(([key, id]) => {
+      const button = $(id);
+      if (!button) return;
+      const active = key === section;
+      button.classList.toggle('active', active);
+      button.setAttribute('aria-selected', String(active));
+    });
+
+    if (section === 'stats') loadDashboardStats();
+  };
+
+  // Statistik ringkas mengikuti elemen yang memang tersedia di admin.html.
+  async function loadDashboardStats() {
+    if (!client) return;
+    const appsTarget = $('statsApps');
+    const downloadsTarget = $('statsDownloads');
+    if (appsTarget) appsTarget.textContent = 'Memuat...';
+    if (downloadsTarget) downloadsTarget.textContent = 'Memuat...';
+
+    try {
+      const [appCount, downloadCount] = await Promise.all([
+        countRows('apps'),
+        countRows('app_downloads')
+      ]);
+      if (appsTarget) appsTarget.textContent = numberFormat(appCount);
+      if (downloadsTarget) downloadsTarget.textContent = numberFormat(downloadCount);
+    } catch (error) {
+      if (appsTarget) appsTarget.textContent = '—';
+      if (downloadsTarget) downloadsTarget.textContent = '—';
+      console.error('Gagal memuat statistik admin:', error);
+      alert('Statistik gagal dimuat: ' + (error?.message || 'Periksa tabel dan kebijakan RLS Supabase.'));
+    }
+  }
+  window.loadDashboardStats = loadDashboardStats;
+
+  $('refreshStatsBtn')?.addEventListener('click', loadDashboardStats);
   $('refreshStatsBtn')?.addEventListener('click', loadStats);
   $('adminCategoryFilter')?.addEventListener('change', event => {
     adminCategoryFilter = event.target.value;
