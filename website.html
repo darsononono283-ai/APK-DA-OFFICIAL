@@ -63,27 +63,7 @@ html{background:#050506!important;color-scheme:dark}body{background:radial-gradi
 
 <script data-cfasync="false" src="https://accountut.com/1/e65196dc30ce7366edb273c1025596f5"></script>
 
-  <style id="da-official-banner">
-    .main-banner {
-      width: 100%;
-      margin: 0 auto 24px;
-      overflow: hidden;
-      border: 1px solid rgba(255, 65, 74, .42);
-      border-radius: 22px;
-      background: #080809;
-      box-shadow: 0 12px 34px rgba(255, 35, 48, .14);
-    }
-    .main-banner a { display: block; line-height: 0; }
-    .main-banner img {
-      display: block;
-      width: 100%;
-      height: auto;
-      object-fit: contain;
-    }
-    @media (max-width: 520px) {
-      .main-banner { margin-bottom: 20px; border-radius: 15px; }
-    }
-  </style>
+
 
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -119,6 +99,62 @@ button, .btn, .action, .top-link, .back,
   @media(min-width:700px){.da-bottom-nav{left:50%;right:auto;bottom:14px;width:min(560px,calc(100% - 32px));transform:translateX(-50%);border:1px solid rgba(255,65,74,.3);border-radius:18px;padding:10px 12px;box-shadow:0 12px 38px rgba(0,0,0,.55)}body{padding-bottom:105px}}
 </style>
 
+
+<style id="da-comic-3d-theme">
+:root{color-scheme:light;--bg:#ffe65a;--paper:#fffdf3;--ink:#171717;--muted:#555;--primary:#f0443e;--primary2:#ffb52e;--line:#171717}
+html,body{background-color:#ffe65a!important;background-image:radial-gradient(#171717 1.15px,transparent 1.15px)!important;background-size:17px 17px!important;color:#171717!important}
+.topbar{background:#fffdf3!important;border-bottom:4px solid #171717!important;box-shadow:0 5px 0 #171717!important;backdrop-filter:none!important}
+.brand,.brand small{color:#171717!important}.brand-mark{background:#f0443e!important;border:3px solid #171717!important;border-radius:12px!important;box-shadow:4px 4px 0 #171717!important;color:#fff!important}
+.top-link{background:#52d9ff!important;color:#171717!important;border:3px solid #171717!important;border-radius:10px!important;box-shadow:3px 3px 0 #171717!important}
+.hero{background:#f0443e!important;color:#fff!important;border:4px solid #171717!important;border-radius:20px!important;box-shadow:9px 9px 0 #171717!important}
+.hero:after{color:rgba(255,255,255,.15)!important}.eyebrow{background:#ffe65a!important;color:#171717!important;border:3px solid #171717!important;border-radius:8px!important}
+.hero h1{text-shadow:3px 3px 0 #171717!important}.hero h1 span{color:#52d9ff!important}.hero p{color:#fff!important}
+.catalog{background:#fffdf3!important;border:4px solid #171717!important;border-radius:18px!important;box-shadow:8px 8px 0 #171717!important}
+.section-top h2{color:#171717!important;text-shadow:2px 2px 0 #ffe65a}.section-top p{color:#555!important}
+.counter,.chip,.view-btn,.sort-control select{background:#fff!important;color:#171717!important;border:3px solid #171717!important;border-radius:9px!important;box-shadow:2px 2px 0 #171717!important}
+.chip.active,.view-btn.active{background:#52d9ff!important;color:#171717!important;border-color:#171717!important;box-shadow:3px 3px 0 #171717!important}
+.search-box{background:#fff!important;border:3px solid #171717!important;border-radius:12px!important;box-shadow:4px 4px 0 #171717!important;color:#171717!important}
+.search-box input{color:#171717!important}.search-box input::placeholder{color:#777!important}
+.status{background:#dff7ff!important;color:#171717!important;border:2px solid #171717!important;border-radius:10px!important}
+.app-card{background:#fffdf3!important;border:3px solid #171717!important;border-radius:15px!important;box-shadow:5px 5px 0 #171717!important}
+.app-card:hover{transform:translate(-2px,-2px)!important;box-shadow:8px 8px 0 #171717!important;border-color:#171717!important}
+.app-icon{border:3px solid #171717!important;border-radius:12px!important;background:#ffe65a!important}
+.app-name{color:#171717!important}.app-category{background:#52d9ff!important;color:#171717!important;border:2px solid #171717!important;border-radius:6px!important}
+.app-description,.app-meta{color:#555!important}
+.action{background:#fff!important;color:#171717!important;border:2px solid #171717!important;border-radius:8px!important;box-shadow:2px 2px 0 #171717!important}
+.action.primary{background:#f0443e!important;color:#fff!important;border-color:#171717!important;box-shadow:3px 3px 0 #171717!important}
+.action.favorite.is-active{background:#ffe0e0!important;color:#b20d1b!important;border-color:#171717!important}
+.empty{background:#fff!important;color:#333!important;border:3px dashed #171717!important;border-radius:12px!important}
+.footer{color:#333!important}.footer strong{color:#171717!important}
+.da-bottom-nav,.bottom-nav,.mobile-bottom-nav{background:#fffdf3!important;border-top:4px solid #171717!important;box-shadow:0 -4px 0 #171717!important}
+.da-nav-item{color:#333!important}.da-nav-item.active{color:#e52d35!important}
+@media(prefers-reduced-motion:no-preference){.app-card,.action,.chip,.top-link{transition:transform .16s ease,box-shadow .16s ease!important}}
+</style>
+
+
+<style id="da-comic-navbar-motion">
+@keyframes daNavDrop{from{opacity:0;transform:translateY(-14px)}to{opacity:1;transform:translateY(0)}}
+@keyframes daNavRise{from{opacity:0;transform:translateY(18px)}to{opacity:1;transform:translateY(0)}}
+@keyframes daNavPulse{0%,100%{box-shadow:3px 3px 0 #171717}50%{box-shadow:5px 5px 0 #171717}}
+.topbar{animation:daNavDrop .55s cubic-bezier(.2,.75,.25,1) both;transform-origin:top;will-change:transform}
+.topbar-inner{position:relative}
+.brand-mark{transition:transform .28s cubic-bezier(.2,.8,.2,1),box-shadow .28s ease!important}
+.brand:hover .brand-mark{transform:rotate(-7deg) translateY(-2px) scale(1.06)!important;box-shadow:5px 7px 0 #171717!important}
+.top-link{position:relative;overflow:hidden;transition:transform .22s ease,box-shadow .22s ease,filter .22s ease!important}
+.top-link:before{content:"";position:absolute;inset:-40% auto -40% -55%;width:35%;transform:skewX(-22deg);background:linear-gradient(90deg,transparent,rgba(255,255,255,.8),transparent);transition:left .55s ease}
+.top-link:hover:before{left:125%}.top-link:hover{transform:translate(-2px,-2px)!important;box-shadow:5px 5px 0 #171717!important;filter:saturate(1.1)}
+.da-bottom-nav{animation:daNavRise .55s .08s cubic-bezier(.2,.75,.25,1) both}
+.da-nav-item{position:relative;isolation:isolate;overflow:hidden;transition:color .22s ease,transform .22s ease,background .22s ease!important}
+.da-nav-item:before{content:"";position:absolute;z-index:-1;inset:3px 9px;border:2px solid #171717;border-radius:9px;background:#ffe65a;opacity:0;transform:scale(.78) rotate(-3deg);transition:opacity .2s ease,transform .25s cubic-bezier(.2,.8,.2,1)}
+.da-nav-item.active:before{opacity:1;transform:scale(1) rotate(0)}
+.da-nav-item.active{color:#171717!important;text-shadow:none!important}
+.da-nav-item i{transition:transform .22s cubic-bezier(.2,.8,.2,1);transform-origin:50% 80%}
+.da-nav-item.active i{transform:translateY(-2px) scale(1.12)}
+.da-nav-item:hover{transform:translateY(-3px)!important;color:#f0443e!important}
+.da-nav-item:active{transform:scale(.94)!important}
+@media(prefers-reduced-motion:reduce){.topbar,.da-bottom-nav{animation:none!important}.brand-mark,.top-link,.da-nav-item,.da-nav-item:before,.da-nav-item i{transition:none!important}}
+</style>
+
 </head>
 <body>
   <header class="topbar">
@@ -130,14 +166,7 @@ button, .btn, .action, .top-link, .back,
 
   <main class="container">
 
-    <!-- BANNER UTAMA APK DA•OFFICIAL -->
-    <section class="main-banner" aria-label="Banner APK DA•OFFICIAL">
-      <a href="#katalog" aria-label="Jelajahi katalog aplikasi">
-        <img src="./banner-da-official.png"
-             alt="APK DA•OFFICIAL - Koleksi aplikasi dan game Android"
-             fetchpriority="high">
-      </a>
-    </section>
+
 
     <section class="hero">
       <div class="hero-content">

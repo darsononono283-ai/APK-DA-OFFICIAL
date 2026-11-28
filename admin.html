@@ -58,6 +58,45 @@ html,body{background:radial-gradient(ellipse at 50% 0%,rgba(255,45,55,.12),trans
 <style id="da-featured-admin-style">
 .featured-state{display:inline-block;margin:4px 0 0 5px;padding:3px 8px;border:1px solid rgba(238,190,90,.35);border-radius:99px;background:rgba(238,190,90,.12);color:#f4d18d;font-size:10px;font-weight:850}
 </style>
+
+<style id="da-comic-3d-admin">
+:root{color-scheme:light;--ink:#171717;--muted:#555;--primary:#f0443e;--line:#171717;--paper:#fffdf3;--bg:#ffe65a}
+html,body{background-color:#ffe65a!important;background-image:radial-gradient(#171717 1.1px,transparent 1.1px)!important;background-size:17px 17px!important;color:#171717!important}
+.navbar{background:#fffdf3!important;border-bottom:4px solid #171717!important;box-shadow:0 5px 0 #171717!important;backdrop-filter:none!important}
+.logo,.logo small{color:#171717!important}.logo span{color:#f0443e!important}
+.back-btn,.logout-btn,.refresh-btn{background:#52d9ff!important;color:#171717!important;border:3px solid #171717!important;border-radius:9px!important;box-shadow:3px 3px 0 #171717!important}
+.logout-btn{background:#ffb7b7!important;color:#171717!important}
+.login-box,.admin-box,.dash-subpanel{background:#fffdf3!important;border:4px solid #171717!important;border-radius:17px!important;box-shadow:8px 8px 0 #171717!important}
+.heading-icon,.dash-card .dash-icon{background:#ffe65a!important;color:#171717!important;border:3px solid #171717!important;border-radius:12px!important;box-shadow:3px 3px 0 #171717!important}
+.heading h1,.heading h2,.dash-subpanel h3{color:#171717!important}
+.heading p,.item-info,.dash-note,.dash-label{color:#555!important}
+.form-control,.form-select{background:#fff!important;color:#171717!important;border:3px solid #171717!important;border-radius:9px!important;box-shadow:2px 2px 0 #171717!important}
+.form-control:focus,.form-select:focus{border-color:#171717!important;box-shadow:3px 3px 0 #52d9ff!important}
+.form-label{color:#171717!important}
+.primary-btn,.secondary-btn,.danger-btn,.tab-btn{border:3px solid #171717!important;border-radius:9px!important;box-shadow:3px 3px 0 #171717!important}
+.primary-btn{background:#f0443e!important;color:#fff!important}.secondary-btn,.tab-btn{background:#52d9ff!important;color:#171717!important}.danger-btn{background:#ffb7b7!important;color:#171717!important}
+.tab-btn.active{background:#ffe65a!important;color:#171717!important}
+.item-card,.dash-card{background:#fff!important;border:3px solid #171717!important;border-radius:13px!important;box-shadow:4px 4px 0 #171717!important}
+.app-icon{border:3px solid #171717!important;border-radius:10px!important}
+.dash-card .dash-value{color:#171717!important}.dash-pill{background:#52d9ff!important;color:#171717!important;border:2px solid #171717!important;border-radius:7px!important}
+.chart-bar{background:#f0443e!important;border:2px solid #171717!important;border-radius:5px 5px 2px 2px!important;box-shadow:2px 2px 0 #171717!important}
+.chart-value,.chart-label{color:#333!important}
+.dash-row{border-color:#bbb!important}.dash-table th,.dash-table td{color:#222!important;border-color:#bbb!important}
+.empty{background:#fff!important;color:#333!important;border:3px dashed #171717!important;border-radius:10px!important}
+.published-state.is-live{background:#c9f7cf!important;color:#14532d!important;border:2px solid #171717!important}.published-state.is-draft{background:#ffe3a3!important;color:#663c00!important;border:2px solid #171717!important}
+</style>
+
+
+<style id="da-comic-admin-navbar-motion">
+@keyframes daAdminNavIn{from{opacity:0;transform:translateY(-12px)}to{opacity:1;transform:translateY(0)}}
+.navbar{animation:daAdminNavIn .5s cubic-bezier(.2,.75,.25,1) both}
+.navbar .logo{transition:transform .22s ease!important}.navbar .logo:hover{transform:translateX(3px)}
+.navbar .back-btn,.navbar .logout-btn{position:relative;overflow:hidden;transition:transform .2s ease,box-shadow .2s ease!important}
+.navbar .back-btn:hover,.navbar .logout-btn:hover{transform:translate(-2px,-2px)!important;box-shadow:5px 5px 0 #171717!important}
+.navbar .back-btn:active,.navbar .logout-btn:active{transform:scale(.96)!important}
+@media(prefers-reduced-motion:reduce){.navbar{animation:none!important}.navbar .logo,.navbar .back-btn,.navbar .logout-btn{transition:none!important}}
+</style>
+
 </head>
 <body>
   <nav class="navbar">
